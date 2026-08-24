@@ -49,6 +49,10 @@
   feels cheap — every threat stays **approachable and fairly killable**, and every attack stays fairly
   dodgeable. Evasive kits (Ninja teleport, Snapper/Tamer keep-away, Burly's can't-be-picked-off) must
   always leave the player a clear, fair way in.
+- **[LOCKED] Sky / flying enemies are their own category** — they occupy the air and **do not count toward
+  grounded-enemy tallies** (e.g. the Flying Monkey's "<2 grounded enemies" trigger, §2.15). Air and ground
+  pressure are balanced separately. Together with the **Sniper** (§2.14), sky enemies exist to keep the
+  player's jump honest — neither always-safe nor always-punished.
 
 ---
 
@@ -190,6 +194,28 @@
 - **[ITERATE]** shockwave speed/range/damage, knockdown, club as a possible player drop, tier, HP, whether
   the one-smash cap counts only Ground Smashers or all shockwaves.
 
+### 2.14 Sniper — **[LOCKED core]** — anti-jump *(tier TBD)*
+- A stick figure **with a scope.** **[LOCKED] While he's on screen, jumping is shut down** — he **snipes
+  the player at the apex of any jump** (a guaranteed-ish hit at the top of the arc), so **jump-spam stops**
+  until you deal with him.
+- **[LOCKED] Deliberate exception to the short-range-gun rule (§1):** he's the one enemy that fires from
+  range — but **only at the predictable jump apex**, so it's a **read**, not a cheap off-screen snipe.
+- **Counterplay:** **stay grounded** (dash/move instead of jump) while he's alive, or **rush him down.** Per
+  the no-cheap rule he must be clearly telegraphed (**scope glint / laser** — **[ITERATE]**).
+- **[OPEN]** does he **hard-disable the jump input** while on screen, or just **punish the apex** (risk/
+  reward)? Big feel difference — needs your call.
+- **[ITERATE]** can he hit a grounded player at all; reposition behavior; HP/tier; how many at once.
+
+### 2.15 Flying Monkey — **[LOCKED core]** — sky harasser *(tier TBD)*
+- **Melee only**, **airborne.** **[LOCKED] Holds off** and **only swoops to attack when there are fewer than
+  2 *grounded* enemies on screen** — it waits its turn instead of piling on.
+- **[LOCKED] Sky enemies don't count** toward that tally (only **grounded** enemies do) — otherwise flying
+  monkeys would count each other and never come down.
+- Gives **late-fight air pressure** as the ground clears and a reason to use **jumps / air attacks** — in
+  direct tension with the **Sniper** (who punishes jumping), so the two create a push-pull.
+- **[ITERATE]** swoop/attack pattern, HP, how many at once, exactly how you hit it (air attacks; and does
+  jumping to reach it expose you to a Sniper), tier.
+
 ---
 
 ## 3. Roster — **[PROPOSED baseline] + your named enemies**
@@ -253,6 +279,8 @@ random loot; catch-up minibosses; subtle wristband ranks; **headshot economy** (
 | Heavy ("Bold"/Burly) | untiered | **bruiser** — tanky, extended-reach punch, floors your dash, **can't be picked off** |
 | Swarmer | T1b | **fast swarm** — half-size, weak, pod-spawned on multiple sides |
 | Ground Smasher (Zoner) | TBD | **zoner** — slow approach, club→**lane shockwave** every 3–5s, one at a time |
+| Sniper | TBD | **anti-jump** — snipes the jump apex; shuts down jump-spam (short-range exception) |
+| Flying Monkey | TBD | **sky harasser** — melee, swoops only when <2 grounded enemies |
 | Head-Thrower | — | self-decapitating grenade; fire→walking bomb |
 | Monkey | — | economy (drops the player's Merc, needs dime) |
 
@@ -262,7 +290,8 @@ random loot; catch-up minibosses; subtle wristband ranks; **headshot economy** (
 - ~~Fast swarm~~ — ✅ filled by **Swarmer**.
 - ~~Wallet Runner~~ — ✅ **cut**; enemies drop **coins** directly (~5%/tier, 0 for Swarmers) instead.
 
-**All combat roles are now filled.** Roster complete for v1 (open to additions anytime).
+**All combat roles filled, including air/anti-air** (Sniper checks jump-spam; Flying Monkeys reward air).
+Roster at 14 types for v1, open to additions anytime.
 
 **Also parked:** the many per-enemy `[ITERATE]` details (fallbacks, cooldowns, drops), rank specifics,
 and per-stage rosters (with the stage designs).
