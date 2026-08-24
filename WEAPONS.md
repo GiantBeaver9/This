@@ -101,8 +101,17 @@ Enemy-dropped; **1 per pickup** (scarce — save it for a cluster).
 ### 3.3 Ball & Chain — *heavy melee* **[ITERATE]**
 - Windup, wide arc/reach, big knockback. **[ITERATE]** swing behavior, decay, momentum/spin mechanic.
 
-### 3.4 Whip — *long crowd melee* **[ITERATE]**
-- Long horizontal reach, tags multiple enemies in a line. **[ITERATE]** multi-hit, any pull/grab, decay.
+### 3.4 Whip — *directional crowd melee* **[LOCKED core]**
+Each attack direction is a different tool:
+- **Up = overhead arc** — sweeps an arc (good when flanked / hitting above).
+- **Forward = pull** — snags an enemy and yanks (reposition / combo starter).
+- **Down = horizontal line** — long straight crack hitting everything in the line (spacing / crowd).
+- **Finisher — "the extraction":** the whip **chases an enemy, wraps its neck**, the player **rips the head
+  clean off**, the **head becomes a live grenade**, and the player **auto-dashes backward** (opposite the
+  grenade) to clear the blast. A self-made bomb with a built-in escape.
+- **Decay:** breaks after **~10–12 connecting hits** (fray states, like the sword).
+- **[ITERATE]** pull distance and whether it drags the enemy to you or you to them; the head-grenade's
+  blast (reuse §3.2 tuning?); finisher target priority; exact hit count by tier.
 
 ### 3.5 Staff — *magic caster* **[LOCKED core]**
 - **Element is set at pickup — randomly one of three: Ice, Fire, Lightning.** A given staff stays that
@@ -189,7 +198,7 @@ when armed); function-first theming; the roster list above; grenade press-to-thr
 system core (wallets → cents → dime → monkey merc).
 
 **Iterating one at a time (together).** Done: **Staff**, **Gatling**, **Pistol & Revolver**, **Grenade**,
-**Boomerang Gun** (fixed orbit, 10 bullets / 4 per pass, can be shot down). Remaining: **Whip → Ball &
+**Boomerang Gun**, **Whip** (directional arc/pull/line, head-rip grenade finisher). Remaining: **Ball &
 Chain → Monkey Merc**, then keep adding.
 
 **[LATER]:** durability numbers, tier drop rates, per-archetype loot restrictions, finisher damage,
