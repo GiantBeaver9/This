@@ -145,6 +145,18 @@
 - **[ITERATE]** do rocks obey the short-range rule (§1) or arc in from farther; do **other airborne things**
   (boomerang gun, thrown grenade, ninja stars) also bait it; rock damage & telegraph; throw cadence.
 
+### 2.11 Heavy ("Bold") — **[LOCKED core]** — the tanky one *(tier TBD)*
+- A **BOLD stick figure** — visibly thicker/heavier than the rest (the one place the silhouette bulks up).
+- **High HP / tanky.** **[LOCKED] Heavy weight:** **dash-attacking him floors the player** (`PLAYER.md`
+  weight rule), so he punishes lazy dashes.
+- **[LOCKED] Only 2 spawn at a time**, and they **never flank — they approach as directly as possible**, so
+  the **player always keeps 2 escape routes** around them (deliberate anti-corner design).
+- **[LOCKED] Extended-reach punch** — a punch **like the player's**, with **longer reach** than normal
+  enemies, so you can't poke him safely from your usual spacing.
+- Fills the **Heavy / bruiser** role; a natural **sniper target** and loot anchor.
+- **[ITERATE]** his tier, exact HP, punch windup/telegraph, whether his punch emits an air-gust like the
+  player's, what he drops.
+
 ---
 
 ## 3. Roster — **[PROPOSED baseline] + your named enemies**
@@ -205,12 +217,13 @@ random loot; catch-up minibosses; subtle wristband ranks; **headshot economy** (
 | Gatling Gunner | T3 | suppression (2×T1 / 1×T2 → gatling) |
 | Ninja | T3a | mobile harasser (teleport + limb-shuriken) |
 | Monkey Tamer | untiered | summoner (melee monkeys, priority target) |
+| Heavy ("Bold") | TBD | **bruiser** — tanky, direct, extended-reach punch, floors your dash |
 | Head-Thrower | — | self-decapitating grenade; fire→walking bomb |
 | Monkey | — | economy (drops the player's Merc, needs dime) |
 
 **Open role gaps to fill on resume:**
 - **Pure bullet-pattern zoner** — dense fixed patterns to thread (the bullet-hell backbone). *Not yet.*
-- **Heavy / bruiser** — slow, high-HP, **floors your dash attack** (`PLAYER.md` weight rule). *Not yet.*
+- ~~Heavy / bruiser~~ — ✅ filled by **Heavy ("Bold")**.
 - **Fast swarm** — weak, fast, many (sniper-ricochet fodder). *Enemy monkeys partially; no dedicated unit.*
 - **Wallet Runner** — flees, drops ¢ to feed the dime economy. *Not yet.*
 
