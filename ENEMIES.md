@@ -194,17 +194,17 @@
 - **[ITERATE]** shockwave speed/range/damage, knockdown, club as a possible player drop, tier, HP, whether
   the one-smash cap counts only Ground Smashers or all shockwaves.
 
-### 2.14 Sniper — **[LOCKED core]** — anti-jump *(tier TBD)*
-- A stick figure **with a scope.** **[LOCKED] While he's on screen, jumping is shut down** — he **snipes
-  the player at the apex of any jump** (a guaranteed-ish hit at the top of the arc), so **jump-spam stops**
-  until you deal with him.
-- **[LOCKED] Deliberate exception to the short-range-gun rule (§1):** he's the one enemy that fires from
-  range — but **only at the predictable jump apex**, so it's a **read**, not a cheap off-screen snipe.
-- **Counterplay:** **stay grounded** (dash/move instead of jump) while he's alive, or **rush him down.** Per
-  the no-cheap rule he must be clearly telegraphed (**scope glint / laser** — **[ITERATE]**).
-- **[OPEN]** does he **hard-disable the jump input** while on screen, or just **punish the apex** (risk/
-  reward)? Big feel difference — needs your call.
-- **[ITERATE]** can he hit a grounded player at all; reposition behavior; HP/tier; how many at once.
+### 2.14 Sniper — **[LOCKED]** — anti-jump *(tier TBD)*
+- A stick figure **with a scope.** **[LOCKED] Jumping is punishable, not disabled** — the instant the player
+  jumps, a **red dot paints the player's head** (clear telegraph). If the player **rides the jump to its
+  apex**, the Sniper **smacks them out of the sky:** health **drops to ~20%**, and if the player was
+  **already under 25%, it's a kill.**
+- **Counterplay:** the red dot is fair warning — **don't ride a jump to apex** while he's up (short hops /
+  bail early), **stay grounded**, or **rush him down.** A hard read, never a cheap off-screen hit.
+- **[LOCKED] Deliberate exception to the short-range-gun rule (§1)** — the one ranged enemy, gated to the
+  predictable jump apex.
+- **[ITERATE]** does a partial/short hop stay safe (apex-only?); can he hit a grounded player at all; red-dot
+  → shot timing; reposition behavior; HP/tier; how many at once.
 
 ### 2.15 Flying Monkey — **[LOCKED core]** — sky harasser *(tier TBD)*
 - **Melee only**, **airborne.** **[LOCKED] Holds off** and **only swoops to attack when there are fewer than
@@ -279,7 +279,7 @@ random loot; catch-up minibosses; subtle wristband ranks; **headshot economy** (
 | Heavy ("Bold"/Burly) | untiered | **bruiser** — tanky, extended-reach punch, floors your dash, **can't be picked off** |
 | Swarmer | T1b | **fast swarm** — half-size, weak, pod-spawned on multiple sides |
 | Ground Smasher (Zoner) | TBD | **zoner** — slow approach, club→**lane shockwave** every 3–5s, one at a time |
-| Sniper | TBD | **anti-jump** — snipes the jump apex; shuts down jump-spam (short-range exception) |
+| Sniper | TBD | **anti-jump** — red dot on jump; ride to apex → shot to 20% HP (dead if <25%) |
 | Flying Monkey | TBD | **sky harasser** — melee, swoops only when <2 grounded enemies |
 | Head-Thrower | — | self-decapitating grenade; fire→walking bomb |
 | Monkey | — | economy (drops the player's Merc, needs dime) |
