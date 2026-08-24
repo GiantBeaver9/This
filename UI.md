@@ -50,7 +50,8 @@
   little "explosions"** — each hit reads as a satisfying chunk blown off the bar.
 - **[LOCKED] Color states by remaining %:** **green above 50%** → **yellow under ~40%** → **red at ~15%
   (one hit from death).**
-- **[LATER]** exact max HP, any heal/regen sources, extra low-health warning (screen-edge pulse?).
+- **[LOCKED] Max HP = 100** (`ENEMIES.md` §4b damage model). Color states: green >50, yellow <~40, red ~15.
+- **[LATER]** heal/regen sources, extra low-health warning (screen-edge pulse?).
 
 ### 3.2 Special meter — **[LOCKED data], [PROPOSED] art**
 - Fills from combat: **fists ~30 hits**, weapons ~half that rate, **rapid combos multiply** the fill

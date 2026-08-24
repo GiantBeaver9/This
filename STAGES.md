@@ -87,8 +87,9 @@ direction**. Then it hands off to normal play.
 ## 2. Run structure — **[LOCKED]**
 
 **[LOCKED] Areas → stages → branches.** A run is a **branching tree** grouped into **~4 areas + finale**,
-**~2 stages per area** (~**8–10 stages** on a path). Stages are **meatier** (~20–25 min each) to land
-**3–4 hrs** — length comes from **stage depth + branching**, not stage count.
+**~2 stages per area** — but **Area 4 is larger** (Vallejo → Marin → Golden Gate → SF), so a path runs
+**~10–12 stages**. Stages are **meatier** (~20–25 min each) to land **3–4 hrs** — length comes from **stage
+depth + branching**, not raw count.
 
 ```
         ACT 1 ──► ACT 2 ──►  ACT 3  ──►  ACT 4  ──► FINALE
@@ -102,7 +103,8 @@ direction**. Then it hands off to normal play.
 - **[LOCKED]** Each **act ends in a main boss** that gates the branch into the next act.
 - **[LOCKED]** A single run sees a **subset** of the tree; the full tree holds more stages than any one path
   (that's the replay).
-- **[ITERATE]** exact stage count within 10–12, act widths, how wide branching gets, path tuning to 3–4 hrs.
+- **[ITERATE]** exact stage count (**~10–12** per path — Area 4 alone runs Vallejo → Marin → Golden Gate → SF),
+  act widths, how wide branching gets, path tuning to 3–4 hrs.
 
 ---
 
@@ -123,17 +125,20 @@ A typical stage:
 
 New types **debut** act by act, then **recombine** with everything prior. (Roster from `ENEMIES.md`.)
 
-| Act | Debuts (new) | Now in the mix | Main boss (branch gate) |
-|---|---|---|---|
-| **1** | Regular Melee, Zombie, Swarmer | basics + fodder | *(miniboss only)* |
-| **2** | Anti-Aircraft, Head-Thrower, Snapper | + rocks, grenades, sword-snap | e.g. **Tank** |
-| **3** | Ground Smasher (zoner), Sniper, Heavy | + lane-denial, anti-jump, bruiser | e.g. **Colossus** |
-| **4** | Arm-Ripper, Gatling Gunner, Ninja, Monkey Tamer, Flying Monkey | + guns, teleports, summons, air | e.g. **Helicopter / Gatling Guy / Monkey Boss** |
-| **Finale** | — | everything | **Phil** |
+> **Authoritative debut placements** — matches `ENEMIES.md` §6 and `AREAS.md`. *(This supersedes any earlier
+> act-numbered draft.)*
 
-- **[PROPOSED]** "Big version" minibosses (`BOSSES.md` §1) of already-seen enemies sprinkle through later
-  acts to re-test old foes at higher stakes.
-- **[ITERATE]** exact debut stage per enemy; which boss gates which branch; per-stage rosters.
+| Area | Debuts (new) | Main boss(es) |
+|---|---|---|
+| **1 — Suburbs & Mall** | Regular Melee, Swarmer, Zombie | Sandwich Bros (big Tier-1) · **department-store** boss |
+| **2 — Sacramento & Airport** | Snapper, Anti-Aircraft, Head-Thrower (+ Bat *weapon*; Bat "enemy" is a vignette-only demo) | Sacramento whip boss (**Colossus**) · **Helicopter** (airport) |
+| **3 — Hills / Causeway / Dixon** | Sniper, Flying Monkey, Monkey Tamer, Monkey, Arm-Ripper | **Monkey Boss** (farm) · **big Arm-Ripper** (Dixon rush) |
+| **4 — Vallejo → GG → SF** | Ninja, Pickpocket, Boomergunner, Gatling Gunner, Ground Smasher, Heavy | **Boomergunner** (Marin) · **Gatling Gun Guy** (Golden Gate) |
+| **Finale** | — (everything in play) | **Phil** |
+
+- **[LOCKED] Economy** (money, Monkey Merc/Tamer/Boss, Pickpocket) is a **second-half reveal** (~Area 3, §1c).
+- **[PROPOSED]** "Big version" minibosses (`BOSSES.md` §1) re-test earlier foes at higher stakes; minibosses recur.
+- **[ITERATE]** exact debut *stage within an area*; per-stage rosters; unplaced bosses **Tank / Burly Macho Guy**.
 
 ### 4.1 Acts & themes — **[LOCKED core]** (~2–3 stages each, act-end boss gates the branch)
 

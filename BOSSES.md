@@ -133,7 +133,7 @@
   - **Bat it back:** grab a **Bat** and **knock the incoming heads back up into the chopper.**
   - **Lob it up:** grab a **Grenade** and **lob it upward** at the chopper.
 - **[LOCKED] Never a miniboss** (§1). Psychologically hard, short (<2 min).
-- **[NEW WEAPON — Bat]** a projectile-reflecting melee weapon — needs a `WEAPONS.md` entry (§3.10).
+- **[NEW WEAPON — Bat]** a projectile-reflecting melee weapon — spec'd at `WEAPONS.md` §3.7b.
 - **[ITERATE]** chopper strafe/movement pattern, head-fire cadence, hits to down it, phases (does it descend?).
 
 ### 5.6 Gatling Gun Guy — **boss** — **[LOCKED core]**
@@ -182,8 +182,8 @@ Plus **[LOCKED]** the "psychologically hard, <2 min (except Phil)" rule.
 (ground-spikes + enemy-toss bruiser), **Tank** (objective — 2 grenade drops), **Colossus** (whip off its
 pieces), **Helicopter** (bat heads back / lob grenades up), **Gatling Gun Guy** (suppression, countered by
 Shield Rush). Objective bosses use the **weapon-gated arena rule**; Phil & Helicopter are **main-boss-only**.
-Open to more. Plus **[LOCKED]** the **"big version" rule** (any enemy → ~20% miniboss / ~2× boss, no new art)
-and **7 bespoke bosses** total (added **Gatling Gun Guy** and **Monkey Boss**).
+Open to more. Plus **[LOCKED]** the **"big version" rule** (any enemy → ~20% miniboss / ~2× boss, no new art).
+**7 bespoke bosses** total: Phil, Burly Macho Guy, Tank, Colossus, Helicopter, Gatling Gun Guy, Monkey Boss.
 
 **Still open (small):** boss HP display style (§3 — big named bar recommended); exact miniboss pace trigger;
 whether minibosses are sniper-immune; each boss's `[ITERATE]` details.

@@ -264,7 +264,17 @@ named enemy types.
 - **[LOCKED] Ranks are subtle.** A higher-rank enemy looks almost identical — the tell is a **small marker
   (e.g. a colored wristband)**, not a bigger body or new props. Reads as "same guy, tougher."
 - Each rank up = more **HP / damage / weight** and a better loot roll within the stage's constrained pool.
-- **[LATER]** how many ranks, the color code, stat curves, which ranks appear where.
+- **[LATER]** how many ranks, the color code, HP/stat curves, which ranks appear where.
+
+### 4b. Damage model — **[LOCKED first pass]**
+- **Player HP = 100.**
+- **Enemy damage scales by tier** (out of 100): **Swarm 1–2** · **Regular punch 5 (5%)** · rising with tier
+  **up to 30 (30%) max.**
+- **Exception — Gatling:** **1 HP per hit**, but its fire rate is so high the player **survives only ~2s** in
+  the stream (so cover/closing the gap is mandatory).
+- Ties to existing rules: the **Sniper** apex shot drops you to **~20 HP** (kill if already <25); the mall
+  **grenade self-damage** and **fall-off instant death** are exceptions to the scale.
+- **[ITERATE]** the exact per-tier / per-attack values between 5 and 30; boss damage; heal/recovery model.
 
 ---
 
@@ -311,7 +321,9 @@ enemy has a debut area.** Economy enemies (Monkey, Monkey Tamer, Pickpocket) are
 **Extensible by design:** the tier ladder, cannibalize rule, big-version boss scaling, and vignette teaching
 all scale — so new enemies can **extend this game or seed a harder sequel / "more enemies" follow-up** without
 reworking the systems.
-Roster at 14 types for v1, open to additions anytime.
+**Roster = 17 types** for v1 (see the §6 table), open to additions anytime. *(The "Bat enemy" seen in the
+airport vignette is a **vignette-only demo actor** — just an enemy holding a bat to show off the reflect —
+**not** a rostered type; it never appears outside that Sacramento/airport bit.)*
 
 **Also parked:** the many per-enemy `[ITERATE]` details (fallbacks, cooldowns, drops), rank specifics,
 and per-stage rosters (with the stage designs).

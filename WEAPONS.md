@@ -94,7 +94,8 @@ the feel.
 
 ### 3.2 Grenade / Bomb — *thrown, physics-based* **[LOCKED core]**
 Enemy-dropped; **1 per pickup** (scarce — save it for a cluster).
-- **Thrown by repeatedly tapping the attack button** — **press count sets the throw:**
+- **Thrown by repeatedly tapping an attack direction (arrow)** — same input family as the Ball & Chain
+  (§3.3); the **direction aims it** and the **tap-count sets the throw:**
   - **Fewer presses → high lob:** arcs up high and comes down for a **bigger explosion** (heavy blast,
     precise placement). A **ground marker shows where it first lands**; it **bounces 3×, then explodes.**
   - **More presses → fastball:** the reverse — a **fast, flat throw** that **plows along the ground,
