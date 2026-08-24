@@ -87,6 +87,9 @@
   army). When he **runs out of lead he must *sharpen* the pencil** — a **3–5s self-stun**, **open and
   bleeding** — **the only time you can damage him.** Cycle: **draw (invuln) → run dry → sharpen (vulnerable
   3–5s) → repeat.** The dull pencil is why he runs dry (`STAGES.md` §1a lead economy).
+- **[LOCKED] Arena — Salesforce Tower rooftop (SF):** the tower **sways** — **slight slippage** during the
+  fight (you slide with the wind), and **falling off = instant death** (foreshadowed by things shifting during
+  his intro cutscene).
 - **[LOCKED] The endgame** — the absolute final fight, **exempt from the <2-min rule**, meant to be
   **brutally hard.**
 - **[ITERATE]** how lead depletes (does clearing his summons drain it faster?), phases, arena (play-band vs.
@@ -133,8 +136,11 @@
   you must dodge while closing in.
 - **[LOCKED] Countered by the Shield Rush** (`PLAYER.md` §3) — **double-tap dodge forward** to advance
   behind an enemy damage-sponge through the gunfire and reach him. The intended "close the gap" answer.
+- **[LOCKED] Golden Gate Bridge fight (Area 4 penultimate):** a **barrage every ~5s** with a **"BARRAGE
+  INCOMING" on-screen warning**; **hide behind the bridge's cars** or get **eviscerated** (enemies too) —
+  cover + timing here rather than the Shield Rush.
 - **Psychologically hard, short (<2 min).** **[ITERATE]** fire patterns/phases, does he reposition, HP,
-  does he spawn fodder to Shield-Rush behind, miniboss-eligible?
+  does he spawn fodder to Shield-Rush behind.
 
 ### 5.7 Monkey Boss — **boss** — **[LOCKED core]**
 - **Throws dimes into the air**; the player **catches them to summon their own Monkey Mercs** (`WEAPONS.md`

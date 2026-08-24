@@ -136,8 +136,8 @@ Goal = **visible progression & diversity**: suburb → mall → city → airport
 |---|---|---|---|
 | **1 — Placer Suburbs & Mall** | Lincoln → Rocklin → Roseville | **Lincoln High** + suburbs (**Sandwich Bros** fight, car/bus hazard), Rocklin, the **Roseville Galleria** mall (**department-store** area boss) | tier 0–1 → intro tier-2 |
 | **2 — Sacramento & Airport** | Sacramento → Sac. airport | medium city, **Victorian old-town housing** (clear sky), then the **Sacramento Airport** set piece | + tier-2/3 |
-| **3 — Hills & Dixon** | countryside → Dixon | **rolling hills & farmland**, the small town of **Dixon**, fighting through | + tier-3 |
-| **4 — Marin to the City** | Marin → Golden Gate → SF | **Marin County**, **crossing the Golden Gate Bridge**, **San Francisco** (skyscraper) | full roster |
+| **3 — Hills, Causeway & Dixon** | hills → Davis causeway → Dixon | rolling hills → **Yolo-style causeway** (platforming) → **farm** (Monkey Boss) → **Dixon boss rush** (first big wall, **big Arm-Ripper**) | + tier-3; Sniper, Flying Monkey, Arm-Ripper |
+| **4 — Vallejo to the City** | Vallejo → bay → Marin → SF | **Vallejo** (Six-Flags coasters) → **bay causeway to Marin** → **Golden Gate Bridge** → **San Francisco** (skyscraper) | full roster; **Gatling Gunner, Ninja** debut |
 | **Finale** | San Francisco | dull pencil → **sharpen-window** Phil fight (§1a) | everything |
 
 - **[LOCKED] Traffic hazard (Act 1):** cars & school buses drive through the lane — **dodge to avoid damage.**

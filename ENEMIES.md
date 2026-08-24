@@ -89,7 +89,7 @@
 - **[ITERATE]** does his sword decay; does killing him **drop the sword** for the player; call-in cooldown /
   how many he can summon.
 
-### 2.5 Arm-Ripper (Dual Pistols) — **[LOCKED core]** *(name TBD)* — **Tier 2a**
+### 2.5 Arm-Ripper (Dual Pistols) — **[LOCKED core]** *(name TBD)* — **Tier 2a** — **debuts Dixon (big-version = Dixon boss)**
 - **Ability:** rips the **arms off a tier-1 Regular Melee** and **dual-wields them as pistols.**
 - **The disarmed tier-1** is left as a **headbutt-only enemy** (no arms → just lunges to headbutt you) — an
   emergent enemy state, not a separate character.
@@ -111,7 +111,7 @@
 - **[ITERATE]** whistle telegraph/cooldown, monkey HP & attacks, respawn delay, what he does if you corner
   him (fight or flee?).
 
-### 2.7 Gatling Gunner — **[LOCKED core]** — **Tier 3**
+### 2.7 Gatling Gunner — **[LOCKED core]** — **Tier 3** — **debuts Area 4 (Vallejo)**
 - **Ability:** grabs **2 tier-1s OR 1 tier-2** and, over **~2 seconds**, **contorts them into a gatling
   gun** — a clean showcase of the ability tier rule (a tier-3 spends units below it).
 - **Fire pattern:** **1-second bursts every 2–3 seconds** — rhythmic windows to close or dodge between bursts.
@@ -138,7 +138,7 @@
   small, ever-present downside to leaning on headshots. **The sniper special is exempt — it *always*
   cleanly kills** (ricochet headshots never spawn zombies).
 
-### 2.9 Ninja — **[LOCKED core]** — **Tier 3a**
+### 2.9 Ninja — **[LOCKED core]** — **Tier 3a** — **debuts Area 4 (Vallejo)**
 - **Teleport:** uses **smoke bombs to "teleport"** (blink/reposition) — hard to pin down, flits around the
   player.
 - **Ninja stars:** throws **shuriken** — but **stars must be made by stripping legs/arms off lower-tier
@@ -211,7 +211,7 @@
   apex + the scope rhythm.
 - **[ITERATE]** can he hit a grounded player at all; reposition/escape behavior; HP/tier; how many at once.
 
-### 2.15 Flying Monkey — **[LOCKED core]** — sky harasser *(tier TBD)*
+### 2.15 Flying Monkey — **[LOCKED core]** — sky harasser *(tier TBD)* — **debuts Area 3 (causeway)**
 - **Melee only**, **airborne.** **[LOCKED] Holds off** and **only swoops to attack when there are fewer than
   2 *grounded* enemies on screen** — it waits its turn instead of piling on.
 - **[LOCKED] Sky enemies don't count** toward that tally (only **grounded** enemies do) — otherwise flying

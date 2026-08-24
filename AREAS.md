@@ -152,15 +152,14 @@ hazard rules, Area 2 branch fork.
 
 ---
 
-## 3. Area 3 — Rolling Hills & Dixon (countryside → Dixon → farm/ranch) — **[LOCKED core]**
+## 3. Area 3 — Hills, the Causeway & Dixon — **[LOCKED core]**
 
-*Two stages: rolling-hills countryside through the small town of **Dixon**, ending at a **farm/ranch**.
-Animal-themed. Debuts the **dime/monkey** mechanic (vignette), caps with the **Monkey Boss**.*
+*Two parts: **(1) The Road** — rolling hills → Causeway/Davis → the **farm/ranch** (Monkey Boss); **(2)
+Dixon** — a nearly-deserted mid-2000s small town run as a **boss rush** (4–5 minibosses → 1 big boss).*
 
-### 3.1 Rolling hills → the causeway (water platforming) → Dixon (stage 1) — **[LOCKED core]**
+### 3.1 Part 1 — The Road: hills → causeway → farm (water platforming) — **[LOCKED core]**
 - **Backdrop:** golden **rolling hills & farmland**, then a **water area / causeway** — the Yolo-Causeway-style
-  stretch **toward Davis, then down to Dixon**: open water, marsh, the elevated causeway; ending near **Dixon**
-  (main street, water tower, feed store).
+  stretch **toward Davis**: open water, marsh, the elevated causeway; ending in **farm country** (the ranch).
 - **[LOCKED] Platforming section:** the water stretch is **more platform-heavy** — **platforming between
   fights** as you cross the causeway/water. Adds variety while **reusing the same mechanics.**
 - **[LOCKED] Sniper debuts here and punishes your jumps** (red dot → apex shot, `ENEMIES.md` §2.14) — so the
@@ -172,19 +171,74 @@ Animal-themed. Debuts the **dime/monkey** mechanic (vignette), caps with the **M
 - **[LOCKED] Terrain funnels:** **ponds/puddles**, a **cow blocking the path**, plus the causeway's narrow platforms.
 - **Ambient / animals:** cows, farm animals (goats, chickens), crows, barns, tractors, hay bales; marsh birds
   over the water.
-- **Enemies:** **tier-3 layer** + **Monkey Tamer** + **Sniper (beret + big rifle).** **[ITERATE]** debut split.
+- **Enemies:** **tier-3 layer** + **Monkey Tamer** + **Sniper (beret + big rifle)**; **Flying Monkey debuts
+  during / at the end of the causeway run.** **[ITERATE]** debut split.
 
-### 3.2 Farm / Ranch — Monkey Boss (Area 3 boss, stage 2) — **[LOCKED core]**
+### 3.2 Farm / Ranch — Monkey Boss (end of Part 1) — **[LOCKED core]**
 - **Setting:** a **farm / ranch** with **cows and animals all over.**
 - **[LOCKED] Boss = the Monkey Boss** (`BOSSES.md` §5.7): **you vs. the Tamer, racing to grab the dimes first**
   — win dimes to field your own monkeys (only your mercs damage him); lose the race and he summons his.
   **The animals are obstacles** that block/funnel your dime grabs.
-- **[ITERATE]** animal-obstacle behavior, arena layout, Area 3 branch fork.
+- **[ITERATE]** animal-obstacle behavior, arena layout.
+
+### 3.2a Part 2 — Dixon: boss rush (the first big wall) — **[LOCKED core]**
+- **Setting:** the small town of **Dixon, mid-2000s** (pre-2010) — tiny and **nearly deserted** (almost
+  nobody around): main street, water tower, feed store, old storefronts, a quiet square. The **emptiness is
+  the mood.**
+- **[LOCKED] Shorter but brutal — a difficulty spike.** Dixon is a **short** level **packed with heavy-duty
+  enemies** — the **first big wall** of the game.
+- **[LOCKED] Boss rush:** **4–5 minibosses** (big-version enemies of the crew you've met) → **1 big boss.**
+- **[LOCKED] Debut + big boss = Arm-Ripper.** The **Arm-Ripper** debuts here, and the **big-version
+  Arm-Ripper** is **Dixon's big boss.**
+- **[ITERATE]** the exact 4–5 minibosses, Dixon's vignette (a "gauntlet" intro, or the Arm-Ripper arm-rip
+  demo), the Area 3 branch fork.
 
 ### 3.3 Area 3 asset list (→ `ASSET_MANIFEST.md`)
 Rolling-hills/farmland backdrop · **water/causeway** backdrop + **platforms** + marsh + marsh birds · **Dixon**
-town (main street, water tower, feed store, barn) · **cows + farm animals** (goats, chickens, crows —
-obstacles) · **ponds/puddles** (funnels) · tractors, hay bales, fences · **dime** pickup + **whistle** cue ·
-**Sniper** (beret + large rifle) · **Monkey Boss** + enemy monkeys · tier-3 enemies.
+town (mid-2000s: main street, water tower, feed store, old storefronts, quiet square) · **cows + farm animals**
+(goats, chickens, crows — obstacles) · **ponds/puddles** (funnels) · tractors, hay bales, fences · **dime**
+pickup + **whistle** cue · **Sniper** (beret + large rifle) · **Flying Monkey** · **Monkey Boss** + enemy
+monkeys · **Arm-Ripper** (+ **big-version** Dixon boss) · tier-3 enemies · boss-rush miniboss set.
 
-**[ITERATE]** Dixon detail, animal-obstacle rules, branch fork. **Ready for Area 4 (Marin → Golden Gate → SF).**
+**[ITERATE]** the Dixon miniboss set, animal-obstacle rules, branch fork.
+
+---
+
+## 4. Area 4 — Vallejo → the Bay → Marin → Golden Gate → SF — **[LOCKED core]**
+
+*The home stretch: **Vallejo** (Six-Flags roller-coaster backdrop) → a causeway/bridge run **across the bay
+to Marin** → the **Golden Gate Bridge** → **San Francisco** → the **Phil** finale. Debuts the last heavy
+hitters — **Gatling Gunner** and **Ninja**.*
+
+### 4.1 Vallejo — the amusement park
+- **Backdrop:** **Vallejo** with a **Six-Flags-style amusement park** — **roller coasters**, midway, ferris
+  wheel on the skyline. **[ITERATE]** specific park set pieces, any coaster hazard.
+- **Enemies:** **Gatling Gunner** and **Ninja** debut around here ("a little further on"). **[ITERATE]** which/when + vignettes.
+
+### 4.2 Across the bay to Marin, then the Golden Gate (penultimate level) — **[LOCKED core]**
+- **[LOCKED] Bay causeway run** across to **Marin County** (water platforming again), then the **Golden Gate
+  Bridge** crossing — the **penultimate level.**
+- **[LOCKED] Golden Gate boss = the Gatling Gun Guy** (`BOSSES.md` §5.6): he **shoots you like crazy** with a
+  **barrage every ~5 seconds.** A **"BARRAGE INCOMING" warning** flashes on screen; you must **hide behind the
+  cars** on the bridge — **everything caught in the open gets eviscerated** (enemies included). Cover + timing.
+- **[ITERATE]** Marin look, bridge fog/wind, car-cover layout, the barrage pattern.
+
+### 4.3 San Francisco → the Tower → Phil finale (last level) — **[LOCKED core]**
+- **[LOCKED]** SF cityscape → an **elevator up Salesforce Tower** (one of SF's tallest) → **fight Phil on the
+  roof.**
+- **[LOCKED] Phil finale** (`BOSSES.md` §5.1, `STAGES.md` §1a): dull pencil → **sharpen-window** (invulnerable
+  until he runs dry and must sharpen, ~3–5s open) → greatest-hits **re-summons** of earlier bosses.
+- **[LOCKED] Shifting winds / tower sway:** the tower **sways back and forth** — during the elevator ride /
+  Phil's intro cutscene you **see things slowly shift** one way then the other, **foreshadowing** it. In the
+  fight this causes **slight slippage** (you slide with the sway), and **falling off = instant death.** Real
+  positioning tension.
+- **[ITERATE]** sway timing/strength, edge & fall zones, which bosses Phil reprises, exact staging.
+
+### 4.4 Area 4 asset list (→ `ASSET_MANIFEST.md`)
+Vallejo **amusement park** (roller coasters, ferris wheel, midway) · bay **causeway/bridge + platforms** ·
+**Golden Gate Bridge** · **San Francisco** cityscape + **skyscraper** · **Gatling Gunner** + **Ninja**
+enemies · **Phil** boss (top-hat zombie + pencil, sharpen anim) · **unused bosses available here:** **Burly
+Macho Guy / Tank / Gatling Gun Guy** (assign as Area 4 bosses).
+
+**[ITERATE]** Area 4 stage split, bridge hazards, boss placements (which of the 3 unused bosses go where),
+Phil staging.
