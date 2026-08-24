@@ -194,8 +194,9 @@
 - **[ITERATE]** shockwave speed/range/damage, knockdown, club as a possible player drop, tier, HP, whether
   the one-smash cap counts only Ground Smashers or all shockwaves.
 
-### 2.14 Sniper — **[LOCKED]** — anti-jump *(tier TBD)*
-- A stick figure **with a scope.** **[LOCKED] Jumping is punishable, not disabled** — the instant the player
+### 2.14 Sniper — **[LOCKED]** — anti-jump *(tier TBD)* — **debuts Area 3 (causeway)**
+- **Look:** a stick figure **with a beret and a large sniper rifle** — a clear silhouette so you can instantly
+  tell who he is. **[LOCKED] Jumping is punishable, not disabled** — the instant the player
   jumps, a **red dot paints the player's head** (clear telegraph). If the player **rides the jump to its
   apex**, the Sniper **smacks them out of the sky:** health **drops to ~20%**, and if the player was
   **already under 25%, it's a kill.**

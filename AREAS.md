@@ -157,16 +157,22 @@ hazard rules, Area 2 branch fork.
 *Two stages: rolling-hills countryside through the small town of **Dixon**, ending at a **farm/ranch**.
 Animal-themed. Debuts the **dime/monkey** mechanic (vignette), caps with the **Monkey Boss**.*
 
-### 3.1 Rolling hills & Dixon (stage 1)
-- **Backdrop:** **golden rolling hills & farmland** (NorCal Central Valley), wide open sky, oak-dotted hills,
-  fences; the small town of **Dixon** (main street, water tower, feed store). **[ITERATE]** Dixon specifics.
-- **[LOCKED] Terrain funnels:** **ponds/puddles** and **animals in the way** (a **cow blocking the path**)
-  constrict the play space (`STAGES.md` §7c).
-- **[LOCKED] Intro vignette (§1c):** **two enemies race for a dime**; one grabs it → a **whistle** sounds →
-  an **enemy monkey appears and takes out the one that missed it.** Teaches the **dime → whistle → monkey**
-  mechanic before the boss.
-- **Ambient / animals:** **cows**, farm animals (goats, chickens), crows, barns, tractors, hay bales.
-- **Enemies:** the **tier-3 layer**; **Monkey Tamer** in play. **[ITERATE]** debut split.
+### 3.1 Rolling hills → the causeway (water platforming) → Dixon (stage 1) — **[LOCKED core]**
+- **Backdrop:** golden **rolling hills & farmland**, then a **water area / causeway** — the Yolo-Causeway-style
+  stretch **toward Davis, then down to Dixon**: open water, marsh, the elevated causeway; ending near **Dixon**
+  (main street, water tower, feed store).
+- **[LOCKED] Platforming section:** the water stretch is **more platform-heavy** — **platforming between
+  fights** as you cross the causeway/water. Adds variety while **reusing the same mechanics.**
+- **[LOCKED] Sniper debuts here and punishes your jumps** (red dot → apex shot, `ENEMIES.md` §2.14) — so the
+  platforming is **tense**: you must clear gaps without riding a jump to full apex while he's up.
+- **[LOCKED] Combined intro vignette (§1c) — teaches TWO concepts at once:** two characters go for a **dime**;
+  one **jumps really high** for it → the **Sniper shoots the jumper out of the air** → the **other grabs the
+  dime** → **whistle** → an **enemy monkey appears and takes that character away.** Teaches
+  **sniper-punishes-high-jumps** + **dime→whistle→monkey** together.
+- **[LOCKED] Terrain funnels:** **ponds/puddles**, a **cow blocking the path**, plus the causeway's narrow platforms.
+- **Ambient / animals:** cows, farm animals (goats, chickens), crows, barns, tractors, hay bales; marsh birds
+  over the water.
+- **Enemies:** **tier-3 layer** + **Monkey Tamer** + **Sniper (beret + big rifle).** **[ITERATE]** debut split.
 
 ### 3.2 Farm / Ranch — Monkey Boss (Area 3 boss, stage 2) — **[LOCKED core]**
 - **Setting:** a **farm / ranch** with **cows and animals all over.**
@@ -176,8 +182,9 @@ Animal-themed. Debuts the **dime/monkey** mechanic (vignette), caps with the **M
 - **[ITERATE]** animal-obstacle behavior, arena layout, Area 3 branch fork.
 
 ### 3.3 Area 3 asset list (→ `ASSET_MANIFEST.md`)
-Rolling-hills/farmland backdrop · **Dixon** town (main street, water tower, feed store, barn) · **cows + farm
-animals** (goats, chickens, crows — obstacles) · **ponds/puddles** (funnels) · tractors, hay bales, fences ·
-**dime** pickup + **whistle** cue · **Monkey Boss** + enemy monkeys · tier-3 enemies.
+Rolling-hills/farmland backdrop · **water/causeway** backdrop + **platforms** + marsh + marsh birds · **Dixon**
+town (main street, water tower, feed store, barn) · **cows + farm animals** (goats, chickens, crows —
+obstacles) · **ponds/puddles** (funnels) · tractors, hay bales, fences · **dime** pickup + **whistle** cue ·
+**Sniper** (beret + large rifle) · **Monkey Boss** + enemy monkeys · tier-3 enemies.
 
 **[ITERATE]** Dixon detail, animal-obstacle rules, branch fork. **Ready for Area 4 (Marin → Golden Gate → SF).**
