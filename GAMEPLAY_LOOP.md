@@ -132,6 +132,8 @@ weapon itself rather than a number. (More weapons follow this same "made of the 
   on screen — `1 HIT!`, `2 HIT!`, … — and hitting ~**15 hits quickly** really surges the meter.
 - **Charge tiers read by color:** **yellow** (charged once) → **blue** (charged twice) → **green**
   (completely full / max power). Green = the special is fully juiced and ready.
+- **Instant-fill pickup:** a **killed Sniper enemy drops a rifle that fills the meter instantly**
+  (`ENEMIES.md` §2.14) — a burst reward for aggressively downing him.
 - **[LATER]** Exact multiplier curve; whether blue/green **bank multiple** sniper shots vs. fire **one
   stronger** shot; whether taking damage drains the meter or just breaks the combo.
 

@@ -196,16 +196,20 @@
 
 ### 2.14 Sniper — **[LOCKED]** — anti-jump *(tier TBD)* — **debuts Area 3 (causeway)**
 - **Look:** a stick figure **with a beret and a large sniper rifle** — a clear silhouette so you can instantly
-  tell who he is. **[LOCKED] Jumping is punishable, not disabled** — the instant the player
-  jumps, a **red dot paints the player's head** (clear telegraph). If the player **rides the jump to its
-  apex**, the Sniper **smacks them out of the sky:** health **drops to ~20%**, and if the player was
-  **already under 25%, it's a kill.**
-- **Counterplay:** the red dot is fair warning — **don't ride a jump to apex** while he's up (short hops /
-  bail early), **stay grounded**, or **rush him down.** A hard read, never a cheap off-screen hit.
-- **[LOCKED] Deliberate exception to the short-range-gun rule (§1)** — the one ranged enemy, gated to the
-  predictable jump apex.
-- **[ITERATE]** does a partial/short hop stay safe (apex-only?); can he hit a grounded player at all; red-dot
-  → shot timing; reposition behavior; HP/tier; how many at once.
+  tell who he is.
+- **[LOCKED] Only dangerous while scoped.** He shoots **only when actively looking down the scope.** He
+  **periodically lowers the rifle for ~2 seconds** (and doesn't snap it back up) — a **safe window to jump** —
+  then **raises it and scans** again. This rhythm makes him **fair, never cheap.**
+- **[LOCKED] The punish:** while scoped, a jump **paints a red dot on the player's head**; **riding the jump
+  to its apex** gets you **smacked out of the sky** — health **drops to ~20%** (a **kill** if you were already
+  **under 25%**).
+- **[LOCKED] Two answers:** be **patient** — jump during his ~2s rifle-down windows; or **rush him down** and
+  kill him before he re-scopes/escapes.
+- **[LOCKED] Kill reward:** killing the Sniper **drops a sniper rifle** that **instantly refills your special
+  meter** — downing him hands you a **free Special.**
+- **[LOCKED] Exception to the short-range-gun rule (§1)** — the one ranged enemy, gated to the predictable
+  apex + the scope rhythm.
+- **[ITERATE]** can he hit a grounded player at all; reposition/escape behavior; HP/tier; how many at once.
 
 ### 2.15 Flying Monkey — **[LOCKED core]** — sky harasser *(tier TBD)*
 - **Melee only**, **airborne.** **[LOCKED] Holds off** and **only swoops to attack when there are fewer than
