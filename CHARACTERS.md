@@ -94,7 +94,7 @@ Each Special clears a crowd differently, balanced by **what loot survives** — 
 
 **Still open:**
 1. **Animation pipeline (§3):** shared-skeleton (distinct skins) — rec — or fully bespoke per character?
-2. **Werewolf vs. bosses (§2.3):** does one-hit-kill work on bosses, or do bosses stay immune / only
-   vulnerable in their window?
+2. ~~Werewolf vs. bosses~~ — ✅ **Resolved:** **all** specials (Sniper, Werewolf, Shotgun, Underdog) only
+   affect a boss **under 10% HP** (execution); above that the boss negates it (`BOSSES.md` §1).
 3. Confirm the **Shotgunner = the earlier "bulky friend"** (§2.2), not a 5th person.
 4. Per-character loot rules for the Underdog's vaporize and the exact stat trade-offs.

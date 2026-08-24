@@ -10,10 +10,10 @@
 
 ## 1. System rules
 
-- **[LOCKED] Bosses dodge the sniper special — *until they're low.*** At normal HP the ricochet-headshot
-  special **can't hit a boss** (it plays a **dodge** and misses, `PLAYER.md` §6). **But at low boss HP a
-  prompt appears to use it, and the special *executes* the boss** — a cinematic finisher, the one time it
-  works on a boss.
+- **[LOCKED] Specials only work on a boss under 10% HP — for ALL characters.** Above 10%, a boss **negates
+  the special** (the Tactical's sniper visibly **dodges**; Werewolf / Shotgun / Underdog specials simply do
+  nothing to the boss). **At/under 10% a prompt appears and the special *executes* the boss** — the one time
+  any special ends a boss. One rule across all four characters.
 - **[LOCKED] The meter is never wasted in a boss fight.** A charge you don't spend **carries over** (usable
   on any adds, or banked for after the boss). So you can **hold it for the low-HP execution** or spend it on
   adds — your call.

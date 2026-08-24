@@ -266,15 +266,14 @@ named enemy types.
 - Each rank up = more **HP / damage / weight** and a better loot roll within the stage's constrained pool.
 - **[LATER]** how many ranks, the color code, HP/stat curves, which ranks appear where.
 
-### 4b. Damage model — **[LOCKED first pass]**
+### 4b. Damage model — **[LOCKED]**
 - **Player HP = 100.**
-- **Enemy damage scales by tier** (out of 100): **Swarm 1–2** · **Regular punch 5 (5%)** · rising with tier
-  **up to 30 (30%) max.**
-- **Exception — Gatling:** **1 HP per hit**, but its fire rate is so high the player **survives only ~2s** in
-  the stream (so cover/closing the gap is mandatory).
-- Ties to existing rules: the **Sniper** apex shot drops you to **~20 HP** (kill if already <25); the mall
-  **grenade self-damage** and **fall-off instant death** are exceptions to the scale.
-- **[ITERATE]** the exact per-tier / per-attack values between 5 and 30; boss damage; heal/recovery model.
+- **[LOCKED] Enemy damage = tier × 7.5** (out of 100): **T1 = 7.5 · T2 = 15 · T3 = 22.5 · T4 = 30** (the 30 cap).
+- **Exceptions:** **Swarm** ~**1–2** (chip); **Zombie (T0)** deals **no hit damage** (grab only); **Gatling**
+  **1 HP/hit** but its fire rate leaves you **~2s to live** in the stream (cover/closing is mandatory).
+- Ties: the **Sniper** apex shot drops you to **~20 HP** (kill if already <25); the mall **grenade
+  self-damage** and **fall-off instant death** are separate one-offs.
+- **[ITERATE]** player/**human weapon** damage & durability (pin later); boss damage; heal/recovery model.
 
 ---
 

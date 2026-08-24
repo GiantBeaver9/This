@@ -22,11 +22,12 @@
   corpse-loot.
 - **[LOCKED] Weapons are learn-by-use.** They're simple enough to need **no tutorial** — pick one up and
   figure it out; the long campaign gives room to ramp up naturally.
-- **[LOCKED] Ranged weapons fire on the combo *finisher*** (per `PLAYER.md`): mid-combo they bludgeon at
-  fist strength; the real shot/effect lands on the strong 3rd hit and advances that weapon's ammo economy.
-  - **[ITERATE] Execution gate:** some guns only *discharge* on the finisher when the **target is under
-    20% HP** (pistol/revolver) — otherwise that finisher is just a melee strike. Others (shotgun, gatling)
-    fire unconditionally. Whether to standardize the gate is open.
+- **[LOCKED] `E` fires the equipped weapon (spends ammo); the combo finisher is FREE melee.** Attacking with
+  a weapon runs the **melee combo** at fist strength; the **finisher is the regular 4th hit** — a strong melee
+  blow that **costs no ammo**. To actually **fire / throw / cast** the weapon (spending ammo/durability) you
+  press **`E` (use weapon)** (`PLAYER.md` §2). **[SUPERSEDES]** the earlier "ranged weapons fire on the
+  finisher" — **firing is on `E`; the finisher is free melee.** Read every per-weapon "fire/finisher"
+  description below as the **`E`-fire** action.
 - **[LOCKED] Carry = single slot**, fists as the permanent fallback.
   - **Empty-handed:** walking over a drop **auto-picks** it.
   - **Already armed:** auto-pickup is suppressed; **tap the swap key** to take the weapon on the ground —

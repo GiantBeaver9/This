@@ -70,12 +70,12 @@ directional normals rather than a single canned combo string.
 ### Combo model — **[LOCKED]**
 - **One hit per press** — each arrow press is a single strike in that direction (no per-direction
   auto-string). The *variety* comes from **which directions you chain**, on the ground and in the air.
-- **A rolling combo counter** tracks consecutive hits **regardless of direction**, and the **finisher
-  (the 3rd hit** in a chain — **[PROPOSED]** N=3) is a **stronger move**, thrown in whatever direction you
-  pressed for that hit.
-  - *Example:* `↓ ↓ ↓` = punch, punch, **strong back kick** (finisher on hit 3). `→ → ↓` = front punch,
-    front punch, **strong back kick** — same finisher, you just faced forward for the first two. Mix
-    freely; only the **position in the chain** decides strength.
+- **A rolling combo counter** tracks consecutive hits **regardless of direction**, and the **finisher is the
+  4th hit** in a chain — a **stronger melee move (costs no ammo)**, thrown in whatever direction you pressed
+  for that hit. *(Weapon-fire is separate — press `E`, §2 / `WEAPONS.md` §1.)*
+  - *Example:* `↓ ↓ ↓ ↓` = punch ×3, **strong back kick** (finisher on hit 4). `→ → → ↓` = front punch ×3,
+    **strong back kick** — same finisher, you just faced forward first. Mix freely; only the **position in the
+    chain** decides strength.
 - Every hit feeds the meter's rapid-hit multiplier; letting the rhythm lapse resets the counter.
 - **[LOCKED]** Works empty-handed (fists) with the air reach-extender on each hit.
 - **[LATER]** exact finisher index (3 vs 4), damage/knockback per hit, cancel windows.
@@ -146,7 +146,8 @@ A short cinematic beat with dedicated frames:
 
 **[LOCKED]** Against a **boss the shot is normally dodged** — the boss plays a **dodge animation** and the
 bullet misses; the special still ricochet-kills any normal enemies present in the arena. **Exception: at
-low boss HP a prompt appears and the special *executes* the boss** (see `BOSSES.md` §1). A charge you don't
+**under 10% boss HP** a prompt appears and the special *executes* the boss** (same rule for all characters,
+`BOSSES.md` §1). A charge you don't
 spend on a boss **carries over.** The boss dodge is a **boss asset**.
 
 ---
