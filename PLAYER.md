@@ -10,8 +10,12 @@
 
 ## 1. Visual identity — **[LOCKED]**
 
-- The Human is a **pixel-art representation of a person** — clearly the protagonist, visually distinct
-  from the thin **stick-figure** enemies. Semi-small for readability.
+- **[LOCKED] Four playable characters.** The player picks one of **four friends** each run; they **share the
+  moveset in this doc** but differ in stats and **Special** — see `CHARACTERS.md`. "The Human" below is the
+  shared template; the **Sniper special (§6) is specifically the Tactical character's** (others differ,
+  e.g. a werewolf transformation).
+- Each is a **pixel-art representation of a person** — clearly the protagonist, visually distinct from the
+  thin **stick-figure** enemies. Semi-small for readability.
 - **[LOCKED] "Air" punch reach-extender:** when the Human attacks, the punch **emits an "air" effect**
   (a burst/gust animation off the fist). This **extends the player's hitbox slightly past the enemies'
   reach** — a built-in spacing advantage: you can hit stick figures from just outside their range.
@@ -122,6 +126,9 @@ Weapon-by-weapon animation lists get pinned in `WEAPONS.md` alongside each weapo
 ---
 
 ## 6. The Special sequence — **[LOCKED behavior], anim [PROPOSED]**
+
+> **This sniper special belongs to the Tactical character** (`CHARACTERS.md` §2.1). Other characters have
+> different specials (e.g. the Werewolf's 5s one-hit-kill transformation) — same meter, different payoff.
 
 A short cinematic beat with dedicated frames:
 1. **Draw** — plant + pull the sniper rifle; **time slows** (world VFX in `VFX.md`).
