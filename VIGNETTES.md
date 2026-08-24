@@ -17,12 +17,12 @@
 | **A2 · Sacramento (Victorian)** | an **enemy whips and pulls down another enemy**, then they spot you and attack | the **Whip's pull** / crowd-control | **[LOCKED]** |
 | **A2 · Airport** | enemies **throw head-grenades at planes**; a **Bat enemy swats a fastball grenade into a small plane** (it explodes) | **head-grenades + bat-reflect** (+ Anti-Aircraft stones) | **[LOCKED]** |
 | **A3 · Causeway** | two go for a **dime**; one **jumps high → Sniper shoots them out of the air**; the **other grabs the dime → whistle → monkey takes them away** | **Sniper (apex punish)** + **dime→whistle→monkey** (two at once) | **[LOCKED]** |
-| **A3 · Farm/Ranch** | *(boss intro — Monkey Boss dime-race)* | dime-race boss framing | **[ITERATE]** |
-| **A3 · Dixon (boss rush)** | *(gauntlet intro, or an **Arm-Ripper** arm-rip demo)* | boss-rush / Arm-Ripper | **[ITERATE]** |
-| **A4 · Vallejo (Six Flags)** | *(a **Ninja** teleport-shuriken demo; a **Pickpocket** steals & is killed for 2×)* | Ninja + Pickpocket | **[ITERATE]** |
-| **A4 · Marin redwoods** | *(a **Boomergunner** throws a boomerang gun that orbits & returns)* | Boomergunner | **[ITERATE]** |
-| **A4 · Golden Gate** | *(a **Ground Smasher** shockwave; the **"BARRAGE INCOMING"** + cars = mostly self-teaching)* | zoner + barrage/cover | **[ITERATE]** |
-| **A4 · SF streets** | *(a **Heavy** shrugs off hits / a **trolley** plows through a crowd)* | Heavy + trolley hazard | **[ITERATE]** |
+| **A3 · Farm/Ranch** | Monkey Boss **tosses a dime up**; an enemy catches it, a **monkey merc pops out and shoots the boss** (direct hits don't faze him — the monkey does) | only **your mercs** damage him | **[LOCKED]** |
+| **A3 · Dixon (boss rush)** | an **Arm-Ripper rips a guy's arms off and opens fire with akimbo pistols** | rip arms → guns; guns shoot | **[LOCKED]** |
+| **A4 · Vallejo (Six Flags)** | a **Pickpocket steals a Ninja's coins (10) and runs**; the **Ninja teleports and kills him → the coins double to 20** | Ninja (teleport-kill) + Pickpocket (kill for **2×**) | **[LOCKED]** |
+| **A4 · Marin redwoods** | a **Boomergunner terrorizing civilians throws his boomerang gun**; it **shoots a person and returns**, then pans to the player | Boomergunner | **[LOCKED]** |
+| **A4 · Golden Gate** | an enemy **advances → a Ground Smasher slams the ground, stunning him → the Gatling barrage eviscerates him**, but **anyone behind a car is unharmed** | zoner stun + barrage + **car cover** | **[LOCKED]** |
+| **A4 · SF streets** | the **trolley plows through a Gunner** — but the **Heavy doesn't care: he just steps aside** and the trolley keeps going | **trolley** flattens everything **except the immovable Heavy** | **[LOCKED]** |
 | **Finale · Salesforce rooftop** | **Phil's intro cutscene** — things slowly shift/sway as he talks (foreshadows slippage) | tower sway / fall = death | **[LOCKED]** (intro, not a mechanic vignette) |
 
 ---
