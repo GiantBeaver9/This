@@ -85,14 +85,18 @@ the feel.
 - **[ITERATE]** exact mag sizes; whether the <20% execution gate applies to other guns or is pistol/
   revolver-only; the per-direction finisher flourishes; decay when the mag empties.
 
-### 3.2 Grenade / Bomb — *thrown, physics-based* **[ITERATE tuning]**
-Enemy-dropped. Already richly designed:
+### 3.2 Grenade / Bomb — *thrown, physics-based* **[LOCKED core]**
+Enemy-dropped; **1 per pickup** (scarce — save it for a cluster).
 - **Thrown by repeatedly tapping the attack button** — **press count sets the throw:**
-  - **Fewer presses → high lob** (short, arcing); **more presses → fast, flat throw.**
-- A **ground marker shows where it first bounces** (aim telegraph).
-- **Always bounces 3×, then explodes** (AoE).
-- **A fast throw knocks down all enemies near the flight path** — the projectile's travel line is itself dangerous.
-- **[ITERATE]** blast radius & damage; whether lob vs. fast changes the blast; charges per pickup.
+  - **Fewer presses → high lob:** arcs up high and comes down for a **bigger explosion** (heavy blast,
+    precise placement). A **ground marker shows where it first lands**; it **bounces 3×, then explodes.**
+  - **More presses → fastball:** the reverse — a **fast, flat throw** that **plows along the ground,
+    knocking down enemies near its path**, and **explodes at a set distance (or after hitting ~5–10
+    enemies)** with a **smaller blast.**
+- **[LOCKED] Self-damage is real** — your own explosion **can catch you** if you're too close. Spacing is
+  the price of the payload.
+- **[ITERATE]** exact blast radii & damage (lob vs fast), the fastball's set distance / hit-count cap,
+  knockdown duration.
 
 ### 3.3 Ball & Chain — *heavy melee* **[ITERATE]**
 - Windup, wide arc/reach, big knockback. **[ITERATE]** swing behavior, decay, momentum/spin mechanic.
@@ -182,9 +186,9 @@ Shared: every dropped weapon needs a **ground pickup sprite** and a **decay/brea
 when armed); function-first theming; the roster list above; grenade press-to-throw physics; the currency
 system core (wallets → cents → dime → monkey merc).
 
-**Iterating one at a time (together).** Done: **Staff**, **Gatling** (finisher = ~0.5s point-blank
-barrage), **Pistol & Revolver** (straight-line, <20%-HP execution finisher, pistol pierces 3). Remaining:
-**Grenade tuning → Boomerang Gun → Whip → Ball & Chain → Monkey Merc**, then keep adding.
+**Iterating one at a time (together).** Done: **Staff**, **Gatling**, **Pistol & Revolver**, **Grenade**
+(1/pickup, lob = big blast / fastball = path-plow, self-damage real). Remaining: **Boomerang Gun → Whip →
+Ball & Chain → Monkey Merc**, then keep adding.
 
 **[LATER]:** durability numbers, tier drop rates, per-archetype loot restrictions, finisher damage,
 whether currency grows into a full economy.
