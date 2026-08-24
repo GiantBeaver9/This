@@ -106,12 +106,16 @@ Each theme: parallax backdrop layers + lane floor + set dressing + ambient actor
 
 ## 9. Cutscenes & vignettes — `STAGES.md` §1a–1c, `AREAS.md`
 - **P1:** **Opening cinematic** (~20s voiced picture clips) · **Phil intro** (tower sway foreshadow).
-- **P1 (short 3–5s vignettes, reuse enemy/weapon art):** mall (guard→zombie→grab) · airport (head-grenade + bat-a-plane) · Sacramento (whip-pull) · causeway (sniper + dime + monkey combined) · **[ITERATE]** the rest per stage.
+- **P1 (short 3–5s vignettes, reuse enemy/weapon art):** **all 12 locked** in `VIGNETTES.md` (one per stage) —
+  Zebra-punch · mall guard→zombie→grab · Sacramento whip-pull · airport head-grenade+bat-a-plane · causeway
+  sniper+dime+monkey · farm merc-shoots-boss · Dixon arm-rip · Vallejo pickpocket→ninja→2× · Marin boomergun ·
+  Golden Gate stun+barrage+car-cover · SF trolley-vs-Heavy · Phil rooftop monologue.
 
 ---
 
 ## 10. Systems still open (won't block art, but pin before final build)
-Exact per-stage enemy rosters/counts · checkpoint & continue specifics ·
-economy scope beyond monkeys · character animation pipeline choice ·
-**player attack frame data** (startup/active/recovery) · **per-stage encounter/wave tables** · boss arena layouts ·
-save/settings menus · audio pass. *(Controls/keybinds + gamepad are now LOCKED in `PLAYER.md` §2.)*
+Character animation pipeline choice (shared-skeleton vs. bespoke) · save/settings menus.
+**Now LOCKED (were open):** player attack **frame data** + universal **reaction-state durations**
+(`TUNING.md` §2.5–2.6) · **per-stage encounter/wave tables** + **boss arena layouts** (`ENCOUNTERS.md`) ·
+checkpoint & continue specifics (`TUNING.md` §8.1) · Controls/keybinds + gamepad (`PLAYER.md` §2) ·
+audio pass (`AUDIO.md`).
