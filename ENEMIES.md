@@ -44,6 +44,10 @@
 - **[LOCKED] Some enemies are outside the tier system** — special units (e.g. summoners like the Monkey
   Tamer) that don't rank up/down and don't feed the ability-tier rule; they're **priority/utility** threats
   judged on their own terms.
+- **[LOCKED] No "hiding," no cheap frustration.** No enemy should turtle, camp, or evade in a way that
+  feels cheap — every threat stays **approachable and fairly killable**, and every attack stays fairly
+  dodgeable. Evasive kits (Ninja teleport, Snapper/Tamer keep-away, Burly's can't-be-picked-off) must
+  always leave the player a clear, fair way in.
 
 ---
 
@@ -171,15 +175,19 @@
 - **[ITERATE]** do swarmers count against the 8-pursuer cap (`GAMEPLAY_LOOP.md` §8.2) or exceed it as a
   special swarm; their attack (contact / tiny melee); pod size; move speed.
 
-### 2.13 Ground Smasher — **[LOCKED core]** *(tier TBD)*
-- Carries a **large club on its shoulder.** Attack: raises the club **overhead for ~1 second** (big
-  telegraph), then **smashes the ground**, sending a **shockwave straight down its lane** (along its
-  Z-row).
-- **Counterplay:** the 1s windup + lane-limited shockwave means you **step out of the lane** (change depth)
-  to dodge — rewards Z-movement. (Bullets/shockwave stay readable per the VFX rule.)
-- **Telegraph data:** ground smash **~1000ms** — very slow/heavy, per the "more power → longer windup"
-  convention.
-- **[ITERATE]** shockwave speed/range/damage, does it knock down, club as a possible player drop, tier, HP.
+### 2.13 Ground Smasher (the Zoner) — **[LOCKED core]** *(tier TBD)*
+- Carries a **large club on its shoulder** and **slowly walks toward the player**, smashing the ground
+  **every 3–5 seconds.** Each smash: club **overhead ~1s** (telegraph), then a **shockwave straight down
+  its lane** (its Z-row).
+- **[LOCKED] Only one ground smash at a time** — across the whole field **at most one shockwave is ever
+  active**, so you're never buried under overlapping lane-denials (a fairness cap, per the no-cheap rule).
+- **Counterplay:** slow approach + 1s windup + lane-limited shockwave = **step out of the lane** (change
+  depth) to dodge. Rewards Z-movement; never a cheap hit.
+- Fills the **zoner** role — its lane shockwaves are the "thread the space" pressure (in place of
+  projectile patterns).
+- **Telegraph data:** ground smash **~1000ms**.
+- **[ITERATE]** shockwave speed/range/damage, knockdown, club as a possible player drop, tier, HP, whether
+  the one-smash cap counts only Ground Smashers or all shockwaves.
 
 ---
 
@@ -243,15 +251,15 @@ random loot; catch-up minibosses; subtle wristband ranks; **headshot economy** (
 | Monkey Tamer | untiered | summoner (melee monkeys, priority target) |
 | Heavy ("Bold"/Burly) | untiered | **bruiser** — tanky, extended-reach punch, floors your dash, **can't be picked off** |
 | Swarmer | T1b | **fast swarm** — half-size, weak, pod-spawned on multiple sides |
-| Ground Smasher | TBD | club overhead ~1s → **lane shockwave** (dodge by changing depth) |
+| Ground Smasher (Zoner) | TBD | **zoner** — slow approach, club→**lane shockwave** every 3–5s, one at a time |
 | Head-Thrower | — | self-decapitating grenade; fire→walking bomb |
 | Monkey | — | economy (drops the player's Merc, needs dime) |
 
 **Open role gaps to fill on resume:**
-- **Pure bullet-pattern zoner** — dense fixed patterns to thread (the bullet-hell backbone). *Not yet.*
-- ~~Heavy / bruiser~~ — ✅ filled by **Heavy ("Bold")**.
+- ~~Bullet-pattern zoner~~ — ✅ filled by **Ground Smasher** (lane shockwaves instead of projectile patterns).
+- ~~Heavy / bruiser~~ — ✅ filled by **Heavy ("Bold"/Burly)**.
 - ~~Fast swarm~~ — ✅ filled by **Swarmer**.
-- **Wallet Runner** — flees, drops ¢ to feed the dime economy. *Not yet.*
+- **Wallet Runner** — flees, drops ¢ to feed the dime economy. *Optional; not yet.*
 
 **Also parked:** the many per-enemy `[ITERATE]` details (fallbacks, cooldowns, drops), rank specifics,
 and per-stage rosters (with the stage designs).
