@@ -84,6 +84,9 @@
 - **The Pencil:** carries a pencil and **draws new enemies into existence** to fight you — an
   artist-summoner.
 - **Elusive** — hard to pin down (still fairly reachable, per the no-cheap rule).
+- **[LOCKED] Rooftop reveal:** his intro monologue (menacing laughter) reveals he's **found the Holy
+  Sharpener** and will **"bring 2D chaos to this 3D planet."** That sharpener is *why* he can keep drawing —
+  and **sharpening it is his only vulnerable window** (below).
 - **Reprise summons:** can **spawn earlier bosses and minibosses mid-fight** — a greatest-hits gauntlet.
 - **[LOCKED] Vulnerability = the sharpen window.** Phil is **invulnerable while he has lead** (drawing his
   army). When he **runs out of lead he must *sharpen* the pencil** — a **3–5s self-stun**, **open and

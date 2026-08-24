@@ -34,6 +34,10 @@
 - **[LOCKED] The lead economy = why enemies stay sparse early.** Phil **lacks the Holy Sharpener**, so the
   pencil has **limited lead** — he can only draw **so many** enemies. Counts stay low and **grow as you
   progress** — the in-fiction justification for the layering ramp (§4).
+- **[LOCKED] Finale reveal:** at the rooftop, Phil's **monologue** (menacing laughter) reveals he still has
+  the pencil and has now **FOUND the Holy Sharpener** — so his army is no longer rate-limited (the
+  escalation). His vow: **"bring 2D chaos to this 3D planet"** (the game's tagline). The **sharpen-window is
+  literally him using the sharpener** — invulnerable while drawing, open the ~3–5s he sharpens.
 - **[LOCKED] Phil finale mechanic:** by the final fight the **pencil is dull.** Phil is **invulnerable while
   he still has lead** (busy drawing his army). **When he runs out of lead he must stop and *sharpen* the
   pencil** — a **3–5s self-stun** where he's **open and bleeding** — **that's your window to burst him down.**

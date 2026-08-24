@@ -23,7 +23,7 @@
 | **A4 · Marin redwoods** | a **Boomergunner terrorizing civilians throws his boomerang gun**; it **shoots a person and returns**, then pans to the player | Boomergunner | **[LOCKED]** |
 | **A4 · Golden Gate** | an enemy **advances → a Ground Smasher slams the ground, stunning him → the Gatling barrage eviscerates him**, but **anyone behind a car is unharmed** | zoner stun + barrage + **car cover** | **[LOCKED]** |
 | **A4 · SF streets** | the **trolley plows through a Gunner** — but the **Heavy doesn't care: he just steps aside** and the trolley keeps going | **trolley** flattens everything **except the immovable Heavy** | **[LOCKED]** |
-| **Finale · Salesforce rooftop** | **Phil's intro cutscene** — things slowly shift/sway as he talks (foreshadows slippage) | tower sway / fall = death | **[LOCKED]** (intro, not a mechanic vignette) |
+| **Finale · Salesforce rooftop** | **Phil's monologue** during the climb — **menacing laughter**: he still has the pencil, has **found the Holy Sharpener**, and will **"bring 2D chaos to this 3D planet"**; things slowly **sway** as he talks (foreshadows slippage) | the stakes + tower sway / fall = instant death | **[LOCKED]** |
 
 ---
 
