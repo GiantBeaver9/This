@@ -36,6 +36,9 @@
   each other** the same way the player loots corpses.
 - **[DATA] Attack windups (telegraph), collected as we spec:** regular melee **~100ms**, sword
   **~150–200ms** (slight variance). Convention: **more reach/damage → longer, more readable windup.**
+- **[LOCKED] Enemy ranged is short-range (no sniping).** Enemy guns/projectiles only connect from **close
+  range**, so shooters must **close in** — which keeps every threat **dodgeable** by move/dash/jump. The
+  bullet-hell pressure comes from *many close shooters*, never from off-screen snipers.
 
 ---
 
@@ -67,8 +70,21 @@
 - **Telegraph:** sword swings **wind up ~150–200ms** (vs. ~100ms fists) — long reach, but **readable and
   punishable.**
 - Fills a **melee-zoner** niche (reach + threat that forces you to respect spacing).
-- **[ITERATE]** what he does with **no tier-1 nearby** (fall back to regular melee?); does his sword decay;
-  does killing him **drop the sword** for the player to grab?
+- **[LOCKED] No tier-1 available:** he **stays away from the player and calls in tier-1 enemies** to snap —
+  a keep-away support that manufactures its own weapon supply.
+- **[ITERATE]** does his sword decay; does killing him **drop the sword** for the player; call-in cooldown /
+  how many he can summon.
+
+### 2.5 Arm-Ripper (Dual Pistols) — **[LOCKED core]** *(name TBD)* — **Tier 2a**
+- **Ability:** rips the **arms off a tier-1 Regular Melee** and **dual-wields them as pistols.**
+- **The disarmed tier-1** is left as a **headbutt-only enemy** (no arms → just lunges to headbutt you) — an
+  emergent enemy state, not a separate character.
+- **Short-range guns (§1):** his pistols only hit from **close range**, so he must **close in** — his
+  approach is your window to **dodge / dash / jump** out of the line.
+- **Tier rule (§1):** only disarms a **tier-1.**
+- Fills the **gunner** role (a close-range, approachable one). **[ITERATE]** fire cadence, does he run dry /
+  reload, what he does with no tier-1 to disarm (call one in like the Snapper?), does killing him drop
+  pistols for the player.
 
 ---
 
@@ -116,7 +132,8 @@ wallet-drop, monkey flair).
 
 **Locked so far:** system rules (incl. shared-body-plus-ability, ability tier rule, telegraph timing);
 progressive type-introduction by stage; per-stage constrained random loot; catch-up minibosses; subtle
-wristband ranks. **Defined enemies:** Head-Thrower, Monkey, Regular Melee, Snapper (Sword-Maker, T2).
+wristband ranks; **enemy guns are short-range/dodgeable**. **Defined enemies:** Head-Thrower, Monkey,
+Regular Melee, Snapper (Sword-Maker, T2), Arm-Ripper (Dual Pistols, T2a) + its disarmed Headbutt state.
 
 **Next — capture your named enemies.** You have specific enemy ideas; dump them and we'll (a) spec each one
 §2-style, and (b) map it onto the role baseline so we know coverage. Specific per-stage rosters and rank
