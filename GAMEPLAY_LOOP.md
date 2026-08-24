@@ -69,12 +69,15 @@ between you and the enemy is full of danger you must physically route around).
  └────────────────────────────────────────────────────────────────────────────────────┘
 ```
 
-**[PROPOSED] Depth rules to keep it readable:**
-- The Z band is **shallow** (a few "rows" deep), not a full 3D field. Enough to dodge a straight
-  shot by stepping up/down; not so much that the bullet-hell becomes a top-down twin-stick game.
-- **Collision is Z-aware:** a bullet on a far row does not hit a player on a near row. This is what
-  makes "route around the bullets" physically true instead of cosmetic.
-- **[LATER]** Exact number of depth rows / whether Z is continuous or snapped to lanes.
+**[LOCKED] Depth rules:**
+- The Z band is **continuous and semi-deep** — free analog up/down movement, *not* snapped to lanes
+  (too snappy) and *not* ultra-shallow (not enough room for interesting bullet patterns). A middle
+  band with real dodging space that still reads as a side-scroller, not a top-down twin-stick.
+- **Collision is Z-aware:** a bullet at one depth does not hit a player at a different depth. This is
+  what makes "route around the bullets" physically true instead of cosmetic — and continuous depth
+  makes threading and near-misses **analog and skill-expressive.**
+- **[LATER]** Exact band height in world units; sprite depth-scaling (how much smaller a far actor
+  draws); whether shadows/ground markers are needed to read a character's exact Z.
 
 ---
 
@@ -86,7 +89,12 @@ between you and the enemy is full of danger you must physically route around).
 - **Punch** — the default attack. Basic melee; against an armed pickup it's replaced by the weapon.
 - **Dodge dash** — a burst of movement. **No i-frames.** Pure repositioning to escape enemy
   proximity and slip between bullet lanes.
-- **Special meter** — fills from combat (see §4.3). Cannot be spent unless **full**.
+- **Special meter** — fills from combat (see §4.3). Cannot be fired until charged.
+
+**[LOCKED] Response feel:** punches are **immediate** (no wind-up) — fists are the always-ready,
+lowest-commitment option. Every looted **weapon has a short warm-up** before it fires/swings
+(**~0.25s** baseline to aim/ready, varies per weapon). Picking up a weapon trades raw responsiveness
+for power/range: fists for reaction, weapons for when you've bought yourself space.
 
 ### 4.2 Weapons — looted from corpses, and they decay
 
@@ -117,9 +125,15 @@ weapon itself rather than a number. (More weapons follow this same "made of the 
   economy for a guaranteed multi-kill / panic-button clear.
 - **[LOCKED] Bosses are immune to the sniper shot.** The special cannot be used to skip boss fights.
 
-**[PROPOSED] Meter fill sources** (tune **[LATER]**): melee kills fill most; weapon kills fill some;
-taking hits fills nothing (or drains). Intent: reward aggressive fists-first play, since that's the
-risky option the loot loop pushes you away from.
+**[LOCKED] Meter fill — rewards fast, fists-first aggression:**
+- **Fists fill fastest** — roughly **30 punch-hits** of combat to earn a charge.
+- **Weapon/item kills fill ~half as fast** — about **double** the effort of fists.
+- **Rapid kills multiply the fill.** Chaining hits quickly builds a **combo**; a **combo popup** flashes
+  on screen — `1 HIT!`, `2 HIT!`, … — and hitting ~**15 hits quickly** really surges the meter.
+- **Charge tiers read by color:** **yellow** (charged once) → **blue** (charged twice) → **green**
+  (completely full / max power). Green = the special is fully juiced and ready.
+- **[LATER]** Exact multiplier curve; whether blue/green **bank multiple** sniper shots vs. fire **one
+  stronger** shot; whether taking damage drains the meter or just breaks the combo.
 
 ---
 
@@ -181,16 +195,22 @@ and stays minimal so dense bullet patterns never fight the UI for the player's e
   finished the level** ("depending on the ending to each level, it can unlock different paths … based on
   level performance and branching in level").
 
-### 7.2 What "performance" and "ending" mean — **[PROPOSED]** (needs your ruling)
-To make branching real, the game must *measure* something. Candidate signals to grade a run on:
-- **Reached which exit** (branch chosen *inside* the level — a physical fork on the lane).
-- **Kill style** (how many sniper-clears vs. fists vs. weapons — ties to the risk/reward economy).
-- **Damage taken / no-hit segments.**
-- **Speed / time.**
-- **Secrets or optional rooms cleared.**
+### 7.2 What "performance" and "ending" mean — **[LOCKED] approach**
+Branching is a **flexible mix** of three signal types; which ones matter, and how strongly, **varies per
+stage** (each stage's own doc picks its recipe):
+- **Physical exits** — a fork on the lane you physically walk into at level end.
+- **Performance grade** — hidden score from damage taken, speed, kill-style, combo, etc.
+- **Secret conditions** — no-hit segments, hidden rooms, kill thresholds unlock alternate/secret paths.
 
-These feed a per-stage **"ending"** (e.g. clean clear vs. messy clear vs. secret exit) which unlocks a
-**different next stage.** *This is the loop's macro layer and I'd like your call on which signals count.*
+**[LOCKED] The *effect* of a branch is also flexible** — it does **not** have to be a whole different
+stage. A branch outcome can be as light as:
+- **fewer / more spawns** in the next stage,
+- **starting the next stage with a better (or worse) weapon**,
+- a different **sub-path / room** inside the same stage,
+- or a fully **distinct next stage**.
+
+This keeps branching cheap to author for small nudges and reserves full alternate stages for the moments
+that earn them. **[LATER]** the concrete recipe per stage (lives in the stage docs).
 
 ### 7.3 Session goal — **[LATER]**
 Run length, win condition (final boss? endless? branching tree with multiple endings?), and any
@@ -210,13 +230,15 @@ This is where 2.5D + bullet-hell get technical. Kept as **[PROPOSED]** design in
   - **Gunners** path to a **preferred standoff distance** and a **clear firing lane** (a Z-row the player
     is on or crossing), then hold and fire. They *retreat* if the player closes.
 
-### 8.2 Spacing & anti-clumping — **[PROPOSED]**
-Beat-'em-ups die when every enemy stacks on the player. Rules to prevent it:
-- **Attack tokens:** only **N** enemies may be in "attacking" state at once; others circle/wait at
-  standoff. Keeps fights readable and fair, classic beat-'em-up trick.
-- **Z-spread:** enemies bias toward **different depth rows** so their shots come from varied lanes —
-  this *is* the bullet-hell layer emerging from placement, not scripted patterns.
-- **Soft separation** so bodies don't overlap into a blob.
+### 8.2 Spacing & anti-clumping — **[LOCKED] rule + [PROPOSED] mechanics**
+**[LOCKED]** Up to **8 enemies** actively pursue the player at once. But **hard separation** is
+enforced: **no two enemies occupy the same space**, and they stay **far enough apart that you can
+never be hit by multiple enemies in one overlapping hitbox.** Getting swarmed is a *positioning*
+threat (surrounded, cut off), never a cheap-shot pileup where three hits land as one.
+- **[PROPOSED] Standoff rings:** pursuers that can't reach a legal attack slot **circle at a standoff
+  distance** and wait for an opening instead of crowding in.
+- **[PROPOSED] Z-spread:** enemies bias toward **different depths** so shots arrive from varied angles —
+  the bullet-hell layer emerging from placement, not scripted patterns.
 
 ### 8.3 Bullet-hell layer
 - Gunner/Patterner fire is **Z-aware** (see §3): a bullet occupies a depth row; the player dodges by
@@ -232,13 +254,16 @@ Beat-'em-ups die when every enemy stacks on the player. Rules to prevent it:
 
 ---
 
-## 9. Open decisions I need from you (highest-leverage first)
+## 9. Decisions — status
 
-1. **Branching signals (§7.2):** which performance signals define a stage's "ending" and unlock paths?
-   *(This is the biggest one — it's the difference between "levels in a row" and "a real branching game.")*
-2. **Z-band shape (§3):** continuous depth, or a small fixed number of lanes/rows? Affects every dodge.
-3. **Special meter fill rule (§4.3):** should melee kills fill it far faster than weapon kills, to push
-   risky fists-first play?
-4. **Attack-token count (§8.2):** how aggressive should fights feel — how many enemies swing at once?
+**Resolved (now [LOCKED] above):**
+1. **Branching (§7.2)** — flexible mix of physical exits + performance grade + secrets; effects range
+   from light (fewer spawns / better starting weapon) up to a full alternate stage, chosen per stage.
+2. **Z-band (§3)** — continuous, semi-deep.
+3. **Special meter (§4.3)** — fists fill fastest (~30 hits), weapons ~half; rapid combos multiply fill;
+   yellow → blue → green charge tiers; on-screen combo popup.
+4. **Aggression (§8.2)** — up to 8 pursuers with hard separation, so no stacked multi-hits.
 
-Everything under **[LATER]** stays parked until you want to open it.
+**Still parked ([LATER]):** exact tuning numbers (Z band height, multiplier curve, per-weapon warm-up),
+whether charge tiers bank multiple sniper shots vs. one stronger shot, and per-stage branch recipes —
+each pinned in the relevant system doc, not here.
