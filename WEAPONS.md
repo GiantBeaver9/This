@@ -87,14 +87,28 @@ Enemy-dropped. Already richly designed:
 ### 3.4 Whip — *long crowd melee* **[ITERATE]**
 - Long horizontal reach, tags multiple enemies in a line. **[ITERATE]** multi-hit, any pull/grab, decay.
 
-### 3.5 Staff — *magic caster* **[ITERATE]**
-- **Directional-attack finisher casts a spell, and each direction is a different spell.**
-- **[ITERATE]** the 3–4 spells (one per direction), cast cost/decay, warm-up.
+### 3.5 Staff — *magic caster* **[LOCKED core]**
+- **Element is set at pickup — randomly one of three: Ice, Fire, Lightning.** A given staff stays that
+  one element for its whole life. The **finisher casts** the element's effect:
+  - **Ice** — crowd control: **freezes** enemies, **less damage**. Lockdown tool.
+  - **Lightning** — **stun damage** + **slows** enemies. Tempo/control.
+  - **Fire** — **burns** enemies (damage over time). **Signature interaction:** burning a **grenade enemy**
+    (the stick figure that pulls off its own head to throw at you) makes it **start blinking, then after
+    ~2s BOOM** — a small blast that **kills the player** if caught in it. Great damage, but it turns that
+    enemy into a walking bomb you must not be next to. *(Grenade enemy specced in `ENEMIES.md`.)*
+- **[ITERATE]** whether the arrow direction aims/shapes the cast or it's fixed; cast warm-up; staff decay
+  (casts before it breaks); does fire's chain-explosion also damage other enemies?
+- **[SUPERSEDES]** the earlier "each direction = a different spell" — element is now fixed per pickup.
 
-### 3.6 Gatling Gun — *sustained ranged* **[ITERATE]**
-- **20–32 shots** (randomized per pickup). High rate of fire, crowd shredder.
-- **[ITERATE]** sustained fire vs. finisher-burst (possible **exception** to the finisher-only rule),
-  spin-up, spread, warm-up.
+### 3.6 Gatling Gun — *heavy risk/reward* **[LOCKED core]**
+- **No ammo count** — it doesn't deplete per shot.
+- **Slow combo** — its attack cadence is noticeably **slower** (heavy weapon).
+- **Finisher = an auto-kill headshot** — a guaranteed kill on a normal enemy.
+- **No i-frames — the player is vulnerable** through the slow finisher: the guaranteed kill is paid for in
+  **exposure**, so throwing it out in a crowd gets you hit.
+- **[ITERATE]** how it's eventually lost (no ammo → overheat? time limit? N finishers?); does the headshot
+  hit one target or pierce/chain; warm-up/spin-up.
+- **[SUPERSEDES]** the earlier "20–32 shots" — no ammo tracking now.
 
 ### 3.7 Monkey Merc — *summon, costs currency (see §3.8)* **[ITERATE]**
 - Dropped by a **monkey stick figure**, but you can **only take it if you hold a dime (10¢).**
@@ -146,9 +160,9 @@ Shared: every dropped weapon needs a **ground pickup sprite** and a **decay/brea
 when armed); function-first theming; the roster list above; grenade press-to-throw physics; the currency
 system core (wallets → cents → dime → monkey merc).
 
-**Next step — iterate the `[ITERATE]` weapons** one at a time into full §2-style specs (behavior, decay/
-ammo, finisher interaction, assets). Suggested order: **Pistol → Grenade tuning → Staff (spells) →
-Gatling → Whip → Ball & Chain → Monkey Merc**, then keep adding new weapons to the list.
+**Iterating one at a time (together).** Done so far: **Staff** (element set at pickup: ice/fire/lightning,
+fire's grenade-enemy chain-explosion) and **Gatling** (no ammo, slow combo, auto-kill finisher, no
+i-frames). Remaining: **Pistol → Grenade tuning → Whip → Ball & Chain → Monkey Merc**, then keep adding.
 
 **[LATER]:** durability numbers, tier drop rates, per-archetype loot restrictions, finisher damage,
 whether currency grows into a full economy.
