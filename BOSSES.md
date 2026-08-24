@@ -29,6 +29,10 @@
   the fight escalates.
 - **[LOCKED] Everything except the sniper works** during the fight — looted weapons, combos, and the meter
   (per the carry-over / low-HP-execution rule above).
+- **[LOCKED] Bosses are *psychologically* hard, not long.** Every boss **except Phil** should be a **tense,
+  demanding fight that stays SHORT — under ~2 minutes.** Past that it reads as annoying, not hard;
+  difficulty comes from **pressure and reads, not HP bloat.** **Phil (the final boss) is the exception** —
+  the endgame gauntlet, allowed to be long and brutal.
 
 ---
 
@@ -62,10 +66,37 @@
 
 ---
 
-## 5. Boss roster — **your ideas** (to fill, §2-style like enemies)
+## 5. Boss roster
 
-> Dump boss concepts here — theme, attacks/phases, gimmick, which stage/branch, arena. I'll spec each and
-> map it to minor/main + how it interacts with the weapon/enemy systems. **None defined yet.**
+### 5.1 Phil — **FINAL BOSS** — **[LOCKED core]**
+- **Look:** like a **Zombie** (`ENEMIES.md` §2.8) but with a **top hat.**
+- **The Pencil:** carries a pencil and **draws new enemies into existence** to fight you — an
+  artist-summoner.
+- **Elusive** — hard to pin down (still fairly reachable, per the no-cheap rule).
+- **Reprise summons:** can **spawn earlier bosses and minibosses mid-fight** — a greatest-hits gauntlet.
+- **[LOCKED] The endgame** — the absolute final fight, **exempt from the <2-min rule**, meant to be
+  **brutally hard.**
+- **[ITERATE]** phases, how drawing works (telegraph / cooldown / what he can draw), how you damage an
+  elusive boss, arena (play-band vs. giant), whether the low-HP sniper execution applies to the final boss.
+
+### 5.2 Burly Macho Guy — **boss/miniboss** — **[LOCKED core]**
+- **Space-denier bruiser** in the vein of the Heavy/Burly (`ENEMIES.md` §2.11), boss-scale.
+- **Ground-spike punch:** punches the ground **fairly quickly** → **spikes erupt near him** that hurt the
+  player (a fast close-range AoE — unlike the slow Ground Smasher). Keeps you from face-tanking him.
+- **Enemy toss:** **grabs any enemy of any tier and throws it at the player for massive damage** (the
+  cannibalize/grab theme at boss scale — ignores the normal tier rule).
+- **Psychologically hard, short (<2 min).** **[ITERATE]** spike telegraph/range, throw telegraph, phases,
+  miniboss vs. main, HP.
+
+### 5.3 Tank — **objective boss** — **[LOCKED core]**
+- **It's a literal tank.** You **fight regular enemies while dodging its machine-gun fire.**
+- **[LOCKED] Win condition = grenades:** when you have a **grenade**, you **climb on top and drop it in the
+  hatch. 2 grenade drops = kill.** An objective/puzzle boss, not a health-bar slugfest.
+- **Relies on the Grenade** (`WEAPONS.md` §3.2) — grenades **must be sourced in this arena.** **[ITERATE]**
+  where they come from (add drops? provided pickups?), how you mount it (prompt / climb), the MG fire
+  pattern, does it move, what changes between the 1st and 2nd drop, the ~2-min cap.
+
+*More bosses welcome — same §5 format.*
 
 ---
 
@@ -82,5 +113,10 @@ For **each boss**: idle/move · each attack + **telegraph** · phase-transition 
 threats); **multi-phase** HP-threshold bosses; minibosses are **both** scaled-down bosses **and** elite
 enemies; the meter **carries over** in boss fights and becomes a **low-HP sniper execution** (with a prompt).
 
-**Still open (small):** boss HP display style (§3 — big named bar recommended); the exact miniboss pace
-trigger; whether minibosses are sniper-immune like main bosses. **Next: your boss concepts (§5).**
+Plus **[LOCKED]** the "psychologically hard, <2 min (except Phil)" rule.
+
+**Defined bosses (3):** **Phil** (final, artist-summoner, exempt from the length cap), **Burly Macho Guy**
+(ground-spikes + enemy-toss bruiser), **Tank** (objective boss — 2 grenade drops to win). Open to more.
+
+**Still open (small):** boss HP display style (§3 — big named bar recommended); exact miniboss pace trigger;
+whether minibosses are sniper-immune; each boss's `[ITERATE]` details.
