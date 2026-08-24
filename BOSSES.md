@@ -10,29 +10,34 @@
 
 ## 1. System rules
 
-- **[LOCKED] Bosses dodge the sniper special.** The ricochet-headshot special **cannot damage a boss** — it
-  plays a **dodge animation** and misses (`PLAYER.md` §6). Your panic button is off the table; bosses are
-  fought honestly.
+- **[LOCKED] Bosses dodge the sniper special — *until they're low.*** At normal HP the ricochet-headshot
+  special **can't hit a boss** (it plays a **dodge** and misses, `PLAYER.md` §6). **But at low boss HP a
+  prompt appears to use it, and the special *executes* the boss** — a cinematic finisher, the one time it
+  works on a boss.
+- **[LOCKED] The meter is never wasted in a boss fight.** A charge you don't spend **carries over** (usable
+  on any adds, or banked for after the boss). So you can **hold it for the low-HP execution** or spend it on
+  adds — your call.
 - **[LOCKED] Catch-up minibosses.** If the player is **clearing a stage too fast**, a **miniboss** is
   injected to re-apply pressure (dynamic pacing, `ENEMIES.md` §1).
 - **[LOCKED] No cheap frustration** (inherits the enemy rule): every boss attack is **telegraphed and
   fairly dodgeable**; no unreadable one-shots, no hiding.
-- **[PROPOSED] Two boss classes:**
-  - **Minibosses** — mid-stage, catch-up or branch-gate; tough but shorter fights.
+- **[LOCKED] Two boss classes:**
+  - **Minibosses** — mid-stage, catch-up or branch-gate; shorter fights. **Both flavors exist** — some are
+    **scaled-down bosses** (a gimmick + a phase or two), others are **elite enemies** (buffed regulars).
   - **Main bosses** — **stage-end**, gate the branch/ending (`GAMEPLAY_LOOP.md` §7).
-- **[PROPOSED] Phases:** main bosses shift behavior at **HP thresholds** (e.g. new attacks / faster) so the
-  fight escalates.
-- **[PROPOSED] Other weapons still work** — only the sniper special is negated. Looted weapons, combos, and
-  the meter (for its non-sniper value?) all apply. **[ITERATE]** does the meter do anything vs. a boss.
+- **[LOCKED] Multi-phase.** Bosses **shift behavior at HP thresholds** — new/faster attacks as they drop — so
+  the fight escalates.
+- **[LOCKED] Everything except the sniper works** during the fight — looted weapons, combos, and the meter
+  (per the carry-over / low-HP-execution rule above).
 
 ---
 
 ## 2. Arena & the playfield — **[PROPOSED]**
 
-- **[PROPOSED]** Bosses can be **bigger** than normal enemies and may **use more of the screen** than the
-  sacred bottom-half playfield — e.g. a tall boss occupying the upper band while its **hittable/threat zones
-  come down into the play band.** The player still fights in the bottom half; the boss reaches into it.
-- **[PROPOSED]** Boss arenas are likely **fixed rooms** (scroll stops), not scrolling lanes.
+- **[LOCKED] Arena varies per boss (mix):** some bosses are **play-band brawlers** (fought in the sacred
+  bottom half like enemies), others are **giant upper-screen threats** that occupy the upper band and reach
+  their attacks/hittable zones **down into the play band.** Chosen per boss.
+- **[PROPOSED]** Boss arenas are **fixed rooms** (scroll stops), not scrolling lanes.
 - **[ITERATE]** per boss: exact footprint, whether the Z-band changes, hazards.
 
 ---
@@ -71,11 +76,11 @@ For **each boss**: idle/move · each attack + **telegraph** · phase-transition 
 
 ---
 
-## 7. Framework decisions I need (before specing bosses)
-1. **Arena (§2):** can bosses break the bottom-half rule (use the upper screen) while threatening the play
-   band, or must everything stay in the bottom half?
-2. **Boss HP (§3):** big named boss health bar (rec), or something more diegetic?
-3. **Phases (§1):** multi-phase HP-threshold bosses (rec), or single-phase fights?
-4. **Miniboss nature (§4):** scaled-down bosses (rec) vs. just tougher elite enemies?
-5. **Meter vs. boss (§1):** since the sniper's negated, does the special meter do anything else in a boss
-   fight, or is it just dead weight there?
+## 7. Framework — status
+
+**Resolved (now [LOCKED]):** arena **varies per boss** (play-band brawlers *and* giant upper-screen
+threats); **multi-phase** HP-threshold bosses; minibosses are **both** scaled-down bosses **and** elite
+enemies; the meter **carries over** in boss fights and becomes a **low-HP sniper execution** (with a prompt).
+
+**Still open (small):** boss HP display style (§3 — big named bar recommended); the exact miniboss pace
+trigger; whether minibosses are sniper-immune like main bosses. **Next: your boss concepts (§5).**

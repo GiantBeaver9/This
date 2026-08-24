@@ -125,10 +125,10 @@ A short cinematic beat with dedicated frames:
 3. **Fire** — one shot; ricochets headshot-to-headshot (kills, **no drops**).
 4. **Recover** — lower weapon, time resumes, meter empties.
 
-**[LOCKED]** Against a **boss the shot is dodged** — the boss plays a **dodge animation** and the bullet
-misses entirely; it can never damage a boss. The special still fires and **[PROPOSED]** can still
-ricochet-kill any normal enemies present in the arena — only the boss is immune. (The boss dodge is a
-**boss asset** — see `BOSSES.md`.)
+**[LOCKED]** Against a **boss the shot is normally dodged** — the boss plays a **dodge animation** and the
+bullet misses; the special still ricochet-kills any normal enemies present in the arena. **Exception: at
+low boss HP a prompt appears and the special *executes* the boss** (see `BOSSES.md` §1). A charge you don't
+spend on a boss **carries over.** The boss dodge is a **boss asset**.
 
 ---
 
