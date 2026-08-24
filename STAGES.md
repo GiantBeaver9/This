@@ -19,10 +19,11 @@
 
 ---
 
-## 2. Run structure — **[PROPOSED]**
+## 2. Run structure — **[LOCKED]**
 
-**[PROPOSED] Acts → stages → branches.** A run is a **branching tree of stages** grouped into **acts**; any
-single playthrough passes through **~10–12 stages** (one path), each **~15–20 min**, to hit 3–4 hrs.
+**[LOCKED] Acts → stages → branches.** A run is a **branching tree of stages** grouped into **~4 acts +
+finale**; any single playthrough passes through **~10–12 stages** (one path). **Balanced pacing** — medium
+stage length *and* count (each stage ~15–20 min) — to land **3–4 hrs.**
 
 ```
         ACT 1 ──► ACT 2 ──►  ACT 3  ──►  ACT 4  ──► FINALE
@@ -33,10 +34,10 @@ single playthrough passes through **~10–12 stages** (one path), each **~15–2
         (branch chosen by performance/exit/secret — GAMEPLAY_LOOP §7)
 ```
 
-- **[PROPOSED]** Each **act ends in a main boss** that gates the branch into the next act.
-- **[PROPOSED]** A single run sees a **subset** of the tree; the full tree holds more stages than any one
-  path (that's the replay).
-- **[ITERATE]** exact stage count, act count, how wide the branching gets, path length tuning to land 3–4 hrs.
+- **[LOCKED]** Each **act ends in a main boss** that gates the branch into the next act.
+- **[LOCKED]** A single run sees a **subset** of the tree; the full tree holds more stages than any one path
+  (that's the replay).
+- **[ITERATE]** exact stage count within 10–12, act widths, how wide branching gets, path tuning to 3–4 hrs.
 
 ---
 
@@ -82,12 +83,12 @@ New types **debut** act by act, then **recombine** with everything prior. (Roste
 
 ---
 
-## 6. Death, continues & length — **[PROPOSED]** (needs a ruling)
+## 6. Death, continues & length — **[LOCKED]**
 
-How death is handled hugely shapes the 3–4 hr feel:
-- **[PROPOSED] options:** per-stage **checkpoints** + limited **continues**; or roguelike **restart-the-run**;
-  or **lives** with a game-over. Pick one — it changes pacing, difficulty, and how the 3–4 hrs actually plays.
-- **[ITERATE]** heal/recovery between stages; does branching state persist on continue.
+- **[LOCKED] Checkpoints + limited continues.** A **checkpoint** within/between stages and a **limited
+  number of continues** before game-over — forgiving enough to respect a 3–4 hr run without being free.
+- **[ITERATE]** checkpoint frequency (per stage? per act?); how many continues; heal/recovery between
+  stages; whether branching state persists on continue; any cost to continuing.
 
 ---
 
@@ -106,9 +107,10 @@ background + parallax layers + lane floor + any hazards.
 
 ---
 
-## 9. Decisions I need
-1. **Run shape (§2):** ~10–12 stages/path across ~4 acts + finale to hit 3–4 hrs — good, or a different
-   count/length split?
-2. **Length lever (§2/§3):** hit 3–4 hrs via **longer stages** (fewer, meatier) or **more stages** (shorter each)?
-3. **Death handling (§6):** checkpoints+continues, roguelike restart, or lives/game-over?
-4. **Themes (§7):** want to brainstorm stage settings now, or park them for later?
+## 9. Decisions — status
+
+**Resolved (now [LOCKED]):** ~10–12 stages/path across ~4 acts + finale; **balanced** stage length/count;
+**checkpoints + limited continues.**
+
+**Next: your stage themes (§7)** — dump settings and we'll map them to acts. Then per-fork branch recipes,
+exact per-stage rosters, checkpoint/continue specifics.
