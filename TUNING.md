@@ -243,8 +243,8 @@ chance to spawn a 10 s zombie instead of killing. **Sniper special is exempt** (
 | **Sword** | T2 | melee **18/swing**, finisher **45** | **8 connecting hits** (of 5–10) then shatters | 0.20 s | no E-fire; pure melee; blade chips at 6/4/2 left |
 | **Shotgun** | T3 | blast **40 + 6 wu knockback** | **5 spine segments** (of 4–6) = 5 shots | 0.25 s | `E` fires + cocks + ejects a spine segment |
 | **Boomerang** | T1 | throw hit **8** + **2 s stun** | **lost on first enemy hit** (retrievable on ground) | 0.15 s | `E` throws; misses return to hand |
-| **Pistol** | T1 | shot **12**, pierces 3 (**12/6/3** halving) | **mag 8**, then discarded | 0.25 s | `E`/exec finisher; discharges on finisher **only if target <20% HP** |
-| **Revolver** | T1 | shot **30**, no pierce | **mag 6**, then discarded | 0.30 s | same <20% execution gate as pistol |
+| **Pistol** | T1 | shot **12**, pierces 3 (**12/6/3** halving) | **mag 8**, then discarded | 0.25 s | **`E` fires any target, any HP**; the **secret-combo execution** (`COMBOS.md` §3) is the only <20%-gated path |
+| **Revolver** | T1 | shot **30**, no pierce | **mag 6**, then discarded | 0.30 s | same: `E` fires freely; only the secret-combo execution is <20%-gated |
 | **Grenade** | T4 | lob blast **60** (r 3 wu) · fastball blast **35** (r 2 wu) | **1 use** | tap-`E` wind-up | few taps = high lob (bounces 3×→boom); many taps = fastball (boom at 8 wu or after 8 enemies); **self-dmg 40** |
 | **Ball & Chain** | T2 | **80/swing** | **3 uses** | 0.40 s | tap-`E` trajectory; **carrying slows player 20%** (move only, not attack); finisher = §COMBOS secret combos |
 | **Whip** | T2 | **14/hit**; finisher = head-rip→grenade | **11 connecting hits** (of 10–12) | 0.25 s | up=arc / fwd=pull (drags enemy to you 3 wu) / down=line; finisher auto-dashes you back 4 wu |

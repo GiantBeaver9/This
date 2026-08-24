@@ -80,18 +80,26 @@
 Two variants of the same 1-v-1 idea (shotgun = crowd control; these = single-target). **No aiming — they
 fire straight ahead** (horizontal); lining the shot up with an enemy's **head** is the skill, and part of
 the feel.
-- **Execution finisher:** the gun only **discharges on the combo finisher, and only if the target is under
-  20% HP** — a **finishing/execution** move, not a spammable shot. On a **healthy** target the finisher is
-  just a **melee strike** (no shot). **Each direction has its own stylish finisher** (e.g. shoot, then
-  flick a cigarette away).
+- **[LOCKED] Normal fire is on `E` — any target, any HP.** Per the §1 supersede rule, you **press `E` to
+  fire** the gun straight ahead (spending 1 mag round) at an enemy of **any** health. Pistol pierces the row
+  (12/6/3), Revolver hits one for 30. This is the everyday shot — the pierce and headshot lineups work on
+  full-HP enemies. **The `E`-fire is NOT gated on HP.**
+- **[LOCKED] The `<20% HP` gate applies ONLY to the *secret-combo directional finishers*** (`COMBOS.md` §3) —
+  the stylish per-direction execution moves (Quickdraw, Coup de Grâce, etc.). Those **execute** a target under
+  20% HP with a cinematic flourish (and a cigarette-flick); above 20% the **same secret-combo input** plays as
+  a **melee pistol-whip** (no bullet spent). So there are two ways to shoot: **plain `E` (any HP, spends a
+  round)** and the **secret-combo execution (<20% HP only, also spends a round)**. The **plain combo finisher
+  (4th hit) stays free melee** and never fires. *(This resolves the old "only discharges on the finisher,
+  only <20%" line — that was the superseded rule; it now describes only the secret-combo variant.)*
 - **Pistol:** **more bullets, less damage**, and **pierces up to 3 enemies**, damage **halving through
   each** — a lined-up shot can drop a whole row.
 - **Revolver:** **more damage, no pierce**, fewer bullets — the heavy single-target hitter.
 - **Headshot:** if the straight shot lines up with a head it lands as a headshot (kill/bonus on weak enemies).
 - **[LOCKED] Zombie risk:** a headshot kill has a **~10% chance to spawn a ~10s zombie instead** (see
   `ENEMIES.md` §2.8) — the small tax on headshot-leaning play.
-- **[ITERATE]** exact mag sizes; whether the <20% execution gate applies to other guns or is pistol/
-  revolver-only; the per-direction finisher flourishes; decay when the mag empties.
+- **[LOCKED] Mags & decay:** **Pistol mag = 8, Revolver mag = 6** (`TUNING.md` §6); when the mag empties the
+  gun is **spent and auto-discarded** (no reload, `TUNING.md` §6 ammo rule). The **<20% execution gate is
+  pistol/revolver-specific** (other guns fire freely on `E`).
 
 ### 3.2 Grenade / Bomb — *thrown, physics-based* **[LOCKED core]**
 Enemy-dropped; **1 per pickup** (scarce — save it for a cluster).

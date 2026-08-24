@@ -23,8 +23,10 @@
   the per-step window and the string resolves as a plain directional attack.
 - **Entry point:** you may start a secret motion **any time the weapon can act**. For the **Ball & Chain** and
   the **guns**, the motion's *final* press is the finisher/fire input; the lead-in presses arm the flourish.
-- **Gate (guns only):** the gun's shot half of a finisher **only discharges if the target is < 20% HP**
-  (LOCKED, `WEAPONS.md` §3.1). Above 20%, the same input plays as its **melee** flourish (no bullet spent).
+- **Gate (secret-combo executions only):** the **secret-combo directional finisher's** shot half **only
+  discharges if the target is < 20% HP** (LOCKED, `WEAPONS.md` §3.1). Above 20%, the same secret-combo input
+  plays as its **melee** flourish (no bullet spent). **This gate is specific to these stylish combo executions
+  — plain `E`-fire shoots any target at any HP** (`WEAPONS.md` §3.1); the two firing paths are separate.
 - **Universality:** these strings are **weapon-specific**. Empty-handed and other weapons ignore them and just
   attack in the pressed direction.
 - **Cost:** a secret-combo finisher spends the same durability/use as that weapon's normal `E`-fire (Ball &
