@@ -20,25 +20,44 @@
 
 ## 2. Characters
 
+### 2.0 The specials & the drops trade-off — **[LOCKED core]**
+Each Special clears a crowd differently, balanced by **what loot survives** — the core axis is
+**completeness vs. loot retention:**
+- **Tactical / Sniper** — **kills everything** (one-shot ricochet), but **drops NOTHING.** Cleanest wipe, zero loot.
+- **Shotgunner** — **massive damage + knockback**, **wipes up to tier 3** (tier 4 survives), and **enemies
+  it kills still drop loot on the ground.** Less absolute, keeps the economy.
+- **Werewolf** — **5s of i-frame slash-everything**; you **still get money/drops** from the kills. Melee
+  kill-all with loot, but you must physically slash in the window.
+
 ### 2.1 The Tactical *(you)* — **[LOCKED core]**
 - **Faster** movement. **Less punch damage**, but **special meter fills faster** and **more weapon damage.**
   A speed/precision/weapons build.
-- **Special — Sniper time-slow:** the one specced in `PLAYER.md` §6 / `GAMEPLAY_LOOP.md` §4.3 — ricochet
-  headshots, boss dodge, low-HP boss execution.
+- **Special — Sniper time-slow:** `PLAYER.md` §6 / `GAMEPLAY_LOOP.md` §4.3 — ricochet headshots **wipe
+  everything**, boss dodge, low-HP boss execution. **No drops** from the special (§2.0).
 
-### 2.2 The Bruiser *(bulky friend)* — **[LOCKED core]**
-- **Bigger / bulkier.** **More punch damage** and **better shotgun damage.** A raw-power build.
-- **Special — [TBD].** Not yet defined. **[ITERATE]** his special; likely a speed/meter trade-off vs. the Tactical.
+### 2.2 The Shotgunner *(redheaded friend; the bulky one)* — **[LOCKED core]**
+- **Bigger / bulkier.** Passives: **more punch damage** and **better shotgun damage.**
+- **Special — Giant Shotgun:** whips out a **giant shotgun and blasts everything off the screen** — instead
+  of an auto-kill it does **massive damage + knockback**, wiping **up to tier 3** (**tier 4 survives**), and
+  **you get the drops on the ground.** *(Assuming this is the same person as the earlier "bulky friend" —
+  flag if he's actually the 4th.)*
+- **[ITERATE]** stats trade-offs, meter fill, the exact blast/knockback.
 
-### 2.3 The Werewolf *(friend)* — **[LOCKED core]**
-- **Special — Werewolf transformation:** instead of a sniper, he **turns into a werewolf** for **~5 seconds**
-  with **full i-frames** and **everything is a one-hit kill** — a berserk burst (the opposite of the
-  Tactical's ranged precision).
-- **[ITERATE]** his base stats, whether his meter fills the same way, transformation duration/cooldown tuning,
-  what a one-hit-kill does to bosses (nothing? the sharpen-window still applies?).
+### 2.3 The Werewolf *(Gabe)* — **[LOCKED core]**
+- **Special — Werewolf transformation:** **turns into a werewolf** for **~5 seconds** with **full i-frames**;
+  you **slash everything** and **everything is a one-hit kill** — and you **still collect money/drops** from
+  the kills. A berserk melee wipe (vs. the Tactical's ranged precision).
+- **[ITERATE]** base stats, whether the meter fills the same way, duration/cooldown tuning, what the
+  one-hit-kill does to bosses (immune? only in the sharpen-window?).
 
-### 2.4 The Fourth Friend — **[LATER]**
-- A fourth character; **specialty intentionally undisclosed for now.** Placeholder — slot reserved.
+### 2.4 The Underdog *(the short friend — hard mode)* — **[LOCKED core]**
+- The group's **butt-of-the-jokes**, **shorter** than the rest — designed as **hard mode:** **less damage**,
+  **same move speed** as everyone else (no speed bump to offset the damage penalty).
+- **Special — Vaporize + Empower:** **instantly vaporizes anything in a close radius** around him, then
+  grants **"power attacks" for ~30 seconds** — **everything hits ~20% harder** (all attacks/weapons,
+  whatever the type). A **buff/utility** special, not a screen-wipe — fitting the underdog framing.
+- **[ITERATE]** does the close vaporize drop loot (sniper-style none, or keep?); exact radius; whether the
+  30s buff refreshes/stacks; his base stats.
 
 ---
 
@@ -55,8 +74,15 @@ Plus: a **character-select screen** (UI) and each character's **Special VFX/anim
 
 ---
 
-## 4. Decisions I need
+## 4. Decisions — status
+
+**All 4 characters now defined:** Tactical (sniper wipe, no drops) · Shotgunner (giant-shotgun knockback,
+≤tier-3, keeps drops) · Werewolf (5s i-frame slash-all, keeps drops) · Underdog (hard mode; close vaporize
++ 30s +20% damage buff).
+
+**Still open:**
 1. **Art approach (§3):** shared-skeleton reskin (rec) or fully bespoke per character?
-2. **Bruiser's Special (§2.2):** what is it?
-3. **Werewolf vs. bosses (§2.3):** does one-hit-kill work on bosses, or do bosses still need the
-   sharpen-window / are immune?
+2. **Werewolf vs. bosses (§2.3):** does one-hit-kill work on bosses, or do bosses stay immune / only
+   vulnerable in their window?
+3. Confirm the **Shotgunner = the earlier "bulky friend"** (§2.2), not a 5th person.
+4. Per-character loot rules for the Underdog's vaporize and the exact stat trade-offs.
