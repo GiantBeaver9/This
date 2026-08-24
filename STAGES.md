@@ -23,8 +23,14 @@
 
 *(Full narrative gets its own doc later; captured here because it drives stage pacing.)*
 - **[LOCKED]** After a **cinematic opening**, **Phil steals a magic pencil that draws things to life.** The
-  **main character chases Phil** across the city to recover it and stop the coming chaos — Phil's goal is to
-  **draw his army into the world.**
+  **main character chases Phil** to recover it and stop the coming chaos — Phil's goal is to **draw his army
+  into the world.**
+- **[LOCKED] Setting = a real NorCal road trip.** **Phil escapes from Lincoln High (Lincoln, CA)** and
+  **runs to San Francisco** — the whole game travels **from the Sacramento area to SF.** This gives the
+  backdrops real **biodiversity**: suburbs → **rolling hills & farmland** → an **airport** and a
+  **lake/delta** → **coastal hills** → the **city.**
+- *(Origin flavor: the game grew from two friends passing a drawing back and forth in high school — which is
+  literally Phil's draw-it-to-life pencil, tying the title and mechanic together. → `STORY.md` later.)*
 - **[LOCKED] The lead economy = why enemies stay sparse early.** Phil **lacks the Holy Sharpener**, so the
   pencil has **limited lead** — he can only draw **so many** enemies. Counts stay low and **grow as you
   progress** — the in-fiction justification for the layering ramp (§4).
@@ -89,12 +95,15 @@ New types **debut** act by act, then **recombine** with everything prior. (Roste
 
 ### 4.1 Acts & themes — **[LOCKED core]** (~2–3 stages each, act-end boss gates the branch)
 
+Route: **Lincoln, CA → San Francisco** (Sacramento area → the Bay). Backdrops get real biodiversity from
+the drive.
+
 | Act | Theme / setting | Stages & set pieces | Enemy ramp (lead economy) |
 |---|---|---|---|
-| **1 — Suburbs** | US suburban area (houses, streets, sidewalks) | fight on roads/walkways; **car & school-bus traffic hazard** (dodge to avoid damage); **boss at a parody fast-food joint** (made-up brand, no trademarks) | **tier 0–1 only** |
-| **2 — Mall** | shopping mall interior | food court, shops, atrium; **boss in a department store** | + tier-2 layer |
-| **3 — The Journey** | varied outdoors — **up a mountain, across a lake**, etc. | scenic travel stages, nature hazards | + tier-3 layer |
-| **4 — Big City** | dense metropolis (San-Francisco-like) | steep streets, traffic; **ends atop a skyscraper** | full roster |
+| **1 — Suburbs** | **Lincoln, CA** suburbs (houses, streets, sidewalks) — Phil breaks out of **Lincoln High** | fight on roads/walkways; **car & school-bus traffic hazard** (dodge to avoid damage); **boss at a parody fast-food joint** (made-up brand, no trademarks) | **tier 0–1 only** |
+| **2 — Mall** | Sacramento-area shopping mall | food court, shops, atrium; **boss in a department store** | + tier-2 layer |
+| **3 — The Journey** | Sacramento → Bay countryside — **rolling hills & farmland, an airport, a lake/delta crossing, coastal hills ("the mountain")** | scenic travel stages, an **airport** set piece, nature hazards; the biodiversity showcase | + tier-3 layer |
+| **4 — Big City** | **San Francisco** — dense metropolis, steep streets, traffic | **ends atop a skyscraper** | full roster |
 | **Finale** | Phil's showdown | dull pencil → **sharpen-window** fight (§1a) | everything |
 
 - **[LOCKED] Traffic hazard (Act 1):** cars & school buses drive through the lane — **dodge to avoid damage.**
@@ -126,10 +135,11 @@ New types **debut** act by act, then **recombine** with everything prior. (Roste
 
 ## 7. Environments / themes — **[PROPOSED]**, your ideas
 
-All act themes are locked (§4.1): **Suburbs → Mall (department-store boss) → The Journey (mountain/lake/…)
-→ Big City (skyscraper top) → Phil.** Each needs a **background theme** (parallax backdrop for the top band;
-the lane floor below). Assets: per-theme background + parallax layers + lane floor + hazards (e.g. Act 1's
-cars/buses). **[ITERATE]** the individual stage backdrops within each act.
+All act themes are locked (§4.1) along the **Lincoln, CA → San Francisco** route: **Suburbs → Mall → The
+Journey (rolling hills, farmland, airport, lake/delta, coastal hills) → Big City (SF skyscraper) → Phil.**
+Act 3 carries most of the backdrop **biodiversity**. Each needs a **background theme** (parallax backdrop
+for the top band; the lane floor below). Assets: per-theme background + parallax layers + lane floor +
+hazards (Act 1 cars/buses, Act 3 nature/airport). **[ITERATE]** individual stage backdrops within each act.
 
 ---
 
