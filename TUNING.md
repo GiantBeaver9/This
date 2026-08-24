@@ -94,6 +94,58 @@
 | **Tier blue (2 fills)** | +20% dmg · sniper wipes **30** | LOCKED 15→30 |
 | **Tier green (3 fills / max)** | +30% dmg · sniper wipes **45 (whole screen)** | green = one stronger shot, not banked extras (resolves §4.3 [LATER]) |
 
+### 2.5 Player attack frame data — **[LOCKED]** (at **60 fps**; 1 frame = ~16.7 ms)
+
+> Every attack = **startup** (wind-up before the hitbox is live) → **active** (hitbox live) → **recovery**
+> (cannot act). "Cancel window" = the frame from which the next combo hit or a dash/jump may be buffered. These
+> are the authoritative timings the build reads; animation frame *counts* (`PLAYER.md` §5) are drawn to fit.
+
+| Attack | Startup | Active | Recovery | Cancel-into | Notes |
+|---|---|---|---|---|---|
+| **Punch 1** (jab, hit 1) | **4f** | 3f | 8f | next hit @ active+2f | fastest poke |
+| **Punch 2** (cross, hit 2) | 5f | 3f | 9f | next hit @ active+2f | |
+| **Sweep** (hit 3, knockdown) | 8f | 4f | 14f | finisher only, on a downed target | wider arc; the knockdown setter |
+| **Finisher** (hit 4) | 6f | 4f | 16f | — (string ends) | free melee; **only connects on a downed enemy** |
+| Side air | 5f | 4f | 10f (or until land) | air-dash / land | |
+| Up air (launcher) | 6f | 5f | 12f | — | knock-up |
+| Air down / spike | 7f | 5f | landing-lag **8f** | combo starter on landing | spikes airborne foes |
+| Up strike (ground) | 6f | 4f | 12f | — | anti-air |
+| Down strike (ground) | 6f | 4f | 12f | — | low |
+| **Dash attack** (any dir) | 5f | 6f (the lunge) | 10f | jump-cancel on hit | **0 dmg, weight-stagger only** (§2.1) |
+| Weapon swing (in-hand, per combo hit) | **+2f** on the matching fist hit above | = fist | +2f | same as fist | ranged weapons bludgeon at fist frames (`PLAYER.md` §5) |
+
+- **Combo cadence:** P1→P2→Sweep chains if the next input lands inside the cancel window; drop it and the
+  string resets (matches the **2.0 s** combo-counter timeout, §2.4 — that governs the *meter* counter, this
+  governs the *animation* string).
+- **Input buffer:** **9f (~0.15 s)** — a press up to 9 frames before an action is actionable still fires
+  (matches `COMBOS.md` §1).
+- **Whiff vs. hit:** recovery is the same on whiff or hit; there is **no hitstop on normal hits**, only on
+  **finishers/kills** (§2.6, `VFX.md` §4).
+
+### 2.6 Universal reaction states — **[LOCKED]** (who freezes, how long)
+
+> One table so every hit reaction reads the same across all 17 enemies + player. Durations in seconds
+> (frames in parens @ 60 fps). "Weight" (L/M/H) is the per-enemy class in §4.
+
+| State | Duration | Applies to | Notes |
+|---|---|---|---|
+| **Enemy hitstun** (normal hit) | **0.18 s (11f)** | L/M enemies | brief flinch + white flash (`VFX.md` hit-flash); H-weight enemies **do not flinch** (super-armor on normals) |
+| **L-stagger** (dash-hit, light) | **0.40 s (24f)** | L-weight | stumbles back **1.0 wu**, upright; actionable after |
+| **M-stagger** (dash-hit, medium) | **0.55 s (33f)** | M-weight | stumbles back **1.5 wu**; longer opening |
+| **H-floors-the-PLAYER** | player down **0.70 s (42f)** | player, on dashing a H-weight/boss | the "wasted getup, **not** invincible" risk (`PLAYER.md` §3) |
+| **Knockdown** (sweep, hit 3) | enemy down **1.2 s (72f)** | all non-boss | the **finisher window**; enemy is a valid finisher target this whole time, then auto-gets-up with **0.3 s** getup |
+| **Getup** (after any knockdown) | **0.30 s (18f)** | player & enemy | **no i-frames** on either (LOCKED — no-iframe rule) |
+| **Launch / juggle hang** (up-air, up-strike, Wrecking Uppercut) | **0.50 s (30f)** airborne | L/M enemies | juggle window; H-weight can't be launched |
+| **Hitstop (freeze-frame)** | **3f** on finishers · **5f** on any kill · **0f** on normals | both actors | `VFX.md` §4; scales screen-shake |
+| **Player hitstun** (taking a hit) | **0.25 s (15f)** | player | from §2.2; **no i-frames after** |
+
+- **Chip/interrupt rule:** a **normal hit** (hitstun 0.18 s) can be interrupted by the player's next combo hit,
+  so juggles/strings work; a **knockdown** (1.2 s) cannot be re-hit for damage until the finisher or getup —
+  only the finisher connects on a downed target (§2.5).
+- **H-weight super-armor:** Gatling Gunner, Ground Smasher, and Heavy **shrug off normal-hit flinch** but still
+  take damage and still **knock down to a sweep** (they are floored like anyone else by hit 3) — this is what
+  makes the sweep the answer to armored units.
+
 ---
 
 ## 3. Character stat modifiers
@@ -114,6 +166,7 @@
 | Tactical — Sniper | wipes 15/30/45 by tier (§2.4); **drops nothing**; boss dodges >10% HP | LOCKED |
 | Shotgunner — Giant Shotgun | **RULE: instakills every T3-and-below on screen** (ignores HP — not a damage number) + **8 wu knockback**; untiered Heavy/Tamer & all bosses survive; **drops stay** | LOCKED ≤T3 |
 | Werewolf | **5.0 s** transform, **full i-frames**, every slash = 1HKO, **drops stay**; slash dmg vs boss = 0 above 10% | cooldown = the meter |
+| **Werewolf vs. Heavy/untiered** | the 1HKO **DOES kill Heavy, Ground Smasher, Gatling Gunner, Monkey Tamer and every untiered enemy** — it is a raw slash, not a tier-gated special, so no ≤-tier rule applies. **Bosses only** survive (they take slash-dmg 0 above 10% HP, like the other specials). | the one special that ignores weight/tier — its cost is the tiny 5 s window |
 | Underdog — Vaporize | close radius **3.0 wu** instant-kill (**drops nothing**, sniper-style; resolves §2.4 [ITERATE]); then **+20% to all dmg for 30 s**; **refreshes, does not stack** | |
 | Boss execution (all specials) | only ≤10% boss HP shows the execute prompt | LOCKED (`BOSSES.md` §1) |
 
@@ -146,6 +199,18 @@
 
 **Pods (shared spawner for Zombie & Swarmer):** HP **50**, destroyable; spits **1 unit every 3 s** up to a
 field cap of 6 pod-spawned units; sits at the back Z-edge of the encounter (resolves §2.8/§2.12 [ITERATE]).
+
+**Zombie grab resolution (LOCKED):** on contact the Zombie **grabs and holds** (deals 0 on the grab itself).
+While held: the player is **rooted**, cannot move/attack, and **takes full damage from any *other* enemy**
+(the grab is a positioning-death setup, not direct damage). **Break-free = mash any 6 attack inputs within a
+1.0 s window** (§4 row 1). Outcomes:
+- **Break in time →** shove the Zombie back **1.0 wu** (M-stagger), player free, Zombie enters its **2 s grab
+  cooldown** before it can re-grab.
+- **Fail the mash →** the hold **re-arms for another 1.0 s window** (you get another mash attempt) — the Zombie
+  never one-shots you; the danger is the **free hits other enemies land** while you're pinned. A lone Zombie
+  with no support is therefore harmless — you always eventually break out.
+- **Headshot-made Zombie** expires after **10 s** regardless (releases any grab on expiry); **pod-spawned**
+  Zombie dies to any finisher.
 
 **Headshot economy (LOCKED):** pistol/revolver head-lineups and the gatling auto-kill finisher have a **10%**
 chance to spawn a 10 s zombie instead of killing. **Sniper special is exempt** (always clean).
@@ -203,6 +268,20 @@ chance to spawn a 10 s zombie instead of killing. **Sniper special is exempt** (
 *The **Rocket Launcher is a world pickup only** (not in any random pool, `WEAPONS.md` §3.8b), and the
 **Monkey Merc drops only from the Monkey stick figure** (`ENEMIES.md` §2.2) — neither is a tier drop. At
 low HP (≤25) all weapon-drop chances **double**.
+
+**Ammo sourcing & the no-reload rule (LOCKED — diegetic corpse economy):** every ranged weapon is a **body
+part** and arrives **pre-loaded with exactly the ammo in the table** — there is **no reload, no ammo pickup,
+no magazine refill.** When the count hits zero the weapon is **spent and auto-discarded** (you drop empty-handed
+to fists), so ammo management is "use it or lose the drop," never a resource-hunt.
+- **Pistol / Revolver** = the akimbo guns an **Arm-Ripper** carries; killing/disarming one, or the random T1
+  drop, hands you **one arm's worth** (mag 8 / 6). Pick up the *second* arm to dual-hand? **No** — one gun at a
+  time (picking up a weapon while armed destroys the current, `WEAPONS.md` §1).
+- **Shotgun** = a **spine**; its "mag" is its **5 vertebra segments** (§6 row), ejected one per shot — the
+  diegetic magazine you can *see* deplete.
+- **Boomerang Gun / Ball & Chain / Grenade / Rocket / Staff / Gatling** each carry their listed fixed uses and
+  then break/expire the same way. The **Monkey Merc** is the only "ammo from currency" case (costs a dime).
+- **Consequence for the build:** no ammo-pickup entities or reload animations need to exist. A gun sprite only
+  needs **in-hand → fire → (per-shot ammo readout tick) → empty-discard**.
 
 ---
 
