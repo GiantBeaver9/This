@@ -128,6 +128,15 @@
   small, ever-present downside to leaning on headshots. **The sniper special is exempt — it *always*
   cleanly kills** (ricochet headshots never spawn zombies).
 
+### 2.9 Ninja — **[LOCKED core]** — **Tier 3a**
+- **Teleport:** uses **smoke bombs to "teleport"** (blink/reposition) — hard to pin down, flits around the
+  player.
+- **Ninja stars:** throws **shuriken** — but **stars must be made by stripping legs/arms off lower-tier
+  enemies** (the cannibalize pattern; per the tier rule a 3a spends tier-1/2). Its **ammo = harvested limbs.**
+- **[ITERATE]** teleport cooldown & telegraph (smoke-puff tell), stars per limb, do stars obey the
+  short-range rule (§1) or count as a telegraphed thrown exception, star damage, what it does with no
+  fodder to strip (call in / melee?).
+
 ---
 
 ## 3. Roster — **[PROPOSED baseline] + your named enemies**
@@ -176,7 +185,7 @@ wallet-drop, monkey flair).
 progressive type-introduction by stage; per-stage constrained random loot; catch-up minibosses; subtle
 wristband ranks; **enemy guns are short-range/dodgeable**. **Defined enemies:** Head-Thrower, Monkey,
 Regular Melee, Snapper (Sword-Maker, T2), Arm-Ripper (Dual Pistols, T2a) + its disarmed Headbutt state,
-Monkey Tamer (untiered summoner), Gatling Gunner (T3), Zombie (T0, headshot-immune).
+Monkey Tamer (untiered summoner), Gatling Gunner (T3), Zombie (T0, headshot-immune), Ninja (T3a).
 
 **Next — capture your named enemies.** You have specific enemy ideas; dump them and we'll (a) spec each one
 §2-style, and (b) map it onto the role baseline so we know coverage. Specific per-stage rosters and rank
