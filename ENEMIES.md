@@ -31,6 +31,11 @@
   the per-stage random pool — a themed corpse read, not a guaranteed type→weapon lock.
 - **Routing** follows `GAMEPLAY_LOOP.md` §8: up to **8 pursuers**, hard separation (no stacked multi-hits),
   standoff rings, Z-spread. Per-type specifics below.
+- **[LOCKED] Ability tier rule:** an enemy that uses an ability **on another enemy** can only target a unit
+  **at least one tier below it** (a tier-2 can weaponize a tier-1, never another tier-2). Enemies **loot
+  each other** the same way the player loots corpses.
+- **[DATA] Attack windups (telegraph), collected as we spec:** regular melee **~100ms**, sword
+  **~150–200ms** (slight variance). Convention: **more reach/damage → longer, more readable windup.**
 
 ---
 
@@ -52,8 +57,18 @@
 - The plain stick figure — shared base body, no special ability.
 - **Tries to close on the player**, then attacks with **punch**, **jump kick**, and **slide kick** (a low,
   gap-closing approach).
-- Fills role **A (basic melee)**. **[ITERATE]** which attack it picks at which range, damage, HP, approach
-  speed, how aggressively it mixes the three.
+- Fills role **A (basic melee)**. Windup **~100ms**. **[ITERATE]** which attack it picks at which range,
+  damage, HP, approach speed, how aggressively it mixes the three.
+
+### 2.4 Snapper (Sword-Maker) — **[LOCKED core]** *(name TBD)* — **Tier 2**
+- **Ability:** grabs a **tier-1** enemy and **"snaps" them like a whip, turning them into a sword**, then
+  **swordfights the player** with **much longer reach** than fists.
+- **Tier rule (§1):** can only snap a **tier-1** — never another tier-2.
+- **Telegraph:** sword swings **wind up ~150–200ms** (vs. ~100ms fists) — long reach, but **readable and
+  punishable.**
+- Fills a **melee-zoner** niche (reach + threat that forces you to respect spacing).
+- **[ITERATE]** what he does with **no tier-1 nearby** (fall back to regular melee?); does his sword decay;
+  does killing him **drop the sword** for the player to grab?
 
 ---
 
@@ -99,9 +114,9 @@ wallet-drop, monkey flair).
 
 ## 6. Status & next step
 
-**Locked so far:** system rules; progressive type-introduction by stage; per-stage constrained random
-loot; catch-up minibosses; subtle wristband ranks; Head-Thrower and Monkey enemy cores; the role-coverage
-baseline (A–H).
+**Locked so far:** system rules (incl. shared-body-plus-ability, ability tier rule, telegraph timing);
+progressive type-introduction by stage; per-stage constrained random loot; catch-up minibosses; subtle
+wristband ranks. **Defined enemies:** Head-Thrower, Monkey, Regular Melee, Snapper (Sword-Maker, T2).
 
 **Next — capture your named enemies.** You have specific enemy ideas; dump them and we'll (a) spec each one
 §2-style, and (b) map it onto the role baseline so we know coverage. Specific per-stage rosters and rank
