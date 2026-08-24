@@ -32,12 +32,14 @@
   diagonals). Continuous.
 - **[LOCKED] Attack = Arrow keys** — **8-directional**, **independent of movement/facing** (attack left while
   running right). The core expressiveness: many attacks, not a fixed combo.
-- **[LOCKED] Keybinds:** **Special = `Q`** · **Weapon = `E`** · **Swap weapon = `F`** (swap destroys the
-  current weapon, `WEAPONS.md` §1).
-- **[LOCKED] Jump = `Space`.** **[LOCKED] Dash = double-tap a WASD direction** (consistent with the **Shield
-  Rush = double-tap forward**, §3); **air-dash** = double-tap in the air.
-- **[ITERATE]** exact action of the **`E` (Weapon)** button (pick-up / use / holster?); **gamepad** mapping;
-  a **rebinding** UI.
+- **[LOCKED] Keybinds:** **`Q` = use Special** · **`E` = use equipped weapon** (its primary action —
+  fire/throw, distinct from the arrow melee) · **`F` = pick up** a weapon (picking one up while armed
+  **destroys** the current, `WEAPONS.md` §1).
+- **[LOCKED] Jump = `Space`.** **[LOCKED] Dash = double-tap a WASD direction** (consistent with **Shield Rush
+  = double-tap forward**, §3); air-dash = double-tap in the air.
+- **[ITERATE]** reconcile **`E` (use weapon)** with the "ranged weapons fire on the finisher" rule
+  (`WEAPONS.md` §1); **gamepad** auto-map later (stick = 8-dir move, face buttons/right-stick = 8-dir attack,
+  **shoulders = special**, pick-up = TBD); a **rebinding** UI.
 
 **[LOCKED] Dash + Jump both exist.** Dash = grounded evasive burst (no i-frames). Jump adds a full
 **air layer** — you can attack in the air, so the moveset roughly **doubles** (ground set + air set).

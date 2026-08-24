@@ -92,8 +92,8 @@ debut, frantic tone) → **department-store** area boss. Lead economy keeps it l
 - **Enemies (debut):** **swarm-heavy** — **Swarmers and Zombies** arrive; swarms **chase the fleeing people**
   then turn on you; **headshot a Tier-1 and it becomes a Zombie** (the headshot economy on display).
 - **Terrain funnels:** kiosks, planters, benches, and escalators pinch the play space.
-- **[LOCKED] Area 1 boss:** the **department store** fight. **[ITERATE]** which boss (big-version vs. bespoke),
-  the branch fork out of Area 1.
+- **[LOCKED] Area 1 boss = Burly Macho Guy** (`BOSSES.md` §5.2) — a bruiser brawl **in the department store**
+  (his ground-spikes + enemy-toss fit the confined space). **[ITERATE]** the branch fork out of Area 1.
 - **[ITERATE]** mall ambient set (mall cop? food-court props?), store signage (made-up brands), hazards.
 
 ### 1.7 Area 1 asset list (→ `ASSET_MANIFEST.md`)
@@ -124,8 +124,8 @@ signage · **department-store boss** arena.
   the whip's **pull / crowd-control**), then they **spot the player and turn to attack.** Teaches the Whip.
 - **[LOCKED] Debut: the Whip** weapon spawns here. **[ITERATE]** whether a dedicated **whip-wielding enemy**
   exists (the "enemy composed of another" — the cannibalize pattern) or the vignette uses existing enemies.
-- **[LOCKED] Stage boss = whip-based** — **[ITERATE]** likely the **Colossus** (`BOSSES.md` §5.4 — the
-  whip-to-dismantle giant) as this stage's boss/miniboss, or another whip fight.
+- **[LOCKED] Stage boss = the Colossus** (`BOSSES.md` §5.4 — the whip-to-dismantle giant); the Whip taught
+  here is exactly what beats it.
 - **Ambient:** fleeing pedestrians, a **streetcar / light-rail**, lamp posts, benches, newspaper boxes. **[ITERATE].**
 - **Enemies:** the **tier-2 layer begins** (Snapper, etc.). **[ITERATE]** exact debut split.
 
@@ -217,6 +217,8 @@ hitters — **Gatling Gunner** and **Ninja**.*
 - **[LOCKED] Debuts:** the **Ninja** (teleport shuriken) and the **Pickpocket** (`ENEMIES.md` §2.16 — steals
   your coins; kill it for **2× back**). **[ITERATE]** a vignette for each.
 - The **Gatling Gunner** also appears across Area 4, leading into the Golden Gate boss. **[ITERATE].**
+- **[LOCKED] Vallejo boss = the Tank** (`BOSSES.md` §5.3) — **military is nearby** (Travis-AFB flavor), so a
+  tank rampaging the park fits; beat it by dropping **grenades** (from the weapon-gated adds) in the hatch — 2 drops.
 
 ### 4.1b Marin County & the redwoods — **[LOCKED core]**
 - **Backdrop:** **Marin County** — a **redwood forest** (towering redwoods, ferns, filtered light, drifting
@@ -254,8 +256,7 @@ hitters — **Gatling Gunner** and **Ninja**.*
 ### 4.4 Area 4 asset list (→ `ASSET_MANIFEST.md`)
 Vallejo **amusement park** (roller coasters, ferris wheel, midway) · bay **causeway/bridge + platforms** ·
 **Golden Gate Bridge** · **San Francisco** cityscape + **skyscraper** · **Gatling Gunner** + **Ninja**
-enemies · **Phil** boss (top-hat zombie + pencil, sharpen anim) · **unused bosses available here:** **Burly
-Macho Guy / Tank / Gatling Gun Guy** (assign as Area 4 bosses).
+enemies · **Tank** (Vallejo) · **Boomergunner** (Marin) · **Gatling Gun Guy** (Golden Gate) · **Phil** boss
+(top-hat zombie + pencil, sharpen anim).
 
-**[ITERATE]** Area 4 stage split, bridge hazards, boss placements (which of the 3 unused bosses go where),
-Phil staging.
+**[ITERATE]** Area 4 stage split, bridge hazards, Phil staging.

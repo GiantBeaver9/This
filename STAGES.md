@@ -130,15 +130,15 @@ New types **debut** act by act, then **recombine** with everything prior. (Roste
 
 | Area | Debuts (new) | Main boss(es) |
 |---|---|---|
-| **1 — Suburbs & Mall** | Regular Melee, Swarmer, Zombie | Sandwich Bros (big Tier-1) · **department-store** boss |
-| **2 — Sacramento & Airport** | Snapper, Anti-Aircraft, Head-Thrower (+ Bat *weapon*; Bat "enemy" is a vignette-only demo) | Sacramento whip boss (**Colossus**) · **Helicopter** (airport) |
+| **1 — Suburbs & Mall** | Regular Melee, Swarmer, Zombie | Sandwich Bros (big Tier-1) · **Burly Macho Guy** (department store) |
+| **2 — Sacramento & Airport** | Snapper, Anti-Aircraft, Head-Thrower (+ Bat *weapon*; Bat "enemy" is a vignette-only demo) | **Colossus** (Sacramento, whip) · **Helicopter** (airport) |
 | **3 — Hills / Causeway / Dixon** | Sniper, Flying Monkey, Monkey Tamer, Monkey, Arm-Ripper | **Monkey Boss** (farm) · **big Arm-Ripper** (Dixon rush) |
-| **4 — Vallejo → GG → SF** | Ninja, Pickpocket, Boomergunner, Gatling Gunner, Ground Smasher, Heavy | **Boomergunner** (Marin) · **Gatling Gun Guy** (Golden Gate) |
+| **4 — Vallejo → GG → SF** | Ninja, Pickpocket, Boomergunner, Gatling Gunner, Ground Smasher, Heavy | **Tank** (Vallejo) · **Boomergunner** (Marin) · **Gatling Gun Guy** (Golden Gate) |
 | **Finale** | — (everything in play) | **Phil** |
 
 - **[LOCKED] Economy** (money, Monkey Merc/Tamer/Boss, Pickpocket) is a **second-half reveal** (~Area 3, §1c).
 - **[PROPOSED]** "Big version" minibosses (`BOSSES.md` §1) re-test earlier foes at higher stakes; minibosses recur.
-- **[ITERATE]** exact debut *stage within an area*; per-stage rosters; unplaced bosses **Tank / Burly Macho Guy**.
+- **[ITERATE]** exact debut *stage within an area*; per-stage rosters. *(All 7 bespoke bosses now placed.)*
 
 ### 4.1 Acts & themes — **[LOCKED core]** (~2–3 stages each, act-end boss gates the branch)
 

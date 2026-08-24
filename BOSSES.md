@@ -100,7 +100,7 @@
 - **[ITERATE]** how lead depletes (does clearing his summons drain it faster?), phases, arena (play-band vs.
   giant), whether the low-HP sniper execution applies to the final boss.
 
-### 5.2 Burly Macho Guy — **boss/miniboss** — **[LOCKED core]**
+### 5.2 Burly Macho Guy — **boss** — **[LOCKED core]** — **caps Area 1 (department store)**
 - **Space-denier bruiser** in the vein of the Heavy/Burly (`ENEMIES.md` §2.11), boss-scale.
 - **Ground-spike punch:** punches the ground **fairly quickly** → **spikes erupt near him** that hurt the
   player (a fast close-range AoE — unlike the slow Ground Smasher). Keeps you from face-tanking him.
@@ -109,7 +109,7 @@
 - **Psychologically hard, short (<2 min).** **[ITERATE]** spike telegraph/range, throw telegraph, phases,
   miniboss vs. main, HP.
 
-### 5.3 Tank — **objective boss** — **[LOCKED core]**
+### 5.3 Tank — **objective boss** — **[LOCKED core]** — **caps Area 4 (Vallejo — military nearby)**
 - **It's a literal tank.** You **fight regular enemies while dodging its machine-gun fire.**
 - **[LOCKED] Win condition = grenades:** when you have a **grenade**, you **climb on top and drop it in the
   hatch. 2 grenade drops = kill.** An objective/puzzle boss, not a health-bar slugfest.
@@ -117,7 +117,7 @@
   (§1: tier-1 adds drop only grenades). **[ITERATE]** how you mount it (prompt / climb), the MG fire
   pattern, does it move, what changes between the 1st and 2nd drop, the ~2-min cap.
 
-### 5.4 The Colossus — **boss** — **[LOCKED core]** *(name TBD)*
+### 5.4 The Colossus — **boss** — **[LOCKED core]** *(name TBD)* — **caps Area 2 (Sacramento, whip)**
 - A **giant stick figure built out of many smaller stick figures.**
 - **[LOCKED] Win condition = whip:** you **rip the smaller stick figures off it one at a time with the Whip**
   (`WEAPONS.md` §3.4 — its pull/grab), slowly dismantling the giant piece by piece.
