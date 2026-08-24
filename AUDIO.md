@@ -1,0 +1,155 @@
+# this.l — Audio Direction
+
+> **Scope:** the concrete audio plan — per-area music style, boss-theme approach, the core SFX list (with a
+> concrete count), the intro VO plan, and mix priorities. Fills the `ASSET_MANIFEST.md` §8 "MOSTLY UNSPEC"
+> flag with definite decisions.
+>
+> **Anchors:** chunky-arcade beat-'em-up energy (`UI.md` §1) · comedic transient tone (`VFX.md` §1) · a real
+> NorCal road trip Lincoln → SF (`STAGES.md` §1a) · the creator's own voice for the intro (`STAGES.md` §1b) ·
+> lightweight-first, runs on low-end (`AREAS.md` §0) — so **streamed music + a compact SFX bank**, no huge
+> real-time audio engine.
+>
+> **[LOCKED] Ownership:** **VO and SFX are creator-produced** (recorded by the dev — this doc is the
+> *shot-list / direction* to record against, not an outsourcing spec). **Music** is the one section that
+> needs a source/plan (compose, license, or commission).
+
+---
+
+## 1. Overall direction
+
+- **Style pillar:** **arcade beat-'em-up meets a Californian road-trip mixtape** — punchy, tuneful, genre-hops
+  by region so travel *sounds* like progress, mirroring the visual biodiversity.
+- **Format:** looping streamed tracks (**OGG Vorbis, 44.1 kHz stereo, ~128 kbps**) for music; **short mono
+  WAV/OGG one-shots** for SFX. Target total audio footprint **< 80 MB** to stay lightweight.
+- **Tempo language:** BPM rises with danger. Exploration/early ~**110–120 BPM**; area finales/bosses **140–165
+  BPM**; Phil's finale **170 BPM**.
+- **Loudness target:** master **−14 LUFS integrated**, true-peak **−1 dBTP**.
+
+---
+
+## 2. Music — style per area (one genre/mood each)
+
+| Area / stage | Genre | Mood | BPM |
+|---|---|---|---|
+| **A1 · Lincoln suburbs (opener)** | **sunny surf-rock** (reverb guitar, tambourine) | carefree, "skipping school," warm | 116 |
+| **A1 · Roseville Galleria (mall)** | **frantic synth-punk** | panic-comedy, shoppers screaming | 150 |
+| **A2 · Sacramento (Victorian downtown)** | **ragtime-tinged garage rock** | old-town charm turning ugly | 128 |
+| **A2 · Sacramento Airport** | **tense industrial electronic** (jet-engine drones) | mechanical, exposed tarmac | 140 |
+| **A3 · Hills & Davis causeway** | **spaghetti-western twang** (whistle, twang guitar, wide reverb) | open road, lonesome, sniper tension | 120 |
+| **A3 · Farm / Ranch (Monkey Boss)** | **hoedown bluegrass-rock** (banjo, stomp) | chaotic barnyard | 150 |
+| **A3 · Dixon (boss rush)** | **sparse ominous western dread** (low drone, sparse percussion) | deserted-town wall, "first big wall" | 135 |
+| **A4 · Vallejo (Six Flags)** | **manic circus-rock** (calliope + distorted guitar) | carnival-gone-wrong | 155 |
+| **A4 · Marin redwoods** | **atmospheric psych-rock** (delay, tremolo, forest reverb) | filtered light, drifting, eerie calm | 130 |
+| **A4 · Golden Gate Bridge** | **driving orchestral-rock** (strings + double-kick) | epic, wind-and-barrage crossing | 160 |
+| **A4 · San Francisco streets** | **fast electro-punk** (arcade synths, sirens) | climactic city gauntlet | 165 |
+| **Finale · Salesforce rooftop** | **full orchestral + choir** (leitmotif reprises) | operatic showdown, "2D chaos" | 170 |
+
+- **Endless Mode:** an **adaptive layered version of the SF electro-punk track** — stems (drums / bass / lead /
+  screamer synth) **add in every 3 minutes** as the tier ramp climbs (`TUNING.md` §8.3), so intensity tracks
+  difficulty. Single track, ~4 stems.
+- **Transitions:** area cards (`UI.md` §5) get a **2-second stinger** in the incoming area's genre before its
+  loop starts.
+
+**Music track count:** **12 area/stage loops + 1 title theme + 1 Endless layered track + 7 boss themes = 21
+music assets** (bosses share a base motif, §3, so authoring is cheaper than 21 from scratch).
+
+---
+
+## 3. Boss-theme approach
+
+- **One shared "Phil's Army" boss motif** — a recognizable 4-bar villain leitmotif — **re-orchestrated per
+  boss** rather than 7 unrelated tracks. This is cheap (matches the "big version reuses art" thrift) and ties
+  every boss to Phil as the source.
+  - **Burly Macho Guy:** motif on **brass + gang-shout chants**.
+  - **Colossus:** motif on **massed low strings** (many-figures-as-one).
+  - **Helicopter:** motif over a **rotor-blade percussion loop**.
+  - **Monkey Boss:** motif on **calliope + bongos** (the circus/monkey color).
+  - **big Arm-Ripper (Dixon):** motif stripped to **lone western guitar + gunshot hits**.
+  - **Tank:** motif on **military snare + engine drone**.
+  - **Gatling Gun Guy:** motif punctuated by the **~5 s "BARRAGE" swell** (audio telegraph aligned to the
+    warning, `BOSSES.md` §5.6).
+  - **Boomergunner (Marin):** motif with **panning delay** (the orbiting-return gag).
+- **Phil (final):** the motif **fully realized** with **orchestra + choir**, and it **quotes each area's theme**
+  in sequence during his greatest-hits **reprise summons** — the score does the "greatest-hits gauntlet" too.
+- **Phase shift = musical shift:** at each boss HP threshold (`TUNING.md` §7) the track **jumps to a higher-
+  intensity section** (add double-kick / raise a semitone) so escalation is audible.
+- **Sniper time-slow:** ducks music to a **low-pass, half-speed wash** for the special's duration — the audio
+  peak matching the visual peak (`VFX.md` §6).
+
+---
+
+## 4. Core SFX list — **64 one-shots (v1)**
+
+Grouped with concrete per-group counts. Each is a short arcade one-shot; pitch-randomized ±2 semitones at
+playback for variety without extra assets.
+
+| Group | Count | Contents |
+|---|---|---|
+| **Player melee** | 8 | punch (×2 var), sweep, **finisher (heavy)**, air-hit, dash-whoosh, jump, land |
+| **Player states** | 5 | hurt/grunt, death, pickup, weapon-break puff, shield-rush scrape |
+| **Impacts / juice** | 6 | hit-spark, finisher-crunch (hitstop cue), enemy stagger, knockdown thud, block/soak, screen-shake boom |
+| **Weapon fire** | 14 | sword swing+break, shotgun blast+cock, boomerang throw+return, pistol, revolver, grenade throw+explode, ball&chain launch+impact, whip crack, staff cast (ice/fire/lightning = 3), gatling barrage, boomerang-gun spin, rocket launch+blast, club whack, bat reflect-ping |
+| **Enemy signature** | 12 | zombie moan+grab, swarmer chitter, head-throw (self-decapitate), fire-blink→BOOM, snapper snap-to-sword, arm-rip, gatling contort, ninja smoke-teleport, sniper scope-in/shot, ground-smash overhead+shockwave, whistle (tamer), monkey merc chatter |
+| **Meter / special** | 4 | meter tick-up, meter **armed "ready" chime**, sniper time-slow enter, time-resume whoosh |
+| **UI** | 7 | menu move, confirm, cancel, coin pickup, **full-dime highlight**, combo-popup pips, **"BARRAGE INCOMING" alarm** |
+| **Economy / misc** | 3 | pickpocket steal, coins-doubled jingle, checkpoint chime |
+| **Hazards** | 5 | car/bus pass-by, plane jet-blast, cow moo (path-block), **SF trolley bell + rumble**, tower-sway creak |
+| **Total** | **64** | |
+
+- **Ambient beds (not counted above):** **1 looping bed per area theme (12)** — birds/traffic (suburbs), mall
+  murmur, tarmac hum, marsh/wind (causeway), redwood forest, bridge wind, city crowd, rooftop wind. Low in the
+  mix (§6).
+
+---
+
+## 5. Intro VO plan
+
+- **Voice:** the **creator's own voice-over**, recorded via their audio interface (LOCKED, `STAGES.md` §1b) —
+  deliberately intimate/homemade, matching the "two friends passing a drawing" origin.
+- **Delivery:** narration over **~20 s hand-drawn still picture-clips** (LOCKED). Pin **5 clips**, ~20 s each
+  (~1:40 total):
+  1. *"In the beginning, there was just **this**."* — the drawings on the page.
+  2. Phil escapes and **captures the pencil**.
+  3. Phil **hunts the Holy Sharpener** — "he only has so much lead before it runs out."
+  4. The stakes — his army begins to spill into the world.
+  5. *"Your mission: defeat Phil."* → loads into the game.
+- **In-game tutorial VO:** none scripted — the first ~10 s teaches dodge + attack via **on-screen prompts**
+  only (weapons are learn-by-use, LOCKED). Keeps VO reserved for the intro and Phil.
+- **Phil VO:** the **rooftop monologue** (menacing laughter; "found the Holy Sharpener," **"bring 2D chaos to
+  this 3D planet"**) — same creator voice, pitched-down + reverb for villainy (LOCKED, `VIGNETTES.md`). Pin
+  **~30 s**, delivered during the elevator climb.
+- **Recording spec:** mono, 44.1 kHz, cleaned/normalized to **−16 LUFS** (sits above music duck, §6).
+- **No other spoken dialogue** in v1 — enemies/bosses are non-verbal (grunts, chatter). Keeps the VO scope tiny.
+
+---
+
+## 6. Mix priorities
+
+Priority = what wins when the mix gets crowded. Higher ducks lower.
+
+| Priority | Layer | Behavior |
+|---|---|---|
+| **1 (highest)** | **Intro/Phil VO** | ducks music **−8 dB** while speaking |
+| **2** | **Telegraph & warning SFX** (barrage alarm, ground-smash overhead, sniper scope-in, boss tells) | **never masked** — the audio equivalent of `VFX.md` §1 "bullets always readable"; always audible over everything below |
+| **3** | **Player action SFX** (attacks, dash, special, finisher) | full level; the player's own feedback |
+| **4** | **Enemy SFX** | slightly lower; **voice-limited to 6 concurrent** enemy one-shots, nearest-first |
+| **5** | **Music** | ducks to VO; low-passes during time-slow; jumps sections on boss phases |
+| **6 (lowest)** | **Ambient beds** | −18 dB under the mix; purely atmospheric |
+
+- **Voice cap:** **24 total concurrent SFX voices** (lightweight budget); when exceeded, drop **lowest-priority
+  + oldest** first, so a telegraph never gets stolen by a crowd of enemy chitters.
+- **Time-slow bus:** during the sniper special, everything except the special's own SFX routes through a
+  **low-pass + 0.5× pitch** bus, restored by the "time-resume whoosh."
+- **Ducking is priority-based, not sidechain-pumping** — clean arcade clarity over rhythmic gloss.
+
+---
+
+## 7. Asset summary → feeds `ASSET_MANIFEST.md` §8
+
+- **Music:** 21 tracks (12 area/stage loops · 1 title · 1 Endless layered w/ 4 stems · 7 boss themes on a
+  shared motif) + area transition stingers.
+- **Ambient:** 12 area beds.
+- **SFX:** **64 core one-shots** (§4).
+- **VO:** 5 intro clips (creator voice) + Phil rooftop monologue (~30 s).
+- **Priority:** Intro VO + core SFX = **P1**; per-area music, ambient beds, boss themes, UI sounds = **P2**
+  (matches `ASSET_MANIFEST.md` §8 phasing).
