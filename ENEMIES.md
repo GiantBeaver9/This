@@ -36,7 +36,8 @@
   each other** the same way the player loots corpses. **Tiers span 0..N** — a tier-3 can spend **2×tier-1
   or 1×tier-2**; **tier-0** units are the lowest fodder.
 - **[DATA] Attack windups (telegraph), collected as we spec:** regular melee **~100ms**, sword
-  **~150–200ms** (slight variance). Convention: **more reach/damage → longer, more readable windup.**
+  **~150–200ms**, **ground smash ~1000ms** (slight variance). Convention: **more reach/damage → longer,
+  more readable windup.**
 - **[LOCKED] Enemy ranged is short-range (no sniping).** Enemy guns/projectiles only connect from **close
   range**, so shooters must **close in** — which keeps every threat **dodgeable** by move/dash/jump. The
   bullet-hell pressure comes from *many close shooters*, never from off-screen snipers.
@@ -157,7 +158,7 @@
 - **[ITERATE]** his tier, exact HP, punch windup/telegraph, whether his punch emits an air-gust like the
   player's, what he drops.
 
-### 2.12 Swarmer — **[LOCKED core]** — fast swarm (fills the gap)
+### 2.12 Swarmer — **[LOCKED core]** — **Tier 1b** — fast swarm (fills the gap)
 - **Half-sized** stick figures — small, **weak**, and **many.**
 - **Spawn in larger pods** and **appear on multiple sides at once**, so they **surround** and pressure the
   player from several angles — a **positioning** threat, not a damage one.
@@ -166,6 +167,27 @@
   spec (destroyable? spawn rate/size, where it sits).
 - **[ITERATE]** do swarmers count against the 8-pursuer cap (`GAMEPLAY_LOOP.md` §8.2) or exceed it as a
   special swarm; their attack (contact / tiny melee); pod size; move speed.
+
+### 2.13 Burly Guy — **[LOCKED core]** — **outside the tier system**
+- A big, **burly** stick figure.
+- **[LOCKED] Can't be "picked off":** ranged pick tools **can't eliminate him from afar** — notably the
+  **sniper special's ricochet skips / can't kill him**, and headshot-pick tools won't drop him. You must
+  **engage him directly.**
+- **[LOCKED] Outside the tier system.**
+- **[FLAG — merge?]** This may be the **same enemy as the Heavy ("Bold", §2.11)** with these traits added
+  (outside tiers + can't be picked off), or a **separate** burly type. **Need your call: merge into one
+  heavy, or keep two?**
+- **[ITERATE]** his attack(s), HP, spawn count, mobility.
+
+### 2.14 Ground Smasher — **[LOCKED core]** *(tier TBD)*
+- Carries a **large club on its shoulder.** Attack: raises the club **overhead for ~1 second** (big
+  telegraph), then **smashes the ground**, sending a **shockwave straight down its lane** (along its
+  Z-row).
+- **Counterplay:** the 1s windup + lane-limited shockwave means you **step out of the lane** (change depth)
+  to dodge — rewards Z-movement. (Bullets/shockwave stay readable per the VFX rule.)
+- **Telegraph data:** ground smash **~1000ms** — very slow/heavy, per the "more power → longer windup"
+  convention.
+- **[ITERATE]** shockwave speed/range/damage, does it knock down, club as a possible player drop, tier, HP.
 
 ---
 
@@ -228,7 +250,9 @@ random loot; catch-up minibosses; subtle wristband ranks; **headshot economy** (
 | Ninja | T3a | mobile harasser (teleport + limb-shuriken) |
 | Monkey Tamer | untiered | summoner (melee monkeys, priority target) |
 | Heavy ("Bold") | TBD | **bruiser** — tanky, direct, extended-reach punch, floors your dash |
-| Swarmer | — | **fast swarm** — half-size, weak, pod-spawned on multiple sides |
+| Burly Guy | untiered | can't be picked off (sniper skips him) — *merge with Heavy? (§2.13)* |
+| Swarmer | T1b | **fast swarm** — half-size, weak, pod-spawned on multiple sides |
+| Ground Smasher | TBD | club overhead ~1s → **lane shockwave** (dodge by changing depth) |
 | Head-Thrower | — | self-decapitating grenade; fire→walking bomb |
 | Monkey | — | economy (drops the player's Merc, needs dime) |
 
