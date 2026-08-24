@@ -19,9 +19,10 @@
 - **[LOCKED] Sniper-killed enemies drop nothing** (from the special — risk/reward).
 - **[LOCKED] Ranged weapons fire on the combo *finisher*** (per `PLAYER.md`): mid-combo they bludgeon at
   fist strength; the real shot/effect lands on the strong 3rd hit and advances that weapon's ammo economy.
-- **[PROPOSED] Carry = single slot.** You hold **one weapon at a time**; picking up a new one **replaces**
-  the current (dropped/lost). Fists are the permanent fallback. *(Confirm — alternative is a 2-slot swap.)*
-- **[PROPOSED] Pickup = auto on walk-over**, no grab animation (saves frames). *(Or a dedicated grab.)*
+- **[LOCKED] Carry = single slot**, fists as the permanent fallback.
+  - **Empty-handed:** walking over a drop **auto-picks** it.
+  - **Already armed:** auto-pickup is suppressed; **tap the swap key** to take the weapon on the ground —
+    and your **current weapon disappears** (destroyed, not dropped). No ground-hoarding or juggling.
 
 ---
 
@@ -57,25 +58,57 @@
 
 ---
 
-## 3. Proposed expansion roster — **[PROPOSED]**, pick what makes v1
+## 3. Full roster — listed to iterate
 
-Grounded in stick-figure anatomy, spread across roles so the loot pool stays varied. React with
-keep/cut/tweak; we only build the ones you greenlight.
+> **Theming note:** weapons are **function-first** — we define what each *does*; flavor is secondary. Only
+> the locked sword / spine-shotgun / boomerang lean on the corpse-part gag; the rest don't have to.
+>
+> **[ITERATE]** = captured, we flesh it out next.
 
-| # | Weapon | Corpse part | Role | Behavior sketch | Decay/ammo |
-|---|---|---|---|---|---|
-| A | **Bone Club** | femur / thick limb | heavy melee | slow, huge knockback; finisher **launches** | breaks after ~6–8 hits |
-| B | **Bo-Staff / Spear** | long limb | spacing melee | long reach thrusts, low dmg, very safe | decays ~10–12 hits |
-| C | **Rib Shield** | ribcage | defensive | hold to **block/reduce** damage; **shield-bash** finisher | cracks, shatters after absorbing X dmg |
-| D | **Skull Bomb** | head | throwable AoE | lob an explosive skull; small blast radius | **1–3 charges**, then gone |
-| E | **Sinew Whip** | sinew / gut | crowd melee | long **horizontal line** hit, tags several enemies | decays ~8 hits |
-| F | **Chain-Heads** (nunchaku) | two heads on cord | flashy fast melee | rapid hits → **fills the meter fast** (combo engine) | decays fast (~12 quick hits) |
-| G | **Bone Pistol** | arm | ranged | finisher fires a **single accurate shot** | small mag (~3–5 shots) |
-| H | **Teeth Caltrops** | teeth | area denial | scatter a hazard patch; enemies crossing take dmg/slow | one patch per pickup |
+**Locked & spec'd (§2):** Sword · Shotgun (spine ammo) · Boomerang
 
-**[PROPOSED] Role balance for v1:** keep at least one of each — a **heavy** (A), a **spacer** (B), a
-**defensive** (C), a **throwable** (D), a **crowd** (E/whip), and a **meter-engine** (F). Guns (G) plus the
-shotgun cover ranged. That's a tight, characterful ~8–10 weapon pool without over-scoping your art.
+### 3.1 Pistol — *ranged, single-target* **[ITERATE]**
+- **Less damage but more precise** than the shotgun. **Shotgun = crowd control; pistol = the 1-v-1 tool.**
+- Fires on finisher (per §1 rule).
+- **[ITERATE]** mag size, decay, accuracy/aim model.
+
+### 3.2 Grenade / Bomb — *thrown, physics-based* **[ITERATE tuning]**
+Enemy-dropped. Already richly designed:
+- **Thrown by repeatedly tapping the attack button** — **press count sets the throw:**
+  - **Fewer presses → high lob** (short, arcing); **more presses → fast, flat throw.**
+- A **ground marker shows where it first bounces** (aim telegraph).
+- **Always bounces 3×, then explodes** (AoE).
+- **A fast throw knocks down all enemies near the flight path** — the projectile's travel line is itself dangerous.
+- **[ITERATE]** blast radius & damage; whether lob vs. fast changes the blast; charges per pickup.
+
+### 3.3 Ball & Chain — *heavy melee* **[ITERATE]**
+- Windup, wide arc/reach, big knockback. **[ITERATE]** swing behavior, decay, momentum/spin mechanic.
+
+### 3.4 Whip — *long crowd melee* **[ITERATE]**
+- Long horizontal reach, tags multiple enemies in a line. **[ITERATE]** multi-hit, any pull/grab, decay.
+
+### 3.5 Staff — *magic caster* **[ITERATE]**
+- **Directional-attack finisher casts a spell, and each direction is a different spell.**
+- **[ITERATE]** the 3–4 spells (one per direction), cast cost/decay, warm-up.
+
+### 3.6 Gatling Gun — *sustained ranged* **[ITERATE]**
+- **20–32 shots** (randomized per pickup). High rate of fire, crowd shredder.
+- **[ITERATE]** sustained fire vs. finisher-burst (possible **exception** to the finisher-only rule),
+  spin-up, spread, warm-up.
+
+### 3.7 Monkey Merc — *summon, costs currency (see §3.8)* **[ITERATE]**
+- Dropped by a **monkey stick figure**, but you can **only take it if you hold a dime (10¢).**
+- Summons a **monkey merc that fights for you for 20 seconds, or until it's killed.**
+- **[ITERATE]** monkey attacks/AI, how easily it dies, whether more than one can be active, cooldown.
+
+### 3.8 Currency system — **[LOCKED core], [ITERATE] scope** *(cross-cuts `UI.md`)*
+- Enemies **sometimes drop wallets**; each = **1 cent**. Money is **shown in the UI.**
+- **10¢ = a dime**, the cost to take/summon a **Monkey Merc** (§3.7).
+- **[ITERATE]** money only for monkeys, or a broader economy (between-stage shop? other buys?); does it
+  persist across stages/runs; wallet drop rate; any cap. If it grows past monkeys it earns its own
+  `ECONOMY.md`.
+
+*More weapons welcome — this list is meant to grow; we iterate each `[ITERATE]` into a full §2-style spec.*
 
 ---
 
@@ -83,10 +116,10 @@ shotgun cover ranged. That's a tight, characterful ~8–10 weapon pool without o
 
 | Tier | Drops from | Example weapons | Feel |
 |---|---|---|---|
-| **T1 common** | low-level stick figures | fists+ (nothing), boomerang, bo-staff | early, low commitment |
-| **T2 uncommon** | mid enemies | sword, club, whip, chain-heads | the workhorses |
-| **T3 rare** | high/elite enemies | shotgun, bone pistol, rib shield | powerful, scarcer |
-| **T4 special** | minibosses / rare spawns | skull bomb, caltrops, one-offs | spice, situational |
+| **T1 common** | low-level stick figures | boomerang, pistol | early, low commitment |
+| **T2 uncommon** | mid enemies | sword, whip, ball & chain | the workhorses |
+| **T3 rare** | high/elite enemies | shotgun, staff, gatling gun | powerful, scarcer |
+| **T4 special** | minibosses / specific spawns | grenade, **monkey merc** (needs a dime) | spice, situational |
 
 **[LOCKED]** the *specific* weapon within a tier is **random** (you adapt to what drops). **[LATER]** exact
 tier contents, drop rates, whether some weapons only come from specific enemy archetypes.
@@ -107,12 +140,15 @@ Shared: every dropped weapon needs a **ground pickup sprite** and a **decay/brea
 
 ---
 
-## 6. Decisions I need
+## 6. Status & next step
 
-1. **Roster size (§3):** which of A–H are in for v1? (My rec: A, B, C, D, E, F, G — cut/keep as you like.)
-2. **Carry rule (§1):** single-slot auto-swap (rec), or a 2-slot weapon swap?
-3. **Pickup (§1):** auto on walk-over (rec), or a dedicated grab button/animation?
-4. **Boomerang lost-weapon (§2.3):** does it lie on the ground to re-grab, or just vanish on hit?
+**Resolved (now [LOCKED]):** single-slot carry (auto-pick when empty; swap-key destroys the old weapon
+when armed); function-first theming; the roster list above; grenade press-to-throw physics; the currency
+system core (wallets → cents → dime → monkey merc).
 
-**[LATER]:** exact durability numbers, tier drop rates, per-archetype loot restrictions, weapon-specific
-finisher damage.
+**Next step — iterate the `[ITERATE]` weapons** one at a time into full §2-style specs (behavior, decay/
+ammo, finisher interaction, assets). Suggested order: **Pistol → Grenade tuning → Staff (spells) →
+Gatling → Whip → Ball & Chain → Monkey Merc**, then keep adding new weapons to the list.
+
+**[LATER]:** durability numbers, tier drop rates, per-archetype loot restrictions, finisher damage,
+whether currency grows into a full economy.

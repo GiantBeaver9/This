@@ -68,22 +68,21 @@ directional normals rather than a single canned combo string.
 - **[LOCKED]** Works empty-handed (fists) with the air reach-extender on each hit.
 - **[LATER]** exact finisher index (3 vs 4), damage/knockback per hit, cancel windows.
 
-### Dash & momentum attacks — **[PROPOSED]**
-Attacking during/at the end of a **dash** = a **dash attack**: a committed, momentum-carrying strike for
-**gap-closing and punishes.** This is a distinct move with its own animation, not just a normal attack
-that happens to slide.
-- **[PROPOSED] scope choice** (asset-defining):
-  - **(a) One dedicated dash-attack** — a single lunge move regardless of arrow direction (cheap, 1 anim;
-    dash momentum + your target still give it variety). **Recommended for v1.**
-  - **(b) Per-direction dash variants** — each directional attack gets a dash version that inherits the
-    burst (very expressive, but multiplies the attack art).
-- **[PROPOSED] Cancels:** dash → attack (dash into a hit) yes; **attack → dash** as a dash-cancel for
-  mobility/defense — a nice skill-expression option if we want it.
-- **[PROPOSED] Air-dash:** none for v1 (jump + air attacks already cover aerial). Flag if you want one —
-  it adds an air-dodge/air-mobility layer and its own frames.
-- **Weapon dash attacks:** follow the same rule as the combo — a melee weapon gets a real dash-swing;
-  a ranged weapon dash-hits as a bludgeon (fist strength) and could **fire on a dash-attack** too
-  (**[LATER]** reconcile with the finisher-only fire rule).
+### Dash & momentum attacks — **[LOCKED]**
+Attacking during a **dash** = a **dash attack**, with **per-direction variants** (each directional attack
+has a dash version that inherits the burst). Key twist:
+- **[LOCKED] Dash attacks deal *no damage* — they *stagger* by enemy weight.** A dash-hit **knocks
+  light/medium enemies off-balance** (opening them for a follow-up), but it's a **positioning/setup tool,
+  not a damage tool.**
+- **[LOCKED] Heavy targets punish it.** Dash into a **heavy enemy or a boss** and **you bounce off and
+  fall over**, wasting getup frames **while *not* invincible** — a real, readable risk. Weight decides
+  who staggers vs. who floors you.
+- **[LOCKED] Movement-cancel tech (combo & mobility depth):**
+  - **dash → jump** and **jump → dash** each cancel into the other, opening different combo/aerial routes,
+  - **attack → dash** cancel (bail a swing into a dash),
+  - **air-dash** exists (aerial dash/dodge with its own frames).
+- **Weapon dash attacks:** melee weapons get a real dash-swing; ranged weapons dash-hit as a bludgeon.
+  **[LATER]** whether a weapon dash attack is weight-stagger only, or a weapon can fire on it.
 
 ---
 
@@ -143,7 +142,9 @@ ricochet-kill any normal enemies present in the arena — only the boss is immun
 | Idle (empty-hand) | 2–4 loop | P0 |
 | Walk/Run (mirror L/R) | 6–8 loop | P0 |
 | Dash lunge + recover | 3–4 | P0 |
-| **Dash attack** (lunging strike) | 3–4 | P0 |
+| **Dash attacks** — per direction (side/up/down + air) | 3–4 ×dir | P0 |
+| **Air-dash** | 2–3 | P1 |
+| **Fall-over + getup** (dash into a heavy target) | 4–6 | P1 |
 | Jump: rise / peak / fall | 3 | P0 |
 | Land recovery | 2 | P0 |
 | Ground attack: **side** (2–3 hit micro-combo) | 6–9 | P0 |
@@ -173,8 +174,10 @@ time-slow tint · sniper tracer/ricochet line.
 
 **Resolved (now [LOCKED] above):** pixel-art human protagonist; **short-gust** air reach-extender; WASD
 move + arrow-key **directional** attacks; **single hit per press** with a rolling **mixed-direction combo**
-and a strong **finisher**; **dash + jump** with a full air moveset; **bespoke animation for every weapon**;
-**ranged weapons bludgeon through the combo and fire on the finisher**; **boss dodges** the sniper special.
+and a strong **finisher**; **dash + jump** with a full air moveset; **per-direction dash attacks that deal
+no damage but weight-stagger** (heavy targets floor you, non-invincible getup); **jump↔dash cancels,
+attack→dash cancel, and air-dash** all in; **bespoke animation for every weapon**; **ranged weapons
+bludgeon through the combo and fire on the finisher**; **boss dodges** the sniper special.
 
-**[LATER]:** finisher index (3rd vs 4th hit), exact keybinds, damage/knockback numbers, whether ranged
-weapons can also fire outside the combo, palette, pick-up handling. Pinned in the relevant system docs.
+**[LATER]:** finisher index (3rd vs 4th hit), exact keybinds, damage/knockback numbers, whether a weapon
+dash attack can fire, palette, pick-up handling. Pinned in the relevant system docs.
