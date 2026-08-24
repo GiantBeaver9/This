@@ -112,16 +112,16 @@ New types **debut** act by act, then **recombine** with everything prior. (Roste
 
 ### 4.1 Acts & themes — **[LOCKED core]** (~2–3 stages each, act-end boss gates the branch)
 
-Route: **Lincoln, CA → San Francisco** (Sacramento area → the Bay). Backdrops get real biodiversity from
-the drive.
+Route: **Lincoln → Rocklin → Roseville → Sacramento → Dixon → Marin → San Francisco** — a real NorCal drive.
+Goal = **visible progression & diversity**: suburb → mall → city → airport → hills → small town → bridge → the city.
 
-| Act | Theme / setting | Stages & set pieces | Enemy ramp (lead economy) |
+| Area | Real route | Theme / set pieces | Enemy ramp |
 |---|---|---|---|
-| **1 — Suburbs** | **Lincoln, CA** suburbs (houses, streets, sidewalks) — Phil breaks out of **Lincoln High** | fight on roads/walkways; **car & school-bus traffic hazard** (dodge to avoid damage); **boss at a parody fast-food joint** (made-up brand, no trademarks) | **tier 0–1 only** |
-| **2 — Mall** | Sacramento-area shopping mall | food court, shops, atrium; **boss in a department store** | + tier-2 layer |
-| **3 — The Journey** | Sacramento → Bay countryside — **rolling hills & farmland, an airport, a lake/delta crossing, coastal hills ("the mountain")** | scenic travel stages, an **airport** set piece, nature hazards; the biodiversity showcase | + tier-3 layer |
-| **4 — Big City** | **San Francisco** — dense metropolis, steep streets, traffic | **ends atop a skyscraper** | full roster |
-| **Finale** | Phil's showdown | dull pencil → **sharpen-window** fight (§1a) | everything |
+| **1 — Placer Suburbs & Mall** | Lincoln → Rocklin → Roseville | **Lincoln High** + suburbs (**Sandwich Bros** fight, car/bus hazard), Rocklin, the **Roseville Galleria** mall (**department-store** area boss) | tier 0–1 → intro tier-2 |
+| **2 — Sacramento & Airport** | Sacramento → Sac. airport | medium city, **Victorian old-town housing** (clear sky), then the **Sacramento Airport** set piece | + tier-2/3 |
+| **3 — Hills & Dixon** | countryside → Dixon | **rolling hills & farmland**, the small town of **Dixon**, fighting through | + tier-3 |
+| **4 — Marin to the City** | Marin → Golden Gate → SF | **Marin County**, **crossing the Golden Gate Bridge**, **San Francisco** (skyscraper) | full roster |
+| **Finale** | San Francisco | dull pencil → **sharpen-window** Phil fight (§1a) | everything |
 
 - **[LOCKED] Traffic hazard (Act 1):** cars & school buses drive through the lane — **dodge to avoid damage.**
   **[ITERATE]** do they also hit enemies (usable hazard)?
@@ -152,11 +152,11 @@ the drive.
 
 ## 7. Environments / themes — **[PROPOSED]**, your ideas
 
-All act themes are locked (§4.1) along the **Lincoln, CA → San Francisco** route: **Suburbs → Mall → The
-Journey (rolling hills, farmland, airport, lake/delta, coastal hills) → Big City (SF skyscraper) → Phil.**
-Act 3 carries most of the backdrop **biodiversity**. Each needs a **background theme** (parallax backdrop
-for the top band; the lane floor below). Assets: per-theme background + parallax layers + lane floor +
-hazards (Act 1 cars/buses, Act 3 nature/airport). **[ITERATE]** individual stage backdrops within each act.
+All areas are locked (§4.1) along the **Lincoln → Rocklin → Roseville → Sacramento → Dixon → Marin → SF**
+route: **Placer Suburbs & Mall → Sacramento & Airport → Hills & Dixon → Marin/Golden Gate/SF → Phil.**
+Detailed per-area art/population lives in **`AREAS.md`** (Area 1 fully locked). Each needs a background theme
+(parallax backdrop for the top band; lane floor below) + ambient actors + hazards. **[ITERATE]** individual
+stage backdrops within each area.
 
 ---
 

@@ -23,9 +23,10 @@
 
 ---
 
-## 1. Act 1 — Suburbs (Lincoln, CA) — **[PROPOSED, let's hammer it]**
+## 1. Area 1 — Placer Suburbs & Mall (Lincoln → Rocklin → Roseville Galleria) — **[LOCKED]**
 
-*Tier 0–1 enemies only (lead economy). ~2–3 stages, ends at a parody fast-food joint. Traffic hazard.*
+*Lincoln suburbs (basic tier-1, Sandwich Bros) → Rocklin → the **Roseville Galleria** mall (swarms & zombies
+debut, frantic tone) → **department-store** area boss. Lead economy keeps it light early.*
 
 ### 1.1 Backdrop, framing & sky — **[LOCKED]**
 - **Time of day:** **late morning → early afternoon (~11:30–3)** — the "leaving school / lunch" hour. Sun
@@ -58,9 +59,11 @@
 - **[LOCKED] Traffic:** **cars & school buses** drive down the road — **dodge to avoid damage** (`STAGES.md`
   §4.1). **[ITERATE]** do they also flatten enemies (usable hazard)?
 
-### 1.5 Enemies present
-- **Tier 0–1 only:** **Zombie** (T0), **Regular Melee** (T1), **Swarmer** (T1b, in pods), **Anti-Aircraft**
-  (T1a) appearing later in the act. **[ITERATE]** exact debut per stage.
+### 1.5 Enemies present — **[LOCKED] gradual intro**
+- **Lincoln suburbs:** **Regular Melee (T1)** basics + the big-Tier-1 boss. Very light (the lead economy).
+- **Galleria Mall:** **Swarmers (T1b) and Zombies (T0) debut** — the mall is where the roster starts filling.
+- **[LOCKED] Slow build:** enemies introduce **gradually**; by ~**3 areas in, all types are in play**, then
+  difficulty just **ramps** from there.
 
 ### 1.6 Route, stages & boss — **[LOCKED]**
 - **[LOCKED] Route:** follows the **real back way from Lincoln High to the fast food off old Highway 65 in
@@ -72,15 +75,34 @@
 - **[LOCKED] Boss = Phil draws a "bigger-than-normal person"** — a **big-version Tier-1** (Regular Melee at
   ~2× scale, `BOSSES.md` §1): the first boss-scale taste and first on-screen proof of the pencil.
   - **Solo:** one big Tier-1. **2-player:** **two** + a **miniboss.**
-- **[ITERATE]** the Act-1 branch fork, exact stage count, specific old-Hwy-65 landmarks.
+- **[ITERATE]** the Area-1 branch fork, exact stage count, specific old-Hwy-65 landmarks.
 
-### 1.7 Act 1 asset list (→ `ASSET_MANIFEST.md`)
-Backdrop layers (clear blue sky + rare wispy cloud, hill-horizon hint, houses, street) · **trees (mulberry
-+ tall older trees, mostly trunk; a few skinny/small)** · ambient people (fleeing civilian, mail carrier,
-kid+bike, jogger) · animals (dog, cat, birds) · props (parked car, trash can, hydrant, mailbox, hedge,
-picket fence, porch, lawn sign) · **hazard vehicles** (car, school bus) · **Lincoln High** exterior ·
-**dancing Zebra mascot** · **"Sandwich Bros"** building + signage/mascot · **big-version Tier-1** boss
-(reuses Regular Melee at ~2× scale) · funnel obstacles.
+### 1.8 Rocklin (transition) — **[ITERATE]**
+- The Lincoln→Roseville stretch passes through **Rocklin** — more suburban / old-town NorCal, connective
+  tissue between the suburbs and the mall. **[ITERATE]** specific look/landmarks, any set piece.
 
-**Act 1 LOCKED.** (Only the Act-1 branch fork and specific old-Hwy-65 landmarks remain as smalls.)
-**Ready for Act 2 (the Mall) whenever you are.**
+### 1.9 Roseville Galleria — the Mall (Area 1 finale) — **[LOCKED core]**
+- **Interior, frantic tone:** **terrified shoppers peek and cower** in storefront windows; **random people
+  run through**, fleeing the enemies — panic atmosphere, the mall is chaos.
+- **Backdrop:** mall interior — storefronts (windows full of cowering shoppers), atrium, tile floor, kiosks,
+  planters, benches, escalators, **skylights** (the top-band "sky" becomes the **skylight/ceiling** here).
+- **Enemies (debut):** **swarm-heavy** — **Swarmers and Zombies** arrive; swarms **chase the fleeing people**
+  then turn on you; **headshot a Tier-1 and it becomes a Zombie** (the headshot economy on display).
+- **Terrain funnels:** kiosks, planters, benches, and escalators pinch the play space.
+- **[LOCKED] Area 1 boss:** the **department store** fight. **[ITERATE]** which boss (big-version vs. bespoke),
+  the branch fork out of Area 1.
+- **[ITERATE]** mall ambient set (mall cop? food-court props?), store signage (made-up brands), hazards.
+
+### 1.7 Area 1 asset list (→ `ASSET_MANIFEST.md`)
+**Suburbs:** backdrop layers (clear blue sky + rare wispy cloud, hill-horizon hint, houses, street) ·
+**trees (mulberry + tall older trees, mostly trunk; a few skinny/small)** · ambient people (fleeing
+civilian, mail carrier, kid+bike, jogger) · animals (dog, cat, birds) · props (parked car, trash can,
+hydrant, mailbox, hedge, picket fence, porch, lawn sign) · **hazard vehicles** (car, school bus) ·
+**Lincoln High** exterior · **dancing Zebra mascot** · **"Sandwich Bros"** building + signage/mascot ·
+**big-version Tier-1** boss (reuses Regular Melee at ~2× scale) · funnel obstacles.
+**Mall (Galleria):** mall-interior backdrop (storefronts + **cowering shoppers in windows**, atrium,
+skylight ceiling) · **fleeing civilians** · kiosks/planters/benches/escalators (funnels) · made-up store
+signage · **department-store boss** arena.
+
+**Area 1 LOCKED.** (Smalls: branch fork, department-store boss pick, Rocklin landmarks.)
+**Ready for Area 2 (Sacramento & Airport) whenever you are.**
