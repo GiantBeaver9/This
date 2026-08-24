@@ -10,12 +10,13 @@
 
 ## 1. Principles — **[PROPOSED]**
 
-- **[PROPOSED] Readability beats spectacle.** It's a bullet-hell — **enemy projectiles must always read
-  clearly through any VFX.** Effects never obscure a bullet, a telegraph, or the player.
+- **[LOCKED] Readability beats spectacle.** It's a bullet-hell — **enemy projectiles ALWAYS render above/
+  through any VFX and are never hidden** by effects. Effects never obscure a bullet, a telegraph, or the player.
+- **[LOCKED] Comedic, transient gore.** **Red pixels fly** on hits and deaths, but **nothing stays** — no
+  pooling, no decals; the red **disappears at the end of its animation.** Chunky-arcade, stylized
+  stick-figure violence, never realistic viscera.
 - **[PROPOSED] Juice serves feedback.** Every hit, kill, pickup, and decay gets a distinct effect so the
   player *feels* the game state without reading the HUD.
-- **[PROPOSED] Chunky-arcade, consistent with UI** — bold, punchy pixel effects; gore is stylized
-  (stick-figure), not realistic.
 - **[PROPOSED] Reserve the biggest effects for the biggest moments** — the sniper time-slow is the visual
   peak; nothing routine should out-shout it.
 
@@ -35,12 +36,14 @@
 
 ---
 
-## 3. Impact & camera juice — **[PROPOSED]**
+## 3. Impact & camera juice — **[LOCKED intensity]**
 
+- **[LOCKED] Scaled impact:** heavy shake/hitstop on **finishers, explosions, ground-slams**; light-to-none
+  on normal hits — impactful where it counts, and always **within the bullet-hell-safe budget** (never
+  enough to spoil dodging, per §1).
 - **[PROPOSED] Hitstop (freeze-frame):** a few frames of freeze on meaningful hits (finishers, kills) — the
   single cheapest "weight" trick. Scales with hit strength.
-- **[PROPOSED] Screen shake:** small on finishers, **big on explosions / ground-slams**. **Must stay within
-  a bullet-hell-safe budget** (too much shake ruins dodging — see §1).
+- **[PROPOSED] Screen shake:** small on finishers, **big on explosions / ground-slams**, per the scaled rule.
 - **[PROPOSED] Knockback + hit-flash on enemies:** white flash + stagger on every hit.
 - **[PROPOSED] Kill pop:** stick-figure death burst (see §5 gore).
 
@@ -69,8 +72,10 @@
 
 ## 5. Enemy VFX → per `ENEMIES.md`
 
-- **[PROPOSED] Gore & death:** stick-figure death burst + **corpse** that can yield a **part drop**
-  (headless body, ejectable spine, dropped weapon), plus **wallet** drops. Gore level = §8 Q1.
+- **[LOCKED] Gore & death (comedic, transient):** death = a **burst of flying red pixels** that **clears
+  completely** when the animation ends (no lingering blood). The corpse can still yield a **part drop**
+  (headless body, ejectable spine, dropped weapon) and **wallets** — the persistent things are
+  drops/pickups, never blood.
 - **Transformations (the cannibalize thread):**
   - **Snapper:** grab → **snap a T1 into a sword**.
   - **Arm-Ripper:** **rip arms → dual pistols**; leaves a **disarmed headbutt** body.
@@ -104,11 +109,11 @@ glints, wallet, dime highlight). Priorities inherit each system's P0/P1.
 
 ---
 
-## 8. Decisions I need (tone-setting)
-1. **Gore level:** how far does stick-figure violence go — **comedic/cartoony** (poofs, minimal blood),
-   **stylized red** (clear but stylized gore), or **over-the-top** (limbs, spray — matches head-ripping)?
-2. **Screen-shake & hitstop intensity:** **juicy-heavy** (big impact, risk to bullet-dodging clarity) vs.
-   **restrained** (precise, bullet-hell-safe) vs. **scaled** (heavy on finishers/explosions, light on
-   normals)?
-3. **Bullet readability rule:** confirm **enemy projectiles always render above/through VFX** so they're
-   never hidden (recommended lock)?
+## 8. Decisions — status
+
+**Resolved (now [LOCKED]):** **comedic transient gore** (red pixels fly, nothing persists); **scaled**
+shake/hitstop (heavy on finishers/explosions, light on normals); **bullet-readability locked** (projectiles
+always render above/through VFX).
+
+**[LATER]:** exact hitstop frame counts, shake magnitudes/presets, time-slow overlay treatment, secret-combo
+finisher FX. Pinned when we tune.
