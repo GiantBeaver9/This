@@ -19,6 +19,23 @@
 
 ---
 
+## 1a. Premise & the "lead economy" — **[LOCKED core]** (drives pacing)
+
+*(Full narrative gets its own doc later; captured here because it drives stage pacing.)*
+- **[LOCKED]** After a **cinematic opening**, **Phil steals a magic pencil that draws things to life.** The
+  **main character chases Phil** across the city to recover it and stop the coming chaos — Phil's goal is to
+  **draw his army into the world.**
+- **[LOCKED] The lead economy = why enemies stay sparse early.** Phil **lacks the Holy Sharpener**, so the
+  pencil has **limited lead** — he can only draw **so many** enemies. Counts stay low and **grow as you
+  progress** — the in-fiction justification for the layering ramp (§4).
+- **[LOCKED] Phil finale mechanic:** by the final fight the **pencil is dull.** Phil is **invulnerable while
+  he still has lead** (busy drawing his army). **When he runs out of lead he must stop and *sharpen* the
+  pencil** — a **3–5s self-stun** where he's **open and bleeding** — **that's your window to burst him down.**
+  Cycle: **draw (invuln) → run dry → sharpen (vulnerable 3–5s) → repeat.** (Full spec in `BOSSES.md` §5.1.)
+- **[LATER]** full story beats → `STORY.md`.
+
+---
+
 ## 2. Run structure — **[LOCKED]**
 
 **[LOCKED] Acts → stages → branches.** A run is a **branching tree of stages** grouped into **~4 acts +
@@ -70,6 +87,16 @@ New types **debut** act by act, then **recombine** with everything prior. (Roste
   acts to re-test old foes at higher stakes.
 - **[ITERATE]** exact debut stage per enemy; which boss gates which branch; per-stage rosters.
 
+### 4.1 Act 1 — The City (Area 1) — **[LOCKED core]**
+Opens after the cinematic. **Tier 0–1 enemies only** (lead economy — few and weak). **Two stages** make
+Area 1, then branching widens:
+- **Stage 1 — US Suburbs:** houses, streets, sidewalks; you fight on the road and walkways.
+  - **[LOCKED] Traffic hazard:** **cars and school buses drive through the lane**; **dodge out of their way
+    to avoid damage.** **[ITERATE]** do they also hit/kill enemies (a usable hazard) or only threaten the player?
+  - **Boss:** a fight at a **parody fast-food joint** — a **made-up brand, no real trademarks** (`[LATER]` name).
+- **Stage 2 — Downtown:** denser city core; caps Area 1. From here **branching widens.**
+- **[ITERATE]** Downtown's boss/miniboss, Area 1's branch fork, exact enemy mix per stage.
+
 ---
 
 ## 5. Branching — goals → ending → path — **[LOCKED approach]** (from `GAMEPLAY_LOOP.md` §7)
@@ -95,8 +122,9 @@ New types **debut** act by act, then **recombine** with everything prior. (Roste
 ## 7. Environments / themes — **[PROPOSED]**, your ideas
 
 Each stage/act needs a **background theme** (parallax backdrop for the top band; the lane floor below).
-**Dump theme ideas** and we'll map them to acts. **[LATER]** the concrete list. Assets: per-theme
-background + parallax layers + lane floor + any hazards.
+**Act 1 locked:** **Suburbs** (houses/streets/sidewalks, car+bus traffic hazard) → **Downtown** (dense city
+core). **Dump more theme ideas** for Acts 2–4 and we'll map them. Assets: per-theme background + parallax
+layers + lane floor + hazards (e.g. Act 1's cars/buses).
 
 ---
 

@@ -83,10 +83,14 @@
   artist-summoner.
 - **Elusive** — hard to pin down (still fairly reachable, per the no-cheap rule).
 - **Reprise summons:** can **spawn earlier bosses and minibosses mid-fight** — a greatest-hits gauntlet.
+- **[LOCKED] Vulnerability = the sharpen window.** Phil is **invulnerable while he has lead** (drawing his
+  army). When he **runs out of lead he must *sharpen* the pencil** — a **3–5s self-stun**, **open and
+  bleeding** — **the only time you can damage him.** Cycle: **draw (invuln) → run dry → sharpen (vulnerable
+  3–5s) → repeat.** The dull pencil is why he runs dry (`STAGES.md` §1a lead economy).
 - **[LOCKED] The endgame** — the absolute final fight, **exempt from the <2-min rule**, meant to be
   **brutally hard.**
-- **[ITERATE]** phases, how drawing works (telegraph / cooldown / what he can draw), how you damage an
-  elusive boss, arena (play-band vs. giant), whether the low-HP sniper execution applies to the final boss.
+- **[ITERATE]** how lead depletes (does clearing his summons drain it faster?), phases, arena (play-band vs.
+  giant), whether the low-HP sniper execution applies to the final boss.
 
 ### 5.2 Burly Macho Guy — **boss/miniboss** — **[LOCKED core]**
 - **Space-denier bruiser** in the vein of the Heavy/Burly (`ENEMIES.md` §2.11), boss-scale.
