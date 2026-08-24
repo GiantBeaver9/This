@@ -231,7 +231,7 @@ alive and *plays* differently:
 
 ## 9. Decisions — status
 
-**Resolved (now [LOCKED]):** ~10–12 stages/path across ~4 acts + finale; **balanced** stage length/count;
+**Resolved (now [LOCKED]):** **13 stages** (12 combat + finale) across 4 acts + finale; **balanced** stage length/count;
 **checkpoints + limited continues.**
 
 **Areas locked (§4.1):** Placer Suburbs & Mall → Sacramento & Airport → Hills/Causeway/Dixon → Vallejo→GG→SF

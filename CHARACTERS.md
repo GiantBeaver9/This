@@ -56,8 +56,9 @@ Each Special clears a crowd differently, balanced by **what loot survives** — 
 - **Special — Vaporize + Empower:** **instantly vaporizes anything in a close radius** around him, then
   grants **"power attacks" for ~30 seconds** — **everything hits ~20% harder** (all attacks/weapons,
   whatever the type). A **buff/utility** special, not a screen-wipe — fitting the underdog framing.
-- **[ITERATE]** does the close vaporize drop loot (sniper-style none, or keep?); exact radius; whether the
-  30s buff refreshes/stacks; his base stats.
+- **[LOCKED, resolved in `TUNING.md` §3.1]** the close Vaporize **drops nothing** (sniper-style); **radius
+  3.0 wu**; the **+20% buff lasts 30 s and *refreshes*, does not stack**; base stats = move ×1.00, punch ×0.80,
+  weapon ×0.80 (the hard-mode penalty, `TUNING.md` §3).
 
 ---
 
