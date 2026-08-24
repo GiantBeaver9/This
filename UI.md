@@ -14,8 +14,9 @@
 - **[LOCKED] Diegetic-first.** Prefer reading state **off the sprites** over HUD numbers — weapon decay is
   shown on the weapon itself (sword wear, shotgun spine segments), not a bar. HUD carries only what the
   sprite can't.
-- **[PROPOSED] Minimal & glanceable.** A few bold, high-contrast readouts; the **special meter** is the
-  one element that must always be instantly legible (it's a timing decision).
+- **[LOCKED] Chunky-arcade vibe.** Bold pixel frames, thick outlines, loud colors — leans into beat-'em-up
+  arcade energy while keeping the persistent HUD in the top band. The **special meter** stays the most
+  instantly-legible element (it's a timing decision).
 
 ---
 
@@ -23,9 +24,9 @@
 
 ```
 ┌─ TOP BAND (HUD) ─────────────────────────────────────────────────────────────┐
-│  ❤ HEALTH ▓▓▓▓▓▓░░           ┌ combo ┐            $ 0.07     🐒×2  ⏱10s        │
-│  ⚡ SPECIAL ▮▮▮▮▮▮ (green)    │ 7 HIT!│                        (merc timers)    │
-│                              └───────┘  ← transient, near-center               │
+│  ❤ HEALTH ▓▓▓▓▓▓░░ [🗡type]    ┌ combo ┐          $ 0.07     🐒×2  ⏱10s        │
+│  ⚡ SPECIAL ▮▮▮▮▮▮ (green)     │ 7 HIT!│                      (merc timers)     │
+│                               └───────┘  ← transient, near-center              │
 ├─ horizon ─────────────────────────────────────────────────────────────────────┤
 │                                                                                │
 │                        ░░░ PLAYFIELD (bottom half) ░░░                          │
@@ -35,17 +36,21 @@
 - **Top-left:** Health, and directly under it the **Special meter** (the two survival gauges together).
 - **Top-right:** **Money** (`$0.07`) and **Monkey Merc** status (count + each one's countdown).
 - **Center, transient:** the **combo popup** (`7 HIT!`) — flashes and fades, never persistent.
-- **Held weapon:** intentionally **not** a big HUD panel — decay is diegetic on the sprite; **[PROPOSED]** a
-  tiny weapon icon by the health only if playtests show the sprite alone isn't readable.
+- **Held weapon:** a **weapon-type icon is shown** (so you always know what you're holding) but **no
+  hits-left / ammo counter** — durability & ammo stay **diegetic on the sprite.** **[PROPOSED]** icon sits
+  in the top-left cluster by health/meter. *(Confirm: top-left vs. floating above the player.)*
 
 ---
 
 ## 3. HUD elements
 
-### 3.1 Health — **[PROPOSED]**
-- The player takes real hits (no i-frames), so health must read at a glance.
-- **[PROPOSED]** a **segmented bar** (chunks, so you feel each hit) top-left. Options in §7 Q1.
-- **[LATER]** exact max, regen/heal sources, low-health warning (screen-edge pulse?).
+### 3.1 Health — **[LOCKED]**
+- A **pixel bar** (chunky-arcade), top-left.
+- **[LOCKED] Damage juice:** when you take a hit, the **pixels you're losing enlarge and then vanish under
+  little "explosions"** — each hit reads as a satisfying chunk blown off the bar.
+- **[LOCKED] Color states by remaining %:** **green above 50%** → **yellow under ~40%** → **red at ~15%
+  (one hit from death).**
+- **[LATER]** exact max HP, any heal/regen sources, extra low-health warning (screen-edge pulse?).
 
 ### 3.2 Special meter — **[LOCKED data], [PROPOSED] art**
 - Fills from combat: **fists ~30 hits**, weapons ~half that rate, **rapid combos multiply** the fill
@@ -63,7 +68,9 @@
 ### 3.4 Money / currency — **[LOCKED data], [PROPOSED] placement**
 - Wallets drop **1¢** each; **10¢ = a dime**, the Monkey Merc cost (`WEAPONS.md` §3.9).
 - **[PROPOSED]** small `$0.07` counter top-right; **[PROPOSED]** it **highlights when you hit a full dime**
-  (you can now afford a monkey). **[LATER]** does it persist between stages (ties to economy scope).
+  (you can now afford a monkey).
+- **[LOCKED] Resets each stage** — spend-it-or-lose-it; monkeys stay a tactical in-stage choice, no
+  meta-banking.
 
 ### 3.5 Monkey Merc status — **[LOCKED data], [PROPOSED] display**
 - Up to **3 per level** (death-limited); stacking sets their weapon & lifespan (pistol 20s / shotgun 10s /
@@ -85,7 +92,7 @@ Most decay is diegetic, but a few weapons have HUD-worthy state:
 | State | Where it's read |
 |---|---|
 | Weapon durability/ammo (sword, shotgun spine, pistol mag) | **Diegetic** (on the held weapon) |
-| Which weapon you hold | **Diegetic** (you can see it in-hand) |
+| Which weapon you hold (type) | **HUD icon** (type only, no counters) + diegetic in-hand |
 | Health, Special meter, Money, Monkey timers, Combo | **HUD** (top band) |
 | Boomerang-gun bullets, Ball&Chain uses | **HUD, only while equipped** |
 
@@ -102,19 +109,25 @@ Listed so the asset manifest knows they exist; detailed later.
 
 ## 6. UI asset list → feeds `ASSET_MANIFEST.md`
 
-- **Health bar** (full → empty segments, low-health state).
-- **Special meter** (yellow / blue / green tiers, armed pulse/gleam).
-- **Combo popup** type (number + `HIT!`, scale states).
-- **Money counter** (glyphs, full-dime highlight).
-- **Monkey status cluster** (icon, timer ring, spent state).
-- **Boomerang-gun bullet pips**, **Ball&Chain use pips**.
-- **[LATER]** menu/pause/results/game-over screen art, fonts, button prompts.
+All in the **chunky-arcade** style (bold pixel frames, thick outlines).
+- **Health bar** — full→empty pixels, **damage animation** (losing pixels enlarge → blow off under small
+  **explosion VFX**), and **green / yellow / red** color states.
+- **Special meter** — yellow / blue / green tiers + **armed pulse/gleam** when green.
+- **Combo popup** — number + `HIT!`, scale-up states, fade.
+- **Weapon-type icons** — one per weapon (type indicator, no counters).
+- **Money counter** — glyphs + **full-dime highlight**.
+- **Monkey status cluster** — monkey icon, **timer ring**, spent/greyed state.
+- **Boomerang-gun bullet pips**, **Ball & Chain use pips** (equip-only).
+- **[LATER]** menu / pause / results / game-over screen art, fonts, button prompts.
 
 ---
 
-## 7. Decisions I need (asset-blocking)
-1. **Health style (§3.1):** segmented chunk bar / hearts / a single bar / numeric?
-2. **HUD art vibe:** clean-minimal (thin, unobtrusive) vs. chunky-arcade (bold pixel frames)? Sets the look
-   of every element above.
-3. **Held-weapon HUD (§2):** trust the diegetic sprite alone (rec), or add a small weapon icon by health?
-4. **Money persistence (§3.4):** does cash carry between stages, or reset each stage?
+## 7. Decisions — status
+
+**Resolved (now [LOCKED]):** pixel health bar with chunk-enlarge → explosion damage juice and green/
+yellow/red states; **chunky-arcade** HUD vibe; **weapon-type icon shown, no ammo/durability counters**
+(those stay diegetic); **money resets each stage.**
+
+**Still open (small):** weapon-type icon placement (top-left cluster vs. floating above the player); exact
+max HP; whether the money counter's full-dime highlight is enough or needs a stronger "you can summon" cue.
+**[LATER]:** the non-HUD screens (§5).
