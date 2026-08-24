@@ -33,7 +33,8 @@
   standoff rings, Z-spread. Per-type specifics below.
 - **[LOCKED] Ability tier rule:** an enemy that uses an ability **on another enemy** can only target a unit
   **at least one tier below it** (a tier-2 can weaponize a tier-1, never another tier-2). Enemies **loot
-  each other** the same way the player loots corpses.
+  each other** the same way the player loots corpses. **Tiers span 0..N** — a tier-3 can spend **2×tier-1
+  or 1×tier-2**; **tier-0** units are the lowest fodder.
 - **[DATA] Attack windups (telegraph), collected as we spec:** regular melee **~100ms**, sword
   **~150–200ms** (slight variance). Convention: **more reach/damage → longer, more readable windup.**
 - **[LOCKED] Enemy ranged is short-range (no sniping).** Enemy guns/projectiles only connect from **close
@@ -100,6 +101,26 @@
 - **[ITERATE]** whistle telegraph/cooldown, monkey HP & attacks, respawn delay, what he does if you corner
   him (fight or flee?).
 
+### 2.7 Gatling Gunner — **[LOCKED core]** — **Tier 3**
+- **Ability:** grabs **2 tier-1s OR 1 tier-2** and, over **~2 seconds**, **contorts them into a gatling
+  gun** — a clean showcase of the ability tier rule (a tier-3 spends units below it).
+- **Fire pattern:** **1-second bursts every 2–3 seconds** — rhythmic windows to close or dodge between bursts.
+- **Close-range switch:** if the **player gets within pistol range**, it **drops to melee** instead of firing.
+- **[ITERATE]** the ~2s contort telegraph & how vulnerable he is during it, burst spread/damage, what he
+  does with no valid fodder (call in like the Snapper?), does killing him drop a gatling for the player.
+
+### 2.8 Zombie — **[LOCKED core]** — **Tier 0** (new lowest tier)
+- **Headshots don't kill it — they hollow it.** A headshot **empties the head** (filled head → see-through
+  outline) but the zombie **keeps marching.**
+- **Slow march** straight at the player.
+- **Grab at close range:** it can **grab the player** (no bite — no mouth); the player **mashes/taps to
+  break free.** A tempo trap, not burst damage.
+- **[LOCKED] Headshot-economy counter:** because headshots only hollow it, the game's **headshot-kill tools
+  don't one-shot zombies** — pistol/revolver head-lineups, the **gatling auto-kill finisher**, and the
+  **sniper special's ricochet headshots** all need a defined behavior vs. zombies. **[ITERATE]** what
+  *does* kill a zombie (body damage? destroying the hollow head? decapitation?), and whether a hollowed
+  head changes anything (blind? ricochet passes through?).
+
 ---
 
 ## 3. Roster — **[PROPOSED baseline] + your named enemies**
@@ -148,7 +169,7 @@ wallet-drop, monkey flair).
 progressive type-introduction by stage; per-stage constrained random loot; catch-up minibosses; subtle
 wristband ranks; **enemy guns are short-range/dodgeable**. **Defined enemies:** Head-Thrower, Monkey,
 Regular Melee, Snapper (Sword-Maker, T2), Arm-Ripper (Dual Pistols, T2a) + its disarmed Headbutt state,
-Monkey Tamer (untiered summoner).
+Monkey Tamer (untiered summoner), Gatling Gunner (T3), Zombie (T0, headshot-immune).
 
 **Next — capture your named enemies.** You have specific enemy ideas; dump them and we'll (a) spec each one
 §2-style, and (b) map it onto the role baseline so we know coverage. Specific per-stage rosters and rank
