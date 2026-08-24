@@ -78,9 +78,9 @@ direction**. Then it hands off to normal play.
 
 ## 2. Run structure — **[LOCKED]**
 
-**[LOCKED] Acts → stages → branches.** A run is a **branching tree of stages** grouped into **~4 acts +
-finale**, **~2–3 stages per act**; any single playthrough passes through **~10–12 stages** (one path).
-**Balanced pacing** — medium stage length *and* count (each stage ~15–20 min) — to land **3–4 hrs.**
+**[LOCKED] Areas → stages → branches.** A run is a **branching tree** grouped into **~4 areas + finale**,
+**~2 stages per area** (~**8–10 stages** on a path). Stages are **meatier** (~20–25 min each) to land
+**3–4 hrs** — length comes from **stage depth + branching**, not stage count.
 
 ```
         ACT 1 ──► ACT 2 ──►  ACT 3  ──►  ACT 4  ──► FINALE

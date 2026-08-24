@@ -113,18 +113,23 @@ signage · **department-store boss** arena.
 
 ## 2. Area 2 — Sacramento & Airport (Sacramento → Sac. Airport) — **[LOCKED core]**
 
-*Medium city (Victorian old town, clear sky) → the airport terminal & tarmac. Debuts **Head-Throwers** + the
-**Bat**; teaches bat+grenade via a vignette; caps with the **Helicopter** boss.*
+*Two stages: (1) **Sacramento Victorian downtown** — debuts the **Whip** (whip-pull vignette); (2) the
+**Airport** — debuts **Head-Throwers** + the **Bat**/grenade, capped by the **Helicopter** boss.*
 
-### 2.1 Sacramento — Victorian old town
-- **Backdrop:** a **medium-sized city** of **older Victorian-style housing** (Sacramento-inspired) — ornate
-  two-story homes, porches, bay windows, iron fences. **Clear sky, no clouds** (same framing: bottom scene /
-  top HUD sky).
-- **Ambient:** fleeing city pedestrians, maybe a **streetcar / light-rail**, urban props (lamp posts,
-  hydrants, benches, mailboxes, newspaper boxes). **[ITERATE]** specific set.
-- **Enemies:** the **tier-2 layer begins.** **[ITERATE]** exact debuts here vs. at the airport.
+### 2.1 Sacramento — Victorian old town (stage 1) — **[LOCKED core]**
+- **Backdrop:** a **medium-sized city** of **older Victorian-style housing** (Sacramento downtown-inspired) —
+  ornate two-story homes, porches, bay windows, iron fences. **Clear sky, no clouds** (same framing: bottom
+  scene / top HUD sky).
+- **[LOCKED] Intro vignette (§`STAGES.md` 1c):** one **enemy uses a Whip to pull down another enemy** (showing
+  the whip's **pull / crowd-control**), then they **spot the player and turn to attack.** Teaches the Whip.
+- **[LOCKED] Debut: the Whip** weapon spawns here. **[ITERATE]** whether a dedicated **whip-wielding enemy**
+  exists (the "enemy composed of another" — the cannibalize pattern) or the vignette uses existing enemies.
+- **[LOCKED] Stage boss = whip-based** — **[ITERATE]** likely the **Colossus** (`BOSSES.md` §5.4 — the
+  whip-to-dismantle giant) as this stage's boss/miniboss, or another whip fight.
+- **Ambient:** fleeing pedestrians, a **streetcar / light-rail**, lamp posts, benches, newspaper boxes. **[ITERATE].**
+- **Enemies:** the **tier-2 layer begins** (Snapper, etc.). **[ITERATE]** exact debut split.
 
-### 2.2 Sacramento Airport — terminal & tarmac
+### 2.2 Sacramento Airport — terminal & tarmac (stage 2)
 - **[LOCKED] Intro vignette (§`STAGES.md` 1c):** entering the **terminal**, the player **sees the mechanic
   acted out** — enemies **throw head-grenades that hit planes in the air**, and a **Bat enemy swats a
   grenade into a small plane**, exploding it. Teaches **head-grenades + bat-reflect** before you use them.
@@ -137,9 +142,42 @@ signage · **department-store boss** arena.
 
 ### 2.3 Area 2 asset list (→ `ASSET_MANIFEST.md`)
 Sacramento **Victorian houses** (2-story, porches, bay windows, iron fences) · city ambient (fleeing
-pedestrians, streetcar?, lamp posts, benches, newspaper boxes) · airport **terminal interior** · **tarmac +
-taxiing planes** · **ground crew + luggage carts** · **small planes** (vignette targets / hazard) ·
-**Head-Thrower** enemy · **Bat** weapon pickup · **Helicopter** boss · funnel props.
+pedestrians, **streetcar/light-rail**, lamp posts, benches, newspaper boxes) · **Whip** weapon pickup +
+whip-pull vignette · (whip **boss/Colossus** arena) · airport **terminal interior** · **tarmac + taxiing
+planes** · **ground crew + luggage carts** · **small planes** (vignette targets / hazard) · **Head-Thrower**
+enemy · **Bat** weapon pickup · **Helicopter** boss · funnel props.
 
-**[ITERATE]** tier-2 debut split (city vs airport), city ambient specifics, plane-hazard rules, Area 2 branch
-fork. **Ready for Area 3 (Hills & Dixon) whenever you are.**
+**[ITERATE]** tier-2 debut split (city vs airport), the whip-enemy question, Sacramento boss pick, plane-
+hazard rules, Area 2 branch fork.
+
+---
+
+## 3. Area 3 — Rolling Hills & Dixon (countryside → Dixon → farm/ranch) — **[LOCKED core]**
+
+*Two stages: rolling-hills countryside through the small town of **Dixon**, ending at a **farm/ranch**.
+Animal-themed. Debuts the **dime/monkey** mechanic (vignette), caps with the **Monkey Boss**.*
+
+### 3.1 Rolling hills & Dixon (stage 1)
+- **Backdrop:** **golden rolling hills & farmland** (NorCal Central Valley), wide open sky, oak-dotted hills,
+  fences; the small town of **Dixon** (main street, water tower, feed store). **[ITERATE]** Dixon specifics.
+- **[LOCKED] Terrain funnels:** **ponds/puddles** and **animals in the way** (a **cow blocking the path**)
+  constrict the play space (`STAGES.md` §7c).
+- **[LOCKED] Intro vignette (§1c):** **two enemies race for a dime**; one grabs it → a **whistle** sounds →
+  an **enemy monkey appears and takes out the one that missed it.** Teaches the **dime → whistle → monkey**
+  mechanic before the boss.
+- **Ambient / animals:** **cows**, farm animals (goats, chickens), crows, barns, tractors, hay bales.
+- **Enemies:** the **tier-3 layer**; **Monkey Tamer** in play. **[ITERATE]** debut split.
+
+### 3.2 Farm / Ranch — Monkey Boss (Area 3 boss, stage 2) — **[LOCKED core]**
+- **Setting:** a **farm / ranch** with **cows and animals all over.**
+- **[LOCKED] Boss = the Monkey Boss** (`BOSSES.md` §5.7): **you vs. the Tamer, racing to grab the dimes first**
+  — win dimes to field your own monkeys (only your mercs damage him); lose the race and he summons his.
+  **The animals are obstacles** that block/funnel your dime grabs.
+- **[ITERATE]** animal-obstacle behavior, arena layout, Area 3 branch fork.
+
+### 3.3 Area 3 asset list (→ `ASSET_MANIFEST.md`)
+Rolling-hills/farmland backdrop · **Dixon** town (main street, water tower, feed store, barn) · **cows + farm
+animals** (goats, chickens, crows — obstacles) · **ponds/puddles** (funnels) · tractors, hay bales, fences ·
+**dime** pickup + **whistle** cue · **Monkey Boss** + enemy monkeys · tier-3 enemies.
+
+**[ITERATE]** Dixon detail, animal-obstacle rules, branch fork. **Ready for Area 4 (Marin → Golden Gate → SF).**
