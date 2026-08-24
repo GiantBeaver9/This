@@ -204,7 +204,8 @@ Dropped by a **monkey stick figure**; you can only claim/summon it if you hold a
   economy **debuts ~Area 3** (`STAGES.md` §1c) — the game keeps unfolding new systems.
 - Enemies **randomly drop coins**; each = **1 cent**. Money is **shown in the UI** and **resets each stage**
   (`UI.md` §3.4).
-- **Drop rate ≈ 5% per tier** (scales with tier); **Swarmers drop 0** (fodder never feeds the economy).
+- **[LOCKED] Coin drop rate ≈ 12%** per non-swarm kill (raised from 5% so dimes are actually reachable);
+  **Swarmers drop 0** (fodder never feeds the economy).
 - **10¢ = a dime**, the cost to take/summon a **Monkey Merc** (§3.7).
 - **[ITERATE]** exact per-tier rates & any cap; money only for monkeys or a broader economy (shop? other
   buys?). If it grows past monkeys it earns its own `ECONOMY.md`.

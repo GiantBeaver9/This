@@ -13,9 +13,15 @@
 
 ## 1. One-line pitch of the loop
 
-A 2.5D side-scrolling **beat-'em-up × bullet-hell** where you punch stick-figures to death,
+A 2.5D side-scrolling **beat-'em-up / spacing brawler** where you punch stick-figures to death,
 **loot their corpses for decaying weapons**, and bank kills into a **screen-clearing sniper special** —
-while a stage silently grades your performance and **branches** based on how you finished it.
+across a **linear** run of stages from the suburbs to San Francisco.
+
+> **[LOCKED] Genre note:** "bullet-hell" was **inspiration, not a literal requirement** — there are **no
+> dense projectile patterns / pattern-emitters.** Threats are **melee + short-range shooters + hazards +
+> the Z-band dodge game.** Where older sections below say "bullet-hell," read it as **"keep threats
+> readable, dodge via the Z-band."** The final enemy roster (`ENEMIES.md`) is authoritative over the early
+> §5/§8 taxonomy here.
 
 ---
 
@@ -181,8 +187,8 @@ and stays minimal so dense bullet patterns never fight the UI for the player's e
   - Sword: **hits-remaining** shown by wear/glow, or a tiny pip counter near the weapon.
   - Shotgun: **spine segments** *are* the ammo readout — no separate number needed.
   - Boomerang: simply "in hand / in flight / lost."
-- **Combo / performance feedback** — lightweight, because performance **drives branching** (§7).
-  The player should sense they're doing well without a wall of text.
+- **Combo / performance feedback** — lightweight combo popups so the player senses they're doing well
+  (cosmetic; performance no longer changes the path — §7).
 
 **[LATER]** Damage numbers on/off, minimap need (probably none — it's a lane), pause/menu, tutorial prompts.
 
@@ -190,29 +196,17 @@ and stays minimal so dense bullet patterns never fight the UI for the player's e
 
 ## 7. Goals
 
-### 7.1 Per-stage goal
-**[LOCKED]**
-- The game is **stage-based**.
-- **You do not pick stages.** Where you go next is determined by **in-level branching** and **how you
-  finished the level** ("depending on the ending to each level, it can unlock different paths … based on
-  level performance and branching in level").
+### 7.1 Goal — **[LOCKED] linear campaign**
+- The game is **stage-based and LINEAR** — a single fixed path Lincoln → San Francisco, ending at **Phil**
+  (`STAGES.md`, `AREAS.md`). **No level branching.**
+- **[LOCKED] Branching is CUT** (was performance→ending→alternate-path). **Replay comes instead from the 4
+  playable characters** (each plays differently, `CHARACTERS.md`) **and Endless Mode** (`STAGES.md` §7b) —
+  not from divergent stage paths.
 
-### 7.2 What "performance" and "ending" mean — **[LOCKED] approach**
-Branching is a **flexible mix** of three signal types; which ones matter, and how strongly, **varies per
-stage** (each stage's own doc picks its recipe):
-- **Physical exits** — a fork on the lane you physically walk into at level end.
-- **Performance grade** — hidden score from damage taken, speed, kill-style, combo, etc.
-- **Secret conditions** — no-hit segments, hidden rooms, kill thresholds unlock alternate/secret paths.
-
-**[LOCKED] The *effect* of a branch is also flexible** — it does **not** have to be a whole different
-stage. A branch outcome can be as light as:
-- **fewer / more spawns** in the next stage,
-- **starting the next stage with a better (or worse) weapon**,
-- a different **sub-path / room** inside the same stage,
-- or a fully **distinct next stage**.
-
-This keeps branching cheap to author for small nudges and reserves full alternate stages for the moments
-that earn them. **[LATER]** the concrete recipe per stage (lives in the stage docs).
+### 7.2 Performance feedback (cosmetic only) — **[PROPOSED]**
+Performance can still be *shown* (combo popups, an optional end-of-stage grade for score/bragging), but it
+**no longer changes the path** — everyone plays the same stage order. **[LATER]** whether an end-of-stage
+grade exists at all.
 
 ### 7.3 Session goal — **[LATER]**
 Run length, win condition (final boss? endless? branching tree with multiple endings?), and any
@@ -259,8 +253,7 @@ threat (surrounded, cut off), never a cheap-shot pileup where three hits land as
 ## 9. Decisions — status
 
 **Resolved (now [LOCKED] above):**
-1. **Branching (§7.2)** — flexible mix of physical exits + performance grade + secrets; effects range
-   from light (fewer spawns / better starting weapon) up to a full alternate stage, chosen per stage.
+1. **Branching (§7)** — **CUT.** The game is a **linear** campaign; replay = the 4 characters + Endless.
 2. **Z-band (§3)** — continuous, semi-deep.
 3. **Special meter (§4.3)** — fists fill fastest (~30 hits), weapons ~half; rapid combos multiply fill;
    yellow → blue → green charge tiers; on-screen combo popup.

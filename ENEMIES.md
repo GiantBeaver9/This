@@ -20,7 +20,7 @@
   **heavy** ones **floor the player** instead. Weight scales with level/type.
 - **[LOCKED] Loot on death:** most enemies can drop a **weapon** (random but **constrained per stage** —
   early stages hand out early weapons) and/or a **coin** (1¢, currency `WEAPONS.md` §3.9). **Coin drop rate
-  ≈ 5% per tier** (scales with tier); **Swarmers drop 0** (fodder never feeds the economy). **Sniper-special
+  ≈ 12%** per non-swarm kill (raised from 5% so dimes are reachable); **Swarmers drop 0**. **Sniper-special
   kills drop nothing.**
 - **[LOCKED] Types are introduced progressively by stage.** Stage 1 is mostly **basic melee**; new types
   unlock as you climb (e.g. **grenade / Head-Throwers arrive ~stage 2**), so difficulty ramps by *roster*,

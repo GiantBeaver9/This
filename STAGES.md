@@ -1,4 +1,4 @@
-# this.l — Stages, Goals & Branching
+# this.l — Stages, Goals & Progression (LINEAR — branching cut)
 
 > **Scope:** run structure, the branching tree, per-stage anatomy, the enemy-layering schedule, goals/win,
 > death handling, and environment themes (→ background assets). Extends `GAMEPLAY_LOOP.md` §7 and pulls the
@@ -15,7 +15,8 @@
   fresh by **introducing a new enemy** (or a new *combination*) on top of the ones you know
   (`ENEMIES.md` §1 progressive introduction). New pairings = new problems, cheaply.
 - **[LOCKED] Win = beat Phil.** The run ends at the final boss, **Phil** (`BOSSES.md` §5.1).
-- **Replay** comes from **branching** (below) — different paths, endings, and enemy mixes each run.
+- **Replay** comes from the **4 playable characters** (each plays differently) and **Endless Mode** — the
+  campaign itself is **linear** (branching cut).
 
 ---
 
@@ -86,25 +87,19 @@ direction**. Then it hands off to normal play.
 
 ## 2. Run structure — **[LOCKED]**
 
-**[LOCKED] Areas → stages → branches.** A run is a **branching tree** grouped into **~4 areas + finale**,
-**~2 stages per area** — but **Area 4 is larger** (Vallejo → Marin → Golden Gate → SF), so a path runs
-**~10–12 stages**. Stages are **meatier** (~20–25 min each) to land **3–4 hrs** — length comes from **stage
-depth + branching**, not raw count.
+**[LOCKED] Areas → stages — LINEAR.** A run is a **single fixed sequence** of **~4 areas + finale**,
+**~2 stages per area** — but **Area 4 is larger** (Vallejo → Marin → Golden Gate → SF), so the run is
+**~10–12 stages**. Stages are **meatier** (~20–25 min each) to land **3–4 hrs**.
 
 ```
-        ACT 1 ──► ACT 2 ──►  ACT 3  ──►  ACT 4  ──► FINALE
-        [1a]      [2a]        [3a]        [4a]
-          \      /   \       /   \       /   \
-           [1b]      [2b]        [3b]        [4b]      ── Phil ──► win
-          /      \   /       \   /       \   /
-        (branch chosen by performance/exit/secret — GAMEPLAY_LOOP §7)
+   AREA 1 ──► AREA 2 ──► AREA 3 ──► AREA 4 ──► Phil ──► win
+  (Suburbs/  (Sac. /    (Hills/    (Vallejo→
+   Mall)      Airport)   Dixon)     Marin→GG→SF)
 ```
 
-- **[LOCKED]** Each **act ends in a main boss** that gates the branch into the next act.
-- **[LOCKED]** A single run sees a **subset** of the tree; the full tree holds more stages than any one path
-  (that's the replay).
-- **[ITERATE]** exact stage count (**~10–12** per path — Area 4 alone runs Vallejo → Marin → Golden Gate → SF),
-  act widths, how wide branching gets, path tuning to 3–4 hrs.
+- **[LOCKED] No branching** — one path for everyone; **replay = the 4 characters + Endless Mode** (§7b).
+- **[LOCKED]** Each **area ends in a main boss.**
+- **[ITERATE]** exact stage count (~10–12 — Area 4 runs Vallejo → Marin → Golden Gate → SF), pacing to 3–4 hrs.
 
 ---
 
@@ -160,14 +155,12 @@ Goal = **visible progression & diversity**: suburb → mall → city → airport
 
 ---
 
-## 5. Branching — goals → ending → path — **[LOCKED approach]** (from `GAMEPLAY_LOOP.md` §7)
+## 5. Progression — **[LOCKED] linear** (branching CUT)
 
-- Branch signal is a **flexible mix**: **physical exit** + **performance grade** + **secret conditions**.
-- Branch **effect** ranges from light (fewer/more spawns, a better/worse starting weapon) to a **different
-  next stage** — chosen per fork.
-- **[ITERATE]** each fork's concrete recipe; how many endings; whether some branches are "harder path,
-  better reward."
-- **Feeds `UI.md` §5:** the **results/grade screen** and the **branch-reveal** on stage transition.
+- **No branching.** The run is a **single fixed path** (§2); **replay comes from the 4 characters + Endless
+  Mode**, not divergent stages.
+- **[PROPOSED]** an optional **end-of-stage grade** may still show for score/bragging (`GAMEPLAY_LOOP.md`
+  §7.2) — cosmetic, it changes nothing about the path. **[LATER]** whether it exists at all.
 
 ---
 

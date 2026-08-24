@@ -158,6 +158,9 @@
   **proxy war:** win the dimes, field your monkeys, let them shoot him down.
 - **[LOCKED] Lose the race, feed the enemy:** if the player **doesn't catch a dime in time, the Monkey Boss
   summons his OWN mercs** — the same gun-monkeys, but **never above tier 1** (kept fair).
+- **[LOCKED] No soft-lock:** in this fight, **catching a dime summons a merc directly** (boss-specific — no
+  monkey-stick-figure needed), and **these boss-fight mercs are OUTSIDE the "3 dead = no more" per-level
+  cap** (`WEAPONS.md` §3.7). So you can always keep fielding monkeys to damage him.
 - **Psychologically hard, short (<2 min).** **[ITERATE]** dime cadence/arc, how many monkeys per side, does
   he move/attack directly at all, phases, HP.
 
