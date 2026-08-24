@@ -61,16 +61,26 @@ Each Special clears a crowd differently, balanced by **what loot survives** — 
 
 ---
 
-## 3. Asset implications — **[ITERATE — important, sets player art scale]**
+## 3. Art & asset approach — **[LOCKED direction], [ITERATE] pipeline**
 
-Four characters multiply the (already bespoke) player art. **Decision needed:**
-- **Shared skeleton, reskinned (recommended):** all four **reuse the same moveset/weapon animations** with a
-  **different sprite skin**, and only each **Special** (sniper vs. werewolf vs. …) gets **unique art.** Keeps
-  the pile sane.
-- **Fully bespoke per character:** each character fully hand-animated — gorgeous, but ~4× the enormous
-  bespoke player pile.
+- **[LOCKED] Each character is designed separately / visually distinct** — you can **tell at a glance which
+  character you're playing** (own silhouette, colors, features). This matters especially for future
+  **multiplayer** (§5), where several are on screen at once.
+- **[ITERATE] Animation pipeline (still open):** distinct *designs* don't force distinct *animation* —
+  **recommended: a shared moveset/weapon-animation skeleton with each character's distinct skin**, and
+  **unique art only for each Special.** The alternative — fully bespoke per character — is ~4× the pile.
+- Plus: a **character-select screen** (UI) and each character's **Special VFX/anim** (`VFX.md`).
 
-Plus: a **character-select screen** (UI) and each character's **Special VFX/anim** (`VFX.md`).
+---
+
+## 5. Multiplayer — **[LATER / planned]**
+
+- **[LOCKED intent]** Co-op is a **planned future** addition: friends **each pick a different character** and
+  play together.
+- **[LOCKED] Difficulty scaling:** with multiplayer, spawn **~2.5× the enemies** — harder, and more fun with
+  friends.
+- **[ITERATE / LATER]** player count; shared vs. per-player economy/lives/checkpoints; local vs. online; how
+  bosses scale; camera for multiple players. Parked until single-player is solid.
 
 ---
 
@@ -80,8 +90,10 @@ Plus: a **character-select screen** (UI) and each character's **Special VFX/anim
 ≤tier-3, keeps drops) · Werewolf (5s i-frame slash-all, keeps drops) · Underdog (hard mode; close vaporize
 + 30s +20% damage buff).
 
+**Locked:** all 4 designed as **visually distinct** characters; **multiplayer** planned (2.5× enemies).
+
 **Still open:**
-1. **Art approach (§3):** shared-skeleton reskin (rec) or fully bespoke per character?
+1. **Animation pipeline (§3):** shared-skeleton (distinct skins) — rec — or fully bespoke per character?
 2. **Werewolf vs. bosses (§2.3):** does one-hit-kill work on bosses, or do bosses stay immune / only
    vulnerable in their window?
 3. Confirm the **Shotgunner = the earlier "bulky friend"** (§2.2), not a 5th person.
