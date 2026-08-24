@@ -36,7 +36,9 @@
 - **[LOCKED] Weapon-gated boss arenas guarantee the weapon.** When a boss requires a specific weapon (Tank →
   grenade, Colossus → whip), the arena spawns **tier-1 enemies that, on death, drop ONLY that weapon** — so
   the player can always re-arm. Some arenas offer **two options** (Helicopter → **Bat OR Grenade**). This
-  resolves "where does the weapon come from" for every objective boss.
+  resolves "where does the weapon come from" for every objective boss. **[LOCKED] Intentional exception** to
+  the loot-tier rule (`ENEMIES.md` §1): these arena adds drop the **required weapon regardless of its normal
+  tier** (e.g. the Tank's T4 grenade off tier-1 adds).
 - **[LOCKED] Some bosses are never minibosses.** **Phil** and the **Helicopter** are **main-boss-only** —
   never injected as catch-up minibosses, and never reprised as adds (even by Phil).
 - **[LOCKED] "Big version" of every enemy.** Any enemy scales up into a tougher fight: **minibosses render

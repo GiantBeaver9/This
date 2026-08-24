@@ -10,7 +10,7 @@
 ## 1. Principles — **[LOCKED]**
 
 - **[LOCKED] The bottom half is sacred.** It's the playfield (`GAMEPLAY_LOOP.md` §3). **All persistent HUD
-  lives in the top band**, so dense bullet-hell never fights the UI for the player's eyes.
+  lives in the top band**, so the busy lower playfield never fights the UI for the player's eyes.
 - **[LOCKED] Diegetic-first.** Prefer reading state **off the sprites** over HUD numbers — weapon decay is
   shown on the weapon itself (sword wear, shotgun spine segments), not a bar. HUD carries only what the
   sprite can't.
@@ -102,7 +102,7 @@ Most decay is diegetic, but a few weapons have HUD-worthy state:
 ## 5. Other screens — **[PROPOSED] scaffold** (outside the tight loop)
 
 Listed so the asset manifest knows they exist; detailed later.
-- **Title / main menu** · **Pause** · **Stage-transition / area card** (linear — just the next area's name) · **Results / grade** (performance → ending) · **Game over** ·
+- **Title / main menu** · **Pause** · **Stage-transition / area card** (linear — just the next area's name) · **Results / grade** (cosmetic score, no path effect) · **Game over** ·
   **Controls/tutorial prompts.** **[LATER]** full designs.
 
 ---
@@ -128,6 +128,7 @@ All in the **chunky-arcade** style (bold pixel frames, thick outlines).
 yellow/red states; **chunky-arcade** HUD vibe; **weapon-type icon shown, no ammo/durability counters**
 (those stay diegetic); **money resets each stage.**
 
-**Still open (small):** weapon-type icon placement (top-left cluster vs. floating above the player); exact
-max HP; whether the money counter's full-dime highlight is enough or needs a stronger "you can summon" cue.
+**Still open (small):** weapon-type icon placement (top-left cluster vs. floating above the player); whether
+the money counter's full-dime highlight is enough or needs a stronger "you can summon" cue. *(Max HP = 100,
+locked §3.1.)*
 **[LATER]:** the non-HUD screens (§5).

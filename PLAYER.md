@@ -80,7 +80,7 @@ directional normals rather than a single canned combo string.
     *(Phil's kill is a finisher on a swept-down Phil — the pencil-laser, `BOSSES.md` §5.1.)*
 - Every hit feeds the meter's rapid-hit multiplier; letting the rhythm lapse resets the counter.
 - **[LOCKED]** Works empty-handed (fists) with the air reach-extender on each hit.
-- **[LATER]** exact finisher index (3 vs 4), damage/knockback per hit, cancel windows.
+- **[LATER]** damage/knockback per hit, cancel windows. *(Finisher = the 4th hit, LOCKED above.)*
 
 ### Dash & momentum attacks — **[LOCKED]**
 Attacking during a **dash** = a **dash attack**, with **per-direction variants** (each directional attack
@@ -120,11 +120,11 @@ has a dash version that inherits the burst). Key twist:
 directional + air matrix, same as fists. Prettiest and most consistent; the honest cost is that each
 weapon is its own mini animated character.
 
-**[LOCKED] Ranged weapons are bludgeons through the combo, and only *fire* on the finisher.** When you
-attack with a gun (or any non-melee weapon), it's **swung as a melee weapon** through the combo — those
-hits do **fist-strength** damage and reuse the fist/melee motion **with the weapon in hand**. The weapon's
-**real effect fires on the combo finisher** (e.g. the shotgun discharges its shell as the strong 3rd hit;
-the spine/cock economy in `WEAPONS.md` advances per finisher). Consequences for art:
+**[LOCKED] Ranged weapons bludgeon through the combo; you FIRE them with `E`.** When you attack with a gun
+(or any non-melee weapon) via the arrow-key combo, it's **swung as a melee weapon** — those hits do
+**fist-strength** damage and reuse the fist/melee motion **with the weapon in hand**, and the **4th-hit
+finisher is a free melee blow (no ammo)**. To actually **fire/throw** the weapon (the shell, shot, grenade,
+cast — spending ammo) you press **`E`** (§2, `WEAPONS.md` §1). Consequences for art:
 - **Melee weapons (sword, etc.)** = genuinely new directional attack art — a real swing kit.
 - **Ranged weapons (shotgun, etc.)** = mostly the **fist combo re-drawn holding the weapon** + a **unique
   finisher/fire** animation. Cheaper than a full bespoke melee weapon, still fully animated.
@@ -200,7 +200,7 @@ move + arrow-key **directional** attacks; **single hit per press** with a rollin
 and a strong **finisher**; **dash + jump** with a full air moveset; **per-direction dash attacks that deal
 no damage but weight-stagger** (heavy targets floor you, non-invincible getup); **jump↔dash cancels,
 attack→dash cancel, and air-dash** all in; **bespoke animation for every weapon**; **ranged weapons
-bludgeon through the combo and fire on the finisher**; **boss dodges** the sniper special.
+bludgeon through the combo, fired with `E`** (finisher = free 4th-hit melee); **boss dodges** the sniper special.
 
-**[LATER]:** finisher index (3rd vs 4th hit), damage/knockback numbers, whether a weapon dash attack can
+**[LATER]:** damage/knockback numbers, whether a weapon dash attack can
 fire, palette, exact `E`-use action. *(Keybinds/gamepad are now LOCKED in §2.)*

@@ -10,7 +10,7 @@
 
 ## 1. Principles — **[PROPOSED]**
 
-- **[LOCKED] Readability beats spectacle.** It's a bullet-hell — **enemy projectiles ALWAYS render above/
+- **[LOCKED] Readability beats spectacle.** Threats stay clear — **enemy projectiles ALWAYS render above/
   through any VFX and are never hidden** by effects. Effects never obscure a bullet, a telegraph, or the player.
 - **[LOCKED] Comedic, transient gore.** **Red pixels fly** on hits and deaths, but **nothing stays** — no
   pooling, no decals; the red **disappears at the end of its animation.** Chunky-arcade, stylized
@@ -32,7 +32,7 @@
 | **Air-dash streak** | air-dash | distinct from ground dash | P1 |
 | **Fall-over + getup dust** | dash into a heavy/boss | you bounce & floor (`PLAYER.md`) | P1 |
 | **Hit spark** | melee connects | impact flash at contact point | P0 |
-| **Finisher flash** | combo finisher (3rd hit) | stronger spark + small shake | P0 |
+| **Finisher flash** | combo finisher (4th hit) | stronger spark + small shake | P0 |
 
 ---
 

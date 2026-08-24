@@ -73,7 +73,8 @@ direction**. Then it hands off to normal play.
   - a Head-Thrower **fastballs** a grenade and a **Bat enemy swats it away**, launching it to explode.
 - **[LOCKED]** The **very first stage gets only a light vignette** — the **dancing Zebra punches a regular
   enemy** to demo the **punch** (the only mechanic there). Full vignette plan → **`VIGNETTES.md`**.
-- **[LOCKED] Weapon-availability ramp:** the first stages hand out **only basic melee** (swords, clubs); each
+- **[LOCKED] Weapon-availability ramp:** the first stages hand out **only basic melee** (early low-tier
+  weapons — e.g. the Sword, `WEAPONS.md` §4); each
   new stage **introduces its mechanic via the vignette, then lets the matching weapons spawn.** So it's
   **teaching → tools → test** every stage, and it pairs with the boss (e.g. airport teaches bat+grenade →
   Helicopter boss).
@@ -169,7 +170,7 @@ Goal = **visible progression & diversity**: suburb → mall → city → airport
 - **[LOCKED] Checkpoints + limited continues.** A **checkpoint** within/between stages and a **limited
   number of continues** before game-over — forgiving enough to respect a 3–4 hr run without being free.
 - **[ITERATE]** checkpoint frequency (per stage? per act?); how many continues; heal/recovery between
-  stages; whether branching state persists on continue; any cost to continuing.
+  stages; any cost to continuing.
 
 ---
 
@@ -225,7 +226,8 @@ alive and *plays* differently:
 **Resolved (now [LOCKED]):** ~10–12 stages/path across ~4 acts + finale; **balanced** stage length/count;
 **checkpoints + limited continues.**
 
-**Act themes locked (§4.1):** Suburbs → Mall → The Journey → Big City → Phil (~2–3 stages each). **Endless
+**Areas locked (§4.1):** Placer Suburbs & Mall → Sacramento & Airport → Hills/Causeway/Dixon → Vallejo→GG→SF
+→ Phil. **Endless
 Mode** added (§7b).
 
 **Next / [ITERATE]:** exact per-stage rosters & backdrops, which boss caps each

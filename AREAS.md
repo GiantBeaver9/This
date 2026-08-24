@@ -107,7 +107,7 @@ hydrant, mailbox, hedge, picket fence, porch, lawn sign) · **hazard vehicles** 
 skylight ceiling) · **fleeing civilians** · kiosks/planters/benches/escalators (funnels) · made-up store
 signage · **department-store boss** arena.
 
-**Area 1 LOCKED.** (Smalls: stage pacing, department-store boss pick, Rocklin landmarks.)
+**Area 1 LOCKED.** (Smalls: stage pacing, Rocklin landmarks. Boss = Burly Macho Guy, §1.9.)
 
 ---
 

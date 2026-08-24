@@ -58,7 +58,7 @@ between you and the enemy is full of danger you must physically route around).
 - **2.5D**, side-scrolling, viewed **from the front**. The Z-axis (depth) is **simulated** —
   characters can move "toward"/"away" as well as left/right, but we render them flat/front-on.
 - **Core gameplay lives in the bottom ~half of the screen.** That band is the walkable ground plane.
-- Player and enemies are **semi-small** sprites — this keeps many actors + dense bullet patterns
+- Player and enemies are **semi-small** sprites — this keeps many actors + short-range projectiles
   readable at once, which the bullet-hell side demands.
 
 ```
@@ -129,15 +129,17 @@ weapon itself rather than a number. (More weapons follow this same "made of the 
   enemy it touches as it caroms across the screen.
 - **Risk/reward:** enemies killed by the sniper **drop no weapons — they just die.** You trade the loot
   economy for a guaranteed multi-kill / panic-button clear.
-- **[LOCKED] Bosses are immune to the sniper shot.** The special cannot be used to skip boss fights.
+- **[LOCKED] The special can't skip a boss.** A boss **negates/dodges** it above **10% HP**; at/under 10%
+  a prompt lets any character's special **execute** the boss (`BOSSES.md` §1). No mid-fight cheese.
 
 **[LOCKED] Meter fill — rewards fast, fists-first aggression:**
 - **Fists fill fastest** — roughly **30 punch-hits** of combat to earn a charge.
 - **Weapon/item kills fill ~half as fast** — about **double** the effort of fists.
 - **Rapid kills multiply the fill.** Chaining hits quickly builds a **combo**; a **combo popup** flashes
   on screen — `1 HIT!`, `2 HIT!`, … — and hitting ~**15 hits quickly** really surges the meter.
-- **Charge tiers read by color:** **yellow** (charged once) → **blue** (charged twice) → **green**
-  (completely full / max power). Green = the special is fully juiced and ready.
+- **[LOCKED] Charge tiers AMPLIFY (they don't bank extra shots):** **yellow** (1 fill) → **blue** (2 fills /
+  "double fill") → **green** (max). **Each fill = +10% damage** while charged, and the **special itself
+  scales**: the sniper ricochet kills **up to 15 enemies at a single fill, doubling to 30 at a double fill.**
 - **Instant-fill pickup:** a **killed Sniper enemy drops a rifle that fills the meter instantly**
   (`ENEMIES.md` §2.14) — a burst reward for aggressively downing him.
 - **[LATER]** Exact multiplier curve; whether blue/green **bank multiple** sniper shots vs. fire **one
@@ -176,7 +178,7 @@ adapt to what drops.
 ## 6. UI / HUD
 
 **[LOCKED principle]** The **bottom half is sacred** — it's the playfield. HUD lives in the **top band**
-and stays minimal so dense bullet patterns never fight the UI for the player's eyes.
+and stays minimal so the busy lower playfield never fights the UI for the player's eyes.
 
 **[PROPOSED] HUD elements (top band):**
 - **Health** — top-left.
@@ -223,8 +225,9 @@ This is where 2.5D + bullet-hell get technical. Kept as **[PROPOSED]** design in
 - **Routing is toward *engagement range*, not toward the player's exact pixel:**
   - **Rushers** path to melee range, then commit a swing and back off/reposition (so they don't just
     pile into one square).
-  - **Gunners** path to a **preferred standoff distance** and a **clear firing lane** (a Z-row the player
-    is on or crossing), then hold and fire. They *retreat* if the player closes.
+  - **Shooters** (short-range only, per `ENEMIES.md` §1 — they must **close in**) advance to their **fire
+    range** and a **clear Z-row**, then fire; they don't camp at long standoff. *(No keep-away, no sniping —
+    `ENEMIES.md` is authoritative over this early sketch.)*
 
 ### 8.2 Spacing & anti-clumping — **[LOCKED] rule + [PROPOSED] mechanics**
 **[LOCKED]** Up to **8 enemies** actively pursue the player at once. But **hard separation** is
@@ -240,7 +243,7 @@ threat (surrounded, cut off), never a cheap-shot pileup where three hits land as
 - Gunner/Patterner fire is **Z-aware** (see §3): a bullet occupies a depth row; the player dodges by
   **stepping rows** and **dashing along X**, never by phasing through (no i-frames).
 - **[PROPOSED]** Pattern density scales with enemy level and stage depth, not with raw enemy count, so
-  branches that funnel you into "harder" stages *feel* harder via patterns, not just HP sponges.
+  later areas *feel* harder via denser enemy mixes and hazards, not just HP sponges.
 
 ### 8.4 Reactions to the player's kit
 - **Boomerang** — a stunned enemy (2s) is visibly frozen; AI resumes cleanly after, no queued attacks.

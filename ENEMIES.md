@@ -127,7 +127,7 @@
   break free.** A tempo trap, not burst damage.
 - **[LOCKED] How zombies die:** **regular body damage** kills them, or they **time out.**
   - **Headshot-created zombies last ~10 seconds**, then drop on their own.
-  - **Pod-spawned zombies** die to **any 3-hit combo finisher** (a small finisher is enough).
+  - **Pod-spawned zombies** die to **any combo finisher** (the 4th-hit finisher is enough).
 - **[LOCKED] Sources:**
   1. **Created by a headshot** — a headshot **hollows the head and spawns a ~10s zombie** instead of a
      clean kill.
@@ -272,9 +272,12 @@ named enemy types.
 - **[LOCKED] Enemy damage = tier × 7.5** (out of 100): **T1 = 7.5 · T2 = 15 · T3 = 22.5 · T4 = 30** (the 30 cap).
 - **Exceptions:** **Swarm** ~**1–2** (chip); **Zombie (T0)** deals **no hit damage** (grab only); **Gatling**
   **1 HP/hit** but its fire rate leaves you **~2s to live** in the stream (cover/closing is mandatory).
-- Ties: the **Sniper** apex shot drops you to **~20 HP** (kill if already <25); the mall **grenade
-  self-damage** and **fall-off instant death** are separate one-offs.
-- **[ITERATE]** player/**human weapon** damage & durability (pin later); boss damage; heal/recovery model.
+- Ties: the **Sniper** apex shot drops you to **~20 HP** (kill if already <25); **grenade self-damage** and
+  **fall-off instant death** are separate one-offs.
+- **[LOCKED] Healing = random small drops.** Enemies occasionally drop a **small health pickup** (~**5%**
+  drop). **At low HP the game rubber-bands:** the **health-drop rate jumps to ~20%**, and **all other drop
+  rates double** (coins, weapons) — a built-in mercy that never fully bails you out.
+- **[ITERATE]** player/**human weapon** damage & durability (pin later); boss HP; exact "low HP" threshold.
 
 ---
 

@@ -46,7 +46,7 @@
   (fresh → chipped → breaking) · break VFX.
 
 ### 2.2 Shotgun — *spine = ammo*
-- **Type:** ranged, but **melee'd through the combo**; **fires a shell on the finisher**.
+- **Type:** ranged, but **melee'd through the combo**; **fires a shell on `E`** (the free 4th-hit finisher is melee).
 - **Behavior:** finisher = **blast** (short-range spread, big damage / knockback). After firing, the Human
   **cocks it** and a **spine segment ejects** — the **remaining spine = shots left.**
 - **Ammo:** number of **spine segments** (e.g. 4–6). When spine is spent, gun is gone.
@@ -95,8 +95,9 @@ the feel.
 
 ### 3.2 Grenade / Bomb — *thrown, physics-based* **[LOCKED core]**
 Enemy-dropped; **1 per pickup** (scarce — save it for a cluster).
-- **Thrown by repeatedly tapping an attack direction (arrow)** — same input family as the Ball & Chain
-  (§3.3); the **direction aims it** and the **tap-count sets the throw:**
+- **Thrown with `E`** (like all weapons) — **tap `E` during the wind-up to change the trajectory:** **more
+  taps = flatter line-drive (fastball); fewer taps = high lob.** *(Resolves the arrow-tap ambiguity: arrows
+  are melee, `E` throws/fires.)* So:
   - **Fewer presses → high lob:** arcs up high and comes down for a **bigger explosion** (heavy blast,
     precise placement). A **ground marker shows where it first lands**; it **bounces 3×, then explodes.**
   - **More presses → fastball:** the reverse — a **fast, flat throw** that **plows along the ground,
@@ -108,8 +109,8 @@ Enemy-dropped; **1 per pickup** (scarce — save it for a cluster).
   knockdown duration.
 
 ### 3.3 Ball & Chain — *heavy directional launcher* **[LOCKED core]**
-- Plays **like the grenade's throw:** **tap the direction you want it to go — more taps sends it further.**
-  The ball launches out on its chain and does a **ridiculous amount of damage.**
+- Plays **like the grenade's throw:** **tap `E` during the wind-up to change trajectory** (more taps =
+  flatter line-drive). The ball launches out on its chain and does a **ridiculous amount of damage.**
 - **Carrying it slows the player ~20%** — the weight is the tax; a heavy **commitment** weapon.
 - **Only 3 uses**, then it's gone — each swing is precious.
 - **Finisher = directional secret combos** (we define these later). **[LATER]** the secret-combo inputs and
@@ -174,6 +175,11 @@ Dropped by a **monkey stick figure**; you can only claim/summon it if you hold a
   monkeys this level.**
 - **[ITERATE]** does adding a monkey re-arm the existing ones to the new tier (and reset timers), or only
   the newcomer; can they be healed; do rocket monkeys friendly-fire the player?
+
+### 3.7c Club — *basic heavy melee* **[LOCKED core]** — **pickup, debuts Area 2 (airport, after the vignette)**
+- A simple **blunt melee** weapon — an early workhorse alongside the Sword. Bigger knockback than fists,
+  short reach. Appears as a **world/enemy pickup** starting at the airport.
+- **[ITERATE]** durability (hits before it breaks), damage, exact drop source.
 
 ### 3.7b Bat — *projectile reflector* **[ITERATE]** *(surfaced by the Helicopter boss)*
 - A **melee weapon that reflects projectiles** — bat incoming shots (e.g. the Helicopter's thrown heads)
