@@ -42,6 +42,23 @@
 
 ---
 
+## 1b. Opening cinematic & tutorial — **[LOCKED core]**
+
+**Opening cinematic** — a series of **~20-second picture clips** (still hand-drawn frames) with the
+creator's **own voice-over** (recorded via their audio interface). Beats:
+1. *"In the beginning, there was just **this**."* — shows drawings on the page.
+2. **Phil escapes and captures the pencil.**
+3. **Phil hunts the Holy Pencil Sharpener** — he only has so much **lead** before it runs out.
+4. **"Your mission: defeat Phil."** → loads into the game.
+- Assets: the still picture clips + a VO track. **[ITERATE]** number of clips, exact script/timing.
+
+**In-game tutorial** — the **first ~10 seconds** of play teach the basics: **dodge** and **attack in every
+direction**. Then it hands off to normal play.
+- **[LOCKED] Weapons need no tutorial** — they're simple; you **learn each by using it** as you pick it up.
+  The long campaign gives the player room to ramp up skills naturally.
+
+---
+
 ## 2. Run structure — **[LOCKED]**
 
 **[LOCKED] Acts → stages → branches.** A run is a **branching tree of stages** grouped into **~4 acts +

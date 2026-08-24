@@ -17,6 +17,11 @@
   it can drop. Higher-level stick figures drop rarer / longer-lasting weapons. **[PROPOSED]** tier table
   in §4.
 - **[LOCKED] Sniper-killed enemies drop nothing** (from the special — risk/reward).
+- **[LOCKED] Not all weapons come from enemies.** Some **bigger weapons spawn as world pickups** placed
+  along a stage (e.g. the **Rocket Launcher**, §3.8b) — often near tougher fights — for diversity beyond
+  corpse-loot.
+- **[LOCKED] Weapons are learn-by-use.** They're simple enough to need **no tutorial** — pick one up and
+  figure it out; the long campaign gives room to ramp up naturally.
 - **[LOCKED] Ranged weapons fire on the combo *finisher*** (per `PLAYER.md`): mid-combo they bludgeon at
   fist strength; the real shot/effect lands on the strong 3rd hit and advances that weapon's ammo economy.
   - **[ITERATE] Execution gate:** some guns only *discharge* on the finisher when the **target is under
@@ -182,6 +187,14 @@ Dropped by a **monkey stick figure**; you can only claim/summon it if you hold a
 - **[LOCKED] It can be shot down mid-flight** — an enemy destroying it **loses you the remaining bullets.**
 - **[ITERATE]** orbit size/shape, fire rate within a pass, throw cooldown, and whether a shot-down gun
   drops to re-grab or is gone for good.
+
+### 3.8b Rocket Launcher — *world-pickup heavy* **[LOCKED core]**
+- A **big-hitting explosive** weapon. **[LOCKED] Comes from a specific world PICKUP**, not from a corpse —
+  it **appears along the way** (often when you're up against **bigger enemies**) for a burst of extra
+  firepower. First of the **non-enemy weapon source** (§1).
+- Distinct from the **Monkey Merc rocket launchers** (§3.7) — this one is the player's own.
+- **[ITERATE]** ammo (rockets carried), blast radius/damage, self-damage like the grenade?, fire-on-finisher
+  vs. free-fire, warm-up, decay.
 
 ### 3.9 Currency system — **[LOCKED core], [ITERATE] scope** *(cross-cuts `UI.md`)*
 - Enemies **randomly drop coins**; each = **1 cent**. Money is **shown in the UI** and **resets each stage**
