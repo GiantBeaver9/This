@@ -16,11 +16,17 @@
   higher level = tougher and drops rarer/longer-lasting weapons (`WEAPONS.md` §4).
 - **[LOCKED] Weight matters** (from `PLAYER.md`): light/medium enemies **stagger** to a dash attack;
   **heavy** ones **floor the player** instead. Weight scales with level/type.
-- **[LOCKED] Loot on death:** most enemies can drop a **weapon** (random within their tier) or a **wallet**
-  (1¢, currency §`WEAPONS.md` 3.9). **Sniper-special kills drop nothing.**
-- **[LOCKED] Diegetic weapon sources:** some parts map to weapons — **head-gone → sword**, **spine →
-  shotgun ammo**. **[ITERATE]** whether specific enemy *types* always yield specific weapons, or drops
-  stay random-by-tier with the corpse-part just being flavor.
+- **[LOCKED] Loot on death:** most enemies drop a **weapon** or a **wallet** (1¢, currency `WEAPONS.md`
+  §3.9). Weapon drops are **random but constrained per stage** — the pool is limited to what that stage
+  offers, so early stages hand out early weapons. **Sniper-special kills drop nothing.**
+- **[LOCKED] Types are introduced progressively by stage.** Stage 1 is mostly **basic melee**; new types
+  unlock as you climb (e.g. **grenade / Head-Throwers arrive ~stage 2**), so difficulty ramps by *roster*,
+  not just numbers. *(Specific per-stage rosters get defined later, alongside stages.)*
+- **[LOCKED] Catch-up minibosses:** if the player is **clearing too fast**, a **miniboss** is injected to
+  re-apply pressure (dynamic pacing). *(Miniboss designs → `BOSSES.md`; the spawn trigger is a stage/pacing
+  rule.)*
+- **[PROPOSED] Diegetic weapon sources** (head-gone → sword, spine → shotgun) stay as **flavor on top of**
+  the per-stage random pool — a themed corpse read, not a guaranteed type→weapon lock.
 - **Routing** follows `GAMEPLAY_LOOP.md` §8: up to **8 pursuers**, hard separation (no stacked multi-hits),
   standoff rings, Z-spread. Per-type specifics below.
 
@@ -42,33 +48,34 @@
 
 ---
 
-## 3. Proposed core roster — **[PROPOSED]**, iterate one at a time
+## 3. Roster — **[PROPOSED baseline] + your named enemies**
 
-Split by combat role so encounters mix melee pressure with the bullet-hell layer. React keep/cut/tweak;
-we then iterate each into a §2-style spec.
+> The **specific characters get defined later** (your call — you have your own enemy ideas). Below is a
+> **role-coverage baseline** so encounter design has each function filled; we fold **your named enemies**
+> onto these roles the way we did weapons.
 
-| # | Enemy | Role | Behavior sketch | Notes |
-|---|---|---|---|---|
-| A | **Rusher** | basic melee | walks in, throws punches; the bread-and-butter body | drops T1–T2 |
-| B | **Gunner** | ranged / bullet-hell | holds a standoff, fires straight/aimed shots | the dodging layer |
-| C | **Patterner** | ranged / zoner | stationary-ish, emits a fixed bullet pattern | thread-the-needle |
-| D | **Bruiser** | heavy | slow, high-HP, **floors your dash attack**; best loot | a sniper target |
-| E | **Swarm** | crowd | weak, fast, many | sniper-ricochet fodder |
-| F | **Head-Thrower** (§2.1) | special | self-decapitating grenade lobber | fire = walking bomb |
-| G | **Monkey** (§2.2) | special | drops the merc | needs a dime |
-| H | **Wallet Runner** | economy | flees rather than fights; drops multiple ¢ if caught | feeds the dime economy |
+| # | Role | Behavior sketch | Notes |
+|---|---|---|---|
+| A | **Basic melee** | walks in, throws punches; the bread-and-butter body (stage 1 staple) | drops early pool |
+| B | **Gunner** | holds a standoff, fires straight/aimed shots | the bullet-dodging layer |
+| C | **Zoner / Patterner** | stationary-ish, emits a fixed bullet pattern | thread-the-needle |
+| D | **Heavy** | slow, high-HP, **floors your dash attack**; best loot | a sniper target |
+| E | **Swarm** | weak, fast, many | sniper-ricochet fodder |
+| F | **Head-Thrower** (§2.1) | self-decapitating grenade lobber | fire = walking bomb |
+| G | **Monkey** (§2.2) | drops the merc | needs a dime |
+| H | **Wallet Runner** | flees rather than fights; drops ¢ if caught | feeds the dime economy |
 
-**[PROPOSED]** each of A–H at multiple **levels** (recolor/prop-up for higher ranks) covers a lot of ground
-without a huge unique-character count.
+**[PROPOSED]** these are **roles to fill, not final characters** — each realized by one or more of your
+named enemy types.
 
 ---
 
-## 4. Level system — **[PROPOSED]**
+## 4. Rank (level) system — **[LOCKED approach], [LATER] specifics**
 
-- **[PROPOSED]** Levels 1–4 (or 1–5) per archetype: each step up = more HP/damage/weight and a higher loot
-  tier, shown by **color and added props** (a bigger head, a helmet, an extra limb) rather than a new body.
-- Ties directly to `WEAPONS.md` §4 tiers (enemy level → weapon tier it can drop).
-- **[LATER]** exact stat curves per level, which levels appear in which stages.
+- **[LOCKED] Ranks are subtle.** A higher-rank enemy looks almost identical — the tell is a **small marker
+  (e.g. a colored wristband)**, not a bigger body or new props. Reads as "same guy, tougher."
+- Each rank up = more **HP / damage / weight** and a better loot roll within the stage's constrained pool.
+- **[LATER]** how many ranks, the color code, stat curves, which ranks appear where.
 
 ---
 
@@ -83,11 +90,10 @@ wallet-drop, monkey flair).
 
 ## 6. Status & next step
 
-**Locked so far:** system rules; Head-Thrower and Monkey enemies (cores); the proposed A–H roster and a
-level system to react to.
+**Locked so far:** system rules; progressive type-introduction by stage; per-stage constrained random
+loot; catch-up minibosses; subtle wristband ranks; Head-Thrower and Monkey enemy cores; the role-coverage
+baseline (A–H).
 
-**Next — iterate one at a time** (like weapons). Suggested order: **Rusher → Gunner → Patterner → Bruiser
-→ Swarm → Wallet Runner**, then finish detailing **Head-Thrower / Monkey**. First decisions I need:
-1. **Loot mapping (§1):** do specific enemy types always drop specific weapons, or random-by-tier?
-2. **Level system (§4):** ~4 levels per archetype via recolor+props — good, or a different scheme?
-3. **Roster (§3):** are A–H the right starting set, or add/cut?
+**Next — capture your named enemies.** You have specific enemy ideas; dump them and we'll (a) spec each one
+§2-style, and (b) map it onto the role baseline so we know coverage. Specific per-stage rosters and rank
+details come later, alongside the stage designs.
