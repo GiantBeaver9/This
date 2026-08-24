@@ -82,6 +82,9 @@ debut, frantic tone) → **department-store** area boss. Lead economy keeps it l
   tissue between the suburbs and the mall. **[ITERATE]** specific look/landmarks, any set piece.
 
 ### 1.9 Roseville Galleria — the Mall (Area 1 finale) — **[LOCKED core]**
+- **[LOCKED] Intro vignette (§`STAGES.md` 1c):** a **security guard shoots a Tier-1 enemy → it turns into a
+  Zombie → the zombie grabs the guard → they fall over → the camera pans to the player.** Teaches the
+  **zombie-on-shot + grab** mechanic right before the mall floods the player with them.
 - **Interior, frantic tone:** **terrified shoppers peek and cower** in storefront windows; **random people
   run through**, fleeing the enemies — panic atmosphere, the mall is chaos.
 - **Backdrop:** mall interior — storefronts (windows full of cowering shoppers), atrium, tile floor, kiosks,
