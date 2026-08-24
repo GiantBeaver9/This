@@ -59,6 +59,23 @@ direction**. Then it hands off to normal play.
 
 ---
 
+## 1c. Mechanic intro vignettes — **[LOCKED core]** (the teaching device)
+
+- **[LOCKED]** At the **start of every stage after the very first**, a **brief 3–5s vignette** plays that
+  **demonstrates the new enemy/mechanic** the stage will test — enemies acting it out so the player *sees*
+  what's going on and what beats it. Examples:
+  - a **Head-Thrower** lobs a head-grenade that kills nearby enemies;
+  - a Head-Thrower **fastballs** a grenade and a **Bat enemy swats it away**, launching it to explode.
+- **[LOCKED]** The **very first stage has no vignette** — you just **punch** (fists, basic enemies).
+- **[LOCKED] Weapon-availability ramp:** the first stages hand out **only basic melee** (swords, clubs); each
+  new stage **introduces its mechanic via the vignette, then lets the matching weapons spawn.** So it's
+  **teaching → tools → test** every stage, and it pairs with the boss (e.g. airport teaches bat+grenade →
+  Helicopter boss).
+- Assets: a short scripted vignette per introduced mechanic (**reuses** enemy/weapon art). **[ITERATE]** the
+  full vignette list (one per new mechanic/weapon).
+
+---
+
 ## 2. Run structure — **[LOCKED]**
 
 **[LOCKED] Acts → stages → branches.** A run is a **branching tree of stages** grouped into **~4 acts +

@@ -105,4 +105,38 @@ skylight ceiling) · **fleeing civilians** · kiosks/planters/benches/escalators
 signage · **department-store boss** arena.
 
 **Area 1 LOCKED.** (Smalls: branch fork, department-store boss pick, Rocklin landmarks.)
-**Ready for Area 2 (Sacramento & Airport) whenever you are.**
+
+---
+
+## 2. Area 2 — Sacramento & Airport (Sacramento → Sac. Airport) — **[LOCKED core]**
+
+*Medium city (Victorian old town, clear sky) → the airport terminal & tarmac. Debuts **Head-Throwers** + the
+**Bat**; teaches bat+grenade via a vignette; caps with the **Helicopter** boss.*
+
+### 2.1 Sacramento — Victorian old town
+- **Backdrop:** a **medium-sized city** of **older Victorian-style housing** (Sacramento-inspired) — ornate
+  two-story homes, porches, bay windows, iron fences. **Clear sky, no clouds** (same framing: bottom scene /
+  top HUD sky).
+- **Ambient:** fleeing city pedestrians, maybe a **streetcar / light-rail**, urban props (lamp posts,
+  hydrants, benches, mailboxes, newspaper boxes). **[ITERATE]** specific set.
+- **Enemies:** the **tier-2 layer begins.** **[ITERATE]** exact debuts here vs. at the airport.
+
+### 2.2 Sacramento Airport — terminal & tarmac
+- **[LOCKED] Intro vignette (§`STAGES.md` 1c):** entering the **terminal**, the player **sees the mechanic
+  acted out** — enemies **throw head-grenades that hit planes in the air**, and a **Bat enemy swats a
+  grenade into a small plane**, exploding it. Teaches **head-grenades + bat-reflect** before you use them.
+- **[LOCKED] Debuts:** **Head-Throwers** (grenade-from-head) and the **Bat** weapon — and grenades + bats
+  **spawn** here so the player can practice the exact tools the boss needs.
+- **Backdrop:** terminal interior → **tarmac** with **taxiing planes**, ground crew **marshalling planes**,
+  luggage carts. **Hazards:** taxiing planes / jet blast **[ITERATE]**.
+- **[LOCKED] Area boss = the Helicopter** (`BOSSES.md` §5.5): the airport **taught bat + grenade**, and the
+  Helicopter is beaten with exactly those (**bat its heads back / lob grenades up**). Teaching → tools → test.
+
+### 2.3 Area 2 asset list (→ `ASSET_MANIFEST.md`)
+Sacramento **Victorian houses** (2-story, porches, bay windows, iron fences) · city ambient (fleeing
+pedestrians, streetcar?, lamp posts, benches, newspaper boxes) · airport **terminal interior** · **tarmac +
+taxiing planes** · **ground crew + luggage carts** · **small planes** (vignette targets / hazard) ·
+**Head-Thrower** enemy · **Bat** weapon pickup · **Helicopter** boss · funnel props.
+
+**[ITERATE]** tier-2 debut split (city vs airport), city ambient specifics, plane-hazard rules, Area 2 branch
+fork. **Ready for Area 3 (Hills & Dixon) whenever you are.**

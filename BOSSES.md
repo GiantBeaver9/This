@@ -118,7 +118,7 @@
   become adds, does dismantling change its attacks/phases, how it fights back, arena (likely a giant
   upper-screen boss).
 
-### 5.5 Helicopter (Monkey Chopper) — **boss** — **[LOCKED core]** *(name TBD)*
+### 5.5 Helicopter (Monkey Chopper) — **boss** — **[LOCKED core]** *(name TBD)* — **caps Area 2 (airport)**
 - A **monkey flying a helicopter**, strafing the player. **Shoots stick-figure heads** as projectiles —
   **max 2 on screen at once.**
 - **[LOCKED] Two ways to beat it** (both via tier-1 add drops, §1 weapon-gated rule with **two options**):
