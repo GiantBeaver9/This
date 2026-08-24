@@ -137,6 +137,14 @@
   short-range rule (§1) or count as a telegraphed thrown exception, star damage, what it does with no
   fodder to strip (call in / melee?).
 
+### 2.10 Anti-Aircraft — **[LOCKED core]** — **Tier 1a**
+- A **basic enemy that throws rocks** at the player (a ranged lobber).
+- **[LOCKED] Boomerang distraction (counterplay):** if the player **throws a boomerang**, the AA enemy
+  **actively throws rocks at the boomerang** (~**20% accuracy** — mostly whiffs), which **distracts it**,
+  opening a window to attack. Bait it with a throw.
+- **[ITERATE]** do rocks obey the short-range rule (§1) or arc in from farther; do **other airborne things**
+  (boomerang gun, thrown grenade, ninja stars) also bait it; rock damage & telegraph; throw cadence.
+
 ---
 
 ## 3. Roster — **[PROPOSED baseline] + your named enemies**
@@ -185,7 +193,8 @@ wallet-drop, monkey flair).
 progressive type-introduction by stage; per-stage constrained random loot; catch-up minibosses; subtle
 wristband ranks; **enemy guns are short-range/dodgeable**. **Defined enemies:** Head-Thrower, Monkey,
 Regular Melee, Snapper (Sword-Maker, T2), Arm-Ripper (Dual Pistols, T2a) + its disarmed Headbutt state,
-Monkey Tamer (untiered summoner), Gatling Gunner (T3), Zombie (T0, headshot-immune), Ninja (T3a).
+Monkey Tamer (untiered summoner), Gatling Gunner (T3), Zombie (T0, headshot-immune), Ninja (T3a),
+Anti-Aircraft (T1a).
 
 **Next — capture your named enemies.** You have specific enemy ideas; dump them and we'll (a) spec each one
 §2-style, and (b) map it onto the role baseline so we know coverage. Specific per-stage rosters and rank
