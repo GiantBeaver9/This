@@ -144,10 +144,24 @@ Each attack direction is a different tool:
   hit one target or pierce/chain; warm-up/spin-up.
 - **[SUPERSEDES]** the earlier "20–32 shots" — no ammo tracking now.
 
-### 3.7 Monkey Merc — *summon, costs currency (see §3.9)* **[ITERATE]**
-- Dropped by a **monkey stick figure**, but you can **only take it if you hold a dime (10¢).**
-- Summons a **monkey merc that fights for you for 20 seconds, or until it's killed.**
-- **[ITERATE]** monkey attacks/AI, how easily it dies, whether more than one can be active, cooldown.
+### 3.7 Monkey Merc — *summon, costs a dime (10¢, see §3.9)* **[LOCKED core]**
+Dropped by a **monkey stick figure**; you can only claim/summon it if you hold a **dime (10¢).**
+- **Own aggro & attacks:** fights independently with a **pistol, infinite ammo**, but a **max fire rate of
+  2 shots/second** (it's "aiming").
+- **Stacking upgrades the whole squad's weapon** — more monkeys = bigger guns, shorter lives:
+
+  | Active monkeys | Weapon | Lifespan each |
+  |---|---|---|
+  | 1 | Pistol | 20s |
+  | 2 | Shotguns | 10s |
+  | 3 | Rocket launchers | 5s |
+
+  Fire rate stays **2/sec at every tier**, so **3 rocket-launcher monkeys can wipe the whole screen** in
+  their short window — a high-roll payoff for saving up dimes.
+- **Per-level cap:** summon **up to 3 over a level** (resummon as they die); **once 3 have died, no more
+  monkeys this level.**
+- **[ITERATE]** does adding a monkey re-arm the existing ones to the new tier (and reset timers), or only
+  the newcomer; can they be healed; do rocket monkeys friendly-fire the player?
 
 ### 3.8 Boomerang Gun — *thrown auto-fire* **[LOCKED core]**
 - A **gun you throw**; it flies a **fixed orbit arc** (a set boomerang loop) and **shoots whatever it
@@ -204,9 +218,9 @@ Shared: every dropped weapon needs a **ground pickup sprite** and a **decay/brea
 when armed); function-first theming; the roster list above; grenade press-to-throw physics; the currency
 system core (wallets → cents → dime → monkey merc).
 
-**Iterating one at a time (together).** Done: **Staff**, **Gatling**, **Pistol & Revolver**, **Grenade**,
-**Boomerang Gun**, **Whip**, **Ball & Chain** (tap-throw, 3 uses, ~20% slow, secret-combo finishers).
-Remaining: **Monkey Merc**, then keep adding.
+**Iterating one at a time (together).** ✅ All listed weapons specced: **Sword, Shotgun, Boomerang** (§2)
++ **Staff, Gatling, Pistol & Revolver, Grenade, Boomerang Gun, Whip, Ball & Chain, Monkey Merc** (§3). The
+roster stays **open** — new weapons drop in as §3-style entries any time.
 
 **New cross-cutting system flagged — *Secret Combos*:** specific directional-input strings trigger special
 finishers/effects (ball & chain uses these; pistol/revolver have per-direction finishers too). **[LATER]**
