@@ -115,11 +115,19 @@
 - **Slow march** straight at the player.
 - **Grab at close range:** it can **grab the player** (no bite — no mouth); the player **mashes/taps to
   break free.** A tempo trap, not burst damage.
-- **[LOCKED] Headshot-economy counter:** because headshots only hollow it, the game's **headshot-kill tools
-  don't one-shot zombies** — pistol/revolver head-lineups, the **gatling auto-kill finisher**, and the
-  **sniper special's ricochet headshots** all need a defined behavior vs. zombies. **[ITERATE]** what
-  *does* kill a zombie (body damage? destroying the hollow head? decapitation?), and whether a hollowed
-  head changes anything (blind? ricochet passes through?).
+- **[LOCKED] How zombies die:** **regular body damage** kills them, or they **time out.**
+  - **Headshot-created zombies last ~10 seconds**, then drop on their own.
+  - **Pod-spawned zombies** die to **any 3-hit combo finisher** (a small finisher is enough).
+- **[LOCKED] Sources:**
+  1. **Created by a headshot** — a headshot **hollows the head and spawns a ~10s zombie** instead of a
+     clean kill.
+  2. **Pods** — a **spawner** that pumps out zombies. **[ITERATE]** what a Pod is (destroyable spawner?
+     count/rate, where it sits).
+- **[OPEN — headshot economy, needs a ruling]** If headshots *create* zombies, what do the game's
+  headshot-kill tools do — **pistol/revolver** head-lineups, the **gatling** auto-kill finisher, the
+  **sniper** ricochet headshots? Do they **convert-to-zombie instead of killing** (a real downside to
+  headshot-spam), or do only *certain* enemies zombify while the sniper still cleanly kills? This changes
+  several weapons — flagged for a decision.
 
 ---
 
