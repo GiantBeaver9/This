@@ -31,7 +31,8 @@
   backdrops real **biodiversity**: suburbs → **rolling hills & farmland** → an **airport** and a
   **lake/delta** → **coastal hills** → the **city.**
 - *(Origin flavor: the game grew from two friends passing a drawing back and forth in high school — which is
-  literally Phil's draw-it-to-life pencil, tying the title and mechanic together. → `STORY.md` later.)*
+  literally Phil's draw-it-to-life pencil, tying the title and mechanic together. Full narrative spine in
+  `STORY.md`.)*
 - **[LOCKED] The lead economy = why enemies stay sparse early.** Phil **lacks the Holy Sharpener**, so the
   pencil has **limited lead** — he can only draw **so many** enemies. Counts stay low and **grow as you
   progress** — the in-fiction justification for the layering ramp (§4).
@@ -43,7 +44,7 @@
   he still has lead** (busy drawing his army). **When he runs out of lead he must stop and *sharpen* the
   pencil** — a **3–5s self-stun** where he's **open and bleeding** — **that's your window to burst him down.**
   Cycle: **draw (invuln) → run dry → sharpen (vulnerable 3–5s) → repeat.** (Full spec in `BOSSES.md` §5.1.)
-- **[LATER]** full story beats → `STORY.md`.
+- **[LOCKED]** full story beats now in **`STORY.md`** (premise, escalation, climax, tone, delivery vehicles).
 
 ---
 
@@ -88,9 +89,10 @@ direction**. Then it hands off to normal play.
 
 ## 2. Run structure — **[LOCKED]**
 
-**[LOCKED] Areas → stages — LINEAR.** A run is a **single fixed sequence** of **~4 areas + finale**,
-**~2 stages per area** — but **Area 4 is larger** (Vallejo → Marin → Golden Gate → SF), so the run is
-**~10–12 stages**. Stages are **meatier** (~20–25 min each) to land **3–4 hrs**.
+**[LOCKED] Areas → stages — LINEAR.** A run is a **single fixed sequence** of **4 areas + finale**, totalling
+**13 stages (12 combat + finale)** — Area 1 = 3, Area 2 = 2, Area 3 = 3, Area 4 = 4 (larger: Vallejo → Marin →
+Golden Gate → SF), Finale = 1 (`ENCOUNTERS.md`). Stages are **meatier** (~15–18 min each: a scripted
+**encounter spine** + procedural **filler waves**, `ENCOUNTERS.md` §0) to land **3–4 hrs**.
 
 ```
    AREA 1 ──► AREA 2 ──► AREA 3 ──► AREA 4 ──► Phil ──► win
@@ -99,8 +101,11 @@ direction**. Then it hands off to normal play.
 ```
 
 - **[LOCKED] No branching** — one path for everyone; **replay = the 4 characters + Endless Mode** (§7b).
-- **[LOCKED]** Each **area ends in a main boss.**
-- **[ITERATE]** exact stage count (~10–12 — Area 4 runs Vallejo → Marin → Golden Gate → SF), pacing to 3–4 hrs.
+- **[LOCKED] Each area is capped by a main boss:** A1 **Burly** (mall), A2 **Helicopter** (airport), A3 **big
+  Arm-Ripper** (Dixon), A4 **Gatling Gun Guy** (Golden Gate), Finale **Phil**. *(Areas also contain **mid-act**
+  bosses — Sandwich Bros, Colossus, Tank, Monkey Boss, Boomergunner — that are not the area cap.)* The **SF
+  streets (Stage 12)** is the **finale approach**, not a separate boss-capped area, so this rule holds.
+- **[LOCKED] Stage count = 13** (`ENCOUNTERS.md`); pacing ~15–18 min/stage → 3–4 hrs.
 
 ---
 

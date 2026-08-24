@@ -73,28 +73,32 @@ Each Special clears a crowd differently, balanced by **what loot survives** — 
 
 ---
 
-## 5. Multiplayer — **[LATER / planned]**
-
-- **[LOCKED intent]** Co-op is a **planned future** addition: friends **each pick a different character** and
-  play together.
-- **[LOCKED] Difficulty scaling:** with multiplayer, spawn **~2.5× the enemies** — harder, and more fun with
-  friends.
-- **[ITERATE / LATER]** player count; shared vs. per-player economy/lives/checkpoints; local vs. online; how
-  bosses scale; camera for multiple players. Parked until single-player is solid.
-
----
-
 ## 4. Decisions — status
 
 **All 4 characters now defined:** Tactical (sniper wipe, no drops) · Shotgunner (giant-shotgun knockback,
 ≤tier-3, keeps drops) · Werewolf (5s i-frame slash-all, keeps drops) · Underdog (hard mode; close vaporize
 + 30s +20% damage buff).
 
-**Locked:** all 4 designed as **visually distinct** characters; **multiplayer** planned (2.5× enemies).
+**Locked:** all 4 designed as **visually distinct** characters; **single-player is the v1 target** (see §5).
 
 **Still open:**
 1. **Animation pipeline (§3):** shared-skeleton (distinct skins) — rec — or fully bespoke per character?
 2. ~~Werewolf vs. bosses~~ — ✅ **Resolved:** **all** specials (Sniper, Werewolf, Shotgun, Underdog) only
    affect a boss **under 10% HP** (execution); above that the boss negates it (`BOSSES.md` §1).
 3. Confirm the **Shotgunner = the earlier "bulky friend"** (§2.2), not a 5th person.
+
+---
+
+## 5. Multiplayer — **[LATER / planned — NOT in the v1 / overnight build]**
+
+> **[LOCKED scope] The overnight build is SINGLE-PLAYER ONLY.** Co-op is a *future* addition; **do not
+> implement it in v1.** All encounter counts (`ENCOUNTERS.md`) and tuning (`TUNING.md`) are authored for
+> **1 player**. The figures below are a **forward-looking note**, not a v1 requirement — a build agent should
+> **ignore them** and any stray "2P" mention elsewhere (e.g. `AREAS.md` §1.6's "2-player: two + a miniboss"
+> is the same future note, not a v1 spec).
+
+- **[LOCKED intent]** Co-op is a **planned future** addition: friends **each pick a different character**.
+- **[FUTURE, not v1] Difficulty scaling:** with multiplayer, spawn **~2.5× the enemies**.
+- **[ITERATE / LATER]** player count; shared vs. per-player economy/lives/checkpoints; local vs. online; how
+  bosses scale; camera for multiple players. **Parked until single-player ships.**
 4. Per-character loot rules for the Underdog's vaporize and the exact stat trade-offs.

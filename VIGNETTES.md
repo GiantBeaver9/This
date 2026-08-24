@@ -28,6 +28,10 @@
 ---
 
 ## Notes
+- **Full 13-stage coverage (matches `ENCOUNTERS.md`):** the 12 vignettes above map to stages **1, 3, 4, 5, 6,
+  7, 8, 9, 10, 11, 12, 13**. **Stage 2 (old Hwy 65 → Sandwich Bros)** is the **one stage with NO vignette** —
+  it introduces no new mechanic (the "big version" boss is taught in-fight), so it skips per the rule below.
+  Every other stage opens by *showing* its new thing. None are missed.
 - **Opener exception refined:** the first stage *does* get a light vignette (the Zebra punch) — it just teaches
   the punch rather than a weapon/enemy. This supersedes the earlier "first stage has no vignette."
 - **Rule:** a stage that introduces **no new mechanic** (pure ramp) can **skip** the vignette. Fill the

@@ -57,7 +57,8 @@ debut, frantic tone) → **department-store** area boss. Lead economy keeps it l
 
 ### 1.4 Hazards
 - **[LOCKED] Traffic:** **cars & school buses** drive down the road — **dodge to avoid damage** (`STAGES.md`
-  §4.1). **[ITERATE]** do they also flatten enemies (usable hazard)?
+  §4.1). **[LOCKED, resolved]** they **do flatten enemies too** (a usable hazard): car **40**, bus **60**, both
+  with knockdown, to player *and* enemies (`TUNING.md` §6.2). Bait an enemy into the lane on a telegraphed pass.
 
 ### 1.5 Enemies present — **[LOCKED] gradual intro**
 - **Lincoln suburbs:** **Regular Melee (T1)** basics + the big-Tier-1 boss. Very light (the lead economy).

@@ -82,23 +82,25 @@ its own cue — so the boss-cue count is 8 sub-bosses + Phil, not counting Sandw
 
 ---
 
-## 4. Core SFX list — **64 one-shots (v1)**
+## 4. Core SFX list — **76 one-shots (v1)**
 
 Grouped with concrete per-group counts. Each is a short arcade one-shot; pitch-randomized ±2 semitones at
-playback for variety without extra assets.
+playback for variety without extra assets. **Counting convention:** each comma-item is one sound; a `+` or a
+slash inside an item marks **two** sounds (e.g. "throw+return" = 2), and an explicit "= N" gives that group's
+sub-count. Group counts below reflect that convention exactly.
 
 | Group | Count | Contents |
 |---|---|---|
-| **Player melee** | 8 | punch (×2 var), sweep, **finisher (heavy)**, air-hit, dash-whoosh, jump, land |
+| **Player melee** | 8 | punch (×2 var = 2), sweep, **finisher (heavy)**, air-hit, dash-whoosh, jump, land |
 | **Player states** | 5 | hurt/grunt, death, pickup, weapon-break puff, shield-rush scrape |
 | **Impacts / juice** | 6 | hit-spark, finisher-crunch (hitstop cue), enemy stagger, knockdown thud, block/soak, screen-shake boom |
-| **Weapon fire** | 14 | sword swing+break, shotgun blast+cock, boomerang throw+return, pistol, revolver, grenade throw+explode, ball&chain launch+impact, whip crack, staff cast (ice/fire/lightning = 3), gatling barrage, boomerang-gun spin, rocket launch+blast, club whack, bat reflect-ping |
-| **Enemy signature** | 12 | zombie moan+grab, swarmer chitter, head-throw (self-decapitate), fire-blink→BOOM, snapper snap-to-sword, arm-rip, gatling contort, ninja smoke-teleport, sniper scope-in/shot, ground-smash overhead+shockwave, whistle (tamer), monkey merc chatter |
+| **Weapon fire** | 22 | sword swing+break (2), shotgun blast+cock (2), boomerang throw+return (2), pistol, revolver, grenade throw+explode (2), ball&chain launch+impact (2), whip crack, staff cast ice/fire/lightning (3), gatling barrage, boomerang-gun spin, rocket launch+blast (2), club whack, bat reflect-ping |
+| **Enemy signature** | 15 | zombie moan+grab (2), swarmer chitter, head-throw (self-decapitate), fire-blink→BOOM, snapper snap-to-sword, arm-rip, gatling contort, ninja smoke-teleport, sniper scope-in+shot (2), ground-smash overhead+shockwave (2), whistle (tamer), monkey merc chatter |
 | **Meter / special** | 4 | meter tick-up, meter **armed "ready" chime**, sniper time-slow enter, time-resume whoosh |
 | **UI** | 7 | menu move, confirm, cancel, coin pickup, **full-dime highlight**, combo-popup pips, **"BARRAGE INCOMING" alarm** |
 | **Economy / misc** | 3 | pickpocket steal, coins-doubled jingle, checkpoint chime |
-| **Hazards** | 5 | car/bus pass-by, plane jet-blast, cow moo (path-block), **SF trolley bell + rumble**, tower-sway creak |
-| **Total** | **64** | |
+| **Hazards** | 6 | car/bus pass-by, plane jet-blast, cow moo (path-block), **SF trolley bell+rumble (2)**, tower-sway creak |
+| **Total** | **76** | 8+5+6+22+15+4+7+3+6 |
 
 - **Ambient beds (not counted above):** **1 looping bed per area theme (12)** — birds/traffic (suburbs), mall
   murmur, tarmac hum, marsh/wind (causeway), redwood forest, bridge wind, city crowd, rooftop wind. Low in the
@@ -153,7 +155,7 @@ Priority = what wins when the mix gets crowded. Higher ducks lower.
 - **Music:** 23 tracks (12 area/stage loops · 1 title · 1 Endless layered w/ 4 stems · 9 boss cues — 8 per-boss
   orchestrations of one shared motif + Phil's full realization) + area transition stingers.
 - **Ambient:** 12 area beds.
-- **SFX:** **64 core one-shots** (§4).
+- **SFX:** **76 core one-shots** (§4).
 - **VO:** 5 intro clips (creator voice) + Phil rooftop monologue (~30 s).
 - **Priority:** Intro VO + core SFX = **P1**; per-area music, ambient beds, boss themes, UI sounds = **P2**
   (matches `ASSET_MANIFEST.md` §8 phasing).

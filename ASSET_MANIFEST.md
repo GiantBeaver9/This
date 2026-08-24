@@ -11,14 +11,28 @@
 
 ---
 
-## 0. Production specs to lock before mass generation — **[DECIDE FIRST]**
-- **Canvas resolution / aspect** (e.g. 16:9 target, internal pixel resolution).
-- **Sprite pixel sizes:** player/enemy base height, "big version" scales (miniboss ~1.2×, boss ~2×), bosses.
-- **Palette** (shared limited palette for cohesion; the red-pixel gore color; per-area accent ramps).
-- **Animation fps & frame budgets** per action (idle 2–4, walk 6–8, attacks 3–6…).
-- **Framing:** bottom ~50–60% = scene, top ~40% = themed HUD backdrop (`AREAS.md` §1.1).
-- **Atlas / naming convention & file format** for import.
-> Until these are set, generate **one test character + one enemy + one backdrop** to validate, then scale up.
+## 0. Production specs — **[LOCKED defaults]** (concrete; override only deliberately)
+> These are pinned so mass asset-generation and the Unity import can proceed with **zero further decisions**.
+> They are chosen lightweight-first (runs on a 3050/2090 and a 5090 alike). Treat as authoritative defaults.
+
+- **Canvas resolution / aspect:** **16:9**, internal render **640 × 360** (integer-scaled to the window —
+  crisp pixels at 720p/1080p/1440p/4K via ×2/×3/×4/×6). Camera is orthographic 2.5D.
+- **Sprite pixel sizes:** **player/regular-enemy base height = 48 px** (= 2.0 wu, so **1 wu = 24 px**);
+  **Swarmer = 24 px** (half); **miniboss = ×1.2 (≈58 px)**; **boss = ×2.0 (≈96 px)**; **giant bosses**
+  (Colossus, Helicopter) drawn at **up to 180 px** reaching into the band. World-unit ↔ pixel is fixed here so
+  `TUNING.md` distances convert directly (e.g. a 4 wu dash = 96 px).
+- **Palette:** a **shared 32-color base palette** (limited, cohesive) + **per-area 6-color accent ramp**
+  swapped per theme. **Gore red is one fixed hue** (`VFX.md`) across all areas. Total on-screen ≤ ~48 colors.
+- **Animation fps & frame budgets:** play back at **12 fps** (anime-on-2s feel, cheap). Frame budgets:
+  **idle 2–4 · walk 6–8 · attack 3–6 · hurt 2 · death 4–6 · dash 3** (matches `PLAYER.md` §5). The **12 fps
+  playback is independent of the 60 fps sim** — frame data (`TUNING.md` §2.5) is in sim-frames; art just
+  needs enough drawn frames to read.
+- **Framing:** **bottom 60% = scene**, **top 40% = themed HUD/sky backdrop** (`AREAS.md` §1.1, `TUNING.md` §1).
+- **Atlas / naming / format:** **PNG** sprite sheets, one atlas per actor, **power-of-two** pages (≤ 2048²);
+  naming **`actor_action_dir_frame`** (e.g. `player_attack_side_03.png`); Unity **Sprite (2D) import, Point
+  filter, no compression, pixels-per-unit = 24**.
+> Validation gate still applies: generate **one test character + one enemy + one backdrop** at these specs,
+> confirm they read at 640×360, then scale up.
 
 ---
 
@@ -67,10 +81,12 @@ Each: idle · walk (mirror) · attack(s) · hurt/stagger · **death + part/gore*
 ## 4. Bosses — `BOSSES.md`
 Each **bespoke** boss: idle/move · attacks + telegraphs · phase transitions · hurt · death · **sniper-dodge** ·
 adds/hazards · **boss HP bar + name card**. "Big version" bosses/minibosses need **no new art**.
-- **P1 (all 7 bespoke bosses placed):** Sandwich Bros (big Tier-1, Area 1) · **Burly Macho Guy** (Area 1 dept
-  store) · **Colossus** (Area 2 Sacramento, whip) · **Helicopter** (Area 2 airport) · **Monkey Boss** (Area 3
-  farm) · big Arm-Ripper (Area 3 Dixon) · **Boomergunner** boss (Area 4 Marin) · **Tank** (Area 4 Vallejo) ·
-  **Gatling Gun Guy** (Area 4 Golden Gate, barrage + car cover).
+- **9 boss encounters placed = 7 bespoke + 2 big-version** (the big-version pair need **no new art**):
+- **P1 — 7 bespoke bosses:** **Burly Macho Guy** (Area 1 dept store) · **Colossus** (Area 2 Sacramento, whip) ·
+  **Helicopter** (Area 2 airport) · **Monkey Boss** (Area 3 farm) · **Boomergunner** boss (Area 4 Marin) ·
+  **Tank** (Area 4 Vallejo) · **Gatling Gun Guy** (Area 4 Golden Gate, barrage + car cover).
+- **P1 — 2 big-version bosses (no new art):** **Sandwich Bros** (big Tier-1, Area 1) · **big Arm-Ripper**
+  (Area 3 Dixon).
 - **P2:** **Phil** (top-hat zombie, pencil-draw, **sharpen animation**, re-summons, rooftop sway).
 
 ---
@@ -98,15 +114,16 @@ Each theme: parallax backdrop layers + lane floor + set dressing + ambient actor
 
 ---
 
-## 8. Audio — see **`AUDIO.md`** (fully specced: 23 music tracks, 64 SFX, VO plan, mix) — VO+SFX creator-produced
+## 8. Audio — see **`AUDIO.md`** (fully specced: 23 music tracks, 76 SFX, VO plan, mix) — VO+SFX creator-produced
 - **P1:** **Intro VO** (creator voice, the in-the-beginning-there-was-this script) · core SFX (punch, hit, weapon fires, explosions, zombie, whistle, trolley) .
-- **P2:** per-area **music**, ambient beds, boss themes, UI sounds. *(A full audio pass is not yet designed.)*
+- **P2:** per-area **music**, ambient beds, boss themes, UI sounds. *(Full audio pass is **specced** — see `AUDIO.md`: 23 tracks, 76 SFX, VO, mix.)*
 
 ---
 
 ## 9. Cutscenes & vignettes — `STAGES.md` §1a–1c, `AREAS.md`
 - **P1:** **Opening cinematic** (~20s voiced picture clips) · **Phil intro** (tower sway foreshadow).
-- **P1 (short 3–5s vignettes, reuse enemy/weapon art):** **all 12 locked** in `VIGNETTES.md` (one per stage) —
+- **P1 (short 3–5s vignettes, reuse enemy/weapon art):** **all 12 locked** in `VIGNETTES.md` (one per stage
+  except **Stage 2 / Sandwich Bros**, which introduces no new mechanic and skips per the VIGNETTES rule) —
   Zebra-punch · mall guard→zombie→grab · Sacramento whip-pull · airport head-grenade+bat-a-plane · causeway
   sniper+dime+monkey · farm merc-shoots-boss · Dixon arm-rip · Vallejo pickpocket→ninja→2× · Marin boomergun ·
   Golden Gate stun+barrage+car-cover · SF trolley-vs-Heavy · Phil rooftop monologue.

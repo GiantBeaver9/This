@@ -133,8 +133,10 @@ weapon itself rather than a number. (More weapons follow this same "made of the 
   a prompt lets any character's special **execute** the boss (`BOSSES.md` §1). No mid-fight cheese.
 
 **[LOCKED] Meter fill — rewards fast, fists-first aggression:**
-- **Fists fill fastest** — roughly **30 punch-hits** of combat to earn a charge.
-- **Weapon/item kills fill ~half as fast** — about **double** the effort of fists.
+- **Fists fill fastest** — roughly **30 punch-hits** of combat to earn a charge (**+3.34 pts/hit**, `TUNING.md` §2.4).
+- **Weapon/item *hits* fill ~half as fast** — **+1.67 pts/hit**, about **double** the effort of fists. *(Per
+  **hit**, same event as fists — not per kill; this is the LOCKED resolution in `TUNING.md` §2.4, superseding
+  the older "weapon kills" phrasing.)*
 - **Rapid kills multiply the fill.** Chaining hits quickly builds a **combo**; a **combo popup** flashes
   on screen — `1 HIT!`, `2 HIT!`, … — and hitting ~**15 hits quickly** really surges the meter.
 - **[LOCKED] Charge tiers AMPLIFY (they don't bank extra shots):** **yellow** (1 fill) → **blue** (2 fills /
@@ -258,7 +260,7 @@ threat (surrounded, cut off), never a cheap-shot pileup where three hits land as
 **Resolved (now [LOCKED] above):**
 1. **Branching (§7)** — **CUT.** The game is a **linear** campaign; replay = the 4 characters + Endless.
 2. **Z-band (§3)** — continuous, semi-deep.
-3. **Special meter (§4.3)** — fists fill fastest (~30 hits), weapons ~half; rapid combos multiply fill;
+3. **Special meter (§4.3)** — fists fill fastest (~30 hits), weapon *hits* ~half; rapid combos multiply fill;
    yellow → blue → green charge tiers; on-screen combo popup.
 4. **Aggression (§8.2)** — up to 8 pursuers with hard separation, so no stacked multi-hits.
 

@@ -189,11 +189,16 @@ Dropped by a **monkey stick figure**; you can only claim/summon it if you hold a
   short reach. Appears as a **world/enemy pickup** starting at the airport.
 - **[ITERATE]** durability (hits before it breaks), damage, exact drop source.
 
-### 3.7b Bat — *projectile reflector* **[ITERATE]** *(surfaced by the Helicopter boss)*
+### 3.7b Bat — *projectile reflector* **[LOCKED]** *(surfaced by the Helicopter boss)*
 - A **melee weapon that reflects projectiles** — bat incoming shots (e.g. the Helicopter's thrown heads)
   **back at the attacker.**
-- **[ITERATE]** full roster weapon or boss-arena-only; normal melee stats; the **reflect timing window**;
-  what it can/can't reflect; decay.
+- **[LOCKED] Availability:** a **full roster weapon**, in the **Area-2 drop pool onward** (`TUNING.md` §6.1) —
+  it **debuts** as the Helicopter arena's weapon-gated drop, then remains a normal T2 corpse drop thereafter.
+  It is **not** boss-arena-only.
+- **[LOCKED] Stats (`TUNING.md` §6):** melee **12/hit**, **12 connecting hits**, **reflect window 0.20 s**.
+- **[LOCKED] What it reflects:** thrown heads, head-grenades, boomerang-gun shots, arm-ripper/pistol rounds,
+  shuriken — any **telegraphed slow-to-medium projectile.** It **cannot** reflect the **gatling/barrage
+  stream** (too dense) or **melee.** A reflected shot deals the **original attacker's damage** back.
 
 ### 3.8 Boomerang Gun — *thrown auto-fire* **[LOCKED core]**
 - A **gun you throw**; it flies a **fixed orbit arc** (a set boomerang loop) and **shoots whatever it
@@ -210,8 +215,10 @@ Dropped by a **monkey stick figure**; you can only claim/summon it if you hold a
   it **appears along the way** (often when you're up against **bigger enemies**) for a burst of extra
   firepower. First of the **non-enemy weapon source** (§1).
 - Distinct from the **Monkey Merc rocket launchers** (§3.7) — this one is the player's own.
-- **[ITERATE]** ammo (rockets carried), blast radius/damage, self-damage like the grenade?, fire-on-finisher
-  vs. free-fire, warm-up, decay.
+- **[LOCKED] Stats & placement (`TUNING.md` §6/§6.1):** **3 rockets**, blast **70 (r 3 wu)**, **self-damage 35**
+  (like the grenade), **warm-up 0.50 s**, **`E` free-fire** (not finisher-gated — it's a fired weapon).
+  **Placed pickups:** near the **Tank** fight (Stage 9) and in the **SF gauntlet** (Stage 12) — never in a
+  random drop pool.
 
 ### 3.9 Currency system — **[LOCKED core], [ITERATE] scope** *(cross-cuts `UI.md`)*
 - **[LOCKED] Second-half reveal:** **no money appears in the first half** (~Areas 1–2); the whole coin/monkey
