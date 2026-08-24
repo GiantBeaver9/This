@@ -178,11 +178,12 @@ Dropped by a **monkey stick figure**; you can only claim/summon it if you hold a
   drops to re-grab or is gone for good.
 
 ### 3.9 Currency system — **[LOCKED core], [ITERATE] scope** *(cross-cuts `UI.md`)*
-- Enemies **sometimes drop wallets**; each = **1 cent**. Money is **shown in the UI.**
+- Enemies **randomly drop coins**; each = **1 cent**. Money is **shown in the UI** and **resets each stage**
+  (`UI.md` §3.4).
+- **Drop rate ≈ 5% per tier** (scales with tier); **Swarmers drop 0** (fodder never feeds the economy).
 - **10¢ = a dime**, the cost to take/summon a **Monkey Merc** (§3.7).
-- **[ITERATE]** money only for monkeys, or a broader economy (between-stage shop? other buys?); does it
-  persist across stages/runs; wallet drop rate; any cap. If it grows past monkeys it earns its own
-  `ECONOMY.md`.
+- **[ITERATE]** exact per-tier rates & any cap; money only for monkeys or a broader economy (shop? other
+  buys?). If it grows past monkeys it earns its own `ECONOMY.md`.
 
 *More weapons welcome — this list is meant to grow; we iterate each `[ITERATE]` into a full §2-style spec.*
 

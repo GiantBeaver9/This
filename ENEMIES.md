@@ -18,9 +18,10 @@
   higher level = tougher and drops rarer/longer-lasting weapons (`WEAPONS.md` §4).
 - **[LOCKED] Weight matters** (from `PLAYER.md`): light/medium enemies **stagger** to a dash attack;
   **heavy** ones **floor the player** instead. Weight scales with level/type.
-- **[LOCKED] Loot on death:** most enemies drop a **weapon** or a **wallet** (1¢, currency `WEAPONS.md`
-  §3.9). Weapon drops are **random but constrained per stage** — the pool is limited to what that stage
-  offers, so early stages hand out early weapons. **Sniper-special kills drop nothing.**
+- **[LOCKED] Loot on death:** most enemies can drop a **weapon** (random but **constrained per stage** —
+  early stages hand out early weapons) and/or a **coin** (1¢, currency `WEAPONS.md` §3.9). **Coin drop rate
+  ≈ 5% per tier** (scales with tier); **Swarmers drop 0** (fodder never feeds the economy). **Sniper-special
+  kills drop nothing.**
 - **[LOCKED] Types are introduced progressively by stage.** Stage 1 is mostly **basic melee**; new types
   unlock as you climb (e.g. **grenade / Head-Throwers arrive ~stage 2**), so difficulty ramps by *roster*,
   not just numbers. *(Specific per-stage rosters get defined later, alongside stages.)*
@@ -231,7 +232,7 @@ wallet-drop, monkey flair).
 
 ---
 
-## 6. Status & next step — **ROSTER PAUSED** (resume anytime)
+## 6. Status & next step — **ROSTER COMPLETE (v1)** — all roles filled, open to additions
 
 **Locked system rules:** shared-body-plus-ability; ability tier rule (target ≥1 tier below; enemies loot
 each other; tiers span 0..N); telegraph timing (100ms fists / 150–200ms sword); **enemy guns short-range/
@@ -259,7 +260,9 @@ random loot; catch-up minibosses; subtle wristband ranks; **headshot economy** (
 - ~~Bullet-pattern zoner~~ — ✅ filled by **Ground Smasher** (lane shockwaves instead of projectile patterns).
 - ~~Heavy / bruiser~~ — ✅ filled by **Heavy ("Bold"/Burly)**.
 - ~~Fast swarm~~ — ✅ filled by **Swarmer**.
-- **Wallet Runner** — flees, drops ¢ to feed the dime economy. *Optional; not yet.*
+- ~~Wallet Runner~~ — ✅ **cut**; enemies drop **coins** directly (~5%/tier, 0 for Swarmers) instead.
+
+**All combat roles are now filled.** Roster complete for v1 (open to additions anytime).
 
 **Also parked:** the many per-enemy `[ITERATE]` details (fallbacks, cooldowns, drops), rank specifics,
 and per-stage rosters (with the stage designs).
