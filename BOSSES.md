@@ -121,6 +121,14 @@
 - **[NEW WEAPON — Bat]** a projectile-reflecting melee weapon — needs a `WEAPONS.md` entry (§3.10).
 - **[ITERATE]** chopper strafe/movement pattern, head-fire cadence, hits to down it, phases (does it descend?).
 
+### 5.6 Gatling Gun Guy — **boss** — **[LOCKED core]**
+- Boss-scale version of the **Gatling Gunner** enemy (`ENEMIES.md` §2.7): heavy **machine-gun suppression**
+  you must dodge while closing in.
+- **[LOCKED] Countered by the Shield Rush** (`PLAYER.md` §3) — **double-tap dodge forward** to advance
+  behind an enemy damage-sponge through the gunfire and reach him. The intended "close the gap" answer.
+- **Psychologically hard, short (<2 min).** **[ITERATE]** fire patterns/phases, does he reposition, HP,
+  does he spawn fodder to Shield-Rush behind, miniboss-eligible?
+
 *More bosses welcome — same §5 format.*
 
 ---
@@ -140,10 +148,11 @@ enemies; the meter **carries over** in boss fights and becomes a **low-HP sniper
 
 Plus **[LOCKED]** the "psychologically hard, <2 min (except Phil)" rule.
 
-**Defined bosses (5):** **Phil** (final, artist-summoner, exempt from the length cap), **Burly Macho Guy**
+**Defined bosses (6):** **Phil** (final, artist-summoner, exempt from the length cap), **Burly Macho Guy**
 (ground-spikes + enemy-toss bruiser), **Tank** (objective — 2 grenade drops), **Colossus** (whip off its
-pieces), **Helicopter** (bat heads back / lob grenades up). Three objective bosses use the **weapon-gated
-arena rule**; Phil & Helicopter are **main-boss-only**. Open to more.
+pieces), **Helicopter** (bat heads back / lob grenades up), **Gatling Gun Guy** (suppression, countered by
+Shield Rush). Objective bosses use the **weapon-gated arena rule**; Phil & Helicopter are **main-boss-only**.
+Open to more.
 
 **Still open (small):** boss HP display style (§3 — big named bar recommended); exact miniboss pace trigger;
 whether minibosses are sniper-immune; each boss's `[ITERATE]` details.

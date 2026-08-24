@@ -81,6 +81,10 @@ has a dash version that inherits the burst). Key twist:
   - **dash → jump** and **jump → dash** each cancel into the other, opening different combo/aerial routes,
   - **attack → dash** cancel (bail a swing into a dash),
   - **air-dash** exists (aerial dash/dodge with its own frames).
+- **[LOCKED] Shield Rush (double-tap dodge FORWARD):** grabs an enemy ahead and **runs forward using them
+  as a damage sponge**, soaking incoming fire (e.g. gatling bullets) to **close the gap** on ranged threats.
+  The intended counter to suppression enemies/bosses. **[ITERATE]** which enemy it grabs (nearest ahead?),
+  does it kill/consume them or just shove, how much it soaks, any tier limit, cooldown.
 - **Weapon dash attacks:** melee weapons get a real dash-swing; ranged weapons dash-hit as a bludgeon.
   **[LATER]** whether a weapon dash attack is weight-stagger only, or a weapon can fire on it.
 
@@ -144,6 +148,7 @@ spend on a boss **carries over.** The boss dodge is a **boss asset**.
 | Dash lunge + recover | 3–4 | P0 |
 | **Dash attacks** — per direction (side/up/down + air) | 3–4 ×dir | P0 |
 | **Air-dash** | 2–3 | P1 |
+| **Shield Rush** (grab enemy + forward run) | 4–5 | P1 |
 | **Fall-over + getup** (dash into a heavy target) | 4–6 | P1 |
 | Jump: rise / peak / fall | 3 | P0 |
 | Land recovery | 2 | P0 |
