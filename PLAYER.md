@@ -68,6 +68,23 @@ directional normals rather than a single canned combo string.
 - **[LOCKED]** Works empty-handed (fists) with the air reach-extender on each hit.
 - **[LATER]** exact finisher index (3 vs 4), damage/knockback per hit, cancel windows.
 
+### Dash & momentum attacks — **[PROPOSED]**
+Attacking during/at the end of a **dash** = a **dash attack**: a committed, momentum-carrying strike for
+**gap-closing and punishes.** This is a distinct move with its own animation, not just a normal attack
+that happens to slide.
+- **[PROPOSED] scope choice** (asset-defining):
+  - **(a) One dedicated dash-attack** — a single lunge move regardless of arrow direction (cheap, 1 anim;
+    dash momentum + your target still give it variety). **Recommended for v1.**
+  - **(b) Per-direction dash variants** — each directional attack gets a dash version that inherits the
+    burst (very expressive, but multiplies the attack art).
+- **[PROPOSED] Cancels:** dash → attack (dash into a hit) yes; **attack → dash** as a dash-cancel for
+  mobility/defense — a nice skill-expression option if we want it.
+- **[PROPOSED] Air-dash:** none for v1 (jump + air attacks already cover aerial). Flag if you want one —
+  it adds an air-dodge/air-mobility layer and its own frames.
+- **Weapon dash attacks:** follow the same rule as the combo — a melee weapon gets a real dash-swing;
+  a ranged weapon dash-hits as a bludgeon (fist strength) and could **fire on a dash-attack** too
+  (**[LATER]** reconcile with the finisher-only fire rule).
+
 ---
 
 ## 4. Movement & air states — **[LOCKED intent], frames [PROPOSED]**
@@ -126,6 +143,7 @@ ricochet-kill any normal enemies present in the arena — only the boss is immun
 | Idle (empty-hand) | 2–4 loop | P0 |
 | Walk/Run (mirror L/R) | 6–8 loop | P0 |
 | Dash lunge + recover | 3–4 | P0 |
+| **Dash attack** (lunging strike) | 3–4 | P0 |
 | Jump: rise / peak / fall | 3 | P0 |
 | Land recovery | 2 | P0 |
 | Ground attack: **side** (2–3 hit micro-combo) | 6–9 | P0 |
