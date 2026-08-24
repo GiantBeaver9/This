@@ -362,7 +362,7 @@ to fists), so ammo management is "use it or lose the drop," never a resource-hun
 | **Sandwich Bros / big Tier-1** | 1 (suburbs) | **160** (2× kit, big-version) | 50% | punch **11** | HP depletion; **solo = 1 big T1; 2P = 2 + a miniboss** | 1:15 |
 | **Burly Macho Guy** | 1 (dept store) | **300** | 66% (200) · 33% (100) | ground-spike **22.5** · **enemy-toss 40** | HP depletion | 1:45 |
 | **Colossus** | 2 (Sacramento) | **240** = **6 pieces ×40** | shed at 4 & 2 pieces (speeds up) | body swipe **22.5** | **whip off 6 stick-figure pieces**; torn pieces become T1 adds | 1:50 |
-| **Helicopter** | 2 (airport) | **180** | 66% (descends lower) · 33% | thrown heads **15** (max 2 on screen) | **6 reflected heads OR 4 lobbed grenades**; main-boss-only | 1:40 |
+| **Helicopter** | 2 (airport) | **objective** (not HP-depleted) | after **3 hits** it descends lower & fires faster | thrown heads **15** (max 2 on screen) | **6 reflected heads OR 4 lobbed grenades = down** (each reflect/lob = 1 objective hit; a lobbed grenade counts as **1.5** so 4 finish it); main-boss-only | 1:40 |
 | **Monkey Boss** | 3 (farm) | **200** (only your mercs damage him) | 60% · 30% (throws dimes faster) | **0** direct; his mercs (T1 pistol 7.5) | proxy war: catch dimes → your mercs shoot him down; boss mercs ignore the 3-death cap | 1:55 |
 | **big Arm-Ripper** | 3 (Dixon) | **280** (boss-scale) | 66% · 33% | pistols **7.5/shot @ 2/s** | HP depletion; caps the Dixon boss rush | 1:50 |
 | **Tank** | 4 (Vallejo) | objective (**2 grenade drops**) | **after drop 1** (MG pattern intensifies) | MG stream **1/hit**; direct hit while mounting **22.5** | **climb + drop grenade in hatch ×2**; arena adds drop only grenades | 1:50 |

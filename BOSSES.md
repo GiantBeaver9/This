@@ -107,8 +107,29 @@
   special once under 10% HP; Phil is the sole exception — specials never execute him, and the **scripted
   pencil-laser finisher is the only kill** (above). This is deliberate: it forces the player to reach the final
   finisher rather than melting him with a banked meter.
-- **[ITERATE]** how lead depletes (does clearing his summons drain it faster?), phase count, arena footprint
-  (play-band vs. giant).
+- **[LOCKED] Full fight script (authority for the finale beats; `ENCOUNTERS.md` defers here):**
+  - **HP 500, gated behind 5 sharpen windows** (`TUNING.md` §7): thresholds at **100% → 75% → 50% → 25% →
+    execute.** You can only damage him **during a sharpen window**; the **per-window damage cap is ~100
+    (20%)**, so each window drops him one threshold, then he re-arms.
+  - **Lead pool:** each draw cycle he has **enough lead to summon ~6 add-value** before running dry. **Lead
+    depletes by summoning** (each add costs lead) **and by you clearing his summons faster** — killing an add
+    refunds nothing to him but **hastens the dry-out** (fewer adds alive = he keeps drawing = burns lead), so
+    aggressive add-clearing **shortens the invuln phase** and brings the sharpen window sooner. This is the
+    core loop lever.
+  - **Draw phase (invuln):** he sketches adds at the arena's back edge. **Summon roster by threshold** (the
+    greatest-hits reprise): 100–75% → **Regulars + Swarmer pods**; 75–50% → **+ a reprise miniboss** (big
+    Snapper or big Head-Thrower); 50–25% → **+ a second reprise miniboss** (big Arm-Ripper or big Ninja);
+    25–0% → **+ Heavies**. Max **8 adds** on screen (the standard cap).
+  - **Sharpen window (vulnerable ~3–5 s):** when dry he **stops, hunches, and sharpens** — open and bleeding.
+    Deal up to the per-window cap; the window **ends early if you hit the cap**, else after 5 s.
+  - **Arena — [LOCKED]:** a **play-band brawler on the swaying rooftop** (30 × 8 wu, `ENCOUNTERS.md`), **not**
+    a giant upper-screen boss. **Sway/slippage** shifts your footing by up to **±1.5 wu** on a **~6 s sine**
+    (telegraphed by the skybox tilting); **two edges have no railing → fall = instant death** (`TUNING.md`
+    §6.2). He never falls; adds can be knocked off.
+  - **The kill:** at **execute (≤0% of the gated pool)** the final sharpen window triggers the scripted
+    **pencil-laser finisher** — the finisher animation is replaced by the player firing a laser from the
+    pencil. **Specials never execute Phil** (§5.1 above); this scripted finisher is the only kill.
+  - **Length:** exempt from <2:00; target **~5–8 min** (`TUNING.md` §7).
 
 ### 5.2 Burly Macho Guy — **boss** — **[LOCKED core]** — **caps Area 1 (department store)**
 - **Space-denier bruiser** in the vein of the Heavy/Burly (`ENEMIES.md` §2.11), boss-scale.
@@ -116,25 +137,46 @@
   player (a fast close-range AoE — unlike the slow Ground Smasher). Keeps you from face-tanking him.
 - **Enemy toss:** **grabs any enemy of any tier and throws it at the player for massive damage** (the
   cannibalize/grab theme at boss scale — ignores the normal tier rule).
-- **Psychologically hard, short (<2 min).** **[ITERATE]** spike telegraph/range, throw telegraph, phases,
-  miniboss vs. main, HP.
+- **[LOCKED] Attack pattern** (HP 300, `TUNING.md` §7):
+  - **Ground-spike:** windup **0.6 s** (raises fist, ground glows) → spikes erupt in a **4 wu radius** for
+    22.5 dmg; cooldown **2.5 s**. Telegraphed glow lets you dash out.
+  - **Enemy-toss:** grabs an add and hurls it (windup **0.8 s**, a clear over-the-head pose) — **40 dmg**,
+    travels the lane; **dodge by changing Z-row.** Only usable when an add is alive.
+  - **Charge (Phase 2, ≤66%):** a **shoulder rush** across the lane at 12 wu/s, floors on contact (H-weight).
+  - **Phase 3 (≤33%):** spike cooldown drops to **1.5 s** and he pairs spike→charge.
+- **Adds:** 2 Regulars stream in so he always has toss fodder (`ENCOUNTERS.md` arena). **Main boss** (Area-1
+  cap), not a miniboss. Psychologically hard, short (<2 min).
 
-### 5.3 Tank — **objective boss** — **[LOCKED core]** — **caps Area 4 (Vallejo — military nearby)**
+### 5.3 Tank — **objective boss** — **[LOCKED core]** — **mid Area 4 (Vallejo — military nearby)** *(Gatling Gun Guy caps Area 4)*
 - **It's a literal tank.** You **fight regular enemies while dodging its machine-gun fire.**
 - **[LOCKED] Win condition = grenades:** when you have a **grenade**, you **climb on top and drop it in the
   hatch. 2 grenade drops = kill.** An objective/puzzle boss, not a health-bar slugfest.
 - **Relies on the Grenade** (`WEAPONS.md` §3.2) — grenades are supplied by the **weapon-gated arena rule**
-  (§1: tier-1 adds drop only grenades). **[ITERATE]** how you mount it (prompt / climb), the MG fire
-  pattern, does it move, what changes between the 1st and 2nd drop, the ~2-min cap.
+  (§1: tier-1 adds drop only grenades).
+- **[LOCKED] Fight pattern:**
+  - **MG fire:** sweeps a **horizontal beam** across one Z-row at a time, telegraphed by the turret rotating
+    **0.7 s** before it fires; **1 dmg/hit** stream for **1.5 s**, then re-aims to a new row. Stay off the
+    lit row.
+  - **Mounting:** approach the **rear tread** (a glowing prompt appears when you're within 2 wu **and holding
+    a grenade**) → **hold `F` 0.5 s** to climb → auto-walk to the hatch → **`E`** drops the grenade in.
+  - **After drop 1 (Phase 2):** the tank **reverses and repositions** once, and the MG adds a **second
+    sweeping row** (two lit rows). Adds keep dropping grenades so you can re-arm.
+  - **Drop 2 = kill.** It does not move otherwise (it's a turret-puzzle). ~1:50 cap (`TUNING.md` §7).
 
-### 5.4 The Colossus — **boss** — **[LOCKED core]** *(name TBD)* — **caps Area 2 (Sacramento, whip)**
+### 5.4 The Colossus — **boss** — **[LOCKED core]** *(name TBD)* — **mid Area 2 (Sacramento, whip)** *(Helicopter caps Area 2)*
 - A **giant stick figure built out of many smaller stick figures.**
 - **[LOCKED] Win condition = whip:** you **rip the smaller stick figures off it one at a time with the Whip**
   (`WEAPONS.md` §3.4 — its pull/grab), slowly dismantling the giant piece by piece.
 - Weapon-gated → the **weapon-gated arena rule** (§1) supplies whips (tier-1 adds drop only whips).
-- **Psychologically hard, short (<2 min).** **[ITERATE]** how many pieces to strip, do torn-off pieces
-  become adds, does dismantling change its attacks/phases, how it fights back, arena (likely a giant
-  upper-screen boss).
+- **[LOCKED] Structure (HP = 6 pieces × 40, `TUNING.md` §7):** a **giant upper-screen boss** reaching down
+  into the play-band. **Whip-pull (forward) rips one piece per successful grab**; each torn piece **becomes a
+  T1 add** on the ground (crowd pressure as you dismantle).
+- **[LOCKED] Attacks:**
+  - **Body swipe:** a slow overhead arm sweep across the lane, windup **0.9 s**, **22.5 dmg**, cooldown 3 s.
+  - **Piece-spit:** flings a loose stick-figure at you (like Burly's toss but weaker, **15 dmg**), every 4 s.
+  - **At 4 pieces left:** swipe cooldown → 2.5 s. **At 2 pieces left:** it **flails faster** (swipe 2 s) and
+    spits two at once — the "cornered giant" phase.
+- Weapon-gated arena supplies whips. Psychologically hard, short (<2 min).
 
 ### 5.5 Helicopter (Monkey Chopper) — **boss** — **[LOCKED core]** *(name TBD)* — **caps Area 2 (airport)**
 - A **monkey flying a helicopter**, strafing the player. **Shoots stick-figure heads** as projectiles —
@@ -144,7 +186,15 @@
   - **Lob it up:** grab a **Grenade** and **lob it upward** at the chopper.
 - **[LOCKED] Never a miniboss** (§1). Psychologically hard, short (<2 min).
 - **[NEW WEAPON — Bat]** a projectile-reflecting melee weapon — spec'd at `WEAPONS.md` §3.7b.
-- **[ITERATE]** chopper strafe/movement pattern, head-fire cadence, hits to down it, phases (does it descend?).
+- **[LOCKED] Objective, not HP (`TUNING.md` §7):** you don't chip a health bar — **6 reflected heads OR 4
+  lobbed grenades bring it down** (a lobbed grenade counts as 1.5, so 4 finish it). Mixed reflects/lobs add up.
+- **[LOCKED] Pattern:**
+  - **Strafe:** flies **left↔right across the top band** at 8 wu/s, dipping toward whichever Z-row you're on.
+  - **Head-fire:** lobs stick-figure heads (max **2 airborne**) at your position, **one every 2.5 s**, arced
+    telegraph 0.5 s — **bat them back up** (reflect window 0.20 s) to score a hit, or **lob a grenade up**.
+  - **After 3 objective hits (Phase 2):** **descends lower** (easier to hit, but head-fire cadence → 1.8 s and
+    it adds a short horizontal **rotor-gust** that pushes you toward a Z-edge).
+- **Never a miniboss** (§1). Psychologically hard, short (<2 min).
 
 ### 5.6 Gatling Gun Guy — **boss** — **[LOCKED core]**
 - Boss-scale version of the **Gatling Gunner** enemy (`ENEMIES.md` §2.7): heavy **machine-gun suppression**
@@ -154,8 +204,15 @@
 - **[LOCKED] Golden Gate Bridge fight (Area 4 penultimate):** a **barrage every ~5s** with a **"BARRAGE
   INCOMING" on-screen warning**; **hide behind the bridge's cars** or get **eviscerated** (enemies too) —
   cover + timing here rather than the Shield Rush.
-- **Psychologically hard, short (<2 min).** **[ITERATE]** fire patterns/phases, does he reposition, HP,
-  does he spawn fodder to Shield-Rush behind.
+- **[LOCKED] Pattern (HP 260, `TUNING.md` §7):**
+  - **Barrage cycle:** **~5 s** between barrages, each preceded by the **"BARRAGE INCOMING"** warning
+    (2 s lead). The barrage is **instant death in the open** — you must be **behind a car** (hard cover) or
+    off his firing row. Barrage lasts 1.5 s.
+  - **Between barrages:** he **repositions** one car-length and **spawns 1–2 Regular fodder** you can
+    **Shield-Rush** behind to close distance (`PLAYER.md` §3) and land melee (22.5 to him per exchange).
+  - **Phase 2 (≤66%):** barrage cadence → 4 s. **Phase 3 (≤33%):** he fires **two rows** per barrage, forcing
+    a specific car.
+- **Caps Area 4** (`STAGES.md` §4). Psychologically hard, short (<2 min).
 
 ### 5.7 Monkey Boss — **boss** — **[LOCKED core]**
 - **Throws dimes into the air**; the player **catches them to summon their own Monkey Mercs** (`WEAPONS.md`
@@ -168,8 +225,15 @@
   summons a merc directly** (boss-specific; no monkey-stick-figure or saved-up change needed), and these
   boss-fight mercs are **OUTSIDE the "3 dead = no more" per-level cap** (`WEAPONS.md` §3.7). You can always
   keep fielding monkeys to damage him.
-- **Psychologically hard, short (<2 min).** **[ITERATE]** dime cadence/arc, how many monkeys per side, does
-  he move/attack directly at all, phases, HP.
+- **[LOCKED] Pattern (HP 200, only your mercs damage him, `TUNING.md` §7):**
+  - **Dime toss:** he lobs a **dime** in a high arc **every 4 s**, landing at a telegraphed spot — **run under
+    it and catch (`F`)** to spawn a merc directly (boss-fight mercs ignore the 3-death cap).
+  - **He does not attack the player directly** (0 direct dmg) — the threat is **his own mercs** (T1 pistol,
+    7.5) if you lose the dime race, plus positioning.
+  - **Phase 2 (≤60%):** dime cadence → 3 s (faster race). **Phase 3 (≤30%):** he throws **two dimes at once**
+    to opposite sides, forcing a choice.
+- **[LOCKED] Merc math:** your fielded mercs do ~**8/shot @ 2/s** each; a full monkey squad clears his 200 in
+  the length window. Psychologically hard, short (<2 min).
 
 *More bosses welcome — same §5 format.*
 
