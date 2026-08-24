@@ -39,8 +39,8 @@
 ## 2. Run structure — **[LOCKED]**
 
 **[LOCKED] Acts → stages → branches.** A run is a **branching tree of stages** grouped into **~4 acts +
-finale**; any single playthrough passes through **~10–12 stages** (one path). **Balanced pacing** — medium
-stage length *and* count (each stage ~15–20 min) — to land **3–4 hrs.**
+finale**, **~2–3 stages per act**; any single playthrough passes through **~10–12 stages** (one path).
+**Balanced pacing** — medium stage length *and* count (each stage ~15–20 min) — to land **3–4 hrs.**
 
 ```
         ACT 1 ──► ACT 2 ──►  ACT 3  ──►  ACT 4  ──► FINALE
@@ -87,15 +87,20 @@ New types **debut** act by act, then **recombine** with everything prior. (Roste
   acts to re-test old foes at higher stakes.
 - **[ITERATE]** exact debut stage per enemy; which boss gates which branch; per-stage rosters.
 
-### 4.1 Act 1 — The City (Area 1) — **[LOCKED core]**
-Opens after the cinematic. **Tier 0–1 enemies only** (lead economy — few and weak). **Two stages** make
-Area 1, then branching widens:
-- **Stage 1 — US Suburbs:** houses, streets, sidewalks; you fight on the road and walkways.
-  - **[LOCKED] Traffic hazard:** **cars and school buses drive through the lane**; **dodge out of their way
-    to avoid damage.** **[ITERATE]** do they also hit/kill enemies (a usable hazard) or only threaten the player?
-  - **Boss:** a fight at a **parody fast-food joint** — a **made-up brand, no real trademarks** (`[LATER]` name).
-- **Stage 2 — Downtown:** denser city core; caps Area 1. From here **branching widens.**
-- **[ITERATE]** Downtown's boss/miniboss, Area 1's branch fork, exact enemy mix per stage.
+### 4.1 Acts & themes — **[LOCKED core]** (~2–3 stages each, act-end boss gates the branch)
+
+| Act | Theme / setting | Stages & set pieces | Enemy ramp (lead economy) |
+|---|---|---|---|
+| **1 — Suburbs** | US suburban area (houses, streets, sidewalks) | fight on roads/walkways; **car & school-bus traffic hazard** (dodge to avoid damage); **boss at a parody fast-food joint** (made-up brand, no trademarks) | **tier 0–1 only** |
+| **2 — Mall** | shopping mall interior | food court, shops, atrium; **boss in a department store** | + tier-2 layer |
+| **3 — The Journey** | varied outdoors — **up a mountain, across a lake**, etc. | scenic travel stages, nature hazards | + tier-3 layer |
+| **4 — Big City** | dense metropolis (San-Francisco-like) | steep streets, traffic; **ends atop a skyscraper** | full roster |
+| **Finale** | Phil's showdown | dull pencil → **sharpen-window** fight (§1a) | everything |
+
+- **[LOCKED] Traffic hazard (Act 1):** cars & school buses drive through the lane — **dodge to avoid damage.**
+  **[ITERATE]** do they also hit enemies (usable hazard)?
+- **[LATER]** exact stage list per act, which boss caps each act, per-stage enemy mixes, branch forks,
+  per-act hazards, and parody-brand naming.
 
 ---
 
@@ -121,12 +126,20 @@ Area 1, then branching widens:
 
 ## 7. Environments / themes — **[PROPOSED]**, your ideas
 
-Each stage/act needs a **background theme** (parallax backdrop for the top band; the lane floor below).
-**Act 1 locked:** **Suburbs** (houses/streets/sidewalks, car+bus traffic hazard) → **Downtown** (dense city
-core). **Dump more theme ideas** for Acts 2–4 and we'll map them. Assets: per-theme background + parallax
-layers + lane floor + hazards (e.g. Act 1's cars/buses).
+All act themes are locked (§4.1): **Suburbs → Mall (department-store boss) → The Journey (mountain/lake/…)
+→ Big City (skyscraper top) → Phil.** Each needs a **background theme** (parallax backdrop for the top band;
+the lane floor below). Assets: per-theme background + parallax layers + lane floor + hazards (e.g. Act 1's
+cars/buses). **[ITERATE]** the individual stage backdrops within each act.
 
 ---
+
+## 7b. Endless Mode — **[LOCKED core]** (extra mode)
+
+- A separate **survival mode**: **starts from zero** (base difficulty) and **never lets up** — it **spawns
+  more enemies whenever only 2 remain on screen**, scaling difficulty as it goes.
+- Uses the full enemy roster; doubles as a great **playtest sandbox** and replay hook.
+- **[ITERATE]** the scaling curve; does it layer in tiers/bosses over time; scoring/leaderboard; do campaign
+  economy/weapon rules apply; is it purely endless-until-death.
 
 ## 8. Asset needs → feeds `ASSET_MANIFEST.md`
 - **Per theme:** background + parallax layers, lane floor, set dressing, stage hazards.
@@ -140,5 +153,8 @@ layers + lane floor + hazards (e.g. Act 1's cars/buses).
 **Resolved (now [LOCKED]):** ~10–12 stages/path across ~4 acts + finale; **balanced** stage length/count;
 **checkpoints + limited continues.**
 
-**Next: your stage themes (§7)** — dump settings and we'll map them to acts. Then per-fork branch recipes,
-exact per-stage rosters, checkpoint/continue specifics.
+**Act themes locked (§4.1):** Suburbs → Mall → The Journey → Big City → Phil (~2–3 stages each). **Endless
+Mode** added (§7b).
+
+**Next / [ITERATE]:** per-fork branch recipes, exact per-stage rosters & backdrops, which boss caps each
+act, checkpoint/continue specifics, parody-brand naming.
