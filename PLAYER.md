@@ -70,12 +70,13 @@ directional normals rather than a single canned combo string.
 ### Combo model — **[LOCKED]**
 - **One hit per press** — each arrow press is a single strike in that direction (no per-direction
   auto-string). The *variety* comes from **which directions you chain**, on the ground and in the air.
-- **A rolling combo counter** tracks consecutive hits **regardless of direction**, and the **finisher is the
-  4th hit** in a chain — a **stronger melee move (costs no ammo)**, thrown in whatever direction you pressed
-  for that hit. *(Weapon-fire is separate — press `E`, §2 / `WEAPONS.md` §1.)*
-  - *Example:* `↓ ↓ ↓ ↓` = punch ×3, **strong back kick** (finisher on hit 4). `→ → → ↓` = front punch ×3,
-    **strong back kick** — same finisher, you just faced forward first. Mix freely; only the **position in the
-    chain** decides strength.
+- **[LOCKED] The string is `punch → punch → sweep → finisher`** (4 hits), attacking in the direction pressed.
+  - **Hit 3 = a sweep that KNOCKS THE ENEMY DOWN.** **Hit 4 = the finisher, which only lands on a
+    knocked-down enemy** — so you must **tap the same direction twice** (sweep to floor them, then finisher
+    into the downed body). A deliberate commit, **not** an automatic 4th hit; against a standing enemy that
+    4th tap is just a normal hit.
+  - **Finisher = strong, FREE melee (no ammo);** weapon-fire is separate (`E`, §2 / `WEAPONS.md` §1).
+    *(Phil's kill is a finisher on a swept-down Phil — the pencil-laser, `BOSSES.md` §5.1.)*
 - Every hit feeds the meter's rapid-hit multiplier; letting the rhythm lapse resets the counter.
 - **[LOCKED]** Works empty-handed (fists) with the air reach-extender on each hit.
 - **[LATER]** exact finisher index (3 vs 4), damage/knockback per hit, cancel windows.

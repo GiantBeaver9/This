@@ -95,6 +95,10 @@
 - **[LOCKED] Arena — Salesforce Tower rooftop (SF):** the tower **sways** — **slight slippage** during the
   fight (you slide with the wind), and **falling off = instant death** (foreshadowed by things shifting during
   his intro cutscene).
+- **[LOCKED] Phil is killed by a FINISHER — no other way.** You whittle him during the sharpen-windows;
+  the **killing blow must be a finisher**, and at the climax that finisher is **replaced** — the player
+  **"shoots" Phil with a laser that fires from the pencil**. This scripted **pencil-laser finisher** is the
+  only thing that ends him (it's not gated on the 10% special rule the other bosses use).
 - **[LOCKED] The endgame** — the absolute final fight, **exempt from the <2-min rule**, meant to be
   **brutally hard.**
 - **[ITERATE]** how lead depletes (does clearing his summons drain it faster?), phases, arena (play-band vs.
