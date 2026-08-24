@@ -39,6 +39,9 @@
   resolves "where does the weapon come from" for every objective boss.
 - **[LOCKED] Some bosses are never minibosses.** **Phil** and the **Helicopter** are **main-boss-only** —
   never injected as catch-up minibosses, and never reprised as adds (even by Phil).
+- **[LOCKED] "Big version" of every enemy.** Any enemy scales up into a tougher fight: **minibosses render
+  ~20% bigger** (same art, scaled, buffed), **full bosses ~2× size.** This yields a large miniboss/boss
+  pool **cheaply from existing enemy art** — no new sprites, just scale + stat/behavior bumps.
 
 ---
 
@@ -65,8 +68,8 @@
 
 - **Trigger:** injected when **pace is too fast** (`ENEMIES.md`). **[ITERATE]** the exact pace metric
   (time-to-clear? kill rate?).
-- **[PROPOSED]** Minibosses are **scaled-down bosses** (one gimmick, a short phase or two) rather than just
-  beefy regular enemies — a real skill check, not a stat sponge.
+- **[LOCKED] Minibosses come in two flavors** (both exist): **scaled-down bosses** (a gimmick + a short
+  phase) and **"big version" enemies** (§1 — a regular enemy rendered ~20% bigger and buffed).
 - **[ITERATE]** do they drop guaranteed loot; can they appear more than once a stage; are they sniper-immune
   like main bosses, or killable by it?
 
@@ -129,14 +132,26 @@
 - **Psychologically hard, short (<2 min).** **[ITERATE]** fire patterns/phases, does he reposition, HP,
   does he spawn fodder to Shield-Rush behind, miniboss-eligible?
 
+### 5.7 Monkey Boss — **boss** — **[LOCKED core]**
+- **Throws dimes into the air**; the player **catches them to summon their own Monkey Mercs** (`WEAPONS.md`
+  §3.7).
+- **[LOCKED] The player can't damage him directly — only the player's summoned mercs can hurt him.** A
+  **proxy war:** win the dimes, field your monkeys, let them shoot him down.
+- **[LOCKED] Lose the race, feed the enemy:** if the player **doesn't catch a dime in time, the Monkey Boss
+  summons his OWN mercs** — the same gun-monkeys, but **never above tier 1** (kept fair).
+- **Psychologically hard, short (<2 min).** **[ITERATE]** dime cadence/arc, how many monkeys per side, does
+  he move/attack directly at all, phases, HP.
+
 *More bosses welcome — same §5 format.*
 
 ---
 
 ## 6. Asset needs (per boss) → feeds `ASSET_MANIFEST.md`
 
-For **each boss**: idle/move · each attack + **telegraph** · phase-transition · **hurt** · **death** ·
-**sniper-dodge** anim · any summoned adds/hazards · boss HP bar + name card. Bigger sprites than enemies.
+For **each *bespoke* boss** (Phil, Tank, Colossus, Helicopter, Monkey Boss, etc.): idle/move · each attack +
+**telegraph** · phase-transition · **hurt** · **death** · **sniper-dodge** anim · summoned adds/hazards ·
+boss HP bar + name card. **"Big version" bosses/minibosses need NO new art** — they reuse the enemy's
+sprites at ~20% (miniboss) or ~2× (boss) scale.
 
 ---
 
@@ -152,7 +167,8 @@ Plus **[LOCKED]** the "psychologically hard, <2 min (except Phil)" rule.
 (ground-spikes + enemy-toss bruiser), **Tank** (objective — 2 grenade drops), **Colossus** (whip off its
 pieces), **Helicopter** (bat heads back / lob grenades up), **Gatling Gun Guy** (suppression, countered by
 Shield Rush). Objective bosses use the **weapon-gated arena rule**; Phil & Helicopter are **main-boss-only**.
-Open to more.
+Open to more. Plus **[LOCKED]** the **"big version" rule** (any enemy → ~20% miniboss / ~2× boss, no new art)
+and **7 bespoke bosses** total (added **Gatling Gun Guy** and **Monkey Boss**).
 
 **Still open (small):** boss HP display style (§3 — big named bar recommended); exact miniboss pace trigger;
 whether minibosses are sniper-immune; each boss's `[ITERATE]` details.
