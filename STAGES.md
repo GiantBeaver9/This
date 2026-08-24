@@ -66,7 +66,8 @@ direction**. Then it hands off to normal play.
   what's going on and what beats it. Examples:
   - a **Head-Thrower** lobs a head-grenade that kills nearby enemies;
   - a Head-Thrower **fastballs** a grenade and a **Bat enemy swats it away**, launching it to explode.
-- **[LOCKED]** The **very first stage has no vignette** — you just **punch** (fists, basic enemies).
+- **[LOCKED]** The **very first stage gets only a light vignette** — the **dancing Zebra punches a regular
+  enemy** to demo the **punch** (the only mechanic there). Full vignette plan → **`VIGNETTES.md`**.
 - **[LOCKED] Weapon-availability ramp:** the first stages hand out **only basic melee** (swords, clubs); each
   new stage **introduces its mechanic via the vignette, then lets the matching weapons spawn.** So it's
   **teaching → tools → test** every stage, and it pairs with the boss (e.g. airport teaches bat+grenade →
