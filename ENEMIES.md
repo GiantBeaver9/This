@@ -39,6 +39,9 @@
 - **[LOCKED] Enemy ranged is short-range (no sniping).** Enemy guns/projectiles only connect from **close
   range**, so shooters must **close in** — which keeps every threat **dodgeable** by move/dash/jump. The
   bullet-hell pressure comes from *many close shooters*, never from off-screen snipers.
+- **[LOCKED] Some enemies are outside the tier system** — special units (e.g. summoners like the Monkey
+  Tamer) that don't rank up/down and don't feed the ability-tier rule; they're **priority/utility** threats
+  judged on their own terms.
 
 ---
 
@@ -85,6 +88,17 @@
 - Fills the **gunner** role (a close-range, approachable one). **[ITERATE]** fire cadence, does he run dry /
   reload, what he does with no tier-1 to disarm (call one in like the Snapper?), does killing him drop
   pistols for the player.
+
+### 2.6 Monkey Tamer — **[LOCKED core]** — **outside the tier system**
+- **Summoner:** uses a **whistle** to **drag in enemy Monkey Mercs** — **melee-only** (distinct from the
+  *player's* gun-toting Monkey Merc, `WEAPONS.md` §3.7). Spawns **up to 2 at a time**, **infinitely
+  respawning.**
+- **[LOCKED] Kill him and it all stops:** his monkeys **deactivate immediately on his death** — so **he's
+  the priority target**, not the monkeys.
+- **Low mobility:** **less mobile than the player**, so you can outmaneuver the swarm to reach him.
+- **[LOCKED] Outside the tier system** — not tier-1/2; a special summoner unit.
+- **[ITERATE]** whistle telegraph/cooldown, monkey HP & attacks, respawn delay, what he does if you corner
+  him (fight or flee?).
 
 ---
 
@@ -133,7 +147,8 @@ wallet-drop, monkey flair).
 **Locked so far:** system rules (incl. shared-body-plus-ability, ability tier rule, telegraph timing);
 progressive type-introduction by stage; per-stage constrained random loot; catch-up minibosses; subtle
 wristband ranks; **enemy guns are short-range/dodgeable**. **Defined enemies:** Head-Thrower, Monkey,
-Regular Melee, Snapper (Sword-Maker, T2), Arm-Ripper (Dual Pistols, T2a) + its disarmed Headbutt state.
+Regular Melee, Snapper (Sword-Maker, T2), Arm-Ripper (Dual Pistols, T2a) + its disarmed Headbutt state,
+Monkey Tamer (untiered summoner).
 
 **Next — capture your named enemies.** You have specific enemy ideas; dump them and we'll (a) spec each one
 §2-style, and (b) map it onto the role baseline so we know coverage. Specific per-stage rosters and rank
