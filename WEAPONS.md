@@ -134,12 +134,14 @@ Enemy-dropped; **1 per pickup** (scarce — save it for a cluster).
 - **[ITERATE]** monkey attacks/AI, how easily it dies, whether more than one can be active, cooldown.
 
 ### 3.8 Boomerang Gun — *thrown auto-fire* **[LOCKED core]**
-- A **gun you throw** — it **flies around/among the enemies auto-shooting them**, then **returns** to your
-  hand. Re-throwable **up to 3 times**, then it's spent/gone.
-- Combines the boomerang's throw-and-return with ranged damage: a **hands-free crowd-tickler** you fire
-  and reposition behind.
-- **[ITERATE]** flight path (orbits the crowd? weaves?), shots per pass, auto-target vs. spray, damage,
-  whether you're free to act (punch/move) while it's out, and what happens if you're hit mid-flight.
+- A **gun you throw**; it flies a **fixed orbit arc** (a set boomerang loop) and **shoots whatever it
+  passes**, then **returns**. Not auto-homing — you aim it by **where you position and throw.**
+- **While it's out you're free to move/dash, but only fists are available** until it returns to hand.
+- **Ammo = 10 bullets total — the only resource.** It fires **up to 4 shots per pass** (so ~3 passes to
+  empty). **A throw that fires no bullets costs nothing** — only spent bullets count.
+- **[LOCKED] It can be shot down mid-flight** — an enemy destroying it **loses you the remaining bullets.**
+- **[ITERATE]** orbit size/shape, fire rate within a pass, throw cooldown, and whether a shot-down gun
+  drops to re-grab or is gone for good.
 
 ### 3.9 Currency system — **[LOCKED core], [ITERATE] scope** *(cross-cuts `UI.md`)*
 - Enemies **sometimes drop wallets**; each = **1 cent**. Money is **shown in the UI.**
@@ -186,9 +188,9 @@ Shared: every dropped weapon needs a **ground pickup sprite** and a **decay/brea
 when armed); function-first theming; the roster list above; grenade press-to-throw physics; the currency
 system core (wallets → cents → dime → monkey merc).
 
-**Iterating one at a time (together).** Done: **Staff**, **Gatling**, **Pistol & Revolver**, **Grenade**
-(1/pickup, lob = big blast / fastball = path-plow, self-damage real). Remaining: **Boomerang Gun → Whip →
-Ball & Chain → Monkey Merc**, then keep adding.
+**Iterating one at a time (together).** Done: **Staff**, **Gatling**, **Pistol & Revolver**, **Grenade**,
+**Boomerang Gun** (fixed orbit, 10 bullets / 4 per pass, can be shot down). Remaining: **Whip → Ball &
+Chain → Monkey Merc**, then keep adding.
 
 **[LATER]:** durability numbers, tier drop rates, per-archetype loot restrictions, finisher damage,
 whether currency grows into a full economy.
