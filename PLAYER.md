@@ -55,11 +55,18 @@ directional normals rather than a single canned combo string.
 | ↑ | **Up air** | juggle / hit above |
 | ↓ | **Down air / spike** | slam downward; can spike/bounce, combo starter on landing |
 
-- **[PROPOSED] Chaining:** tapping a direction repeatedly does a **short 2–3 hit micro-combo** in that
-  direction (e.g. side-side-side = jab/jab/cross), and you can cancel between directions for flow. Every
-  hit feeds the meter's rapid-hit multiplier. Keeps it a *rhythm* without a rigid single string.
-- **[LOCKED]** All of this works empty-handed (fists) with the air reach-extender.
-- **[LATER]** exact hit counts, damage, knockback per direction; any special-cancel rules.
+### Combo model — **[LOCKED]**
+- **One hit per press** — each arrow press is a single strike in that direction (no per-direction
+  auto-string). The *variety* comes from **which directions you chain**, on the ground and in the air.
+- **A rolling combo counter** tracks consecutive hits **regardless of direction**, and the **finisher
+  (the 3rd hit** in a chain — **[PROPOSED]** N=3) is a **stronger move**, thrown in whatever direction you
+  pressed for that hit.
+  - *Example:* `↓ ↓ ↓` = punch, punch, **strong back kick** (finisher on hit 3). `→ → ↓` = front punch,
+    front punch, **strong back kick** — same finisher, you just faced forward for the first two. Mix
+    freely; only the **position in the chain** decides strength.
+- Every hit feeds the meter's rapid-hit multiplier; letting the rhythm lapse resets the counter.
+- **[LOCKED]** Works empty-handed (fists) with the air reach-extender on each hit.
+- **[LATER]** exact finisher index (3 vs 4), damage/knockback per hit, cancel windows.
 
 ---
 
@@ -75,26 +82,22 @@ directional normals rather than a single canned combo string.
 
 ## 5. Weapons & the bespoke-animation reality — **[LOCKED pipeline] + [PROPOSED] scoping**
 
-**[LOCKED] Pipeline = Option B (bespoke):** every weapon gets **fully custom body animation**, not a
-prop pinned to a shared body. Prettiest result — and the honest cost is that **each weapon is its own
-mini animated character.**
+**[LOCKED] Pipeline = Option B (bespoke):** every weapon gets **fully custom body animation** — the full
+directional + air matrix, same as fists. Prettiest and most consistent; the honest cost is that each
+weapon is its own mini animated character.
 
-**The asset math (why we must scope this):** with bespoke + directional + air, a *fully* animated weapon
-wants roughly:
-`idle + walk + jump(3) + land + 3 ground attacks + 3 air attacks (+dash-hold) ≈ 12–16 animations each.`
-Across a large weapon roster that's **hundreds** of hand-drawn animations.
+**[LOCKED] Ranged weapons are bludgeons through the combo, and only *fire* on the finisher.** When you
+attack with a gun (or any non-melee weapon), it's **swung as a melee weapon** through the combo — those
+hits do **fist-strength** damage and reuse the fist/melee motion **with the weapon in hand**. The weapon's
+**real effect fires on the combo finisher** (e.g. the shotgun discharges its shell as the strong 3rd hit;
+the spine/cock economy in `WEAPONS.md` advances per finisher). Consequences for art:
+- **Melee weapons (sword, etc.)** = genuinely new directional attack art — a real swing kit.
+- **Ranged weapons (shotgun, etc.)** = mostly the **fist combo re-drawn holding the weapon** + a **unique
+  finisher/fire** animation. Cheaper than a full bespoke melee weapon, still fully animated.
+- **[LATER] reconcile in `WEAPONS.md`:** whether a ranged weapon can *also* fire outside the combo, or
+  firing is strictly the finisher (the player-side default above).
 
-**[PROPOSED] Scoping rule to keep it human-doable — "fists are the virtuoso, weapons are focused":**
-- **Fists (base Human)** get the **full** directional + air moveset — this is the star and you'll use it
-  most.
-- **Each weapon** gets a **tight signature set**, not the whole matrix. Suggested minimum per weapon:
-  **hold-idle, hold-walk, one primary attack, one air attack**, and only the *extra* directional attacks
-  that define that weapon (e.g. sword gets an up-launcher; shotgun gets a down-blast). Weapons inherit the
-  Human's jump/dash/hurt/death poses (drawn once, weapon prop composited or redrawn only if it reads wrong).
-- This turns each new weapon into ~**4–6 animations** instead of ~15. *Flag if you'd rather every weapon
-  be fully animated — totally valid, just a much bigger pile.*
-
-Weapon-by-weapon animation specifics get pinned in `WEAPONS.md` alongside each weapon's behavior.
+Weapon-by-weapon animation lists get pinned in `WEAPONS.md` alongside each weapon's behavior.
 
 ---
 
@@ -106,8 +109,10 @@ A short cinematic beat with dedicated frames:
 3. **Fire** — one shot; ricochets headshot-to-headshot (kills, **no drops**).
 4. **Recover** — lower weapon, time resumes, meter empties.
 
-**[LOCKED]** No effect on bosses — the anim still plays, the shot just doesn't kill them. **[PROPOSED]**
-it staggers/pings a boss rather than whiffing entirely (your call, affects boss feel).
+**[LOCKED]** Against a **boss the shot is dodged** — the boss plays a **dodge animation** and the bullet
+misses entirely; it can never damage a boss. The special still fires and **[PROPOSED]** can still
+ricochet-kill any normal enemies present in the arena — only the boss is immune. (The boss dodge is a
+**boss asset** — see `BOSSES.md`.)
 
 ---
 
@@ -135,9 +140,10 @@ it staggers/pings a boss rather than whiffing entirely (your call, affects boss 
 | Special: draw → aim → fire → recover | 3+2+2+2 | P1 |
 | Pick-up (or none if auto-pickup) | 0–2 | P2 |
 
-### Per weapon (bespoke, **scoped set** per §5)
-For **each** weapon: hold-idle · hold-walk · primary attack · one air attack · its 1–2 signature
-directional attacks · weapon-specific VFX. (Enumerated per weapon in `WEAPONS.md`.)
+### Per weapon (bespoke, full matrix per §5)
+- **Melee weapon:** full directional + air attack kit (new swing art) · hold-idle · hold-walk · jump-hold.
+- **Ranged weapon:** fist combo re-drawn holding the weapon (fist-strength bludgeon) · **unique
+  finisher/fire** anim · hold-idle · hold-walk. (Enumerated per weapon in `WEAPONS.md`.)
 
 ### Player-owned VFX (see `VFX.md`)
 Air-punch gust · dash dust · jump/landing puff · hit-impact spark · muzzle flash · spine-eject bit ·
@@ -147,14 +153,10 @@ time-slow tint · sniper tracer/ricochet line.
 
 ## 8. Decisions — status
 
-**Resolved (now [LOCKED] above):** pixel-art human protagonist; air-punch reach-extender; WASD move +
-arrow-key directional attacks; dash **and** jump with a full air moveset; bespoke weapon animation.
+**Resolved (now [LOCKED] above):** pixel-art human protagonist; **short-gust** air reach-extender; WASD
+move + arrow-key **directional** attacks; **single hit per press** with a rolling **mixed-direction combo**
+and a strong **finisher**; **dash + jump** with a full air moveset; **bespoke animation for every weapon**;
+**ranged weapons bludgeon through the combo and fire on the finisher**; **boss dodges** the sniper special.
 
-**Open / want your call:**
-1. **Weapon scoping (§5):** OK to give weapons a *tight signature set* while fists get the full matrix,
-   to keep the art pile sane? Or fully animate every weapon?
-2. **Air reach-extender (§1):** short melee-only gust (recommended), or does it travel a little?
-3. **Micro-combo (§3):** 2–3 hit taps per direction good, or single hit per press?
-4. **Boss vs. special (§6):** sniper *staggers* a boss, or fully whiffs?
-
-**[LATER]:** exact keybinds, damage/knockback numbers, palette, pick-up handling.
+**[LATER]:** finisher index (3rd vs 4th hit), exact keybinds, damage/knockback numbers, whether ranged
+weapons can also fire outside the combo, palette, pick-up handling. Pinned in the relevant system docs.
