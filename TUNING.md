@@ -20,7 +20,7 @@
 |---|---|---|
 | Player sprite height | 2.0 wu | reference scale for all sprites |
 | Visible screen width | 24 wu | ~12 player-heights across |
-| Playfield band (vertical screen share) | bottom 55% | HUD top 45% (`AREAS.md` §1.1) — **(tunable)** |
+| Playfield band (vertical screen share) | **bottom 60%** | **HUD/sky top 40%** (`AREAS.md` §1.1 LOCKED — matched; not tunable) |
 | **Z-band depth (near→far)** | **6.0 wu** | continuous, analog; near edge Z=0.0, far edge Z=6.0 |
 | Player X-speed on band | see §3 | Z-movement uses same speed value |
 | **Sprite depth-scaling** | **100% at Z=0 → 80% at Z=6** | linear −3.33%/wu; floor 80% (`GAMEPLAY_LOOP.md` §3) |
@@ -121,6 +121,17 @@
   (matches `COMBOS.md` §1).
 - **Whiff vs. hit:** recovery is the same on whiff or hit; there is **no hitstop on normal hits**, only on
   **finishers/kills** (§2.6, `VFX.md` §4).
+- **[LOCKED] Which attacks advance the combo string:** the `punch→punch→sweep→finisher` counter advances **only
+  on consecutive *side/forward* ground attacks** (the P1/P2/Sweep rows). **Up-strike, down-strike, and all air
+  attacks are standalone normals** — they deal their own damage but **do NOT advance or reset** the string;
+  they're spacing/juggle tools, not combo steps. The **finisher (hit 4)** additionally requires the
+  **same-direction double-tap toward a downed enemy** (`PLAYER.md` §3) — you cannot reach it except after a
+  Sweep knockdown. Dropping the string (letting the cancel window lapse) returns you to P1.
+- **[LOCKED] Warm-up vs. frame data (no conflict):** the **~0.25 s weapon warm-up** (§2.2, `GAMEPLAY_LOOP.md`
+  §4.1) is the aim/ready delay before an **`E`-fire/throw/cast discharges** — it applies to the **E action
+  only**. The **+2f on the fist frames** (table above) is the **melee swing** when you bludgeon *through the
+  combo* with a weapon in hand. Two different actions: `E` = warm-up then fire; arrow = fist-frames+2 melee.
+  They never both apply to the same input.
 
 ### 2.6 Universal reaction states — **[LOCKED]** (who freezes, how long)
 
@@ -215,6 +226,22 @@ While held: the player is **rooted**, cannot move/attack, and **takes full damag
 **Headshot economy (LOCKED):** pistol/revolver head-lineups and the gatling auto-kill finisher have a **10%**
 chance to spawn a 10 s zombie instead of killing. **Sniper special is exempt** (always clean).
 
+### 4.1 Enemy AI edge-case resolutions — **[LOCKED]** (the "what does it do when…" table)
+
+> Resolves the per-enemy `[ITERATE]` fallbacks so a build never hits an undefined behavior.
+
+| Situation | Resolution |
+|---|---|
+| **Arm-Ripper spawns with no T1 fodder to disarm** | it **arrives already armed** with its own akimbo pistols (it ripped its arms off-screen); the "rip a nearby T1" is a **flavor animation only when a T1 is adjacent** — never a spawn dependency. |
+| **Gatling Gunner spawns with no fodder to contort** | same — it **spawns with the gatling in hand**; the "2×T1 / 1×T2 → gatling" line is the *diegetic origin*, not a runtime requirement. Both are **self-sufficient on spawn**. |
+| **Monkey Tamer's melee monkeys — stats** | each summoned monkey: **HP 20, contact dmg 5, speed 6.0 wu/s, L-stagger**; **max 2 live**; **deactivate instantly on the Tamer's death** (§4 row 9). They are lighter than the economy Monkey (row 10). |
+| **Pickpocket escapes with your coins** | if it **reaches a screen edge**, the stolen coins are **lost permanently** (the risk). Killing it before it exits **drops 2× the stolen pile**. It only steals **once per life**, then flees. |
+| **Boomergunner's gun is caught mid-orbit** | catching it (walk into the returning arc) **destroys the gun for that enemy** (it must re-loot/melee) and **staggers the Boomergunner 0.55 s**; the player does **not** gain the gun (it's the enemy's body-part, shatters on catch). |
+| **Head-Thrower's thrown head** | uses **grenade fastball physics** (`WEAPONS.md` §3.2) — flat line-drive, **explodes on contact or after 8 wu**; the thrower **regrows its head in 4 s** (§4 row 5) and cannot throw again until it does. |
+| **Sniper with the player already downed/grounded** | **holds fire** (can't hit a grounded player, §4 row 7) and **re-scans**; it only fires at an airborne/jumping player (apex punish). |
+| **Flying Monkey when ≥2 grounded enemies exist** | **circles/harasses without swooping** until the grounded count drops below 2 (§4 row 8); never idles off-screen. |
+| **Enemy would exceed the 8-pursuer cap** | it **holds at a spawn edge** (visible, not attacking) until a slot frees — except Swarmer pods (§0 exception). |
+
 ---
 
 ## 5. Damage model cross-check (vs. Player HP = 100)
@@ -256,14 +283,18 @@ chance to spawn a 10 s zombie instead of killing. **Sniper special is exempt** (
 | **Boomerang Gun** | T2 | **8/shot** | **10 bullets, 4/pass** (~3 passes) | 0.20 s | `E` throws on a fixed orbit auto-firing; **fists only while out**; throw cooldown 1 s; shot-down = lose remaining bullets |
 | **Rocket Launcher** | T4 | blast **70** (r 3 wu) | **3 rockets** (world pickup) | 0.50 s | `E` fires; **self-dmg 35** like grenade (resolves §3.8b [ITERATE]) |
 
-**Tier drop-rate table (per non-swarm kill, on top of the 12% coin roll):**
+**Tier drop-rate table (per non-swarm kill; coin roll only in Area 3+, §6.1):**
 
-| Enemy level band | Weapon-drop chance | Tier of weapon rolled |
+> **Drop *chance* by enemy band is here; *which* weapon rolls is filtered by the area-gate in §6.1.** The
+> "weighted toward" column says which tier the roll favors — but a weapon only appears once its area has
+> unlocked it (§6.1), so early kills yield the basic-melee pool regardless of band.
+
+| Enemy level band | Weapon-drop chance | Roll weighted toward (within the area-unlocked pool, §6.1) |
 |---|---|---|
-| T0–T1 | 18% | T1 pool (boomerang, pistol/revolver, club) |
-| T2 | 22% | T2 pool (sword, whip, ball & chain, bat, boomerang gun) |
-| T3 | 26% | T3 pool (shotgun, staff, gatling) |
-| T4 / miniboss | 35% | T4 pool (grenade, staff, gatling) |
+| T0–T1 | 18% | tier-1 weapons (Sword, Boomerang; +Club/guns once Area 2 unlocks them) |
+| T2 | 22% | tier-2 weapons (Whip, Bat, Staff, Ball & Chain, Boomerang Gun — as unlocked) |
+| T3 | 26% | tier-3 weapons (Shotgun, Gatling — as unlocked) |
+| T4 / miniboss | 35% | tier-4 weapons (Grenade + the strongest unlocked pool) |
 
 *The **Rocket Launcher is a world pickup only** (not in any random pool, `WEAPONS.md` §3.8b), and the
 **Monkey Merc drops only from the Monkey stick figure** (`ENEMIES.md` §2.2) — neither is a tier drop. At
@@ -283,6 +314,42 @@ to fists), so ammo management is "use it or lose the drop," never a resource-hun
 - **Consequence for the build:** no ammo-pickup entities or reload animations need to exist. A gun sprite only
   needs **in-hand → fire → (per-shot ammo readout tick) → empty-discard**.
 
+### 6.1 Area-gated weapon drop pools — **[LOCKED]** (resolves the "first stages hand out only basic melee" rule)
+
+> The §6 tier table says *what a given enemy CAN drop*; this table says *which weapons are UNLOCKED into the
+> pool by area*, so the early game stays melee-simple (`ENEMIES.md` §1, `STAGES.md` §3, `WEAPONS.md` §3.9). A
+> weapon can only drop once its area is reached, **even if the enemy's tier would otherwise roll it.**
+
+| Area | Weapons UNLOCKED into the drop pool (cumulative) | Notes |
+|---|---|---|
+| **Area 1** (suburbs/mall) | **Sword, Boomerang** only | basic melee + the throw toy; **no guns yet** (matches "only basic melee early") |
+| **Area 2** (Sacramento/airport) | + **Pistol, Revolver, Whip, Bat, Staff, Club** | guns arrive; **Club is a world/airport pickup from Stage 5** (`WEAPONS.md` §3.7c), not a corpse drop |
+| **Area 3** (hills/Dixon) | + **Ball & Chain, Grenade, Shotgun** | heavier kit as tier-2/3 enemies appear |
+| **Area 4** (Vallejo→SF) | + **Boomerang Gun, Gatling** | full roster live |
+| **World pickups (any area, placed)** | **Rocket Launcher** (`WEAPONS.md` §3.8b) — placed near Tank (Stage 9) & SF gauntlet (Stage 12) | never in a random pool |
+| **Currency-only** | **Monkey Merc** — from a Monkey + a dime, Area 3 on | not a tier drop |
+
+- **The tier roll (§6) is filtered by this table:** e.g. a Snapper (T2) killed in Area 2 can drop Whip/Bat/
+  Staff but **not** Ball & Chain (Area-3-gated) yet. In Area 3+ the full T2 pool is available.
+- **No money in Areas 1–2 (`WEAPONS.md` §3.9):** the **12% coin roll (§6) is DISABLED in Area 1 and Area 2**;
+  coins begin dropping in **Area 3** with the dime/monkey economy. (Weapon drops still happen in Areas 1–2 per
+  this table.) This resolves the "first half has no money" rule that the global 12% line implied everywhere.
+
+### 6.2 Environmental hazard damage — **[LOCKED]** (all hazard numbers, one place)
+
+| Hazard | Damage to player | Damage to enemies | Notes |
+|---|---|---|---|
+| **Car** (suburb lane) | **40** + knockdown | **40** + knockdown | vehicles **DO hit enemies** (resolves `AREAS.md` §1.4 [ITERATE]); telegraphed by horn + 0.6 s |
+| **School bus** (suburb) | **60** + knockdown | **60** + knockdown | bigger, slower, wider lane coverage |
+| **Trolley / cable-car** (SF) | **instant death** | **instant kill** (flattens) | except the **Heavy steps aside** (`VIGNETTES.md`); telegraphed by bell + 0.8 s |
+| **Jet blast** (airport boss) | **0 dmg**, pushes player **3 wu** | pushes enemies 3 wu | positional only, not damage |
+| **Roller-coaster car** (Vallejo) | **50** + knockdown | **50** | on-rail, fixed timing telegraph |
+| **Causeway water** (Stage 6) | **10 chip** + respawn on last platform | enemies that fall are **removed (count as killed)** | no drowning death for the player |
+| **Pond/puddle** (farm) | **0** (slows movement 30% while in it) | same slow | soft terrain, not damage |
+| **Grenade self-blast / rocket self-blast** | **40 / 35** | full blast | your own ordnance (§6) |
+| **Head-Thrower fire-boom** (staff-lit) | **instant death if adjacent** | kills the lit enemy | the walking-bomb interaction (`WEAPONS.md` §3.5) |
+| **Fall off Salesforce rooftop** | **instant death** | enemies knocked off = killed | Phil arena only |
+
 ---
 
 ## 7. Bosses — all 7 bespoke + big-version rule
@@ -299,7 +366,7 @@ to fists), so ammo management is "use it or lose the drop," never a resource-hun
 | **Monkey Boss** | 3 (farm) | **200** (only your mercs damage him) | 60% · 30% (throws dimes faster) | **0** direct; his mercs (T1 pistol 7.5) | proxy war: catch dimes → your mercs shoot him down; boss mercs ignore the 3-death cap | 1:55 |
 | **big Arm-Ripper** | 3 (Dixon) | **280** (boss-scale) | 66% · 33% | pistols **7.5/shot @ 2/s** | HP depletion; caps the Dixon boss rush | 1:50 |
 | **Tank** | 4 (Vallejo) | objective (**2 grenade drops**) | **after drop 1** (MG pattern intensifies) | MG stream **1/hit**; direct hit while mounting **22.5** | **climb + drop grenade in hatch ×2**; arena adds drop only grenades | 1:50 |
-| **Boomergunner boss** | 4 (Marin) | **300** (boss-scale) | 66% · 33% (2 guns orbiting) | boomerang-gun shots **5/shot** | HP depletion | 1:45 |
+| **Boomergunner boss** | 4 (Marin) | **320** (boss-scale, 80×4) | 66% · 33% (2 guns orbiting) | boomerang-gun shots **5/shot** (base — see ranged note) | HP depletion | 1:45 |
 | **Gatling Gun Guy** | 4 (Golden Gate) | **260** | 66% · 33% | **barrage = instant death if caught in the open** (LOCKED); melee 22.5 | HP depletion; **hide behind cars** on the **~5 s "BARRAGE INCOMING"** cycle; Shield-Rush the fodder version | 1:55 |
 | **Phil (FINAL)** | Finale | **500**, gated behind sharpen windows | 100→75→50→25→**execute** (5 windows) | contact **15** · summons deal their own dmg · **fall off tower = instant death** | invuln while drawing; **~4 s sharpen window** (of 3–5) is the only opening; per-window damage cap **~100 (20%)**; killed **only** by the scripted **pencil-laser finisher** | **exempt** (~5–8 min) |
 
@@ -311,6 +378,15 @@ to fists), so ammo management is "use it or lose the drop," never a resource-hun
 | **Boss** | **2.0×** | **×4.0** | **×1.5** |
 
 (e.g. Regular Melee 40 HP → big-version boss 160 HP, 7.5→11 dmg — matches Sandwich Bros above.)
+
+- **Ranged big-version bosses keep BASE per-shot damage — [LOCKED override].** The ×1.5 damage multiplier
+  applies to **melee/contact** attacks only. For **ranged** big-version bosses (**big Arm-Ripper** 7.5/shot,
+  **Boomergunner boss** 5/shot) the **per-shot number stays at base**; they scale their threat through **higher
+  HP (×4), faster fire, and more projectiles**, not bigger bullets — so a ranged boss can never chip you to
+  death in two hits. This is why the §7 table lists base per-shot values for those two. **Melee** big-version
+  bosses (Sandwich Bros 7.5→11) do take the ×1.5.
+- **The §7 table is authoritative for the 9 placed bosses;** the formula above is for **auto-generated**
+  big-versions (catch-up minibosses, Endless elites) and for cross-checking the placed ones.
 
 **Boss & meter rules (LOCKED, restated):** specials only work ≤10% boss HP (execute prompt); unspent meter
 **carries over**; sniper visibly dodges above 10%. **The 10% rule covers EVERY area-capping boss** — the 7
@@ -326,7 +402,7 @@ bespoke bosses **and** the big-version area bosses (Sandwich Bros, big Arm-Rippe
 
 | Field | Value | Notes |
 |---|---|---|
-| **Checkpoint cadence** | **1 at each stage start + 1 at the boss door** | ~2 per stage (~10 min apart) |
+| **Checkpoint cadence** | **1 at stage start + 1 mid-stage + 1 at the boss door** | ~2–3 per ~15–18 min stage (`ENCOUNTERS.md` §0); bossless stages = start + mid |
 | Heal on checkpoint | **full HP restore** | forgiving over a 3–4 hr run |
 | Money on checkpoint | resets each **stage** (LOCKED, `UI.md` §3.4) | not stored across checkpoints |
 | **Continues per run** | **3** | then game-over → title **(tunable)** |
