@@ -178,10 +178,11 @@ enemies; the meter **carries over** in boss fights and becomes a **low-HP sniper
 
 Plus **[LOCKED]** the "psychologically hard, <2 min (except Phil)" rule.
 
-**Defined bosses (6):** **Phil** (final, artist-summoner, exempt from the length cap), **Burly Macho Guy**
+**Defined bosses (7):** **Phil** (final, artist-summoner, exempt from the length cap), **Burly Macho Guy**
 (ground-spikes + enemy-toss bruiser), **Tank** (objective — 2 grenade drops), **Colossus** (whip off its
 pieces), **Helicopter** (bat heads back / lob grenades up), **Gatling Gun Guy** (suppression, countered by
-Shield Rush). Objective bosses use the **weapon-gated arena rule**; Phil & Helicopter are **main-boss-only**.
+Shield Rush), **Monkey Boss** (dime-race, only your mercs damage him). Objective bosses use the
+**weapon-gated arena rule**; Phil & Helicopter are **main-boss-only**.
 Open to more. Plus **[LOCKED]** the **"big version" rule** (any enemy → ~20% miniboss / ~2× boss, no new art).
 **7 bespoke bosses** total: Phil, Burly Macho Guy, Tank, Colossus, Helicopter, Gatling Gun Guy, Monkey Boss.
 

@@ -199,5 +199,5 @@ no damage but weight-stagger** (heavy targets floor you, non-invincible getup); 
 attack→dash cancel, and air-dash** all in; **bespoke animation for every weapon**; **ranged weapons
 bludgeon through the combo and fire on the finisher**; **boss dodges** the sniper special.
 
-**[LATER]:** finisher index (3rd vs 4th hit), exact keybinds, damage/knockback numbers, whether a weapon
-dash attack can fire, palette, pick-up handling. Pinned in the relevant system docs.
+**[LATER]:** finisher index (3rd vs 4th hit), damage/knockback numbers, whether a weapon dash attack can
+fire, palette, exact `E`-use action. *(Keybinds/gamepad are now LOCKED in §2.)*

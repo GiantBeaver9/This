@@ -57,7 +57,8 @@ in-hand + fist-combo-holding-weapon + unique **finisher/fire** + muzzle/projecti
 Each: idle · walk (mirror) · attack(s) · hurt/stagger · **death + part/gore** · projectile/telegraph VFX ·
 **subtle rank marker** (wristband). **Big versions** = same art scaled ~1.2× (miniboss) / ~2× (boss).
 - **P0 (Area 1):** Regular Melee · Swarmer · Zombie (+ hollow-head state).
-- **P1 (Area 2):** Anti-Aircraft · Head-Thrower (+ blink-explode) · Snapper (+ snap-to-sword) · **Bat enemy**.
+- **P1 (Area 2):** Anti-Aircraft · Head-Thrower (+ blink-explode) · Snapper (+ snap-to-sword). *(The "Bat
+  enemy" in the airport vignette is a **demo actor, not one of the 17** — no roster asset needed.)*
 - **P1 (Area 3):** Sniper (beret+rifle, scope up/down) · Flying Monkey · Monkey Tamer (+ enemy monkeys) · Monkey · Arm-Ripper (+ Headbutt state).
 - **P1/P2 (Area 4):** Ninja (teleport smoke, shuriken) · Pickpocket · Boomergunner · Gatling Gunner (contort) · Ground Smasher (club+shockwave) · Heavy (Bold/Burly).
 
@@ -66,9 +67,10 @@ Each: idle · walk (mirror) · attack(s) · hurt/stagger · **death + part/gore*
 ## 4. Bosses — `BOSSES.md`
 Each **bespoke** boss: idle/move · attacks + telegraphs · phase transitions · hurt · death · **sniper-dodge** ·
 adds/hazards · **boss HP bar + name card**. "Big version" bosses/minibosses need **no new art**.
-- **P1:** Sandwich Bros (big Tier-1) · department-store (Area 1) · Helicopter (Area 2) · Monkey Boss (Area 3) ·
-  big Arm-Ripper (Dixon) · Boomergunner boss (Marin) · Gatling Gun Guy (Golden Gate, barrage + car cover).
-- **P1/P2:** unused/place — Burly Macho Guy · Tank · Colossus (whip).
+- **P1 (all 7 bespoke bosses placed):** Sandwich Bros (big Tier-1, Area 1) · **Burly Macho Guy** (Area 1 dept
+  store) · **Colossus** (Area 2 Sacramento, whip) · **Helicopter** (Area 2 airport) · **Monkey Boss** (Area 3
+  farm) · big Arm-Ripper (Area 3 Dixon) · **Boomergunner** boss (Area 4 Marin) · **Tank** (Area 4 Vallejo) ·
+  **Gatling Gun Guy** (Area 4 Golden Gate, barrage + car cover).
 - **P2:** **Phil** (top-hat zombie, pencil-draw, **sharpen animation**, re-summons, rooftop sway).
 
 ---
@@ -111,4 +113,5 @@ Each theme: parallax backdrop layers + lane floor + set dressing + ambient actor
 ## 10. Systems still open (won't block art, but pin before final build)
 Branch-fork recipes per area · exact per-stage enemy rosters/counts · checkpoint & continue specifics ·
 Secret Combos (`COMBOS.md` TBD) · economy scope beyond monkeys · character animation pipeline choice ·
-Werewolf-vs-boss rule · keybinds/gamepad · save/settings menus.
+Werewolf/Shotgunner/Underdog-vs-boss rules · **`E` (use weapon) vs. finisher-fire** reconciliation ·
+save/settings menus · audio pass. *(Controls/keybinds + gamepad are now LOCKED in `PLAYER.md` §2.)*
