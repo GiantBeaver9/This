@@ -27,12 +27,16 @@
 
 *Tier 0–1 enemies only (lead economy). ~2–3 stages, ends at a parody fast-food joint. Traffic hazard.*
 
-### 1.1 Backdrop & parallax
-- **Setting:** California **suburban streets** — single-story stucco houses, garages, driveways, front lawns,
-  sidewalks, the road (the lane floor).
-- **Parallax layers (light):** far — **rolling-hill horizon + drifting clouds + California sky**; mid —
-  **houses, fences, power lines, trees**; near — **sidewalk/road** (play band) with foreground props.
-- **Ambient sky:** **clouds** (slow parallax), **birds**, sun; **[ITERATE]** time of day (midday? sunset?).
+### 1.1 Backdrop, framing & sky — **[LOCKED]**
+- **Time of day:** **late morning → early afternoon (~11:30–3)** — the "leaving school / lunch" hour. Sun
+  high and bright.
+- **Sky:** clear **California blue** with only the **occasional wispy cloud** (CA has almost no clouds).
+- **[LOCKED] Framing:** the **bottom ~50–60% of the screen is the scene** (play band + sidewalk + the
+  houses/trees forming the back wall); the **top ~40% is sky** that **doubles as the backdrop for the HUD**
+  (health, meter, money, etc.). Focus stays on the action; only a sliver of sky shows above the rooftops.
+  *(Per-area: indoor themes swap this top backdrop for a themed one — the HUD band is always there.)*
+- **Parallax (light):** far — sky + rare wispy cloud + a hint of rolling-hill horizon; mid — **houses &
+  tall trees as the back wall**; near — **sidewalk + road** (the play band) with foreground props.
 
 ### 1.2 Ambient actors (people & animals)
 - **People:** fleeing **suburban civilians**, a **mail carrier**, **kids on bikes**, a jogger — background,
@@ -40,10 +44,13 @@
 - **Animals:** a **dog** (barks/runs), maybe a **cat** on a fence, **birds**.
 - **[ITERATE]** which are pure decoration vs. reactive (flee) vs. hittable clutter.
 
-### 1.3 Props & terrain funnels
-- **Props:** parked cars, **trash cans, fire hydrants, mailboxes, hedges, picket fences, lawn signs, porches.**
+### 1.3 Trees, houses, props & funnels — **[LOCKED]**
+- **Trees:** lots of **mulberry and older, tall trees** typical of the area — **tall, mostly trunk with a
+  little foliage down low**; a few **skinny / smaller** trees scattered. They tower over the scene.
+- **Houses:** form the **backdrop / back wall.** You can **hop up onto the sidewalk** (**not** onto lawns) and
+  get almost to the trees/houses — they're the **back edge** of the play space, a little sky above them.
+- **Props:** parked cars, trash cans, fire hydrants, mailboxes, hedges, picket fences, lawn signs, porches.
 - **Funnels:** parked cars / hedges **narrow the lane** into tighter fighting pockets in spots.
-- **Trees:** suburban **oaks + California palms** (mid-layer + occasional foreground).
 
 ### 1.4 Hazards
 - **[LOCKED] Traffic:** **cars & school buses** drive down the road — **dodge to avoid damage** (`STAGES.md`
@@ -54,16 +61,22 @@
   (T1a) appearing later in the act. **[ITERATE]** exact debut per stage.
 
 ### 1.6 Stages & boss
-- **[PROPOSED]** Stage 1 opens **at/near Lincoln High** (where Phil escapes) → into the **suburb streets**;
-  Stage 2 goes **deeper suburb / a park**; the act **ends at a parody fast-food joint** for the boss.
-- **[PROPOSED] Fast-food boss:** a **made-up brand** (no real trademarks) — e.g. a mascot-themed miniboss or
-  a "big version" enemy. **[ITERATE]** which boss, the restaurant's name/mascot, the branch fork here.
+- **[PROPOSED]** Stage 1 opens **at/near Lincoln High** (Phil's escape) → into the **suburb streets**; Stage
+  2 goes **deeper suburb / a park**; the act **ends at the parody fast-food joint.**
+- **[LOCKED] Fast-food boss = Phil draws a "bigger-than-normal person"** — a **big-version Tier-1** (Regular
+  Melee scaled up, `BOSSES.md` §1). The player's **first boss-scale taste**, and the first on-screen proof of
+  the pencil.
+  - **Solo:** one big Tier-1.
+  - **2-player:** **two** big Tier-1s **+ a miniboss.**
+- **[ITERATE]** restaurant name/mascot (made-up brand, no trademarks), the branch fork here, exact stage list.
 
 ### 1.7 Act 1 asset list (→ `ASSET_MANIFEST.md`)
-Backdrop layers (sky+clouds, hills, houses, street) · trees (oak, palm) · ambient people (civilian, mail
-carrier, kid+bike, jogger) · animals (dog, cat, birds) · props (parked car, trash can, hydrant, mailbox,
-hedge, fence, mailbox, porch, lawn sign) · **hazard vehicles** (car, school bus) · fast-food building +
-mascot + interior · funnel obstacles.
+Backdrop layers (clear blue sky + rare wispy cloud, hill-horizon hint, houses, street) · **trees (mulberry
++ tall older trees, mostly trunk; a few skinny/small)** · ambient people (fleeing civilian, mail carrier,
+kid+bike, jogger) · animals (dog, cat, birds) · props (parked car, trash can, hydrant, mailbox, hedge,
+picket fence, porch, lawn sign) · **hazard vehicles** (car, school bus) · **Lincoln High** exterior ·
+fast-food building + interior + made-up mascot/signage · **big-version Tier-1** boss (reuses Regular Melee
+at ~2× scale) · funnel obstacles.
 
-**→ Your turn: what am I missing or want changed for Act 1?** (specific trees/clouds/animals, the fast-food
-mascot, whether we open at Lincoln High, time of day.) Then we lock it and move to Act 2.
+**Act 1 is essentially locked.** Remaining smalls: restaurant name/mascot, Lincoln-High opening confirm,
+Act-1 branch fork. **Ready for Act 2 (the Mall) whenever you are.**
