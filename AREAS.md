@@ -42,6 +42,8 @@
 - **People:** fleeing **suburban civilians**, a **mail carrier**, **kids on bikes**, a jogger — background,
   scatter when the fight nears.
 - **Animals:** a **dog** (barks/runs), maybe a **cat** on a fence, **birds**.
+- **[LOCKED] Signature ambient — the Lincoln High Zebra:** as you leave the school, a **dancing zebra** (the
+  school's Fighting-Zebras mascot) **hops around** in the background — a fun Easter-egg actor.
 - **[ITERATE]** which are pure decoration vs. reactive (flee) vs. hittable clutter.
 
 ### 1.3 Trees, houses, props & funnels — **[LOCKED]**
@@ -60,23 +62,25 @@
 - **Tier 0–1 only:** **Zombie** (T0), **Regular Melee** (T1), **Swarmer** (T1b, in pods), **Anti-Aircraft**
   (T1a) appearing later in the act. **[ITERATE]** exact debut per stage.
 
-### 1.6 Stages & boss
-- **[PROPOSED]** Stage 1 opens **at/near Lincoln High** (Phil's escape) → into the **suburb streets**; Stage
-  2 goes **deeper suburb / a park**; the act **ends at the parody fast-food joint.**
-- **[LOCKED] Fast-food boss = Phil draws a "bigger-than-normal person"** — a **big-version Tier-1** (Regular
-  Melee scaled up, `BOSSES.md` §1). The player's **first boss-scale taste**, and the first on-screen proof of
-  the pencil.
-  - **Solo:** one big Tier-1.
-  - **2-player:** **two** big Tier-1s **+ a miniboss.**
-- **[ITERATE]** restaurant name/mascot (made-up brand, no trademarks), the branch fork here, exact stage list.
+### 1.6 Route, stages & boss — **[LOCKED]**
+- **[LOCKED] Route:** follows the **real back way from Lincoln High to the fast food off old Highway 65 in
+  Lincoln, CA** — old-town / semi-rural suburban character along the way (art reference for the backdrop).
+- **Stage 1** opens **at Lincoln High** (Phil's escape; **dancing zebra** mascot, §1.2) → **suburb streets /
+  the old Hwy 65 back way**; **Stage 2** continues toward the restaurant; the act **ends OUTSIDE Sandwich Bros.**
+- **[LOCKED] Fast food = "Sandwich Bros"** (our made-up brand — no real trademarks). The **boss fight is
+  outside** the restaurant.
+- **[LOCKED] Boss = Phil draws a "bigger-than-normal person"** — a **big-version Tier-1** (Regular Melee at
+  ~2× scale, `BOSSES.md` §1): the first boss-scale taste and first on-screen proof of the pencil.
+  - **Solo:** one big Tier-1. **2-player:** **two** + a **miniboss.**
+- **[ITERATE]** the Act-1 branch fork, exact stage count, specific old-Hwy-65 landmarks.
 
 ### 1.7 Act 1 asset list (→ `ASSET_MANIFEST.md`)
 Backdrop layers (clear blue sky + rare wispy cloud, hill-horizon hint, houses, street) · **trees (mulberry
 + tall older trees, mostly trunk; a few skinny/small)** · ambient people (fleeing civilian, mail carrier,
 kid+bike, jogger) · animals (dog, cat, birds) · props (parked car, trash can, hydrant, mailbox, hedge,
 picket fence, porch, lawn sign) · **hazard vehicles** (car, school bus) · **Lincoln High** exterior ·
-fast-food building + interior + made-up mascot/signage · **big-version Tier-1** boss (reuses Regular Melee
-at ~2× scale) · funnel obstacles.
+**dancing Zebra mascot** · **"Sandwich Bros"** building + signage/mascot · **big-version Tier-1** boss
+(reuses Regular Melee at ~2× scale) · funnel obstacles.
 
-**Act 1 is essentially locked.** Remaining smalls: restaurant name/mascot, Lincoln-High opening confirm,
-Act-1 branch fork. **Ready for Act 2 (the Mall) whenever you are.**
+**Act 1 LOCKED.** (Only the Act-1 branch fork and specific old-Hwy-65 landmarks remain as smalls.)
+**Ready for Act 2 (the Mall) whenever you are.**
