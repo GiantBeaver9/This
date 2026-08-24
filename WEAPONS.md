@@ -19,6 +19,9 @@
 - **[LOCKED] Sniper-killed enemies drop nothing** (from the special — risk/reward).
 - **[LOCKED] Ranged weapons fire on the combo *finisher*** (per `PLAYER.md`): mid-combo they bludgeon at
   fist strength; the real shot/effect lands on the strong 3rd hit and advances that weapon's ammo economy.
+  - **[ITERATE] Execution gate:** some guns only *discharge* on the finisher when the **target is under
+    20% HP** (pistol/revolver) — otherwise that finisher is just a melee strike. Others (shotgun, gatling)
+    fire unconditionally. Whether to standardize the gate is open.
 - **[LOCKED] Carry = single slot**, fists as the permanent fallback.
   - **Empty-handed:** walking over a drop **auto-picks** it.
   - **Already armed:** auto-pickup is suppressed; **tap the swap key** to take the weapon on the ground —
@@ -67,10 +70,20 @@
 
 **Locked & spec'd (§2):** Sword · Shotgun (spine ammo) · Boomerang
 
-### 3.1 Pistol — *ranged, single-target* **[ITERATE]**
-- **Less damage but more precise** than the shotgun. **Shotgun = crowd control; pistol = the 1-v-1 tool.**
-- Fires on finisher (per §1 rule).
-- **[ITERATE]** mag size, decay, accuracy/aim model.
+### 3.1 Pistol & Revolver — *precise straight-line guns* **[LOCKED core]**
+Two variants of the same 1-v-1 idea (shotgun = crowd control; these = single-target). **No aiming — they
+fire straight ahead** (horizontal); lining the shot up with an enemy's **head** is the skill, and part of
+the feel.
+- **Execution finisher:** the gun only **discharges on the combo finisher, and only if the target is under
+  20% HP** — a **finishing/execution** move, not a spammable shot. On a **healthy** target the finisher is
+  just a **melee strike** (no shot). **Each direction has its own stylish finisher** (e.g. shoot, then
+  flick a cigarette away).
+- **Pistol:** **more bullets, less damage**, and **pierces up to 3 enemies**, damage **halving through
+  each** — a lined-up shot can drop a whole row.
+- **Revolver:** **more damage, no pierce**, fewer bullets — the heavy single-target hitter.
+- **Headshot:** if the straight shot lines up with a head it lands as a headshot (kill/bonus on weak enemies).
+- **[ITERATE]** exact mag sizes; whether the <20% execution gate applies to other guns or is pistol/
+  revolver-only; the per-direction finisher flourishes; decay when the mag empties.
 
 ### 3.2 Grenade / Bomb — *thrown, physics-based* **[ITERATE tuning]**
 Enemy-dropped. Already richly designed:
@@ -103,19 +116,28 @@ Enemy-dropped. Already richly designed:
 ### 3.6 Gatling Gun — *heavy risk/reward* **[LOCKED core]**
 - **No ammo count** — it doesn't deplete per shot.
 - **Slow combo** — its attack cadence is noticeably **slower** (heavy weapon).
-- **Finisher = an auto-kill headshot** — a guaranteed kill on a normal enemy.
-- **No i-frames — the player is vulnerable** through the slow finisher: the guaranteed kill is paid for in
-  **exposure**, so throwing it out in a crowd gets you hit.
+- **Finisher = ~0.5s of repeated fire into the enemy** — the player unloads point-blank for about half a
+  second; a guaranteed **auto-kill / headshot** on a normal enemy.
+- **No i-frames — the player is locked and vulnerable** through that ~0.5s barrage: the guaranteed kill is
+  paid for in **exposure**, so throwing it out in a crowd gets you hit.
 - **[ITERATE]** how it's eventually lost (no ammo → overheat? time limit? N finishers?); does the headshot
   hit one target or pierce/chain; warm-up/spin-up.
 - **[SUPERSEDES]** the earlier "20–32 shots" — no ammo tracking now.
 
-### 3.7 Monkey Merc — *summon, costs currency (see §3.8)* **[ITERATE]**
+### 3.7 Monkey Merc — *summon, costs currency (see §3.9)* **[ITERATE]**
 - Dropped by a **monkey stick figure**, but you can **only take it if you hold a dime (10¢).**
 - Summons a **monkey merc that fights for you for 20 seconds, or until it's killed.**
 - **[ITERATE]** monkey attacks/AI, how easily it dies, whether more than one can be active, cooldown.
 
-### 3.8 Currency system — **[LOCKED core], [ITERATE] scope** *(cross-cuts `UI.md`)*
+### 3.8 Boomerang Gun — *thrown auto-fire* **[LOCKED core]**
+- A **gun you throw** — it **flies around/among the enemies auto-shooting them**, then **returns** to your
+  hand. Re-throwable **up to 3 times**, then it's spent/gone.
+- Combines the boomerang's throw-and-return with ranged damage: a **hands-free crowd-tickler** you fire
+  and reposition behind.
+- **[ITERATE]** flight path (orbits the crowd? weaves?), shots per pass, auto-target vs. spray, damage,
+  whether you're free to act (punch/move) while it's out, and what happens if you're hit mid-flight.
+
+### 3.9 Currency system — **[LOCKED core], [ITERATE] scope** *(cross-cuts `UI.md`)*
 - Enemies **sometimes drop wallets**; each = **1 cent**. Money is **shown in the UI.**
 - **10¢ = a dime**, the cost to take/summon a **Monkey Merc** (§3.7).
 - **[ITERATE]** money only for monkeys, or a broader economy (between-stage shop? other buys?); does it
@@ -130,7 +152,7 @@ Enemy-dropped. Already richly designed:
 
 | Tier | Drops from | Example weapons | Feel |
 |---|---|---|---|
-| **T1 common** | low-level stick figures | boomerang, pistol | early, low commitment |
+| **T1 common** | low-level stick figures | boomerang, pistol / revolver | early, low commitment |
 | **T2 uncommon** | mid enemies | sword, whip, ball & chain | the workhorses |
 | **T3 rare** | high/elite enemies | shotgun, staff, gatling gun | powerful, scarcer |
 | **T4 special** | minibosses / specific spawns | grenade, **monkey merc** (needs a dime) | spice, situational |
@@ -160,9 +182,9 @@ Shared: every dropped weapon needs a **ground pickup sprite** and a **decay/brea
 when armed); function-first theming; the roster list above; grenade press-to-throw physics; the currency
 system core (wallets → cents → dime → monkey merc).
 
-**Iterating one at a time (together).** Done so far: **Staff** (element set at pickup: ice/fire/lightning,
-fire's grenade-enemy chain-explosion) and **Gatling** (no ammo, slow combo, auto-kill finisher, no
-i-frames). Remaining: **Pistol → Grenade tuning → Whip → Ball & Chain → Monkey Merc**, then keep adding.
+**Iterating one at a time (together).** Done: **Staff**, **Gatling** (finisher = ~0.5s point-blank
+barrage), **Pistol & Revolver** (straight-line, <20%-HP execution finisher, pistol pierces 3). Remaining:
+**Grenade tuning → Boomerang Gun → Whip → Ball & Chain → Monkey Merc**, then keep adding.
 
 **[LATER]:** durability numbers, tier drop rates, per-archetype loot restrictions, finisher damage,
 whether currency grows into a full economy.
