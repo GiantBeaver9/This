@@ -37,9 +37,12 @@
   **destroys** the current, `WEAPONS.md` §1).
 - **[LOCKED] Jump = `Space`.** **[LOCKED] Dash = double-tap a WASD direction** (consistent with **Shield Rush
   = double-tap forward**, §3); air-dash = double-tap in the air.
-- **[ITERATE]** reconcile **`E` (use weapon)** with the "ranged weapons fire on the finisher" rule
-  (`WEAPONS.md` §1); **gamepad** auto-map later (stick = 8-dir move, face buttons/right-stick = 8-dir attack,
-  **shoulders = special**, pick-up = TBD); a **rebinding** UI.
+- **[PROPOSED] Gamepad layout:** **left stick = 8-dir move · right stick = 8-dir attack** (twin-stick — this
+  **frees the face buttons**) · **Jump = bottom face button (A / ✕)** · **Special = a left shoulder** · **Use
+  weapon (`E`) = right trigger, Pick-up (`F`) = right bumper** (paired on the same side, per your note) ·
+  **Dash = double-tap left stick.** *(Console jump was the one open call — the face button works precisely
+  because attack lives on the right stick, not the buttons.)*
+- **[ITERATE]** reconcile **`E` (use weapon)** with the finisher-fire rule (`WEAPONS.md` §1); a **rebinding** UI.
 
 **[LOCKED] Dash + Jump both exist.** Dash = grounded evasive burst (no i-frames). Jump adds a full
 **air layer** — you can attack in the air, so the moveset roughly **doubles** (ground set + air set).
