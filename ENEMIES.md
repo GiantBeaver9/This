@@ -187,14 +187,35 @@ wallet-drop, monkey flair).
 
 ---
 
-## 6. Status & next step
+## 6. Status & next step — **ROSTER PAUSED** (resume anytime)
 
-**Locked so far:** system rules (incl. shared-body-plus-ability, ability tier rule, telegraph timing);
-progressive type-introduction by stage; per-stage constrained random loot; catch-up minibosses; subtle
-wristband ranks; **enemy guns are short-range/dodgeable**. **Defined enemies:** Head-Thrower, Monkey,
-Regular Melee, Snapper (Sword-Maker, T2), Arm-Ripper (Dual Pistols, T2a) + its disarmed Headbutt state,
-Monkey Tamer (untiered summoner), Gatling Gunner (T3), Zombie (T0, headshot-immune), Ninja (T3a),
-Anti-Aircraft (T1a).
+**Locked system rules:** shared-body-plus-ability; ability tier rule (target ≥1 tier below; enemies loot
+each other; tiers span 0..N); telegraph timing (100ms fists / 150–200ms sword); **enemy guns short-range/
+dodgeable**; outside-the-tier specials; progressive type-introduction by stage; per-stage constrained
+random loot; catch-up minibosses; subtle wristband ranks; **headshot economy** (~10% zombify, sniper exempt).
+
+**Defined enemies (10):**
+| Enemy | Tier | Role it fills |
+|---|---|---|
+| Zombie | T0 | grab / tempo-trap; headshot-resistant |
+| Regular Melee | T1 | basic melee (punch/jump-kick/slide-kick) |
+| Anti-Aircraft | T1a | rock lobber; boomerang-baitable |
+| Snapper (Sword-Maker) | T2 | melee-zoner (snaps a T1 → sword) |
+| Arm-Ripper | T2a | close gunner (T1 arms → dual pistols) + Headbutt state |
+| Gatling Gunner | T3 | suppression (2×T1 / 1×T2 → gatling) |
+| Ninja | T3a | mobile harasser (teleport + limb-shuriken) |
+| Monkey Tamer | untiered | summoner (melee monkeys, priority target) |
+| Head-Thrower | — | self-decapitating grenade; fire→walking bomb |
+| Monkey | — | economy (drops the player's Merc, needs dime) |
+
+**Open role gaps to fill on resume:**
+- **Pure bullet-pattern zoner** — dense fixed patterns to thread (the bullet-hell backbone). *Not yet.*
+- **Heavy / bruiser** — slow, high-HP, **floors your dash attack** (`PLAYER.md` weight rule). *Not yet.*
+- **Fast swarm** — weak, fast, many (sniper-ricochet fodder). *Enemy monkeys partially; no dedicated unit.*
+- **Wallet Runner** — flees, drops ¢ to feed the dime economy. *Not yet.*
+
+**Also parked:** the many per-enemy `[ITERATE]` details (fallbacks, cooldowns, drops), rank specifics,
+and per-stage rosters (with the stage designs).
 
 **Next — capture your named enemies.** You have specific enemy ideas; dump them and we'll (a) spec each one
 §2-style, and (b) map it onto the role baseline so we know coverage. Specific per-stage rosters and rank
