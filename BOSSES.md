@@ -33,6 +33,9 @@
   demanding fight that stays SHORT — under ~2 minutes.** Past that it reads as annoying, not hard;
   difficulty comes from **pressure and reads, not HP bloat.** **Phil (the final boss) is the exception** —
   the endgame gauntlet, allowed to be long and brutal.
+- **[LOCKED] Weapon-gated boss arenas guarantee the weapon.** When a boss requires a specific weapon (Tank →
+  grenade, Colossus → whip), the arena spawns **tier-1 enemies that, on death, drop ONLY that weapon** — so
+  the player can always re-arm. This resolves "where does the weapon come from" for every objective boss.
 
 ---
 
@@ -92,9 +95,18 @@
 - **It's a literal tank.** You **fight regular enemies while dodging its machine-gun fire.**
 - **[LOCKED] Win condition = grenades:** when you have a **grenade**, you **climb on top and drop it in the
   hatch. 2 grenade drops = kill.** An objective/puzzle boss, not a health-bar slugfest.
-- **Relies on the Grenade** (`WEAPONS.md` §3.2) — grenades **must be sourced in this arena.** **[ITERATE]**
-  where they come from (add drops? provided pickups?), how you mount it (prompt / climb), the MG fire
+- **Relies on the Grenade** (`WEAPONS.md` §3.2) — grenades are supplied by the **weapon-gated arena rule**
+  (§1: tier-1 adds drop only grenades). **[ITERATE]** how you mount it (prompt / climb), the MG fire
   pattern, does it move, what changes between the 1st and 2nd drop, the ~2-min cap.
+
+### 5.4 The Colossus — **boss** — **[LOCKED core]** *(name TBD)*
+- A **giant stick figure built out of many smaller stick figures.**
+- **[LOCKED] Win condition = whip:** you **rip the smaller stick figures off it one at a time with the Whip**
+  (`WEAPONS.md` §3.4 — its pull/grab), slowly dismantling the giant piece by piece.
+- Weapon-gated → the **weapon-gated arena rule** (§1) supplies whips (tier-1 adds drop only whips).
+- **Psychologically hard, short (<2 min).** **[ITERATE]** how many pieces to strip, do torn-off pieces
+  become adds, does dismantling change its attacks/phases, how it fights back, arena (likely a giant
+  upper-screen boss).
 
 *More bosses welcome — same §5 format.*
 
@@ -115,8 +127,9 @@ enemies; the meter **carries over** in boss fights and becomes a **low-HP sniper
 
 Plus **[LOCKED]** the "psychologically hard, <2 min (except Phil)" rule.
 
-**Defined bosses (3):** **Phil** (final, artist-summoner, exempt from the length cap), **Burly Macho Guy**
-(ground-spikes + enemy-toss bruiser), **Tank** (objective boss — 2 grenade drops to win). Open to more.
+**Defined bosses (4):** **Phil** (final, artist-summoner, exempt from the length cap), **Burly Macho Guy**
+(ground-spikes + enemy-toss bruiser), **Tank** (objective — 2 grenade drops), **Colossus** (whip off its
+stick-figure pieces). Two objective bosses use the **weapon-gated arena rule**. Open to more.
 
 **Still open (small):** boss HP display style (§3 — big named bar recommended); exact miniboss pace trigger;
 whether minibosses are sniper-immune; each boss's `[ITERATE]` details.
