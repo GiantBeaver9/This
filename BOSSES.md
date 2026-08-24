@@ -103,8 +103,12 @@
   only thing that ends him (it's not gated on the 10% special rule the other bosses use).
 - **[LOCKED] The endgame** — the absolute final fight, **exempt from the <2-min rule**, meant to be
   **brutally hard.**
-- **[ITERATE]** how lead depletes (does clearing his summons drain it faster?), phases, arena (play-band vs.
-  giant), whether the low-HP sniper execution applies to the final boss.
+- **[LOCKED, resolved]** the **low-HP special execution does *not* apply to Phil.** Every other boss dies to a
+  special once under 10% HP; Phil is the sole exception — specials never execute him, and the **scripted
+  pencil-laser finisher is the only kill** (above). This is deliberate: it forces the player to reach the final
+  finisher rather than melting him with a banked meter.
+- **[ITERATE]** how lead depletes (does clearing his summons drain it faster?), phase count, arena footprint
+  (play-band vs. giant).
 
 ### 5.2 Burly Macho Guy — **boss** — **[LOCKED core]** — **caps Area 1 (department store)**
 - **Space-denier bruiser** in the vein of the Heavy/Burly (`ENEMIES.md` §2.11), boss-scale.

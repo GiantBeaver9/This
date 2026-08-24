@@ -16,8 +16,11 @@
 
 - **Arrows:** `←` `→` `↑` `↓` and the four diagonals `↖ ↗ ↘ ↙`. "Forward/back" resolve to the direction the
   Human currently faces (`→` = forward when facing right).
-- **A secret combo = a motion of 2–3 arrow presses completed within `0.35 s` per step** (a `0.5 s` total
-  buffer). Miss the timing and it resolves as a plain directional attack.
+- **A secret combo = a motion of 2–3 arrow presses**, where **each press must land within `0.35 s` of the
+  previous one** (the per-step window). So a 2-press motion completes in ≤ 0.35 s and a 3-press motion in
+  ≤ 0.70 s. Separately, the game keeps a **`0.15 s` input buffer** — the motion's *final* press may be pressed
+  up to 0.15 s **before** the weapon is free to act and still register (standard fighting-game leniency). Miss
+  the per-step window and the string resolves as a plain directional attack.
 - **Entry point:** you may start a secret motion **any time the weapon can act**. For the **Ball & Chain** and
   the **guns**, the motion's *final* press is the finisher/fire input; the lead-in presses arm the flourish.
 - **Gate (guns only):** the gun's shot half of a finisher **only discharges if the target is < 20% HP**

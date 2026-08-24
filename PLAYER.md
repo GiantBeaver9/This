@@ -42,7 +42,10 @@
   face buttons for actions). Mapping:
   - **Jump = A / ✕** (bottom face button) · **Special = Y / △** · **Dash = B / ○** *(or double-tap left stick)*
   - **Use weapon (`E`) = right trigger** · **Pick-up (`F`) = right bumper** (paired on the same side)
-- **[ITERATE]** reconcile **`E` (use weapon)** with the finisher-fire rule (`WEAPONS.md` §1); a **rebinding** UI.
+- **[LOCKED] `E` vs. the finisher (reconciled):** `E` **fires/throws** the equipped weapon at any time (spends
+  ammo/use); the **combo finisher (4th hit) is a *free melee* swing** — it never auto-fires the gun and costs no
+  ammo (`WEAPONS.md` §1, `COMBOS.md` §2). A ranged weapon may therefore fire **outside** the combo (`E`) *and*
+  bludgeon **through** it (arrow melee) — these do not conflict. **[ITERATE]** a **rebinding** UI (cosmetic, post-slice).
 
 **[LOCKED] Dash + Jump both exist.** Dash = grounded evasive burst (no i-frames). Jump adds a full
 **air layer** — you can attack in the air, so the moveset roughly **doubles** (ground set + air set).
@@ -128,8 +131,9 @@ cast — spending ammo) you press **`E`** (§2, `WEAPONS.md` §1). Consequences 
 - **Melee weapons (sword, etc.)** = genuinely new directional attack art — a real swing kit.
 - **Ranged weapons (shotgun, etc.)** = mostly the **fist combo re-drawn holding the weapon** + a **unique
   finisher/fire** animation. Cheaper than a full bespoke melee weapon, still fully animated.
-- **[LATER] reconcile in `WEAPONS.md`:** whether a ranged weapon can *also* fire outside the combo, or
-  firing is strictly the finisher (the player-side default above).
+- **[LOCKED, reconciled]** a ranged weapon **does** fire outside the combo — `E` fires/throws at any time
+  (spends ammo), and the finisher stays a **free melee** swing (no ammo). Firing is **not** locked to the
+  finisher. (`WEAPONS.md` §1, `COMBOS.md` §2.)
 
 Weapon-by-weapon animation lists get pinned in `WEAPONS.md` alongside each weapon's behavior.
 

@@ -50,15 +50,19 @@
 - **Transitions:** area cards (`UI.md` §5) get a **2-second stinger** in the incoming area's genre before its
   loop starts.
 
-**Music track count:** **12 area/stage loops + 1 title theme + 1 Endless layered track + 7 boss themes = 21
-music assets** (bosses share a base motif, §3, so authoring is cheaper than 21 from scratch).
+**Music track count:** **12 area/stage loops + 1 title theme + 1 Endless layered track + 9 boss cues = 23
+music assets** — the 9 boss cues are **8 per-boss orchestrations of one shared "Phil's Army" motif** (Burly,
+Colossus, Helicopter, Monkey Boss, big Arm-Ripper, Tank, Gatling Gun Guy, Boomergunner) **+ Phil's fully
+realized version** (§3). Because they all re-orchestrate a single 4-bar motif, authoring is far cheaper than 9
+from scratch. *(Sandwich Bros is a **big-version Tier-1**, `BOSSES.md`; it reuses the **Area 1 stage loop**, not
+its own cue — so the boss-cue count is 8 sub-bosses + Phil, not counting Sandwich Bros.)*
 
 ---
 
 ## 3. Boss-theme approach
 
 - **One shared "Phil's Army" boss motif** — a recognizable 4-bar villain leitmotif — **re-orchestrated per
-  boss** rather than 7 unrelated tracks. This is cheap (matches the "big version reuses art" thrift) and ties
+  boss** rather than 8 unrelated tracks. This is cheap (matches the "big version reuses art" thrift) and ties
   every boss to Phil as the source.
   - **Burly Macho Guy:** motif on **brass + gang-shout chants**.
   - **Colossus:** motif on **massed low strings** (many-figures-as-one).
@@ -146,8 +150,8 @@ Priority = what wins when the mix gets crowded. Higher ducks lower.
 
 ## 7. Asset summary → feeds `ASSET_MANIFEST.md` §8
 
-- **Music:** 21 tracks (12 area/stage loops · 1 title · 1 Endless layered w/ 4 stems · 7 boss themes on a
-  shared motif) + area transition stingers.
+- **Music:** 23 tracks (12 area/stage loops · 1 title · 1 Endless layered w/ 4 stems · 9 boss cues — 8 per-boss
+  orchestrations of one shared motif + Phil's full realization) + area transition stingers.
 - **Ambient:** 12 area beds.
 - **SFX:** **64 core one-shots** (§4).
 - **VO:** 5 intro clips (creator voice) + Phil rooftop monologue (~30 s).

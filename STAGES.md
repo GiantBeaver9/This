@@ -151,8 +151,11 @@ Goal = **visible progression & diversity**: suburb → mall → city → airport
 
 - **[LOCKED] Traffic hazard (Act 1):** cars & school buses drive through the lane — **dodge to avoid damage.**
   **[ITERATE]** do they also hit enemies (usable hazard)?
-- **[LATER]** exact stage list per act, which boss caps each act, per-stage enemy mixes, branch forks,
-  per-act hazards, and parody-brand naming (no branch forks — linear).
+- **[LOCKED] Act-capping bosses (all placed, `BOSSES.md`):** Act 1 → **Burly Macho Guy** (Galleria dept
+  store); Act 2 → **Helicopter** (airport, after Colossus mid-act); Act 3 → **big Arm-Ripper** (Dixon boss
+  rush, after Monkey Boss mid-act); Act 4 → **Gatling Gun Guy** (Golden Gate, after Tank + Boomergunner mid-act);
+  Finale → **Phil**. **[ITERATE]** only the exact *stage-within-act* index and per-stage enemy mixes remain.
+  (Campaign is **linear** — no branch forks; parody-brand naming pinned in `AREAS.md`.)
 
 ---
 
@@ -230,5 +233,8 @@ alive and *plays* differently:
 → Phil. **Endless
 Mode** added (§7b).
 
-**Next / [ITERATE]:** exact per-stage rosters & backdrops, which boss caps each
-act, checkpoint/continue specifics, parody-brand naming.
+**Act-capping bosses locked (§4):** A1 Burly · A2 Helicopter · A3 big Arm-Ripper · A4 Gatling Gun Guy ·
+Finale Phil.
+
+**Next / [ITERATE]:** exact per-stage rosters & backdrops (stage-within-act index only),
+checkpoint/continue tuning specifics, parody-brand naming.

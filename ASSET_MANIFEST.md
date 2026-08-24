@@ -98,7 +98,7 @@ Each theme: parallax backdrop layers + lane floor + set dressing + ambient actor
 
 ---
 
-## 8. Audio — see **`AUDIO.md`** (fully specced: 21 music tracks, 64 SFX, VO plan, mix) — VO+SFX creator-produced
+## 8. Audio — see **`AUDIO.md`** (fully specced: 23 music tracks, 64 SFX, VO plan, mix) — VO+SFX creator-produced
 - **P1:** **Intro VO** (creator voice, the in-the-beginning-there-was-this script) · core SFX (punch, hit, weapon fires, explosions, zombie, whistle, trolley) .
 - **P2:** per-area **music**, ambient beds, boss themes, UI sounds. *(A full audio pass is not yet designed.)*
 
