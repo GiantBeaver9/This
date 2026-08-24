@@ -168,6 +168,28 @@ hazards (Act 1 cars/buses, Act 3 nature/airport). **[ITERATE]** individual stage
 - **[ITERATE]** the scaling curve; does it layer in tiers/bosses over time; scoring/leaderboard; do campaign
   economy/weapon rules apply; is it purely endless-until-death.
 
+## 7c. Environmental detail, ambient actors & hazards — **[LOCKED core]** (per theme)
+
+Each theme is dressed with **area-specific ambient sprites, terrain, and hazards** so every backdrop feels
+alive and *plays* differently:
+
+- **Ambient actors (people & animals), themed to the area** — some pure background, some interactive/hazard:
+  - **Airport:** ground crew **marshalling / bringing in planes**, luggage carts, taxiing planes.
+  - **Rolling hills:** a **cow that blocks your path**, grazing animals, farm props.
+  - (Each theme gets its own set — suburb pedestrians, mall shoppers, SF city crowds, etc.)
+- **Terrain that funnels the player:** **ponds / puddles**, obstacles (the cow), fences — **constrict the
+  play space into smaller areas**, changing the fight moment-to-moment and forcing new positioning.
+- **Environmental hazards, per theme** (on top of the dressing):
+  - Suburbs: **cars & school buses** (§4.1).
+  - Airport: **taxiing planes / jet blast** *(ITERATE)*.
+  - Hills: pond/puddle funnels, animals in the way.
+  - Mall / City: escalators, traffic, etc. *(ITERATE)*.
+- **[LOCKED] Design goal:** fully-fledged, lived-in stages so the world reads as a real place Phil's chaos
+  is spilling into — and varied terrain keeps encounters fresh across the 3–4 hrs.
+- **Assets:** per-theme **ambient-actor sprites** (people + animals), **hazard sprites/anims**, **terrain
+  features** (ponds, obstacles). → `ASSET_MANIFEST.md`.
+- **[ITERATE]** the exact ambient/hazard/terrain set per theme; which are decorative vs. damaging vs. blocking.
+
 ## 8. Asset needs → feeds `ASSET_MANIFEST.md`
 - **Per theme:** background + parallax layers, lane floor, set dressing, stage hazards.
 - **Transition/branch screens** (`UI.md` §5): branch-reveal map, results/grade, act cards.
