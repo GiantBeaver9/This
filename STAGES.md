@@ -71,6 +71,9 @@ direction**. Then it hands off to normal play.
   new stage **introduces its mechanic via the vignette, then lets the matching weapons spawn.** So it's
   **teaching → tools → test** every stage, and it pairs with the boss (e.g. airport teaches bat+grenade →
   Helicopter boss).
+- **[LOCKED] The economy is a second-half reveal:** **money/coins and the whole monkey economy** (Monkey
+  Merc, Monkey Tamer, Monkey Boss, Pickpocket) **do NOT appear in the first half** (~Areas 1–2) — they debut
+  **~Area 3 onward.** The game keeps introducing new systems the entire way, so it always feels fresh.
 - Assets: a short scripted vignette per introduced mechanic (**reuses** enemy/weapon art). **[ITERATE]** the
   full vignette list (one per new mechanic/weapon).
 

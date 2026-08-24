@@ -133,8 +133,9 @@ signage · **department-store boss** arena.
 - **[LOCKED] Intro vignette (§`STAGES.md` 1c):** entering the **terminal**, the player **sees the mechanic
   acted out** — enemies **throw head-grenades that hit planes in the air**, and a **Bat enemy swats a
   grenade into a small plane**, exploding it. Teaches **head-grenades + bat-reflect** before you use them.
-- **[LOCKED] Debuts:** **Head-Throwers** (grenade-from-head) and the **Bat** weapon — and grenades + bats
-  **spawn** here so the player can practice the exact tools the boss needs.
+- **[LOCKED] Debuts:** **Head-Throwers** (grenade-from-head), the **Bat** weapon, and **Anti-Aircraft**
+  (stone-throwers — seen **pelting the planes** in the vignette/ambient) — and grenades + bats **spawn** here
+  so the player can practice the exact tools the boss needs.
 - **Backdrop:** terminal interior → **tarmac** with **taxiing planes**, ground crew **marshalling planes**,
   luggage carts. **Hazards:** taxiing planes / jet blast **[ITERATE]**.
 - **[LOCKED] Area boss = the Helicopter** (`BOSSES.md` §5.5): the airport **taught bat + grenade**, and the
@@ -210,10 +211,19 @@ monkeys · **Arm-Ripper** (+ **big-version** Dixon boss) · tier-3 enemies · bo
 to Marin** → the **Golden Gate Bridge** → **San Francisco** → the **Phil** finale. Debuts the last heavy
 hitters — **Gatling Gunner** and **Ninja**.*
 
-### 4.1 Vallejo — the amusement park
+### 4.1 Vallejo — the amusement park (Six Flags)
 - **Backdrop:** **Vallejo** with a **Six-Flags-style amusement park** — **roller coasters**, midway, ferris
-  wheel on the skyline. **[ITERATE]** specific park set pieces, any coaster hazard.
-- **Enemies:** **Gatling Gunner** and **Ninja** debut around here ("a little further on"). **[ITERATE]** which/when + vignettes.
+  wheel, game booths. **[ITERATE]** park set pieces, any coaster hazard.
+- **[LOCKED] Debuts:** the **Ninja** (teleport shuriken) and the **Pickpocket** (`ENEMIES.md` §2.16 — steals
+  your coins; kill it for **2× back**). **[ITERATE]** a vignette for each.
+- The **Gatling Gunner** also appears across Area 4, leading into the Golden Gate boss. **[ITERATE].**
+
+### 4.1b Marin County & the redwoods — **[LOCKED core]**
+- **Backdrop:** **Marin County** — a **redwood forest** (towering redwoods, ferns, filtered light, drifting
+  mist), winding forest paths, heading out toward the bay/bridge.
+- **[LOCKED] Debut: the Boomergunner** (`ENEMIES.md` §2.17) — enemies who **throw Boomerang Guns** at you.
+- **[LOCKED] Marin/redwoods boss = a Boomergunner** (big-version) at the end.
+- **[ITERATE]** redwoods hazards (falling logs? mist?), a Boomergunner vignette.
 
 ### 4.2 Across the bay to Marin, then the Golden Gate (penultimate level) — **[LOCKED core]**
 - **[LOCKED] Bay causeway run** across to **Marin County** (water platforming again), then the **Golden Gate
@@ -221,11 +231,18 @@ hitters — **Gatling Gunner** and **Ninja**.*
 - **[LOCKED] Golden Gate boss = the Gatling Gun Guy** (`BOSSES.md` §5.6): he **shoots you like crazy** with a
   **barrage every ~5 seconds.** A **"BARRAGE INCOMING" warning** flashes on screen; you must **hide behind the
   cars** on the bridge — **everything caught in the open gets eviscerated** (enemies included). Cover + timing.
+- **[LOCKED] Enemy: the Ground Smasher (Zoner) debuts here** — its **lane shockwaves** thread the bridge amid
+  the barrage chaos.
 - **[ITERATE]** Marin look, bridge fog/wind, car-cover layout, the barrage pattern.
 
 ### 4.3 San Francisco → the Tower → Phil finale (last level) — **[LOCKED core]**
-- **[LOCKED]** SF cityscape → an **elevator up Salesforce Tower** (one of SF's tallest) → **fight Phil on the
-  roof.**
+- **[LOCKED] The SF slog:** a long **20–30 minute** gauntlet with the **full roster** — **every enemy type**
+  coming at you. You **follow the SF trolley / cable-car path** back and forth through the city.
+- **[LOCKED] Trolley hazard:** the **trolley comes through and plows straight down the middle** — it **can't
+  tell friend from foe** and **flattens whatever's in its lane** (enemies *and* you). **[LOCKED] No cars in SF**
+  (too much going on) — the **trolley is the signature hazard** that caps the game.
+- **[LOCKED] The Heavy ("Bold") debuts on the SF streets** — a fresh tanky wall to keep the long slog alive.
+- **[LOCKED]** at the end, an **elevator up Salesforce Tower** (one of SF's tallest) → **fight Phil on the roof.**
 - **[LOCKED] Phil finale** (`BOSSES.md` §5.1, `STAGES.md` §1a): dull pencil → **sharpen-window** (invulnerable
   until he runs dry and must sharpen, ~3–5s open) → greatest-hits **re-summons** of earlier bosses.
 - **[LOCKED] Shifting winds / tower sway:** the tower **sways back and forth** — during the elevator ride /

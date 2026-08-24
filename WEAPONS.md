@@ -154,6 +154,7 @@ Each attack direction is a different tool:
 - **[SUPERSEDES]** the earlier "20–32 shots" — no ammo tracking now.
 
 ### 3.7 Monkey Merc — *summon, costs a dime (10¢, see §3.9)* **[LOCKED core]**
+**[LOCKED] Second-half only** (debuts ~Area 3 with the monkey economy, `STAGES.md` §1c).
 Dropped by a **monkey stick figure**; you can only claim/summon it if you hold a **dime (10¢).**
 - **Own aggro & attacks:** fights independently with a **pistol, infinite ammo**, but a **max fire rate of
   2 shots/second** (it's "aiming").
@@ -197,6 +198,8 @@ Dropped by a **monkey stick figure**; you can only claim/summon it if you hold a
   vs. free-fire, warm-up, decay.
 
 ### 3.9 Currency system — **[LOCKED core], [ITERATE] scope** *(cross-cuts `UI.md`)*
+- **[LOCKED] Second-half reveal:** **no money appears in the first half** (~Areas 1–2); the whole coin/monkey
+  economy **debuts ~Area 3** (`STAGES.md` §1c) — the game keeps unfolding new systems.
 - Enemies **randomly drop coins**; each = **1 cent**. Money is **shown in the UI** and **resets each stage**
   (`UI.md` §3.4).
 - **Drop rate ≈ 5% per tier** (scales with tier); **Swarmers drop 0** (fodder never feeds the economy).

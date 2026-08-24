@@ -111,7 +111,7 @@
 - **[ITERATE]** whistle telegraph/cooldown, monkey HP & attacks, respawn delay, what he does if you corner
   him (fight or flee?).
 
-### 2.7 Gatling Gunner — **[LOCKED core]** — **Tier 3** — **debuts Area 4 (Vallejo)**
+### 2.7 Gatling Gunner — **[LOCKED core]** — **Tier 3** — **debuts Area 4**
 - **Ability:** grabs **2 tier-1s OR 1 tier-2** and, over **~2 seconds**, **contorts them into a gatling
   gun** — a clean showcase of the ability tier rule (a tier-3 spends units below it).
 - **Fire pattern:** **1-second bursts every 2–3 seconds** — rhythmic windows to close or dodge between bursts.
@@ -147,7 +147,7 @@
   short-range rule (§1) or count as a telegraphed thrown exception, star damage, what it does with no
   fodder to strip (call in / melee?).
 
-### 2.10 Anti-Aircraft — **[LOCKED core]** — **Tier 1a**
+### 2.10 Anti-Aircraft — **[LOCKED core]** — **Tier 1a** — **debuts Area 2 (Airport)**
 - A **basic enemy that throws rocks** at the player (a ranged lobber).
 - **[LOCKED] Boomerang distraction (counterplay):** if the player **throws a boomerang**, the AA enemy
   **actively throws rocks at the boomerang** (~**20% accuracy** — mostly whiffs), which **distracts it**,
@@ -155,7 +155,7 @@
 - **[ITERATE]** do rocks obey the short-range rule (§1) or arc in from farther; do **other airborne things**
   (boomerang gun, thrown grenade, ninja stars) also bait it; rock damage & telegraph; throw cadence.
 
-### 2.11 Heavy ("Bold" / Burly) — **[LOCKED core]** — **outside the tier system**
+### 2.11 Heavy ("Bold" / Burly) — **[LOCKED core]** — **outside the tier system** — **debuts Area 4 (SF streets)**
 - A **BOLD, burly** stick figure — visibly thicker/heavier than the rest (the one place the silhouette bulks up).
 - **High HP / tanky.** **[LOCKED] Heavy weight:** **dash-attacking him floors the player** (`PLAYER.md`
   weight rule), punishing lazy dashes.
@@ -180,7 +180,7 @@
 - **[ITERATE]** do swarmers count against the 8-pursuer cap (`GAMEPLAY_LOOP.md` §8.2) or exceed it as a
   special swarm; their attack (contact / tiny melee); pod size; move speed.
 
-### 2.13 Ground Smasher (the Zoner) — **[LOCKED core]** *(tier TBD)*
+### 2.13 Ground Smasher (the Zoner) — **[LOCKED core]** *(tier TBD)* — **debuts Area 4 (Golden Gate Bridge)**
 - Carries a **large club on its shoulder** and **slowly walks toward the player**, smashing the ground
   **every 3–5 seconds.** Each smash: club **overhead ~1s** (telegraph), then a **shockwave straight down
   its lane** (its Z-row).
@@ -220,6 +220,20 @@
   direct tension with the **Sniper** (who punishes jumping), so the two create a push-pull.
 - **[ITERATE]** swoop/attack pattern, HP, how many at once, exactly how you hit it (air attacks; and does
   jumping to reach it expose you to a Sniper), tier.
+
+### 2.16 Pickpocket — **[LOCKED core]** — economy enemy — **debuts Area 4 (Vallejo)**
+- A **smaller, differently-colored** stick figure that **darts up and steals all the coins in your wallet**
+  (currency, `WEAPONS.md` §3.9).
+- **[LOCKED] Risk/reward:** **kill it and you get DOUBLE the coins back.** So you can **let it rob you, then
+  chase it down for 2× your money**, or **kill it first** to avoid losing anything — your call.
+- Fills the **economy-interaction** role (the opposite of a coin drop). **[ITERATE]** speed/escape behavior,
+  does it flee after stealing, does it drop the doubled coins on death or credit directly, HP.
+
+### 2.17 Boomergunner — **[LOCKED core]** — **debuts Area 4 (Marin/redwoods)**
+- Enemies who **wield Boomerang Guns** (`WEAPONS.md` §3.8) — they **throw the boomerang gun at you**; it
+  **orbits auto-firing and returns** to them. Ranged pressure from a spinning, circling threat.
+- **[LOCKED] Marin/redwoods caps with a Boomergunner boss** (a **big-version**, `BOSSES.md` §1).
+- **[ITERATE]** how many they field, can you catch/steal the gun, tier, behavior vs. the player's version.
 
 ---
 
@@ -270,32 +284,33 @@ each other; tiers span 0..N); telegraph timing (100ms fists / 150–200ms sword)
 dodgeable**; outside-the-tier specials; progressive type-introduction by stage; per-stage constrained
 random loot; catch-up minibosses; subtle wristband ranks; **headshot economy** (~10% zombify, sniper exempt).
 
-**Defined enemies (10):**
-| Enemy | Tier | Role it fills |
-|---|---|---|
-| Zombie | T0 | grab / tempo-trap; headshot-resistant |
-| Regular Melee | T1 | basic melee (punch/jump-kick/slide-kick) |
-| Anti-Aircraft | T1a | rock lobber; boomerang-baitable |
-| Snapper (Sword-Maker) | T2 | melee-zoner (snaps a T1 → sword) |
-| Arm-Ripper | T2a | close gunner (T1 arms → dual pistols) + Headbutt state |
-| Gatling Gunner | T3 | suppression (2×T1 / 1×T2 → gatling) |
-| Ninja | T3a | mobile harasser (teleport + limb-shuriken) |
-| Monkey Tamer | untiered | summoner (melee monkeys, priority target) |
-| Heavy ("Bold"/Burly) | untiered | **bruiser** — tanky, extended-reach punch, floors your dash, **can't be picked off** |
-| Swarmer | T1b | **fast swarm** — half-size, weak, pod-spawned on multiple sides |
-| Ground Smasher (Zoner) | TBD | **zoner** — slow approach, club→**lane shockwave** every 3–5s, one at a time |
-| Sniper | TBD | **anti-jump** — red dot on jump; ride to apex → shot to 20% HP (dead if <25%) |
-| Flying Monkey | TBD | **sky harasser** — melee, swoops only when <2 grounded enemies |
-| Head-Thrower | — | self-decapitating grenade; fire→walking bomb |
-| Monkey | — | economy (drops the player's Merc, needs dime) |
+**Defined enemies (17) — all placed with a debut area:**
+| Enemy | Tier | Debuts | Role it fills |
+|---|---|---|---|
+| Zombie | T0 | Area 1 (mall) | grab / tempo-trap; headshot-resistant |
+| Regular Melee | T1 | Area 1 (suburbs) | basic melee (punch/jump-kick/slide-kick) |
+| Swarmer | T1b | Area 1 (mall) | fast swarm — half-size, pod-spawned |
+| Anti-Aircraft | T1a | Area 2 (airport) | rock/stone lobber; boomerang-baitable |
+| Head-Thrower | — | Area 2 (airport) | self-decapitating grenade; fire→walking bomb |
+| Snapper (Sword-Maker) | T2 | Area 2 (Sacramento) | melee-zoner (snaps a T1 → sword) |
+| Sniper | TBD | Area 3 (causeway) | anti-jump; scope rhythm; kill → free special |
+| Flying Monkey | TBD | Area 3 (causeway) | sky harasser; swoops when <2 grounded |
+| Monkey Tamer | untiered | Area 3 | summoner (melee monkeys, priority target) |
+| Monkey | — | Area 3 | economy (drops player's Merc, needs dime) |
+| Arm-Ripper | T2a | Area 3 (Dixon) | close gunner (arms → pistols); big-ver = Dixon boss |
+| Ninja | T3a | Area 4 (Vallejo) | mobile harasser (teleport + limb-shuriken) |
+| Pickpocket | — | Area 4 (Vallejo) | economy — steals coins; kill for 2× back |
+| Boomergunner | — | Area 4 (Marin) | throws Boomerang Guns; big-ver = Marin boss |
+| Gatling Gunner | T3 | Area 4 | suppression (2×T1 / 1×T2 → gatling) |
+| Ground Smasher (Zoner) | TBD | Area 4 (Golden Gate) | zoner — lane shockwaves |
+| Heavy ("Bold"/Burly) | untiered | Area 4 (SF streets) | bruiser — floors dash, can't be picked off |
 
-**Open role gaps to fill on resume:**
-- ~~Bullet-pattern zoner~~ — ✅ filled by **Ground Smasher** (lane shockwaves instead of projectile patterns).
-- ~~Heavy / bruiser~~ — ✅ filled by **Heavy ("Bold"/Burly)**.
-- ~~Fast swarm~~ — ✅ filled by **Swarmer**.
-- ~~Wallet Runner~~ — ✅ **cut**; enemies drop **coins** directly (~5%/tier, 0 for Swarmers) instead.
+**All combat roles filled** (melee, gunner, zoner, heavy, swarm, air/anti-air, summoner, economy), **and every
+enemy has a debut area.** Economy enemies (Monkey, Monkey Tamer, Pickpocket) are second-half only.
 
-**All combat roles filled, including air/anti-air** (Sniper checks jump-spam; Flying Monkeys reward air).
+**Extensible by design:** the tier ladder, cannibalize rule, big-version boss scaling, and vignette teaching
+all scale — so new enemies can **extend this game or seed a harder sequel / "more enemies" follow-up** without
+reworking the systems.
 Roster at 14 types for v1, open to additions anytime.
 
 **Also parked:** the many per-enemy `[ITERATE]` details (fallbacks, cooldowns, drops), rank specifics,

@@ -70,6 +70,8 @@
   (time-to-clear? kill rate?).
 - **[LOCKED] Minibosses come in two flavors** (both exist): **scaled-down bosses** (a gimmick + a short
   phase) and **"big version" enemies** (§1 — a regular enemy rendered ~20% bigger and buffed).
+- **[LOCKED] Minibosses recur:** once a miniboss has been encountered, it **can spawn again any time after**
+  its debut (not a one-time fight) — part of the difficulty ramp in later areas (e.g. the Dixon boss rush).
 - **[ITERATE]** do they drop guaranteed loot; can they appear more than once a stage; are they sniper-immune
   like main bosses, or killable by it?
 
