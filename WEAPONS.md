@@ -82,6 +82,8 @@ the feel.
   each** — a lined-up shot can drop a whole row.
 - **Revolver:** **more damage, no pierce**, fewer bullets — the heavy single-target hitter.
 - **Headshot:** if the straight shot lines up with a head it lands as a headshot (kill/bonus on weak enemies).
+- **[LOCKED] Zombie risk:** a headshot kill has a **~10% chance to spawn a ~10s zombie instead** (see
+  `ENEMIES.md` §2.8) — the small tax on headshot-leaning play.
 - **[ITERATE]** exact mag sizes; whether the <20% execution gate applies to other guns or is pistol/
   revolver-only; the per-direction finisher flourishes; decay when the mag empties.
 
@@ -140,6 +142,8 @@ Each attack direction is a different tool:
   second; a guaranteed **auto-kill / headshot** on a normal enemy.
 - **No i-frames — the player is locked and vulnerable** through that ~0.5s barrage: the guaranteed kill is
   paid for in **exposure**, so throwing it out in a crowd gets you hit.
+- **[LOCKED] Zombie risk:** the auto-kill headshot finisher has a **~10% chance to spawn a ~10s zombie
+  instead of killing** (see `ENEMIES.md` §2.8).
 - **[ITERATE]** how it's eventually lost (no ammo → overheat? time limit? N finishers?); does the headshot
   hit one target or pierce/chain; warm-up/spin-up.
 - **[SUPERSEDES]** the earlier "20–32 shots" — no ammo tracking now.

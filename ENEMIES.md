@@ -123,11 +123,10 @@
      clean kill.
   2. **Pods** — a **spawner** that pumps out zombies. **[ITERATE]** what a Pod is (destroyable spawner?
      count/rate, where it sits).
-- **[OPEN — headshot economy, needs a ruling]** If headshots *create* zombies, what do the game's
-  headshot-kill tools do — **pistol/revolver** head-lineups, the **gatling** auto-kill finisher, the
-  **sniper** ricochet headshots? Do they **convert-to-zombie instead of killing** (a real downside to
-  headshot-spam), or do only *certain* enemies zombify while the sniper still cleanly kills? This changes
-  several weapons — flagged for a decision.
+- **[LOCKED — headshot economy]** Any **headshot-kill weapon** — **pistol/revolver** head-lineups and the
+  **gatling** auto-kill finisher — has a **~10% chance to spawn a ~10s zombie instead of killing**: a
+  small, ever-present downside to leaning on headshots. **The sniper special is exempt — it *always*
+  cleanly kills** (ricochet headshots never spawn zombies).
 
 ---
 
