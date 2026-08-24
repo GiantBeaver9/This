@@ -85,7 +85,7 @@
 |---|---|---|
 | One full fill (yellow) | **100 meter-points** | |
 | **Fist hit value** | **+3.34 pts** | → ~30 punch-hits per fill (LOCKED) |
-| Weapon/item-kill value | **+1.67 pts** | half the rate = double effort (LOCKED) |
+| Weapon-hit value | **+1.67 pts / hit** | **half the fist rate** = double effort (per HIT, same event as fists — resolves the hit-vs-kill mismatch) |
 | **Combo multiplier curve** | 1–4 hits ×1.0 · 5–9 ×1.25 · 10–14 ×1.5 · **15+ ×2.0** | "~15 quick hits surges it" (LOCKED) |
 | Combo-drop timeout | 2.0 s without a hit resets the counter | |
 | Killed-Sniper rifle pickup | **instant +100 pts (fills one tier)** | free special (`ENEMIES.md` §2.14) |
@@ -112,7 +112,7 @@
 | Special | Value | Notes |
 |---|---|---|
 | Tactical — Sniper | wipes 15/30/45 by tier (§2.4); **drops nothing**; boss dodges >10% HP | LOCKED |
-| Shotgunner — Giant Shotgun | **90 dmg + 8 wu knockback**, one-shots **all T3-and-below**; untiered Heavy/Tamer & bosses survive; **drops stay** | LOCKED ≤T3 |
+| Shotgunner — Giant Shotgun | **RULE: instakills every T3-and-below on screen** (ignores HP — not a damage number) + **8 wu knockback**; untiered Heavy/Tamer & all bosses survive; **drops stay** | LOCKED ≤T3 |
 | Werewolf | **5.0 s** transform, **full i-frames**, every slash = 1HKO, **drops stay**; slash dmg vs boss = 0 above 10% | cooldown = the meter |
 | Underdog — Vaporize | close radius **3.0 wu** instant-kill (**drops nothing**, sniper-style; resolves §2.4 [ITERATE]); then **+20% to all dmg for 30 s**; **refreshes, does not stack** | |
 | Boss execution (all specials) | only ≤10% boss HP shows the execute prompt | LOCKED (`BOSSES.md` §1) |
@@ -198,9 +198,11 @@ chance to spawn a 10 s zombie instead of killing. **Sniper special is exempt** (
 | T0–T1 | 18% | T1 pool (boomerang, pistol/revolver, club) |
 | T2 | 22% | T2 pool (sword, whip, ball & chain, bat, boomerang gun) |
 | T3 | 26% | T3 pool (shotgun, staff, gatling) |
-| T4 / miniboss | 35% | T4 pool (grenade, monkey merc*, rocket) |
+| T4 / miniboss | 35% | T4 pool (grenade, staff, gatling) |
 
-*Monkey Merc still requires a held dime to claim. At low HP (≤25) all these weapon-drop chances **double**.
+*The **Rocket Launcher is a world pickup only** (not in any random pool, `WEAPONS.md` §3.8b), and the
+**Monkey Merc drops only from the Monkey stick figure** (`ENEMIES.md` §2.2) — neither is a tier drop. At
+low HP (≤25) all weapon-drop chances **double**.
 
 ---
 
@@ -232,8 +234,10 @@ chance to spawn a 10 s zombie instead of killing. **Sniper special is exempt** (
 (e.g. Regular Melee 40 HP → big-version boss 160 HP, 7.5→11 dmg — matches Sandwich Bros above.)
 
 **Boss & meter rules (LOCKED, restated):** specials only work ≤10% boss HP (execute prompt); unspent meter
-**carries over**; sniper visibly dodges above 10%. **Minibosses are NOT sniper-immune** — the ricochet can
-kill a miniboss like a normal enemy (resolves `BOSSES.md` §4 [ITERATE]); only the 7 main bosses have the 10% rule.
+**carries over**; sniper visibly dodges above 10%. **The 10% rule covers EVERY area-capping boss** — the 7
+bespoke bosses **and** the big-version area bosses (Sandwich Bros, big Arm-Ripper, Boomergunner). Only
+**catch-up minibosses / big-version *non-boss* elites** are sniper-killable like normal enemies (resolves
+`BOSSES.md` §4 [ITERATE]). *(So the sniper can never one-shot an area boss.)*
 
 ---
 
@@ -287,5 +291,6 @@ kill a miniboss like a normal enemy (resolves `BOSSES.md` §4 [ITERATE]); only t
    consistent with "each fill AMPLIFIES, doesn't bank extra shots" (`GAMEPLAY_LOOP.md` §4.3).
 3. **Untiered/TBD enemy damage** assigned an *effective tier* on the tier × 7.5 ladder (marked "-eff") so no
    damage cell is blank; the LOCKED per-enemy exceptions (Zombie 0, Swarm 1.5, Gatling 1, Sniper→20) override.
-4. **Minibosses are sniper-killable**; only the 7 main bosses carry the 10%-HP special rule — the reading most
+4. **Every area-capping boss (bespoke + big-version) carries the 10% rule; only catch-up minibosses/non-boss
+   elites are sniper-killable** — the reading most
    consistent with "specials only work on **a boss** under 10%."

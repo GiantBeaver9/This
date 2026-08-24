@@ -43,8 +43,10 @@ finisher shape**; the final press releases it.
 | 4 | `↓ ↓` | **Ground Zero** | slams the ball down at your feet for a **radial shockwave** (its own lane + both neighbor Z-rows) | r 3 wu · **80** + 0.5 s knockdown |
 | 5 | `← ↓ →` | **Full Swing (360)** | a full sweeping orbit of the ball around the Human — hits everything in melee range on all sides | r 2.5 wu ring · **80** all around |
 
-- **Default (no motion):** a plain finisher tap launches the ball forward as a basic **Meteor Line-Drive** at
-  reduced reach (5 wu) — so the weapon always works even without the secret input.
+- **Default (no motion):** a plain combo finisher is a **free melee swing** (no ammo, per `WEAPONS.md` §1) —
+  it does **not** spend a use. **Launching the ball** (any of the 5 finishers below) requires the secret
+  **motion input**, and each spends 1 of 3 uses. *(Historical note: an earlier draft had the plain tap auto-launch
+  a Meteor Line-Drive — superseded; the plain finisher is now a free melee swing.)*
 - Each of the 5 above spends **1 of 3 uses**. The **20% carry-slow** applies throughout (movement only).
 
 ---

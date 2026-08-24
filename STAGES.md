@@ -74,7 +74,7 @@ direction**. Then it hands off to normal play.
 - **[LOCKED]** The **very first stage gets only a light vignette** — the **dancing Zebra punches a regular
   enemy** to demo the **punch** (the only mechanic there). Full vignette plan → **`VIGNETTES.md`**.
 - **[LOCKED] Weapon-availability ramp:** the first stages hand out **only basic melee** (early low-tier
-  weapons — e.g. the Sword, `WEAPONS.md` §4); each
+  weapons — e.g. the **Club** (early low-tier); the Sword is T2 and appears a touch later); each
   new stage **introduces its mechanic via the vignette, then lets the matching weapons spawn.** So it's
   **teaching → tools → test** every stage, and it pairs with the boss (e.g. airport teaches bat+grenade →
   Helicopter boss).

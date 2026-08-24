@@ -98,7 +98,7 @@ Each theme: parallax backdrop layers + lane floor + set dressing + ambient actor
 
 ---
 
-## 8. Audio — `STAGES.md` (+ new) — **[MOSTLY UNSPEC — flag]**
+## 8. Audio — see **`AUDIO.md`** (fully specced: 21 music tracks, 64 SFX, VO plan, mix) — VO+SFX creator-produced
 - **P1:** **Intro VO** (creator voice, the in-the-beginning-there-was-this script) · core SFX (punch, hit, weapon fires, explosions, zombie, whistle, trolley) .
 - **P2:** per-area **music**, ambient beds, boss themes, UI sounds. *(A full audio pass is not yet designed.)*
 
@@ -112,6 +112,6 @@ Each theme: parallax backdrop layers + lane floor + set dressing + ambient actor
 
 ## 10. Systems still open (won't block art, but pin before final build)
 Exact per-stage enemy rosters/counts · checkpoint & continue specifics ·
-Secret Combos (`COMBOS.md` TBD) · economy scope beyond monkeys · character animation pipeline choice ·
-Werewolf/Shotgunner/Underdog-vs-boss rules · **`E` (use weapon) vs. finisher-fire** reconciliation ·
+economy scope beyond monkeys · character animation pipeline choice ·
+**player attack frame data** (startup/active/recovery) · **per-stage encounter/wave tables** · boss arena layouts ·
 save/settings menus · audio pass. *(Controls/keybinds + gamepad are now LOCKED in `PLAYER.md` §2.)*
