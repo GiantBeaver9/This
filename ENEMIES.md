@@ -146,17 +146,20 @@
 - **[ITERATE]** do rocks obey the short-range rule (§1) or arc in from farther; do **other airborne things**
   (boomerang gun, thrown grenade, ninja stars) also bait it; rock damage & telegraph; throw cadence.
 
-### 2.11 Heavy ("Bold") — **[LOCKED core]** — the tanky one *(tier TBD)*
-- A **BOLD stick figure** — visibly thicker/heavier than the rest (the one place the silhouette bulks up).
+### 2.11 Heavy ("Bold" / Burly) — **[LOCKED core]** — **outside the tier system**
+- A **BOLD, burly** stick figure — visibly thicker/heavier than the rest (the one place the silhouette bulks up).
 - **High HP / tanky.** **[LOCKED] Heavy weight:** **dash-attacking him floors the player** (`PLAYER.md`
-  weight rule), so he punishes lazy dashes.
+  weight rule), punishing lazy dashes.
+- **[LOCKED] Can't be "picked off":** ranged pick tools **can't eliminate him from afar** — the **sniper
+  special's ricochet skips / can't kill him**, and headshot-pick tools won't drop him. You must **engage
+  him directly.**
 - **[LOCKED] Only 2 spawn at a time**, and they **never flank — they approach as directly as possible**, so
   the **player always keeps 2 escape routes** around them (deliberate anti-corner design).
 - **[LOCKED] Extended-reach punch** — a punch **like the player's**, with **longer reach** than normal
   enemies, so you can't poke him safely from your usual spacing.
-- Fills the **Heavy / bruiser** role; a natural **sniper target** and loot anchor.
-- **[ITERATE]** his tier, exact HP, punch windup/telegraph, whether his punch emits an air-gust like the
-  player's, what he drops.
+- **[LOCKED] Outside the tier system.** Fills the **Heavy / bruiser** role.
+- **[ITERATE]** exact HP, punch windup/telegraph, whether his punch emits an air-gust like the player's,
+  what he drops.
 
 ### 2.12 Swarmer — **[LOCKED core]** — **Tier 1b** — fast swarm (fills the gap)
 - **Half-sized** stick figures — small, **weak**, and **many.**
@@ -168,18 +171,7 @@
 - **[ITERATE]** do swarmers count against the 8-pursuer cap (`GAMEPLAY_LOOP.md` §8.2) or exceed it as a
   special swarm; their attack (contact / tiny melee); pod size; move speed.
 
-### 2.13 Burly Guy — **[LOCKED core]** — **outside the tier system**
-- A big, **burly** stick figure.
-- **[LOCKED] Can't be "picked off":** ranged pick tools **can't eliminate him from afar** — notably the
-  **sniper special's ricochet skips / can't kill him**, and headshot-pick tools won't drop him. You must
-  **engage him directly.**
-- **[LOCKED] Outside the tier system.**
-- **[FLAG — merge?]** This may be the **same enemy as the Heavy ("Bold", §2.11)** with these traits added
-  (outside tiers + can't be picked off), or a **separate** burly type. **Need your call: merge into one
-  heavy, or keep two?**
-- **[ITERATE]** his attack(s), HP, spawn count, mobility.
-
-### 2.14 Ground Smasher — **[LOCKED core]** *(tier TBD)*
+### 2.13 Ground Smasher — **[LOCKED core]** *(tier TBD)*
 - Carries a **large club on its shoulder.** Attack: raises the club **overhead for ~1 second** (big
   telegraph), then **smashes the ground**, sending a **shockwave straight down its lane** (along its
   Z-row).
@@ -249,8 +241,7 @@ random loot; catch-up minibosses; subtle wristband ranks; **headshot economy** (
 | Gatling Gunner | T3 | suppression (2×T1 / 1×T2 → gatling) |
 | Ninja | T3a | mobile harasser (teleport + limb-shuriken) |
 | Monkey Tamer | untiered | summoner (melee monkeys, priority target) |
-| Heavy ("Bold") | TBD | **bruiser** — tanky, direct, extended-reach punch, floors your dash |
-| Burly Guy | untiered | can't be picked off (sniper skips him) — *merge with Heavy? (§2.13)* |
+| Heavy ("Bold"/Burly) | untiered | **bruiser** — tanky, extended-reach punch, floors your dash, **can't be picked off** |
 | Swarmer | T1b | **fast swarm** — half-size, weak, pod-spawned on multiple sides |
 | Ground Smasher | TBD | club overhead ~1s → **lane shockwave** (dodge by changing depth) |
 | Head-Thrower | — | self-decapitating grenade; fire→walking bomb |
