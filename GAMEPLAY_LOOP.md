@@ -209,7 +209,7 @@ Performance can still be *shown* (combo popups, an optional end-of-stage grade f
 grade exists at all.
 
 ### 7.3 Session goal — **[LATER]**
-Run length, win condition (final boss? endless? branching tree with multiple endings?), and any
+Win condition = **beat Phil** (linear campaign); Endless Mode is separate. Meta-progression and any
 meta-progression are out of scope for this pass.
 
 ---
@@ -260,5 +260,5 @@ threat (surrounded, cut off), never a cheap-shot pileup where three hits land as
 4. **Aggression (§8.2)** — up to 8 pursuers with hard separation, so no stacked multi-hits.
 
 **Still parked ([LATER]):** exact tuning numbers (Z band height, multiplier curve, per-weapon warm-up),
-whether charge tiers bank multiple sniper shots vs. one stronger shot, and per-stage branch recipes —
-each pinned in the relevant system doc, not here.
+whether charge tiers bank multiple sniper shots vs. one stronger shot — each pinned in the relevant system
+doc, not here.

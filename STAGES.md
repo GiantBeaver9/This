@@ -1,6 +1,6 @@
 # this.l — Stages, Goals & Progression (LINEAR — branching cut)
 
-> **Scope:** run structure, the branching tree, per-stage anatomy, the enemy-layering schedule, goals/win,
+> **Scope:** run structure (linear), per-stage anatomy, the enemy-layering schedule, goals/win,
 > death handling, and environment themes (→ background assets). Extends `GAMEPLAY_LOOP.md` §7 and pulls the
 > enemy/boss rosters into a play order.
 >
@@ -108,7 +108,7 @@ direction**. Then it hands off to normal play.
 A typical stage:
 1. **Scroll + encounters** — waves of the stage's enemy mix in the 2.5D lane (`GAMEPLAY_LOOP.md`).
 2. **Optional catch-up miniboss** — injected if you're clearing too fast (`BOSSES.md` §4).
-3. **A branch fork** — a physical exit and/or a graded outcome (§5).
+3. **Advance to the next stage** (linear).
 4. **Act-end stages add a main boss.**
 
 - **[LOCKED] Per-stage loot pool** is **constrained to that stage** (`WEAPONS.md` §4 / `ENEMIES.md` §1).
@@ -135,7 +135,7 @@ New types **debut** act by act, then **recombine** with everything prior. (Roste
 - **[PROPOSED]** "Big version" minibosses (`BOSSES.md` §1) re-test earlier foes at higher stakes; minibosses recur.
 - **[ITERATE]** exact debut *stage within an area*; per-stage rosters. *(All 7 bespoke bosses now placed.)*
 
-### 4.1 Acts & themes — **[LOCKED core]** (~2–3 stages each, act-end boss gates the branch)
+### 4.1 Acts & themes — **[LOCKED core]** (~2–3 stages each; each area ends in a boss, linear)
 
 Route: **Lincoln → Rocklin → Roseville → Sacramento → Dixon → Marin → San Francisco** — a real NorCal drive.
 Goal = **visible progression & diversity**: suburb → mall → city → airport → hills → small town → bridge → the city.
@@ -151,7 +151,7 @@ Goal = **visible progression & diversity**: suburb → mall → city → airport
 - **[LOCKED] Traffic hazard (Act 1):** cars & school buses drive through the lane — **dodge to avoid damage.**
   **[ITERATE]** do they also hit enemies (usable hazard)?
 - **[LATER]** exact stage list per act, which boss caps each act, per-stage enemy mixes, branch forks,
-  per-act hazards, and parody-brand naming.
+  per-act hazards, and parody-brand naming (no branch forks — linear).
 
 ---
 
@@ -215,7 +215,7 @@ alive and *plays* differently:
 
 ## 8. Asset needs → feeds `ASSET_MANIFEST.md`
 - **Per theme:** background + parallax layers, lane floor, set dressing, stage hazards.
-- **Transition/branch screens** (`UI.md` §5): branch-reveal map, results/grade, act cards.
+- **Transition screens** (`UI.md` §5): area cards, optional results/grade (cosmetic).
 - **Boss arenas** (`BOSSES.md` §2): fixed-room backdrops.
 
 ---
@@ -228,5 +228,5 @@ alive and *plays* differently:
 **Act themes locked (§4.1):** Suburbs → Mall → The Journey → Big City → Phil (~2–3 stages each). **Endless
 Mode** added (§7b).
 
-**Next / [ITERATE]:** per-fork branch recipes, exact per-stage rosters & backdrops, which boss caps each
+**Next / [ITERATE]:** exact per-stage rosters & backdrops, which boss caps each
 act, checkpoint/continue specifics, parody-brand naming.

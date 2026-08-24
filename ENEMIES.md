@@ -237,11 +237,12 @@
 
 ---
 
-## 3. Roster — **[PROPOSED baseline] + your named enemies**
+## 3. Roster — **[SUPERSEDED baseline]** (kept for history)
 
-> The **specific characters get defined later** (your call — you have your own enemy ideas). Below is a
-> **role-coverage baseline** so encounter design has each function filled; we fold **your named enemies**
-> onto these roles the way we did weapons.
+> ⚠ **SUPERSEDED by §2/§6 (the real 17-enemy roster).** This early role-coverage sketch predates the final
+> roster and still mentions a standoff "Gunner," a stationary "Patterner," and a "Wallet Runner" that the
+> locked rules replaced (short-range guns; Ground-Smasher zoner; direct coin drops). **Ignore for build —
+> §6 is authoritative.**
 
 | # | Role | Behavior sketch | Notes |
 |---|---|---|---|

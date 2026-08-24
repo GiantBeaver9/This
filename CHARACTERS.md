@@ -24,7 +24,7 @@
 Each Special clears a crowd differently, balanced by **what loot survives** — the core axis is
 **completeness vs. loot retention:**
 - **Tactical / Sniper** — **kills everything** (one-shot ricochet), but **drops NOTHING.** Cleanest wipe, zero loot.
-- **Shotgunner** — **massive damage + knockback**, **wipes up to tier 3** (tier 4 survives), and **enemies
+- **Shotgunner** — **massive damage + knockback**, **wipes up to tier 3** (T3-and-below; the untiered Heavy/Monkey-Tamer and bosses survive), and **enemies
   it kills still drop loot on the ground.** Less absolute, keeps the economy.
 - **Werewolf** — **5s of i-frame slash-everything**; you **still get money/drops** from the kills. Melee
   kill-all with loot, but you must physically slash in the window.
@@ -38,7 +38,7 @@ Each Special clears a crowd differently, balanced by **what loot survives** — 
 ### 2.2 The Shotgunner *(redheaded friend; the bulky one)* — **[LOCKED core]**
 - **Bigger / bulkier.** Passives: **more punch damage** and **better shotgun damage.**
 - **Special — Giant Shotgun:** whips out a **giant shotgun and blasts everything off the screen** — instead
-  of an auto-kill it does **massive damage + knockback**, wiping **up to tier 3** (**tier 4 survives**), and
+  of an auto-kill it does **massive damage + knockback**, wiping **up to tier 3** (**T3-and-below; untiered Heavy/Tamer and bosses survive**), and
   **you get the drops on the ground.** *(Assuming this is the same person as the earlier "bulky friend" —
   flag if he's actually the 4th.)*
 - **[ITERATE]** stats trade-offs, meter fill, the exact blast/knockback.

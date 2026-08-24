@@ -67,7 +67,7 @@
   **fades on combo drop.** Never persistent.
 
 ### 3.4 Money / currency — **[LOCKED data], [PROPOSED] placement**
-- Wallets drop **1¢** each; **10¢ = a dime**, the Monkey Merc cost (`WEAPONS.md` §3.9).
+- Enemies drop **coins** (1¢ each, ~12% chance); **10¢ = a dime**, the Monkey Merc cost (`WEAPONS.md` §3.9).
 - **[PROPOSED]** small `$0.07` counter top-right; **[PROPOSED]** it **highlights when you hit a full dime**
   (you can now afford a monkey).
 - **[LOCKED] Resets each stage** — spend-it-or-lose-it; monkeys stay a tactical in-stage choice, no
@@ -102,8 +102,7 @@ Most decay is diegetic, but a few weapons have HUD-worthy state:
 ## 5. Other screens — **[PROPOSED] scaffold** (outside the tight loop)
 
 Listed so the asset manifest knows they exist; detailed later.
-- **Title / main menu** · **Pause** · **Stage-transition / branch reveal** (shows which path unlocked,
-  ties to `GAMEPLAY_LOOP.md` §7) · **Results / grade** (performance → ending) · **Game over** ·
+- **Title / main menu** · **Pause** · **Stage-transition / area card** (linear — just the next area's name) · **Results / grade** (performance → ending) · **Game over** ·
   **Controls/tutorial prompts.** **[LATER]** full designs.
 
 ---

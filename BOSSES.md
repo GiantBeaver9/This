@@ -22,9 +22,9 @@
 - **[LOCKED] No cheap frustration** (inherits the enemy rule): every boss attack is **telegraphed and
   fairly dodgeable**; no unreadable one-shots, no hiding.
 - **[LOCKED] Two boss classes:**
-  - **Minibosses** — mid-stage, catch-up or branch-gate; shorter fights. **Both flavors exist** — some are
-    **scaled-down bosses** (a gimmick + a phase or two), others are **elite enemies** (buffed regulars).
-  - **Main bosses** — **stage-end**, gate the branch/ending (`GAMEPLAY_LOOP.md` §7).
+  - **Minibosses** — mid-stage, catch-up; shorter fights. **Both flavors exist** — some are **scaled-down
+    bosses** (a gimmick + a phase or two), others are **elite enemies** (buffed regulars).
+  - **Main bosses** — **area-end** (the campaign is linear; no branch gate).
 - **[LOCKED] Multi-phase.** Bosses **shift behavior at HP thresholds** — new/faster attacks as they drop — so
   the fight escalates.
 - **[LOCKED] Everything except the sniper works** during the fight — looted weapons, combos, and the meter
@@ -158,9 +158,10 @@
   **proxy war:** win the dimes, field your monkeys, let them shoot him down.
 - **[LOCKED] Lose the race, feed the enemy:** if the player **doesn't catch a dime in time, the Monkey Boss
   summons his OWN mercs** — the same gun-monkeys, but **never above tier 1** (kept fair).
-- **[LOCKED] No soft-lock:** in this fight, **catching a dime summons a merc directly** (boss-specific — no
-  monkey-stick-figure needed), and **these boss-fight mercs are OUTSIDE the "3 dead = no more" per-level
-  cap** (`WEAPONS.md` §3.7). So you can always keep fielding monkeys to damage him.
+- **[LOCKED] No soft-lock:** the boss throws **actual dimes** (not 1¢ coins to accumulate) — **catching one
+  summons a merc directly** (boss-specific; no monkey-stick-figure or saved-up change needed), and these
+  boss-fight mercs are **OUTSIDE the "3 dead = no more" per-level cap** (`WEAPONS.md` §3.7). You can always
+  keep fielding monkeys to damage him.
 - **Psychologically hard, short (<2 min).** **[ITERATE]** dime cadence/arc, how many monkeys per side, does
   he move/attack directly at all, phases, HP.
 

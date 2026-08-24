@@ -74,7 +74,7 @@
 
 - **[LOCKED] Gore & death (comedic, transient):** death = a **burst of flying red pixels** that **clears
   completely** when the animation ends (no lingering blood). The corpse can still yield a **part drop**
-  (headless body, ejectable spine, dropped weapon) and **wallets** — the persistent things are
+  (headless body, ejectable spine, dropped weapon) and **coins** — the persistent things are
   drops/pickups, never blood.
 - **Transformations (the cannibalize thread):**
   - **Snapper:** grab → **snap a T1 into a sword**.
@@ -105,7 +105,7 @@
 Grouped: **movement** (gust, dusts, streaks, getup), **impact** (sparks, finisher flash, hit-flash,
 hitstop is code), **camera** (shake presets, time-slow overlay), **weapon FX** (§4 per weapon), **enemy FX**
 (§5 transforms, gore, hollow-head, poofs, telegraphs), **special** (§6 full set), **pickups** (weapon
-glints, wallet, dime highlight). Priorities inherit each system's P0/P1.
+glints, coin, dime highlight). Priorities inherit each system's P0/P1.
 
 ---
 

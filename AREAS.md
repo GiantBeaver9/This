@@ -75,7 +75,7 @@ debut, frantic tone) → **department-store** area boss. Lead economy keeps it l
 - **[LOCKED] Boss = Phil draws a "bigger-than-normal person"** — a **big-version Tier-1** (Regular Melee at
   ~2× scale, `BOSSES.md` §1): the first boss-scale taste and first on-screen proof of the pencil.
   - **Solo:** one big Tier-1. **2-player:** **two** + a **miniboss.**
-- **[ITERATE]** the Area-1 branch fork, exact stage count, specific old-Hwy-65 landmarks.
+- **[ITERATE]** the Area-1 stage pacing, exact stage count, specific old-Hwy-65 landmarks.
 
 ### 1.8 Rocklin (transition) — **[ITERATE]**
 - The Lincoln→Roseville stretch passes through **Rocklin** — more suburban / old-town NorCal, connective
@@ -93,7 +93,7 @@ debut, frantic tone) → **department-store** area boss. Lead economy keeps it l
   then turn on you; **headshot a Tier-1 and it becomes a Zombie** (the headshot economy on display).
 - **Terrain funnels:** kiosks, planters, benches, and escalators pinch the play space.
 - **[LOCKED] Area 1 boss = Burly Macho Guy** (`BOSSES.md` §5.2) — a bruiser brawl **in the department store**
-  (his ground-spikes + enemy-toss fit the confined space). **[ITERATE]** the branch fork out of Area 1.
+  (his ground-spikes + enemy-toss fit the confined space). **[ITERATE]** the stage pacing out of Area 1.
 - **[ITERATE]** mall ambient set (mall cop? food-court props?), store signage (made-up brands), hazards.
 
 ### 1.7 Area 1 asset list (→ `ASSET_MANIFEST.md`)
@@ -107,7 +107,7 @@ hydrant, mailbox, hedge, picket fence, porch, lawn sign) · **hazard vehicles** 
 skylight ceiling) · **fleeing civilians** · kiosks/planters/benches/escalators (funnels) · made-up store
 signage · **department-store boss** arena.
 
-**Area 1 LOCKED.** (Smalls: branch fork, department-store boss pick, Rocklin landmarks.)
+**Area 1 LOCKED.** (Smalls: stage pacing, department-store boss pick, Rocklin landmarks.)
 
 ---
 
@@ -149,7 +149,7 @@ planes** · **ground crew + luggage carts** · **small planes** (vignette target
 enemy · **Bat** weapon pickup · **Helicopter** boss · funnel props.
 
 **[ITERATE]** tier-2 debut split (city vs airport), the whip-enemy question, Sacramento boss pick, plane-
-hazard rules, Area 2 branch fork.
+hazard rules, Area 2 stage pacing.
 
 ---
 
@@ -192,7 +192,7 @@ Dixon** — a nearly-deserted mid-2000s small town run as a **boss rush** (4–5
 - **[LOCKED] Debut + big boss = Arm-Ripper.** The **Arm-Ripper** debuts here, and the **big-version
   Arm-Ripper** is **Dixon's big boss.**
 - **[ITERATE]** the exact 4–5 minibosses, Dixon's vignette (a "gauntlet" intro, or the Arm-Ripper arm-rip
-  demo), the Area 3 branch fork.
+  demo), the Area 3 stage pacing.
 
 ### 3.3 Area 3 asset list (→ `ASSET_MANIFEST.md`)
 Rolling-hills/farmland backdrop · **water/causeway** backdrop + **platforms** + marsh + marsh birds · **Dixon**
@@ -201,7 +201,7 @@ town (mid-2000s: main street, water tower, feed store, old storefronts, quiet sq
 pickup + **whistle** cue · **Sniper** (beret + large rifle) · **Flying Monkey** · **Monkey Boss** + enemy
 monkeys · **Arm-Ripper** (+ **big-version** Dixon boss) · tier-3 enemies · boss-rush miniboss set.
 
-**[ITERATE]** the Dixon miniboss set, animal-obstacle rules, branch fork.
+**[ITERATE]** the Dixon miniboss set, animal-obstacle rules, stage pacing.
 
 ---
 

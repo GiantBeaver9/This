@@ -35,8 +35,9 @@
 - **[LOCKED] Keybinds:** **`Q` = use Special** · **`E` = use equipped weapon** (its primary action —
   fire/throw, distinct from the arrow melee) · **`F` = pick up** a weapon (picking one up while armed
   **destroys** the current, `WEAPONS.md` §1).
-- **[LOCKED] Jump = `Space`.** **[LOCKED] Dash = double-tap a WASD direction** (consistent with **Shield Rush
-  = double-tap forward**, §3); air-dash = double-tap in the air.
+- **[LOCKED] Jump = `Space`.** **[LOCKED] Dash = double-tap a WASD direction.** Air-dash = double-tap in the
+  air. **Shield Rush is the same forward double-tap *when an enemy is directly ahead*** (you grab them as a
+  shield, §3); **no enemy ahead → it's a plain forward dash.** Same input, context decides.
 - **[LOCKED] Gamepad = twin-stick:** **left stick = 8-dir move · right stick = 8-dir attack** (this frees the
   face buttons for actions). Mapping:
   - **Jump = A / ✕** (bottom face button) · **Special = Y / △** · **Dash = B / ○** *(or double-tap left stick)*

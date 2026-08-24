@@ -78,7 +78,7 @@ adds/hazards · **boss HP bar + name card**. "Big version" bosses/minibosses nee
 ## 5. UI / HUD — `UI.md` (chunky-arcade)
 - **P0:** Health bar (pixel, **damage chunk→explosion** anim, green/yellow/red) · **Special meter** (yellow/blue/green + armed pulse) · **combo popup** (`N HIT!`) · weapon-type icon.
 - **P1:** Money counter (+ full-dime highlight) · Monkey-merc cluster (icon + timer ring) · boomerang-gun bullets · ball&chain use-pips · **boss HP bar + name card** · **"BARRAGE INCOMING"** warning · Sniper **red-dot** targeting.
-- **P2:** Title · pause · **results/grade** · branch-reveal map · game-over · button prompts · fonts.
+- **P2:** Title · pause · **results/grade** (cosmetic) · area cards · game-over · button prompts · fonts.
 
 ---
 
@@ -111,7 +111,7 @@ Each theme: parallax backdrop layers + lane floor + set dressing + ambient actor
 ---
 
 ## 10. Systems still open (won't block art, but pin before final build)
-Branch-fork recipes per area · exact per-stage enemy rosters/counts · checkpoint & continue specifics ·
+Exact per-stage enemy rosters/counts · checkpoint & continue specifics ·
 Secret Combos (`COMBOS.md` TBD) · economy scope beyond monkeys · character animation pipeline choice ·
 Werewolf/Shotgunner/Underdog-vs-boss rules · **`E` (use weapon) vs. finisher-fire** reconciliation ·
 save/settings menus · audio pass. *(Controls/keybinds + gamepad are now LOCKED in `PLAYER.md` §2.)*
