@@ -98,8 +98,15 @@ Enemy-dropped; **1 per pickup** (scarce — save it for a cluster).
 - **[ITERATE]** exact blast radii & damage (lob vs fast), the fastball's set distance / hit-count cap,
   knockdown duration.
 
-### 3.3 Ball & Chain — *heavy melee* **[ITERATE]**
-- Windup, wide arc/reach, big knockback. **[ITERATE]** swing behavior, decay, momentum/spin mechanic.
+### 3.3 Ball & Chain — *heavy directional launcher* **[LOCKED core]**
+- Plays **like the grenade's throw:** **tap the direction you want it to go — more taps sends it further.**
+  The ball launches out on its chain and does a **ridiculous amount of damage.**
+- **Carrying it slows the player ~20%** — the weight is the tax; a heavy **commitment** weapon.
+- **Only 3 uses**, then it's gone — each swing is precious.
+- **Finisher = directional secret combos** (we define these later). **[LATER]** the secret-combo inputs and
+  their effects — see the *Secret Combos* concept (to be documented).
+- **[ITERATE]** exact reach per tap; whether it hits everything along the chain's path; knockback; whether
+  the 20% slow also touches attack speed.
 
 ### 3.4 Whip — *directional crowd melee* **[LOCKED core]**
 Each attack direction is a different tool:
@@ -198,8 +205,12 @@ when armed); function-first theming; the roster list above; grenade press-to-thr
 system core (wallets → cents → dime → monkey merc).
 
 **Iterating one at a time (together).** Done: **Staff**, **Gatling**, **Pistol & Revolver**, **Grenade**,
-**Boomerang Gun**, **Whip** (directional arc/pull/line, head-rip grenade finisher). Remaining: **Ball &
-Chain → Monkey Merc**, then keep adding.
+**Boomerang Gun**, **Whip**, **Ball & Chain** (tap-throw, 3 uses, ~20% slow, secret-combo finishers).
+Remaining: **Monkey Merc**, then keep adding.
+
+**New cross-cutting system flagged — *Secret Combos*:** specific directional-input strings trigger special
+finishers/effects (ball & chain uses these; pistol/revolver have per-direction finishers too). **[LATER]**
+gets its own `COMBOS.md` when we define the input strings.
 
 **[LATER]:** durability numbers, tier drop rates, per-archetype loot restrictions, finisher damage,
 whether currency grows into a full economy.
