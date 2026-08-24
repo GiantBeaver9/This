@@ -157,6 +157,16 @@
 - **[ITERATE]** his tier, exact HP, punch windup/telegraph, whether his punch emits an air-gust like the
   player's, what he drops.
 
+### 2.12 Swarmer — **[LOCKED core]** — fast swarm (fills the gap)
+- **Half-sized** stick figures — small, **weak**, and **many.**
+- **Spawn in larger pods** and **appear on multiple sides at once**, so they **surround** and pressure the
+  player from several angles — a **positioning** threat, not a damage one.
+- Prime **sniper-ricochet fodder**; great for punishing greedy looting.
+- **Pods** are the shared spawner (also spawns Zombies, §2.8) — **[ITERATE]** promote *Pod* to its own
+  spec (destroyable? spawn rate/size, where it sits).
+- **[ITERATE]** do swarmers count against the 8-pursuer cap (`GAMEPLAY_LOOP.md` §8.2) or exceed it as a
+  special swarm; their attack (contact / tiny melee); pod size; move speed.
+
 ---
 
 ## 3. Roster — **[PROPOSED baseline] + your named enemies**
@@ -218,13 +228,14 @@ random loot; catch-up minibosses; subtle wristband ranks; **headshot economy** (
 | Ninja | T3a | mobile harasser (teleport + limb-shuriken) |
 | Monkey Tamer | untiered | summoner (melee monkeys, priority target) |
 | Heavy ("Bold") | TBD | **bruiser** — tanky, direct, extended-reach punch, floors your dash |
+| Swarmer | — | **fast swarm** — half-size, weak, pod-spawned on multiple sides |
 | Head-Thrower | — | self-decapitating grenade; fire→walking bomb |
 | Monkey | — | economy (drops the player's Merc, needs dime) |
 
 **Open role gaps to fill on resume:**
 - **Pure bullet-pattern zoner** — dense fixed patterns to thread (the bullet-hell backbone). *Not yet.*
 - ~~Heavy / bruiser~~ — ✅ filled by **Heavy ("Bold")**.
-- **Fast swarm** — weak, fast, many (sniper-ricochet fodder). *Enemy monkeys partially; no dedicated unit.*
+- ~~Fast swarm~~ — ✅ filled by **Swarmer**.
 - **Wallet Runner** — flees, drops ¢ to feed the dime economy. *Not yet.*
 
 **Also parked:** the many per-enemy `[ITERATE]` details (fallbacks, cooldowns, drops), rank specifics,
