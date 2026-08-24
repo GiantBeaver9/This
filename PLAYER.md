@@ -28,12 +28,16 @@
 
 ## 2. Inputs — **[LOCKED] split-stick scheme**
 
-- **Move = WASD.** `A/D` = left/right, `W/S` = depth (up/down the Z-band). Continuous.
-- **Attack = Arrow keys, directional.** Attack direction is **independent of movement/facing** — you can
-  **attack left while running right.** This is the core expressiveness: many attacks, not a fixed combo.
-- **Jump** and **Dash** and **Special** = dedicated buttons. **[PROPOSED]** Space = Jump, a modifier
-  (e.g. Left-Shift) = Dash, and one key (e.g. Enter/`.`) = Special. *(Confirm the exact keys later; the
-  mapping doesn't affect assets.)*
+- **[LOCKED] Move = WASD** — **8-directional** on the ground plane (`A/D` = left/right, `W/S` = depth, plus
+  diagonals). Continuous.
+- **[LOCKED] Attack = Arrow keys** — **8-directional**, **independent of movement/facing** (attack left while
+  running right). The core expressiveness: many attacks, not a fixed combo.
+- **[LOCKED] Keybinds:** **Special = `Q`** · **Weapon = `E`** · **Swap weapon = `F`** (swap destroys the
+  current weapon, `WEAPONS.md` §1).
+- **[LOCKED] Jump = `Space`.** **[LOCKED] Dash = double-tap a WASD direction** (consistent with the **Shield
+  Rush = double-tap forward**, §3); **air-dash** = double-tap in the air.
+- **[ITERATE]** exact action of the **`E` (Weapon)** button (pick-up / use / holster?); **gamepad** mapping;
+  a **rebinding** UI.
 
 **[LOCKED] Dash + Jump both exist.** Dash = grounded evasive burst (no i-frames). Jump adds a full
 **air layer** — you can attack in the air, so the moveset roughly **doubles** (ground set + air set).
