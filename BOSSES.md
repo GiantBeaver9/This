@@ -35,7 +35,10 @@
   the endgame gauntlet, allowed to be long and brutal.
 - **[LOCKED] Weapon-gated boss arenas guarantee the weapon.** When a boss requires a specific weapon (Tank →
   grenade, Colossus → whip), the arena spawns **tier-1 enemies that, on death, drop ONLY that weapon** — so
-  the player can always re-arm. This resolves "where does the weapon come from" for every objective boss.
+  the player can always re-arm. Some arenas offer **two options** (Helicopter → **Bat OR Grenade**). This
+  resolves "where does the weapon come from" for every objective boss.
+- **[LOCKED] Some bosses are never minibosses.** **Phil** and the **Helicopter** are **main-boss-only** —
+  never injected as catch-up minibosses, and never reprised as adds (even by Phil).
 
 ---
 
@@ -108,6 +111,16 @@
   become adds, does dismantling change its attacks/phases, how it fights back, arena (likely a giant
   upper-screen boss).
 
+### 5.5 Helicopter (Monkey Chopper) — **boss** — **[LOCKED core]** *(name TBD)*
+- A **monkey flying a helicopter**, strafing the player. **Shoots stick-figure heads** as projectiles —
+  **max 2 on screen at once.**
+- **[LOCKED] Two ways to beat it** (both via tier-1 add drops, §1 weapon-gated rule with **two options**):
+  - **Bat it back:** grab a **Bat** and **knock the incoming heads back up into the chopper.**
+  - **Lob it up:** grab a **Grenade** and **lob it upward** at the chopper.
+- **[LOCKED] Never a miniboss** (§1). Psychologically hard, short (<2 min).
+- **[NEW WEAPON — Bat]** a projectile-reflecting melee weapon — needs a `WEAPONS.md` entry (§3.10).
+- **[ITERATE]** chopper strafe/movement pattern, head-fire cadence, hits to down it, phases (does it descend?).
+
 *More bosses welcome — same §5 format.*
 
 ---
@@ -127,9 +140,10 @@ enemies; the meter **carries over** in boss fights and becomes a **low-HP sniper
 
 Plus **[LOCKED]** the "psychologically hard, <2 min (except Phil)" rule.
 
-**Defined bosses (4):** **Phil** (final, artist-summoner, exempt from the length cap), **Burly Macho Guy**
+**Defined bosses (5):** **Phil** (final, artist-summoner, exempt from the length cap), **Burly Macho Guy**
 (ground-spikes + enemy-toss bruiser), **Tank** (objective — 2 grenade drops), **Colossus** (whip off its
-stick-figure pieces). Two objective bosses use the **weapon-gated arena rule**. Open to more.
+pieces), **Helicopter** (bat heads back / lob grenades up). Three objective bosses use the **weapon-gated
+arena rule**; Phil & Helicopter are **main-boss-only**. Open to more.
 
 **Still open (small):** boss HP display style (§3 — big named bar recommended); exact miniboss pace trigger;
 whether minibosses are sniper-immune; each boss's `[ITERATE]` details.

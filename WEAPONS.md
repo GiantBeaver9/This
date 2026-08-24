@@ -167,6 +167,12 @@ Dropped by a **monkey stick figure**; you can only claim/summon it if you hold a
 - **[ITERATE]** does adding a monkey re-arm the existing ones to the new tier (and reset timers), or only
   the newcomer; can they be healed; do rocket monkeys friendly-fire the player?
 
+### 3.7b Bat — *projectile reflector* **[ITERATE]** *(surfaced by the Helicopter boss)*
+- A **melee weapon that reflects projectiles** — bat incoming shots (e.g. the Helicopter's thrown heads)
+  **back at the attacker.**
+- **[ITERATE]** full roster weapon or boss-arena-only; normal melee stats; the **reflect timing window**;
+  what it can/can't reflect; decay.
+
 ### 3.8 Boomerang Gun — *thrown auto-fire* **[LOCKED core]**
 - A **gun you throw**; it flies a **fixed orbit arc** (a set boomerang loop) and **shoots whatever it
   passes**, then **returns**. Not auto-homing — you aim it by **where you position and throw.**
