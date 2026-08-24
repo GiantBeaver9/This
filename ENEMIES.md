@@ -10,8 +10,10 @@
 
 ## 1. Enemy system rules
 
-- **[LOCKED] All enemies are stick figures** — thin, simple silhouettes that contrast the pixel-art Human.
-  Variety comes from **props, size, color, and behavior**, not from redrawing whole characters.
+- **[LOCKED] Most enemies share ONE stick-figure body — their *ability* defines them, not their looks.**
+  The majority are the same thin silhouette; what makes a "type" is its **moveset/ability**, not a new
+  character. **Huge asset win:** one base body + rig, with **ability-specific attack sets layered on top.**
+  A few signature enemies get unique bits, but the default is *shared-body-plus-ability*.
 - **[LOCKED] Enemies have a *level*.** An enemy's level sets its **HP, damage, weight, and loot tier** —
   higher level = tougher and drops rarer/longer-lasting weapons (`WEAPONS.md` §4).
 - **[LOCKED] Weight matters** (from `PLAYER.md`): light/medium enemies **stagger** to a dash attack;
@@ -45,6 +47,13 @@
 - **[LOCKED]** Drops the **Monkey Merc** summon, claimable only if the player holds a **dime** (`WEAPONS.md`
   §3.7).
 - **[ITERATE]** does it fight (and how) before dying, rarity, whether it flees.
+
+### 2.3 Regular Melee — **[LOCKED core]** (the stage-1 staple)
+- The plain stick figure — shared base body, no special ability.
+- **Tries to close on the player**, then attacks with **punch**, **jump kick**, and **slide kick** (a low,
+  gap-closing approach).
+- Fills role **A (basic melee)**. **[ITERATE]** which attack it picks at which range, damage, HP, approach
+  speed, how aggressively it mixes the three.
 
 ---
 
