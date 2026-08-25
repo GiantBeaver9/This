@@ -328,8 +328,16 @@ reworking the systems.
 airport vignette is a **vignette-only demo actor** — just an enemy holding a bat to show off the reflect —
 **not** a rostered type; it never appears outside that Sacramento/airport bit.)*
 
-**Also parked:** the many per-enemy `[ITERATE]` details (fallbacks, cooldowns, drops), rank specifics,
-and per-stage rosters (with the stage designs).
+**[LOCKED — SUPERSEDES the per-enemy `[ITERATE]` markers above]:** every per-enemy **timing, cooldown, HP,
+damage, speed, weight, and fallback** is now pinned authoritatively in **`TUNING.md` §4** (the 17-enemy stat
+table) and **`TUNING.md` §4.1** (the AI edge-case resolutions: no-fodder Arm-Ripper/Gatling, Monkey stats,
+Pickpocket escape, Boomergunner catch, Head-Thrower head physics, Sniper-vs-grounded, Flying-Monkey gating,
+8-cap overflow). Per-stage rosters/counts are in **`ENCOUNTERS.md`**. Read those as the resolution of any
+`[ITERATE]` left in §2 above. **Specific still-open flavor** not covered there:
+- **Snapper's sword-drop:** killing a Snapper **does NOT drop a usable sword** (the sword he snaps is bound to
+  the T1 he armed; kill *that* T1 to drop it, normal drop rules). The Snapper himself drops per the §6.1 T2 pool.
+- **Head-Thrower fire-boom AoE:** a staff-fire-lit Head-Thrower's explosion **also damages other enemies**
+  within its blast (r 2 wu) — friendly fire among enemies (`WEAPONS.md` §3.5).
 
 **Next — capture your named enemies.** You have specific enemy ideas; dump them and we'll (a) spec each one
 §2-style, and (b) map it onto the role baseline so we know coverage. Specific per-stage rosters and rank

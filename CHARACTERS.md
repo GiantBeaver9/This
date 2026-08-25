@@ -111,4 +111,6 @@ Each Special clears a crowd differently, balanced by **what loot survives** — 
 - **[FUTURE, not v1] Difficulty scaling:** with multiplayer, spawn **~2.5× the enemies**.
 - **[ITERATE / LATER]** player count; shared vs. per-player economy/lives/checkpoints; local vs. online; how
   bosses scale; camera for multiple players. **Parked until single-player ships.**
-4. Per-character loot rules for the Underdog's vaporize and the exact stat trade-offs.
+
+*(Per-character loot rules and stat trade-offs are LOCKED: Underdog Vaporize drops nothing (§2.4); all stat
+multipliers in `TUNING.md` §3.)*

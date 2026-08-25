@@ -184,13 +184,11 @@ Dropped by a **monkey stick figure**; you can only claim/summon it if you hold a
   their short window — a high-roll payoff for saving up dimes.
 - **Per-level cap:** summon **up to 3 over a level** (resummon as they die); **once 3 have died, no more
   monkeys this level.**
-- **[ITERATE]** does adding a monkey re-arm the existing ones to the new tier (and reset timers), or only
-  the newcomer; can they be healed; do rocket monkeys friendly-fire the player?
-
-### 3.7c Club — *basic heavy melee* **[LOCKED core]** — **pickup, debuts Area 2 (airport, after the vignette)**
-- A simple **blunt melee** weapon — an early workhorse alongside the Sword. Bigger knockback than fists,
-  short reach. Appears as a **world/enemy pickup** starting at the airport.
-- **[ITERATE]** durability (hits before it breaks), damage, exact drop source.
+- **[LOCKED] Re-arm:** adding a monkey **re-arms the whole squad to the new tier and resets all their timers**
+  (`TUNING.md` §6 Monkey Merc row). They **cannot be healed** (they just expire on their timer).
+- **[LOCKED] No friendly fire:** the player's summoned monkeys — **including the rocket monkeys** — **never
+  damage the player** (their rockets pass through you; only enemies take the blast). The screen-wipe is safe to
+  stand in. *(This is why the 3-rocket-monkey high-roll is pure payoff, not a self-risk.)*
 
 ### 3.7b Bat — *projectile reflector* **[LOCKED]** *(surfaced by the Helicopter boss)*
 - A **melee weapon that reflects projectiles** — bat incoming shots (e.g. the Helicopter's thrown heads)
@@ -203,6 +201,12 @@ Dropped by a **monkey stick figure**; you can only claim/summon it if you hold a
   shuriken — any **telegraphed slow-to-medium projectile.** It **cannot** reflect the **gatling/barrage
   stream** (too dense) or **melee.** A reflected shot deals the **original attacker's damage** back.
 
+### 3.7c Club — *basic heavy melee* **[LOCKED]** — **pickup, debuts Area 2 (airport, after the vignette)**
+- A simple **blunt melee** weapon — an early workhorse alongside the Sword. Bigger knockback than fists,
+  short reach. Appears as a **world/airport pickup** starting at the airport (not a corpse drop, `TUNING.md` §6.1).
+- **[LOCKED] Stats (`TUNING.md` §6):** melee **14/hit** + knockback, **10 connecting hits**, warm-up 0.15 s,
+  no E-fire.
+
 ### 3.8 Boomerang Gun — *thrown auto-fire* **[LOCKED core]**
 - A **gun you throw**; it flies a **fixed orbit arc** (a set boomerang loop) and **shoots whatever it
   passes**, then **returns**. Not auto-homing — you aim it by **where you position and throw.**
@@ -210,8 +214,9 @@ Dropped by a **monkey stick figure**; you can only claim/summon it if you hold a
 - **Ammo = 10 bullets total — the only resource.** It fires **up to 4 shots per pass** (so ~3 passes to
   empty). **A throw that fires no bullets costs nothing** — only spent bullets count.
 - **[LOCKED] It can be shot down mid-flight** — an enemy destroying it **loses you the remaining bullets.**
-- **[ITERATE]** orbit size/shape, fire rate within a pass, throw cooldown, and whether a shot-down gun
-  drops to re-grab or is gone for good.
+- **[LOCKED] Shot down = gone for good** — if an enemy destroys it mid-flight you **lose it and the remaining
+  bullets** (no drop to re-grab); back to fists. **Stats (`TUNING.md` §6):** **10 bullets, 4/pass** (~3 passes),
+  fire cadence within a pass ~**0.15 s/shot**, **throw cooldown 1 s**, fixed orbit ~**5 wu** loop.
 
 ### 3.8b Rocket Launcher — *world-pickup heavy* **[LOCKED core]**
 - A **big-hitting explosive** weapon. **[LOCKED] Comes from a specific world PICKUP**, not from a corpse —

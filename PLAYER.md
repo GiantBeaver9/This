@@ -116,7 +116,10 @@ has a dash version that inherits the burst). Key twist:
   The intended counter to suppression enemies/bosses. **[ITERATE]** which enemy it grabs (nearest ahead?),
   does it kill/consume them or just shove, how much it soaks, any tier limit, cooldown.
 - **Weapon dash attacks:** melee weapons get a real dash-swing; ranged weapons dash-hit as a bludgeon.
-  **[LATER]** whether a weapon dash attack is weight-stagger only, or a weapon can fire on it.
+  **[LOCKED] Weight-stagger only, no fire.** A weapon dash attack follows the universal dash-attack rule
+  (`TUNING.md` §2.5: **0 dmg, weight-stagger only**) — it **never fires the weapon** (firing is always the
+  separate `E` action). So dashing with a gun still just staggers; you press `E` to shoot. Consistent across
+  every weapon.
 
 ---
 
@@ -219,5 +222,5 @@ no damage but weight-stagger** (heavy targets floor you, non-invincible getup); 
 attack→dash cancel, and air-dash** all in; **bespoke animation for every weapon**; **ranged weapons
 bludgeon through the combo, fired with `E`** (finisher = free 4th-hit melee); **boss dodges** the sniper special.
 
-**[LATER]:** damage/knockback numbers, whether a weapon dash attack can
-fire, palette, exact `E`-use action. *(Keybinds/gamepad are now LOCKED in §2.)*
+**[RESOLVED]:** damage/knockback numbers (`TUNING.md` §2.1/§2.5), weapon dash attack = stagger-only-no-fire
+(§3), `E`-use action (§2, `WEAPONS.md` §1). **[LATER]:** palette only. *(Keybinds/gamepad LOCKED in §2.)*

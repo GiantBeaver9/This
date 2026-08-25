@@ -97,7 +97,7 @@ debut, frantic tone) → **department-store** area boss. Lead economy keeps it l
   (his ground-spikes + enemy-toss fit the confined space). **[ITERATE]** the stage pacing out of Area 1.
 - **[ITERATE]** mall ambient set (mall cop? food-court props?), store signage (made-up brands), hazards.
 
-### 1.7 Area 1 asset list (→ `ASSET_MANIFEST.md`)
+### 1.10 Area 1 asset list (→ `ASSET_MANIFEST.md`)
 **Suburbs:** backdrop layers (clear blue sky + rare wispy cloud, hill-horizon hint, houses, street) ·
 **trees (mulberry + tall older trees, mostly trunk; a few skinny/small)** · ambient people (fleeing
 civilian, mail carrier, kid+bike, jogger) · animals (dog, cat, birds) · props (parked car, trash can,

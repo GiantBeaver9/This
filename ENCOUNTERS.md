@@ -32,6 +32,12 @@
   **~10–16 filler waves per stage** (avg 4–6 enemies each), inserted after the spine's teaching wave and
   before its funnel. Filler waves carry **no new enemy types** and **no new mechanic** — they are the "ramp."
   So each stage = **spine (scripted) + filler (procedural from pool) + funnel + boss**.
+- **[LOCKED] Filler-wave composition rule (so it's not hand-waved):** each filler wave = **weighted random draw
+  from the stage pool**, weighted **60% toward the stage's *newest* enemy type** (reinforce what it teaches),
+  **40% split across the rest**, capped at the 8-pursuer limit. Wave size **ramps linearly** from **4 → 6**
+  enemies across the filler block (early waves 4, late waves 6). **No two consecutive waves are identical.**
+  Deterministic seed = stage index (so a stage plays the same each run). This makes filler fully reproducible
+  from the pool + these rules — no per-wave authoring needed.
 - **Checkpoints — [LOCKED] (matches `TUNING.md` §8.1):** **one at stage start** (respawn point on continue) +
   **one mid-stage** (marked below, roughly halfway through the filler block) + **one at the boss door** (retry
   the boss, not the stage). Bossless stages get start + mid only.
@@ -210,6 +216,8 @@
   him → coins double** (`VIGNETTES.md`). Ninja teleport-kill + Pickpocket 2× reward.
 - **Pool:** **Ninja** (T3a, teleport/shuriken), **Pickpocket** (untiered, steals), Regular (T1), Snapper (T2).
 - **Hazard:** roller-coaster / midway set-dressing (`AREAS.md`).
+- **World pickup:** a **Rocket Launcher** is placed **near the Tank arena entrance** (mid-stage, just before
+  the boss door) — the extra firepower for the objective fight (`WEAPONS.md` §3.8b, `TUNING.md` §6.1).
 
 | Wave | Spawns | Sides | Cadence | Gate |
 |---|---|---|---|---|
@@ -266,6 +274,8 @@
   (`ENEMIES.md` §6). This SF-streets slog is the **finale approach**, a long gauntlet (`AREAS.md` §4.3).
 - **Pool:** **Heavy** (untiered, 220 HP, H-floors, max 2), **full roster mix** (Ninja, Gatling, Ground
   Smasher, Boomergunner, Regular), trolley hazard.
+- **World pickup:** a **Rocket Launcher** is placed **in the mid-stage filler stretch** (after the tower-plaza
+  checkpoint) — for the Heavy-heavy gauntlet (`WEAPONS.md` §3.8b, `TUNING.md` §6.1).
 
 | Wave | Spawns | Sides | Cadence | Gate |
 |---|---|---|---|---|
