@@ -148,7 +148,7 @@
 | **L-stagger** (dash-hit, light) | **0.40 s (24f)** | L-weight | stumbles back **1.0 wu**, upright; actionable after |
 | **M-stagger** (dash-hit, medium) | **0.55 s (33f)** | M-weight | stumbles back **1.5 wu**; longer opening |
 | **H-floors-the-PLAYER** | player down **0.70 s (42f)** | player, on dashing a H-weight/boss | the "wasted getup, **not** invincible" risk (`PLAYER.md` §3) |
-| **Knockdown** (sweep, hit 3) | enemy down **1.2 s (72f)** | all non-boss | the **finisher window** — the enemy is finisher-able this whole 1.2 s (then auto-gets-up, **0.3 s** getup). Two entry paths (no conflict with the 0.35 s double-tap timing): **(a)** sweep a *standing* enemy with the primed double-tap (`→→` etc., the two taps ≤ **0.35 s** apart, `COMBOS.md` §1) — the second tap finishes; **(b)** an **already-downed** enemy (from an earlier sweep still in its 1.2 s, or a Ground-Zero knockdown) is finished by a **single tap** toward it, any time inside the 1.2 s. The 0.35 s is the *double-tap* timing; the 1.2 s is how long a downed enemy stays finisher-able. |
+| **Knockdown** (sweep, hit 3) | enemy down **1.2 s (72f)** | **regular enemies only — NEVER bosses or minibosses (LOCKED, global)** | the **finisher window** — the enemy is finisher-able this whole 1.2 s (then auto-gets-up, **0.3 s** getup). Two entry paths (no conflict with the 0.35 s double-tap timing): **(a)** sweep a *standing* enemy with the primed double-tap (`→→` etc., the two taps ≤ **0.35 s** apart, `COMBOS.md` §1) — the second tap finishes; **(b)** an **already-downed** enemy (from an earlier sweep still in its 1.2 s, or a Ground-Zero knockdown) is finished by a **single tap** toward it, any time inside the 1.2 s. The 0.35 s is the *double-tap* timing; the 1.2 s is how long a downed enemy stays finisher-able. |
 | **Getup** (after any knockdown) | **0.30 s (18f)** | player & enemy | **no i-frames** on either (LOCKED — no-iframe rule) |
 | **Launch / juggle hang** (up-air, up-strike, Wrecking Uppercut) | **0.50 s (30f)** airborne | L/M enemies | juggle window; H-weight can't be launched |
 | **Hitstop (freeze-frame)** | **3f** on finishers · **5f** on any kill · **0f** on normals | both actors | `VFX.md` §4; scales screen-shake |
@@ -160,7 +160,14 @@
   up single-tap finishes rather than re-sweeps.
 - **H-weight super-armor:** Gatling Gunner, Ground Smasher, and Heavy **shrug off normal-hit flinch** but still
   take damage and still **knock down to a sweep** (they are floored like anyone else by hit 3) — this is what
-  makes the sweep the answer to armored units.
+  makes the sweep the answer to armored *regular* units.
+- **[LOCKED — GLOBAL] No boss or miniboss can ever be swept or knocked down.** The sweep→finisher route is for
+  **regular enemies only** (H-weight Heavy included — it is a regular enemy, not a boss). **Every boss encounter
+  (all 10: the 7 bespoke + the 3 big-versions Sandwich Bros / big Arm-Ripper / Boomergunner) and every catch-up
+  miniboss is immune to knockdown/sweep** — they have permanent super-armor vs. the sweep. Bosses are defeated
+  only by **HP depletion, their objective, or their scripted kill** (Phil's pencil-laser); the low-HP special
+  execution (≤10% HP) is the only "finisher-like" thing that touches them (`BOSSES.md` §1). So the finisher
+  double-tap does nothing special to a boss — its hits land as normal melee.
 
 ---
 
@@ -183,7 +190,7 @@
 | Shotgunner — Giant Shotgun | **RULE: instakills every T3-and-below on screen** (ignores HP — not a damage number) + **8 wu knockback**; untiered Heavy/Tamer & all bosses survive; **drops stay** | LOCKED ≤T3 |
 | Werewolf | **5.0 s** transform, **full i-frames**, every slash = 1HKO, **drops stay**; slash dmg vs boss = 0 above 10% | cooldown = the meter |
 | **Werewolf vs. Heavy/untiered** | the 1HKO **DOES kill Heavy, Ground Smasher, Gatling Gunner, Monkey Tamer and every untiered enemy** — it is a raw slash, not a tier-gated special, so no ≤-tier rule applies. **Bosses only** survive (they take slash-dmg 0 above 10% HP, like the other specials). | the one special that ignores weight/tier — its cost is the tiny 5 s window |
-| Underdog — Vaporize | close radius **3.0 wu** instant-kill (**drops nothing**, sniper-style; resolves §2.4 [ITERATE]); then **+20% to all dmg for 30 s**; **refreshes, does not stack** | |
+| Underdog — Vaporize | close radius **3.0 wu** instant-kill of **T3-and-below** (**drops nothing**, sniper-style); **untiered Heavy/Tamer & all bosses survive** (only the Werewolf 1HKOs Heavies — keeps that unique); then **+20% to all dmg for 30 s**; **refreshes, does not stack** | |
 | Boss execution (all specials) | only ≤10% boss HP shows the execute prompt | LOCKED (`BOSSES.md` §1) |
 
 **[LOCKED] Meter-tier scaling — EACH special scales its own signature axis** (yellow = 1 fill · blue = 2 ·
@@ -345,7 +352,8 @@ to fists), so ammo management is "use it or lose the drop," never a resource-hun
 | Area | Weapons UNLOCKED into the drop pool (cumulative) | Notes |
 |---|---|---|
 | **Area 1** (suburbs/mall) | **Sword, Boomerang** only | basic melee + the throw toy; **no guns yet** (matches "only basic melee early") |
-| **Area 2** (Sacramento/airport) | + **Pistol, Revolver, Whip, Bat, Staff, Club** | guns arrive; **Club is a world/airport pickup from Stage 5** (`WEAPONS.md` §3.7c), not a corpse drop |
+| **Area 2 — Sacramento (Stage 4)** | + **Pistol, Revolver, Whip, Staff** | guns + whip arrive with the Snapper/tier-2 layer |
+| **Area 2 — Airport (Stage 5)** | + **Bat, Club** | both **gated to the airport specifically** (after their Stage-5 vignette teaches them, `STAGES.md` §1c): **Bat** = Helicopter-arena drop then corpse-drop from Stage 5 on (`WEAPONS.md` §3.7b); **Club** = world/airport pickup (`WEAPONS.md` §3.7c). Neither drops in Sacramento (Stage 4) — preserving teach→tools→test |
 | **Area 3** (hills/Dixon) | + **Ball & Chain, Grenade, Shotgun** | heavier kit as tier-2/3 enemies appear |
 | **Area 4** (Vallejo→SF) | + **Boomerang Gun, Gatling** | full roster live |
 | **World pickups (any area, placed)** | **Rocket Launcher** (`WEAPONS.md` §3.8b) — placed near Tank (Stage 9) & SF gauntlet (Stage 12) | never in a random pool |
@@ -411,7 +419,7 @@ to fists), so ammo management is "use it or lose the drop," never a resource-hun
   HP (×4), faster fire, and more projectiles**, not bigger bullets — so a ranged boss can never chip you to
   death in two hits. This is why the §7 table lists base per-shot values for those two. **Melee** big-version
   bosses (Sandwich Bros 7.5→11) do take the ×1.5.
-- **The §7 table is authoritative for the 9 placed bosses;** the formula above is for **auto-generated**
+- **The §7 table is authoritative for the 10 placed boss encounters (7 bespoke + 3 big-version);** the formula above is for **auto-generated**
   big-versions (catch-up minibosses, Endless elites) and for cross-checking the placed ones.
 
 **Boss & meter rules (LOCKED, restated):** specials only work ≤10% boss HP (execute prompt); unspent meter

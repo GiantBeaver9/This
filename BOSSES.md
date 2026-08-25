@@ -10,6 +10,11 @@
 
 ## 1. System rules
 
+- **[LOCKED — GLOBAL] No boss or miniboss can be swept or knocked down.** They have permanent super-armor vs.
+  the sweep (hit 3); the **player's finisher double-tap does nothing special to them** — its hits land as
+  normal melee (`TUNING.md` §2.6). This applies to **all 10 boss encounters** (7 bespoke + the 3 big-versions
+  Sandwich Bros / big Arm-Ripper / Boomergunner) **and every catch-up miniboss**. Bosses are defeated only by
+  **HP depletion, their objective, or a scripted kill** — plus the ≤10% special execution below.
 - **[LOCKED] Specials only work on a boss under 10% HP — for ALL characters.** Above 10%, a boss **negates
   the special** (the Tactical's sniper visibly **dodges**; Werewolf / Shotgun / Underdog specials simply do
   nothing to the boss). **At/under 10% a prompt appears and the special *executes* the boss** — the one time
@@ -267,8 +272,11 @@ Plus **[LOCKED]** the "psychologically hard, <2 min (except Phil)" rule.
 pieces), **Helicopter** (bat heads back / lob grenades up), **Gatling Gun Guy** (suppression, countered by
 Shield Rush), **Monkey Boss** (dime-race, only your mercs damage him). Objective bosses use the
 **weapon-gated arena rule**; Phil & Helicopter are **main-boss-only**.
-Open to more. Plus **[LOCKED]** the **"big version" rule** (any enemy → ~20% miniboss / ~2× boss, no new art).
-**7 bespoke bosses** total: Phil, Burly Macho Guy, Tank, Colossus, Helicopter, Gatling Gun Guy, Monkey Boss.
+Plus **[LOCKED]** the **"big version" rule** (any enemy → ~1.2× miniboss / ~2× boss, no new art).
+**10 boss encounters total = 7 bespoke** (Phil, Burly, Tank, Colossus, Helicopter, Gatling Gun Guy, Monkey
+Boss) **+ 3 big-version, no new art** (Sandwich Bros, big Arm-Ripper, Boomergunner boss).
 
-**Still open (small):** boss HP display style (§3 — big named bar recommended); exact miniboss pace trigger;
-whether minibosses are sniper-immune; each boss's `[ITERATE]` details.
+**[LOCKED, resolved]:** boss HP display = **a big named bar + name card** (`UI.md` §3, top of screen);
+**miniboss pace trigger** = `TUNING.md` §8.2 (avg kill-interval < 3 s for 20 s); **minibosses are NOT
+sniper-immune** — they are big-version *elites*, sniper-killable like normal enemies (only the 10 *bosses*
+resist the sniper, `TUNING.md` §7). Per-boss patterns are pinned in §5.1–5.7 above.

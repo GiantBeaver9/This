@@ -91,7 +91,9 @@ debut, frantic tone) → **department-store** area boss. Lead economy keeps it l
 - **Backdrop:** mall interior — storefronts (windows full of cowering shoppers), atrium, tile floor, kiosks,
   planters, benches, escalators, **skylights** (the top-band "sky" becomes the **skylight/ceiling** here).
 - **Enemies (debut):** **swarm-heavy** — **Swarmers and Zombies** arrive; swarms **chase the fleeing people**
-  then turn on you; **headshot a Tier-1 and it becomes a Zombie** (the headshot economy on display).
+  then turn on you. The **headshot→Zombie** rule is shown here only via the **scripted guard vignette**
+  (the guard shoots a T1, `VIGNETTES.md`) — the **player** has no headshot-capable weapon yet (Area-1 pool is
+  Sword + Boomerang only, `TUNING.md` §6.1), so *player-driven* headshot-zombies begin in Area 2 when guns unlock.
 - **Terrain funnels:** kiosks, planters, benches, and escalators pinch the play space.
 - **[LOCKED] Area 1 boss = Burly Macho Guy** (`BOSSES.md` §5.2) — a bruiser brawl **in the department store**
   (his ground-spikes + enemy-toss fit the confined space). **[ITERATE]** the stage pacing out of Area 1.

@@ -82,13 +82,15 @@ Each: idle · walk (mirror) · attack(s) · hurt/stagger · **death + part/gore*
 ## 4. Bosses — `BOSSES.md`
 Each **bespoke** boss: idle/move · attacks + telegraphs · phase transitions · hurt · death · **sniper-dodge** ·
 adds/hazards · **boss HP bar + name card**. "Big version" bosses/minibosses need **no new art**.
-- **9 boss encounters placed = 7 bespoke + 2 big-version** (the big-version pair need **no new art**):
-- **P1 — 7 bespoke bosses:** **Burly Macho Guy** (Area 1 dept store) · **Colossus** (Area 2 Sacramento, whip) ·
-  **Helicopter** (Area 2 airport) · **Monkey Boss** (Area 3 farm) · **Boomergunner** boss (Area 4 Marin) ·
-  **Tank** (Area 4 Vallejo) · **Gatling Gun Guy** (Area 4 Golden Gate, barrage + car cover).
-- **P1 — 2 big-version bosses (no new art):** **Sandwich Bros** (big Tier-1, Area 1) · **big Arm-Ripper**
-  (Area 3 Dixon).
-- **P2:** **Phil** (top-hat zombie, pencil-draw, **sharpen animation**, re-summons, rooftop sway).
+- **10 boss encounters placed = 7 bespoke + 3 big-version** (the 3 big-versions need **NO new art** — they
+  reuse the enemy sprite at ~2× scale):
+- **P1 — 7 bespoke bosses (need bespoke art):** **Burly Macho Guy** (Area 1 dept store) · **Colossus** (Area 2
+  Sacramento, whip) · **Helicopter** (Area 2 airport) · **Monkey Boss** (Area 3 farm) · **Tank** (Area 4
+  Vallejo) · **Gatling Gun Guy** (Area 4 Golden Gate) · **Phil** (finale — top-hat zombie, pencil-draw, sharpen
+  anim, rooftop sway).
+- **3 big-version bosses (NO new art):** **Sandwich Bros** (big Tier-1, Area 1) · **big Arm-Ripper** (Area 3
+  Dixon) · **Boomergunner boss** (Area 4 Marin — the Boomergunner enemy at boss scale, `ENEMIES.md` §2.17).
+- **Phil's bespoke art is P2** (built last), the other 6 bespoke bosses are P1.
 
 ---
 
