@@ -18,15 +18,15 @@
 
 | Field | Value | Notes |
 |---|---|---|
-| Player sprite height | 2.0 wu | reference scale for all sprites |
-| Visible screen width | 24 wu | ~12 player-heights across |
+| Player sprite height | 2.0 wu | reference scale for all sprites; **= 48 px at 1 wu = 24 px** (`ASSET_MANIFEST.md` §0) |
+| Visible screen width | **~26.7 wu** | 640 px internal render ÷ **24 px/wu** = 26.67 wu (`ASSET_MANIFEST.md` §0); ~13 player-heights across |
 | Playfield band (vertical screen share) | **bottom 60%** | **HUD/sky top 40%** (`AREAS.md` §1.1 LOCKED — matched; not tunable) |
 | **Z-band depth (near→far)** | **6.0 wu** | continuous, analog; near edge Z=0.0, far edge Z=6.0 |
 | Player X-speed on band | see §3 | Z-movement uses same speed value |
 | **Sprite depth-scaling** | **100% at Z=0 → 80% at Z=6** | linear −3.33%/wu; floor 80% (`GAMEPLAY_LOOP.md` §3) |
 | Ground shadow / Z-marker | ON, 1 blob shadow per actor | reads exact Z (resolves the §3 [LATER]) |
 | Bullet/hitbox Z-tolerance | ±0.4 wu | a shot connects only within 0.4 wu depth of target |
-| Boss "fixed room" width | 24 wu (scroll stops) | play-band bosses; giant bosses reach down into band |
+| Boss arena width | **per-boss, 24–34 wu** (`ENCOUNTERS.md`) | **"camera-locked" = the level stops advancing** (no forward scroll to new ground); if the arena is wider than the ~26.7 wu screen the **camera pans within the arena box** (bounded, ≤ ±3.7 wu). Giant bosses reach down into the band. |
 
 ---
 
@@ -370,7 +370,7 @@ to fists), so ammo management is "use it or lose the drop," never a resource-hun
 | **Tank** | 4 (Vallejo) | objective (**2 grenade drops**) | **after drop 1** (MG pattern intensifies) | MG stream **1/hit**; direct hit while mounting **22.5** | **climb + drop grenade in hatch ×2**; arena adds drop only grenades | 1:50 |
 | **Boomergunner boss** | 4 (Marin) | **320** (boss-scale, 80×4) | 66% · 33% (2 guns orbiting) | boomerang-gun shots **5/shot** (base — see ranged note) | HP depletion | 1:45 |
 | **Gatling Gun Guy** | 4 (Golden Gate) | **260** | 66% · 33% | **barrage = instant death if caught in the open** (LOCKED); melee 22.5 | HP depletion; **hide behind cars** on the **~5 s "BARRAGE INCOMING"** cycle; Shield-Rush the fodder version | 1:55 |
-| **Phil (FINAL)** | Finale | **500**, gated behind sharpen windows | 100→75→50→25→**execute** (5 windows) | contact **15** · summons deal their own dmg · **fall off tower = instant death** | invuln while drawing; **~4 s sharpen window** (of 3–5) is the only opening; per-window damage cap **~100 (20%)**; killed **only** by the scripted **pencil-laser finisher** | **exempt** (~5–8 min) |
+| **Phil (FINAL)** | Finale | **500**, gated behind sharpen windows | 100%→75%→50%→25%→**execute** = **4 damage windows of 125 HP (25%) each** | contact **15** · summons deal their own dmg · **fall off tower = instant death** | invuln while drawing; **sharpen window 3–5 s** (ends early if the window's cap is hit) is the only opening; **per-window damage cap = 125 (25%)** → exactly one threshold per window; killed **only** by the scripted **pencil-laser finisher** at the 5th (execute) window | **exempt** (~5–8 min) |
 
 **Big-version scaling rule (concrete):**
 

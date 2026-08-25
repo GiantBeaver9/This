@@ -293,8 +293,10 @@
 
 ## Boss arena layouts — **[LOCKED]**
 
-> Each boss fight is a **camera-locked arena** (no scroll). Dimensions in **world-units (wu)**; the play-band
-> is the depth of the Z-lane the player can walk (`TUNING.md` §1). "Add ports" = where boss-summoned adds
+> Each boss fight is a **camera-locked arena** — the **level stops advancing** (no forward scroll to new
+> ground). Arenas wider than the ~26.7 wu screen (`TUNING.md` §1) let the **camera pan within the arena box**
+> (bounded), so the listed widths are the *arena bounds*, not the screen. Dimensions in **world-units (wu)**;
+> the play-band is the Z-lane depth the player can walk (`TUNING.md` §1). "Add ports" = where summoned adds
 > enter.
 
 | Boss | Arena size (W × Z-depth) | Cover / terrain | Add ports | Hazard | Special layout notes |

@@ -108,20 +108,24 @@
   pencil-laser finisher is the only kill** (above). This is deliberate: it forces the player to reach the final
   finisher rather than melting him with a banked meter.
 - **[LOCKED] Full fight script (authority for the finale beats; `ENCOUNTERS.md` defers here):**
-  - **HP 500, gated behind 5 sharpen windows** (`TUNING.md` §7): thresholds at **100% → 75% → 50% → 25% →
-    execute.** You can only damage him **during a sharpen window**; the **per-window damage cap is ~100
-    (20%)**, so each window drops him one threshold, then he re-arms.
-  - **Lead pool:** each draw cycle he has **enough lead to summon ~6 add-value** before running dry. **Lead
-    depletes by summoning** (each add costs lead) **and by you clearing his summons faster** — killing an add
-    refunds nothing to him but **hastens the dry-out** (fewer adds alive = he keeps drawing = burns lead), so
-    aggressive add-clearing **shortens the invuln phase** and brings the sharpen window sooner. This is the
-    core loop lever.
+  - **HP 500, gated behind 4 damage windows + a 5th execute window** (`TUNING.md` §7): thresholds at
+    **100% → 75% → 50% → 25% → execute.** You can only damage him **during a sharpen window**; the **per-window
+    damage cap is exactly 125 HP (25%)**, so each window drops him **exactly one threshold** (500/4 = 125),
+    then he re-arms. Hit the cap and the window ends early.
+  - **Lead pool & the dry-out clock (LOCKED costs):** each draw cycle he starts with **12 lead-points**. Per-
+    summon cost: **Regular = 2 · Swarmer pod = 3 · reprise miniboss = 6 · Heavy = 4.** He keeps drawing (one
+    summon whenever he has the lead and a free add-slot, ~every 1.5 s) until he **can't afford the next
+    summon** → he runs dry and must sharpen. **Killing his adds faster empties the field, so he keeps spending
+    lead to refill → dries out sooner** (fewer live adds = more draws = faster to the window). This is the core
+    loop lever: aggressive add-clearing shortens the invuln phase. (Killing an add gives Phil nothing back;
+    it just accelerates his spend.)
   - **Draw phase (invuln):** he sketches adds at the arena's back edge. **Summon roster by threshold** (the
     greatest-hits reprise): 100–75% → **Regulars + Swarmer pods**; 75–50% → **+ a reprise miniboss** (big
     Snapper or big Head-Thrower); 50–25% → **+ a second reprise miniboss** (big Arm-Ripper or big Ninja);
     25–0% → **+ Heavies**. Max **8 adds** on screen (the standard cap).
-  - **Sharpen window (vulnerable ~3–5 s):** when dry he **stops, hunches, and sharpens** — open and bleeding.
-    Deal up to the per-window cap; the window **ends early if you hit the cap**, else after 5 s.
+  - **Sharpen window (vulnerable 3–5 s):** when dry he **stops, hunches, and sharpens** — open and bleeding.
+    Deal up to the **125-HP cap**; the window **ends early if you hit the cap**, else closes at **5 s** (a fast
+    player caps it in ~3 s, a slow one gets the full 5). Matches `TUNING.md` §7.
   - **Arena — [LOCKED]:** a **play-band brawler on the swaying rooftop** (30 × 8 wu, `ENCOUNTERS.md`), **not**
     a giant upper-screen boss. **Sway/slippage** shifts your footing by up to **±1.5 wu** on a **~6 s sine**
     (telegraphed by the skybox tilting); **two edges have no railing → fall = instant death** (`TUNING.md`
