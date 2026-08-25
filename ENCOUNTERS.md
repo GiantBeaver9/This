@@ -19,8 +19,9 @@
 ## 0. Universal spawn & length rules — **[LOCKED]**
 
 - **On-screen pursuer cap = 8** (`GAMEPLAY_LOOP.md`): never more than 8 enemies actively pursuing. Extra
-  roster **queues** and streams in as pursuers die. **Swarmer pods are the sole exception** — a pod's 5
-  swarmers may briefly push past 8 (`TUNING.md` §4).
+  roster **queues** and streams in as pursuers die. **Pod-spawned Swarmers are the sole exception** — a Pod
+  spits **1 Swarmer every 3 s up to a field cap of 6** pod-spawned, which may briefly push past 8 (`TUNING.md`
+  §4, single model).
 - **A "wave" = a spawn batch.** The stage **gates** (camera lock) until the wave's **kill-quota** is met,
   then scrolls on.
 - **Spawn sides:** `L` left, `R` right, `B` back-Z, `A` ambush (door/window/manhole per area). Default L/R.
@@ -98,7 +99,7 @@
 - **Teaches (vignette):** **guard shoots a T1 → it zombifies → grabs the guard → they fall** (`VIGNETTES.md`,
   staged at the Galleria per `AREAS.md` §1.9). This is the **Zombie grab + Swarmer** debut (`ENEMIES.md` §6:
   both debut Area 1 mall). Cowering shoppers as set-dressing.
-- **Pool:** Regular (T1), **Swarmer** (T1b, pods of 5), **Zombie** (T0, from a Pod), **Pod** (HP 50).
+- **Pool:** Regular (T1), **Swarmer** (T1b, Pod-spawned 1/3 s, cap 6), **Zombie** (T0, from a Pod), **Pod** (HP 50).
 
 | Wave | Spawns | Sides | Cadence | Gate |
 |---|---|---|---|---|
@@ -177,7 +178,7 @@
 | 2 (platforms) | 2 Flying Monkey + 3 Regular + 1 Monkey | air + L,R + A | drip 0.9 s | cross + clear |
 | **CHECKPOINT** (mid-causeway) | — | — | — | — |
 | *filler* | Regular / Flying Monkey / AA / occasional Sniper, 10–14 waves | perch + L,R,B,air | — | clear each |
-| 3 (funnel) | 5 Regular + 1 Monkey (dime drop) | L,R,B | drip 0.7 s | clear → farm |
+| 3 (funnel) | 5 Regular + 1 Monkey (drops the Merc claim — needs a held dime) | L,R,B | drip 0.7 s | clear → farm |
 - **Threat Budget (spine):** ~22. **No boss** (traversal stage).
 
 ### Stage 7 — Farm / Ranch + **Monkey Tamer** → **BOSS: Monkey Boss** — **[LOCKED]**
@@ -193,7 +194,7 @@
 | 2 | 2 Flying Monkey + 3 Regular | air + L,R | swoop 3 s | clear |
 | **CHECKPOINT** (barn) | — | — | — | — |
 | *filler* | Regular / Flying Monkey / Tamer / Monkey, 10–14 waves | mixed | — | clear each |
-| 3 (funnel) | 4 Regular + 1 Monkey (dime) | L,R,A | drip 0.7 s | clear → boss door |
+| 3 (funnel) | 4 Regular + 1 Monkey (drops the Merc claim) | L,R,A | drip 0.7 s | clear → boss door |
 | **BOSS** | **Monkey Boss** (dime→merc-only kill, `BOSSES.md` §5.7) | ranch yard | — | merc him down |
 - **Threat Budget (spine):** ~24 + boss. **Mid-Act-3 boss.**
 

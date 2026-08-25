@@ -63,7 +63,9 @@ debut, frantic tone) → **department-store** area boss. Lead economy keeps it l
 ### 1.5 Enemies present — **[LOCKED] gradual intro**
 - **Lincoln suburbs:** **Regular Melee (T1)** basics + the big-Tier-1 boss. Very light (the lead economy).
 - **Galleria Mall:** **Swarmers (T1b) and Zombies (T0) debut** — the mall is where the roster starts filling.
-- **[LOCKED] Slow build:** enemies introduce **gradually**; by ~**3 areas in, all types are in play**, then
+- **[LOCKED] Slow build:** enemies introduce **gradually** by area (`ENEMIES.md` §6 is the debut authority) —
+  **most types are in play by Area 3; the full roster completes in Area 4** (Ninja/Pickpocket at Vallejo,
+  Boomergunner at Marin, Gatling/Ground Smasher at Golden Gate, Heavy on the SF streets), then
   difficulty just **ramps** from there.
 
 ### 1.6 Route, stages & boss — **[LOCKED]**

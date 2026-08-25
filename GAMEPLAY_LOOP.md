@@ -97,7 +97,7 @@ between you and the enemy is full of danger you must physically route around).
   proximity and slip between bullet lanes.
 - **Special meter** — fills from combat (see §4.3). Cannot be fired until charged.
 
-**[LOCKED] Response feel:** punches are **immediate** (no wind-up) — fists are the always-ready,
+**[LOCKED] Response feel:** punches are **near-immediate** (4-frame startup, `TUNING.md` §2.5 — the fastest attack) — fists are the always-ready,
 lowest-commitment option. Every looted **weapon has a short warm-up** before it fires/swings
 (**~0.25s** baseline to aim/ready, varies per weapon). Picking up a weapon trades raw responsiveness
 for power/range: fists for reaction, weapons for when you've bought yourself space.

@@ -67,9 +67,10 @@ direction**. Then it hands off to normal play.
 
 ## 1c. Mechanic intro vignettes — **[LOCKED core]** (the teaching device)
 
-- **[LOCKED]** At the **start of every stage after the very first**, a **brief 3–5s vignette** plays that
-  **demonstrates the new enemy/mechanic** the stage will test — enemies acting it out so the player *sees*
-  what's going on and what beats it. Examples:
+- **[LOCKED]** At the **start of every stage that introduces a new enemy/mechanic**, a **brief 3–5s vignette**
+  plays that **demonstrates** it — enemies acting it out so the player *sees* what's going on and what beats
+  it. **A stage that introduces no new mechanic skips its vignette** (the only one is **Stage 2 / Sandwich
+  Bros**; `VIGNETTES.md` is the authority and lists all 12). Examples:
   - a **Head-Thrower** lobs a head-grenade that kills nearby enemies;
   - a Head-Thrower **fastballs** a grenade and a **Bat enemy swats it away**, launching it to explode.
 - **[LOCKED]** The **very first stage gets only a light vignette** — the **dancing Zebra punches a regular

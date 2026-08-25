@@ -205,8 +205,9 @@
   **under 25%**).
 - **[LOCKED] Two answers:** be **patient** — jump during his ~2s rifle-down windows; or **rush him down** and
   kill him before he re-scopes/escapes.
-- **[LOCKED] Kill reward:** killing the Sniper **drops a sniper rifle** that **instantly refills your special
-  meter** — downing him hands you a **free Special.**
+- **[LOCKED] Kill reward:** killing the Sniper **drops a sniper rifle** that grants **+100 meter-points = one
+  full tier fill** (`TUNING.md` §2.4) — downing him hands you **one tier** of Special, not necessarily a full
+  green bar.
 - **[LOCKED] Exception to the short-range-gun rule (§1)** — the one ranged enemy, gated to the predictable
   apex + the scope rhythm.
 - **[ITERATE]** can he hit a grounded player at all; reposition/escape behavior; HP/tier; how many at once.
