@@ -339,6 +339,6 @@ Pickpocket escape, Boomergunner catch, Head-Thrower head physics, Sniper-vs-grou
 - **Head-Thrower fire-boom AoE:** a staff-fire-lit Head-Thrower's explosion **also damages other enemies**
   within its blast (r 2 wu) — friendly fire among enemies (`WEAPONS.md` §3.5).
 
-**Next — capture your named enemies.** You have specific enemy ideas; dump them and we'll (a) spec each one
-§2-style, and (b) map it onto the role baseline so we know coverage. Specific per-stage rosters and rank
-details come later, alongside the stage designs.
+**Roster is complete and locked.** Per-stage rosters live in `ENCOUNTERS.md`; all per-enemy numbers in
+`TUNING.md` §4/§4.1. **AA bait rule (flavor):** the Anti-Aircraft targets the **player's thrown boomerang**
+(its bait) and an **airborne/jumping player**; it does **not** waste shots on ambient birds/planes.

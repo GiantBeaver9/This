@@ -41,7 +41,7 @@
 no shared skeleton/reskin. All 4 share the *moveset design* but are **each animated from scratch**; each has a
 unique **Special**. Budget ~4× a single-character pile.
 
-### 1a. Shared moveset (per character, or shared skeleton) — mostly **P0**
+### 1a. Moveset (bespoke per character — 4 sets, §1) — mostly **P0**
 Idle · walk/run (mirror) · dash + recover · **dash attacks per direction** (side/up/down + air) · air-dash ·
 **Shield Rush** (grab + run) · fall-over + getup · jump (rise/peak/fall) · land · ground attacks
 (side/up/down) · air attacks (side/up/down) · **air-punch reach gust** (per direction) · hurt · death ·

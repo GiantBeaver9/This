@@ -114,8 +114,10 @@ Enemy-dropped; **1 per pickup** (scarce — save it for a cluster).
     enemies)** with a **smaller blast.**
 - **[LOCKED] Self-damage is real** — your own explosion **can catch you** if you're too close. Spacing is
   the price of the payload.
-- **[ITERATE]** exact blast radii & damage (lob vs fast), the fastball's set distance / hit-count cap,
-  knockdown duration.
+- **[LOCKED] Numbers (`TUNING.md` §6):** lob blast **60 (r 3 wu)**, fastball blast **35 (r 2 wu)**; fastball
+  detonates at **8 wu or after 8 enemies**; **self-damage 40**. **Knockdown from the blast lasts 0.8 s**
+  (`TUNING.md` §2.6 standard knockdown, applied to caught *regular* enemies — bosses/minibosses are immune,
+  §2.6). The lob **bounces 3× then explodes**.
 
 ### 3.3 Ball & Chain — *heavy directional launcher* **[LOCKED core]**
 - Plays **like the grenade's throw:** **tap `E` during the wind-up to change trajectory** (more taps =
@@ -150,8 +152,10 @@ Each attack direction is a different tool:
     (the stick figure that pulls off its own head to throw at you) makes it **start blinking, then after
     ~2s BOOM** — a small blast that **kills the player** if caught in it. Great damage, but it turns that
     enemy into a walking bomb you must not be next to. *(Grenade enemy specced in `ENEMIES.md`.)*
-- **[ITERATE]** whether the arrow direction aims/shapes the cast or it's fixed; cast warm-up; staff decay
-  (casts before it breaks); does fire's chain-explosion also damage other enemies?
+- **[LOCKED] Aim & decay:** `E` **fires straight ahead** in your facing direction (like the guns — no arrow
+  aiming; the element is fixed at pickup). **6 casts** then the staff breaks (`TUNING.md` §6). **Cast warm-up
+  0.35 s** (§6). The **Fire walking-bomb explosion damages other enemies** in its r 2 wu blast (enemy friendly
+  fire, like the head-grenade). Freeze/stun/slow are single-target on the hit enemy.
 - **[SUPERSEDES]** the earlier "each direction = a different spell" — element is now fixed per pickup.
 
 ### 3.6 Gatling Gun — *heavy risk/reward* **[LOCKED core]**

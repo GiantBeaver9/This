@@ -42,8 +42,7 @@ Each Special clears a crowd differently, balanced by **what loot survives** — 
 - **Bigger / bulkier.** Passives: **more punch damage** and **better shotgun damage.**
 - **Special — Giant Shotgun:** whips out a **giant shotgun and blasts everything off the screen** — instead
   of an auto-kill it does **massive damage + knockback**, wiping **up to tier 3** (**T3-and-below; untiered Heavy/Tamer and bosses survive**), and
-  **you get the drops on the ground.** *(Assuming this is the same person as the earlier "bulky friend" —
-  flag if he's actually the 4th.)*
+  **you get the drops on the ground.** *(The Shotgunner **is** the "bulky friend" — one of the 4, not a 5th.)*
 - **[LOCKED] Meter-tier scaling (`TUNING.md` §3.1):** blast arc **6→8→10 wu** and knockback **8→11→14 wu** at
   yellow/blue/green fills; ≤T3 instakill holds at every tier.
 
@@ -96,7 +95,7 @@ Each Special clears a crowd differently, balanced by **what loot survives** — 
    shared skeleton).
 2. ~~Werewolf vs. bosses~~ — ✅ **Resolved:** **all** specials (Sniper, Werewolf, Shotgun, Underdog) only
    affect a boss **under 10% HP** (execution); above that the boss negates it (`BOSSES.md` §1).
-3. Confirm the **Shotgunner = the earlier "bulky friend"** (§2.2), not a 5th person.
+3. ~~Shotgunner = bulky friend?~~ — ✅ **Confirmed:** the Shotgunner **is** the bulky friend (§2.2), one of the 4.
 
 ---
 

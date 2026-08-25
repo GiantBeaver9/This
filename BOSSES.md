@@ -79,8 +79,9 @@
   phase) and **"big version" enemies** (§1 — a regular enemy rendered ~20% bigger and buffed).
 - **[LOCKED] Minibosses recur:** once a miniboss has been encountered, it **can spawn again any time after**
   its debut (not a one-time fight) — part of the difficulty ramp in later areas (e.g. the Dixon boss rush).
-- **[ITERATE]** do they drop guaranteed loot; can they appear more than once a stage; are they sniper-immune
-  like main bosses, or killable by it?
+- **[LOCKED, resolved]** minibosses **drop guaranteed loot** (a T2+ weapon from the current area pool), **can
+  appear more than once a stage** (recurring, §above), and are **NOT sniper-immune** — they are big-version
+  *elites*, sniper-killable like normal enemies. Only the **10 bosses** resist the sniper (`TUNING.md` §7).
 
 ---
 
@@ -179,9 +180,12 @@
 - **[LOCKED] Win condition = whip:** you **rip the smaller stick figures off it one at a time with the Whip**
   (`WEAPONS.md` §3.4 — its pull/grab), slowly dismantling the giant piece by piece.
 - Weapon-gated → the **weapon-gated arena rule** (§1) supplies whips (tier-1 adds drop only whips).
-- **[LOCKED] Structure (HP = 6 pieces × 40, `TUNING.md` §7):** a **giant upper-screen boss** reaching down
-  into the play-band. **Whip-pull (forward) rips one piece per successful grab**; each torn piece **becomes a
-  T1 add** on the ground (crowd pressure as you dismantle).
+- **[LOCKED] Structure (HP = 6 pieces, `TUNING.md` §7):** a **giant upper-screen boss** reaching down into the
+  play-band. **Pieces are removed ONLY by the whip-pull** — **one successful forward whip-pull rips off one
+  piece** (regular attacks do **not** chip pieces; the whip is required, which is why the arena is whip
+  weapon-gated). The "6 × 40" in `TUNING.md` §7 is just the **HP-bar representation** (240 shown as 6 segments)
+  — mechanically it is **6 pulls to win**, not a damage race. Each torn piece **becomes a T1 add** on the
+  ground (crowd pressure as you dismantle).
 - **[LOCKED] Attacks:**
   - **Body swipe:** a slow overhead arm sweep across the lane, windup **0.9 s**, **22.5 dmg**, cooldown 3 s.
   - **Piece-spit:** flings a loose stick-figure at you (like Burly's toss but weaker, **15 dmg**), every 4 s.

@@ -242,5 +242,5 @@ Mode** added (§7b).
 **Act-capping bosses locked (§4):** A1 Burly · A2 Helicopter · A3 big Arm-Ripper · A4 Gatling Gun Guy ·
 Finale Phil.
 
-**Next / [ITERATE]:** exact per-stage rosters & backdrops (stage-within-act index only),
-checkpoint/continue tuning specifics, parody-brand naming.
+**Now LOCKED:** per-stage rosters (`ENCOUNTERS.md`), checkpoint/continue tuning (`TUNING.md` §8.1).
+**Residual polish only:** exact stage backdrops per theme (`AREAS.md`), parody-brand naming.

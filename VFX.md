@@ -115,5 +115,15 @@ glints, coin, dime highlight). Priorities inherit each system's P0/P1.
 shake/hitstop (heavy on finishers/explosions, light on normals); **bullet-readability locked** (projectiles
 always render above/through VFX).
 
-**[LATER]:** exact hitstop frame counts, shake magnitudes/presets, time-slow overlay treatment, secret-combo
-finisher FX. Pinned when we tune.
+**[LOCKED] Hitstop frame counts** (`TUNING.md` §2.6): **3f** on finishers · **5f** on any kill · **0f** on
+normal hits.
+
+**[LOCKED] Screen-shake presets** (amplitude in px at the 640×360 internal res, `ASSET_MANIFEST.md` §0; decay
+over the listed duration): **light = 2 px / 0.10 s** (weapon hits, dashes) · **medium = 5 px / 0.15 s**
+(knockdowns, big weapon impacts) · **heavy = 10 px / 0.20 s** (finishers, explosions, ground-slams, boss
+phase-changes, Ball & Chain launch). The **Options "reduce screen-shake" toggle** (`UI.md` §5) **halves all
+three amplitudes** (light 1 / medium 2.5 / heavy 5) — it never fully disables (some feedback is retained).
+
+**[LOCKED] Time-slow overlay** (sniper special, `TUNING.md` §3.1): a **desaturated blue tint + slight radial
+blur at the screen edges** for the 2.5 s at 0.2× speed; the targeting **red-dot** (`UI.md`) and tracer render
+at full saturation on top. **Secret-combo finisher FX** are pinned in `COMBOS.md` §5.
