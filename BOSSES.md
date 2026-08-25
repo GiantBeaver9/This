@@ -257,10 +257,11 @@
   - **Strafe:** flies **left↔right across the top band** at 8 wu/s, dipping toward whichever Z-row you're on.
   - **Head-fire:** lobs stick-figure heads (max **2 airborne**) at your position, **one every 2.5 s**, arced
     telegraph 0.5 s — **bat them back up** (reflect window 0.20 s) to score a hit, or **lob a grenade up**.
-  - **Phase-2 trigger = 3 objective *events* landed** (a reflect or a lob each count as **1 event** toward the
-    phase change — this is the event count, distinct from the **6-pip win meter** where a grenade is worth 1.5,
-    `UI.md` §3.5c). At Phase 2 it **descends to ~3 wu**, head-fire cadence → 1.8 s, and adds a short horizontal
-    **rotor-gust** pushing you toward a Z-edge.
+  - **Phase-2 trigger = 3 pips filled** on the 6-pip win meter (the halfway point) — **one measure only**, no
+    separate "event" count. A **reflected head = 1 pip**, a **lobbed grenade = 1.5 pips** (`TUNING.md` §7,
+    `UI.md` §3.5c), so phase 2 lands when the pip total first reaches 3 (e.g. 3 heads, or 2 grenades, or 1 head
+    + 1 grenade + a partial). At Phase 2 it **descends to ~3 wu**, head-fire cadence → 1.8 s, and adds a short
+    horizontal **rotor-gust** pushing you toward a Z-edge.
 - **Never a miniboss** (§1). Psychologically hard, short (<2 min).
 
 ### 5.6 Gatling Gun Guy — **boss** — **[LOCKED core]**

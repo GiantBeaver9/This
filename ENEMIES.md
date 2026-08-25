@@ -130,8 +130,11 @@
   (`TUNING.md` §4 row 15 — the pinned melee-switch distance).
 - **[RESOLVED, see `TUNING.md`]** contort telegraph **2.0 s** (vulnerable throughout), burst = the 1/hit stream
   (`TUNING.md` §4 row 15 / §6.2); **no valid fodder → he spawns already holding the gatling** (self-sufficient,
-  `TUNING.md` §4.1 — never a spawn dependency); **killing him drops a Gatling** for the player (Area-4 pool,
-  `TUNING.md` §6.1).
+  `TUNING.md` §4.1 — never a spawn dependency).
+- **[LOCKED] Guaranteed Gatling drop (dual-channel, like the Snapper's sword / Arm-Ripper's pistols):** because
+  the Gatling Gunner **IS** his weapon, **killing him ALWAYS drops a Gatling** for the player (a 100% guaranteed
+  drop, not the 26% T3 roll) — *plus* his normal §6 T3-band roll on top. This is the same "the enemy is the
+  weapon → guaranteed drop" exception the Snapper and Arm-Ripper use (`TUNING.md` §6 note).
 
 ### 2.8 Zombie — **[LOCKED core]** — **Tier 0** (new lowest tier)
 - **Headshots don't kill it — they hollow it.** A headshot **empties the head** (filled head → see-through
@@ -163,9 +166,11 @@
 ### 2.9 Ninja — **[LOCKED core]** — **Tier 3a** — **debuts Area 4 (Vallejo)**
 - **Teleport:** uses **smoke bombs to "teleport"** (blink/reposition) — hard to pin down, flits around the
   player.
-- **Ninja stars:** throws **shuriken** — but **stars must be made by stripping legs/arms off lower-tier
-  enemies** (the cannibalize pattern; per the tier rule a 3a spends tier-1/2). Its **ammo = harvested limbs.**
-- **[ITERATE]** teleport cooldown & telegraph (smoke-puff tell), stars per limb, do stars obey the
+- **Ninja stars:** throws **shuriken**. The "stripping legs/arms off lower-tier enemies" is **diegetic flavor
+  for the animation, NOT a finite ammo model** — per `TUNING.md` §4/§4.1 the Ninja **throws 2 shuriken per
+  volley on a 3 s cooldown, effectively unlimited** (self-restocks; it never runs dry and never needs adjacent
+  fodder to throw). Spawns combat-ready.
+- **[RESOLVED in `TUNING.md` §4/§4.1]** teleport cooldown **3 s** & smoke tell **0.3 s**, 2 shuriken/volley; do stars obey the
   short-range rule (§1) or count as a telegraphed thrown exception, star damage, what it does with no
   fodder to strip (call in / melee?).
 

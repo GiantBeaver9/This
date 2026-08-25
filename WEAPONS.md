@@ -207,11 +207,14 @@ Each attack direction is a different tool:
   free melee blow. *(Older text called this a "finisher"; read it as the `E`-barrage.)*
 - **[LOCKED] Barrage vs. armored targets = fixed 45 damage, no auto-kill** (the ONE rule, authoritative copy in
   `TUNING.md` §6). Against **all H-weight enemies (Heavy, Ground Smasher, Gatling Gunner)**, **any miniboss**,
-  and **any boss**, one barrage deals a flat **45 damage** instead of an instant kill (too much HP to cheese; the
-  gatling is a weapon, so it *does* damage bosses — unlike a character special). So a Heavy (220 HP) takes ~5
-  barrages; a big-version T2 miniboss (90–160 HP after the ×2 scale) takes 2–4; a boss can be chipped but never
-  soloed — the gun overheats after **5 barrages = 225 damage**, below every boss's HP. The 10% zombify roll
-  applies **only** to a barrage that auto-kills a regular standing enemy, never to the flat-45 case.
+  and **the 5 HP-depletion bosses** (Burly, big Arm-Ripper, Boomergunner, Gatling Gun Guy, Sandwich Bros), one
+  barrage deals a flat **45 damage** instead of an instant kill (too much HP to cheese; the gatling is a weapon,
+  so it *does* damage HP-bar bosses — unlike a character special). So a Heavy (220 HP) takes ~5 barrages; a
+  big-version T2 miniboss (90–160 HP after the ×2 scale) takes 2–4; an HP-depletion boss can be chipped but
+  never soloed — the gun overheats after **5 barrages = 225 damage**, below every boss's HP. The **5
+  objective/proxy bosses (Colossus, Tank, Helicopter, Monkey Boss, Phil) take 0** — no normal HP bar to chip.
+  The 10% zombify roll applies **only** to a barrage that auto-kills a regular standing enemy, never to the
+  flat-45 case.
 - **No i-frames — the player is locked and vulnerable** through the ~0.5s barrage: the kill is paid for in
   **exposure**, so throwing it out in a crowd gets you hit.
 - **[LOCKED] Zombie risk:** an `E`-barrage that lands as a **headshot kill** has a **~10% chance to spawn a

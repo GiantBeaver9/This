@@ -26,8 +26,9 @@
     34-wu arena. **Hatch** = a 1.0 wu circular target centered on the top of the turret at **~2.4 wu height**
     (the grenade-drop point). **Rear-tread mount point** = a 1.0 wu climb-on zone at the **back-left**, ground
     height, where the player mounts to climb (the "direct hit while mounting 22.5" risk zone, `TUNING.md` §7).
-    Turret **MG muzzle** sits front-center at ~1.8 wu height. The Tank does not walk — it holds position and
-    rotates the turret.
+    Turret **MG muzzle** sits front-center at ~1.8 wu height. The Tank mainly **holds position and rotates the
+    turret**, but **reverses and repositions once at Phase 2** (`BOSSES.md` §5.3) — so it needs a **tread-roll
+    / reposition** anim, not just a static body.
   - **Helicopter:** drawn at up to 180 px, **hovers in the sky band** (top 40%) and descends 2 altitude steps
     over the fight (`BOSSES.md` §5.5); its **rotor + cockpit** are the visible mass, no ground footprint.
 - **Palette:** a **shared 32-color base palette** (limited, cohesive) + **per-area 6-color accent ramp**
