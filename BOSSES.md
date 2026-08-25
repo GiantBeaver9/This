@@ -187,8 +187,10 @@
     simply the one where his HP reaches ≤0 of the gated pool** — you keep getting sharpen windows until then.
     (Because the cap ≥ one threshold's worth, a clean run is 4 windows; a sloppy run just takes more windows.)
   - **Arena — [LOCKED]:** a **play-band brawler on the swaying rooftop** (30 × 8 wu, `ENCOUNTERS.md`), **not**
-    a giant upper-screen boss. **Sway/slippage** shifts your footing by up to **±1.5 wu** on a **6 s sine**
-    (telegraphed by the skybox tilting); **two edges have no railing → fall = instant death** (`TUNING.md`
+    a giant upper-screen boss. **[LOCKED] The two railless edges are the LEFT and RIGHT (X) edges; the rooftop
+    sway is along the X axis.** **Sway/slippage** shifts your footing by up to **±1.5 wu along X** on a **6 s
+    sine** (telegraphed by the skybox tilting) — so the wind slides you toward the L/R death edges (the top/back
+    and bottom/front Z edges are walled). **Two edges have no railing → fall = instant death** (`TUNING.md`
     §6.2). He never falls; adds can be knocked off.
   - **The kill:** Phil is **never swept/knocked down** (bosses can't be, `TUNING.md` §2.6). **The sharpen window
     in which his gated HP reaches ≤0 becomes his finisher-able state** — during that window a **finisher input
@@ -209,8 +211,11 @@
     22.5 dmg; cooldown **2.5 s**. Telegraphed glow lets you dash out.
   - **Enemy-toss:** grabs an add and hurls it (windup **0.8 s**, a clear over-the-head pose) — **40 dmg**,
     travels the lane; **dodge by changing Z-row.** Only usable when an add is alive.
-  - **Charge (Phase 2, ≤66%):** a **shoulder rush** across the lane at 12 wu/s, floors on contact (H-weight).
-  - **Phase 3 (≤33%):** spike cooldown drops to **1.5 s** and he pairs spike→charge.
+  - **Charge (Phase 2, ≤66%):** a **shoulder rush** across the lane at 12 wu/s (`TUNING.md` §7 move-speed row),
+    floors on contact (H-weight). **Charge damage 30** (tunable); **windup/telegraph 0.6 s** (a clear rear-up
+    pose so you can dash off his Z-row); **cooldown 3.0 s**.
+  - **Phase 3 (≤33%):** spike cooldown drops to **1.5 s** and he pairs **spike→charge**; the **pair fires every
+    4.0 s** (tunable — the spike leads, the charge follows within the pair, then the 4 s cadence repeats).
 - **Adds:** 2 Regulars stream in so he always has toss fodder (`ENCOUNTERS.md` arena). **Main boss** (Area-1
   cap), not a miniboss. Psychologically hard, short (<2 min).
 
@@ -273,7 +278,13 @@
     separate "event" count. A **reflected head = 1 pip**, a **lobbed grenade = 1.5 pips** (`TUNING.md` §7,
     `UI.md` §3.5c), so phase 2 lands when the pip total first reaches 3 (e.g. 3 heads, or 2 grenades, or 1 head
     + 1 grenade + a partial). At Phase 2 it **descends to ~3 wu**, head-fire cadence → 1.8 s, and adds a short
-    horizontal **rotor-gust** pushing you toward a Z-edge.
+    horizontal **rotor-gust** pushing you toward a Z-edge: **push = 3 wu, cadence = every 3 s during Phase 2,
+    0 damage** (positional only).
+- **[LOCKED] Rotor-gust vs. jet-blast — two DIFFERENT things (no conflation):** the arena's **jet-blast gust**
+  is the **always-on ambient hazard** of the airport tarmac (`ENCOUNTERS.md` arena row, `TUNING.md` §6.2 "Jet
+  blast: 0 dmg, pushes player 3 wu") — it runs the whole fight regardless of phase. The **rotor-gust** above is
+  a **Phase-2-only added MOVE** the chopper performs (the descended rotor wash), on its own 3 s cadence. Same
+  0-dmg/3-wu push feel, but distinct sources: one is the arena, one is the boss's Phase-2 kit.
 - **Never a miniboss** (§1). Psychologically hard, short (<2 min).
 
 ### 5.6 Gatling Gun Guy — **boss** — **[LOCKED core]**
@@ -308,6 +319,11 @@
   **proxy war:** win the dimes, field your monkeys, let them shoot him down.
 - **[LOCKED] Lose the race, feed the enemy:** if the player **doesn't catch a dime in time, the Monkey Boss
   summons his OWN mercs** — the same gun-monkeys, but **never above tier 1** (kept fair).
+- **[LOCKED] Enemy-merc model (the boss's side, mirror of the player's):** the boss spawns **1 enemy merc per
+  dime the PLAYER misses** (fails to catch before it lands). Each enemy merc is **pistol-tier only** (7.5 dmg,
+  T1 — never escalates, matching the "never above tier 1" fairness rule), with a **15 s lifespan** each. **Max 3
+  enemy mercs alive at once** — a miss while 3 are already live spawns nothing (the oldest keeps its timer), so
+  the boss's squad caps at 3 pistol monkeys exactly as the player's does at 3.
 - **[LOCKED] No soft-lock:** the boss throws **actual dimes** (not 1¢ coins to accumulate) — **catching one
   summons a merc directly** (boss-specific; no monkey-stick-figure or saved-up change needed), and these
   boss-fight mercs are **OUTSIDE the 3-summons-per-level cap** (`WEAPONS.md` §3.7). You can always

@@ -91,7 +91,7 @@ in-hand + fist-combo-holding-weapon + unique **finisher/fire** + muzzle/projecti
 - **P0:** Fists (in moveset) · **Sword** (wear states) · **Shotgun** (+ **spine magazine** segments, cock, eject).
 - **P1:** Boomerang (in-flight + stun) · **Pistol & Revolver** (straight tracer, pierce, cigarette-flick finisher) ·
   **Grenade/Bomb** (bounce marker, lob/fastball trails, big/small blast) · **Whip** (arc/pull/line + head-rip→grenade) ·
-  **Bat** (reflect) · **Staff** (ice/fire/lightning cast FX) · **Gatling** (0.5s barrage) · **Boomerang Gun**
+  **Bat** (reflect) · **Staff** (ice/fire/lightning cast FX + **crystal/orb decay states — dims one notch per cast, 6→0**, `WEAPONS.md` §3.5) · **Gatling** (0.5s barrage + **barrel heat-glow states — cool→cherry-red toward the 5-barrage/20-s overheat**, `WEAPONS.md` §3.6) · **Boomerang Gun**
   (orbit + auto-fire) · **Ball & Chain** (launch, heavy impact) · **Rocket Launcher** (world pickup) ·
   **Club** (in-hand idle/walk + short-swing + big-knockback swing kit + wear states + **placed-pickup sprite** —
   the airport/Stage-5-on placed heavy-melee option, `WEAPONS.md` §3.7c / `TUNING.md` §6.1).
@@ -182,6 +182,15 @@ Each theme: parallax backdrop layers + lane floor + set dressing + ambient actor
   backdrop coasters, like Area 1's hazard vehicles); **redwood forest** (redwoods, ferns, mist); bay
   **causeway/bridge** + **water-splash** on a fall; **Golden Gate Bridge** (+ **car cover**); **San Francisco**
   cityscape + **trolley/cable-car** (hazard) + **Salesforce Tower** exterior/elevator/**swaying rooftop**.
+- **[LOCKED] Checkpoint markers (P1):** the **visible world marker** (flag/beacon) planted at each checkpoint,
+  **themed per area** (`ENCOUNTERS.md` §0) — **~12 themed instances** (one per stage/theme). Pairs with the
+  checkpoint chime (`AUDIO.md` §4) so a checkpoint reads both visually and audibly.
+- **[LOCKED] Boss-arena-specific props (P1):** the bespoke set dressing each boss arena needs (`ENCOUNTERS.md`
+  boss-arena table / `AREAS.md`), not covered by the per-area lists above — **Burly dept-store display islands**
+  (2, soft cover) · **Colossus Sacramento Victorian-plaza set** · **Helicopter tarmac luggage carts** (2) ·
+  **Monkey Boss ranch hay-bale covers** (2) · **Tank Six-Flags ride-support pillars** · **big Arm-Ripper
+  water-tower base pillar** · **Boomergunner redwood-clearing trunks** (3) · **Gatling Gun Guy bridge parked
+  cars** (4, hard cover) · **Phil rooftop HVAC-block cover**.
 
 ---
 

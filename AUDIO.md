@@ -198,6 +198,6 @@ Priority = what wins when the mix gets crowded. Higher ducks lower.
   from the incoming loops, not in the 23).
 - **Ambient:** 12 area beds (§4, one per stage-music slot).
 - **SFX:** **95 core one-shots** (§4).
-- **VO:** 5 intro clips (creator voice) + Phil rooftop monologue (~30 s).
+- **VO:** 5 intro clips (creator voice) + Phil rooftop monologue (~30 s) + **1 outro line** (~10 s, over the epilogue/credits, `STORY.md` §3 / §5) — the only VO besides the intro clips and Phil's monologue.
 - **Priority:** Intro VO + core SFX = **P1**; per-area music, ambient beds, boss themes, UI sounds = **P2**
   (matches `ASSET_MANIFEST.md` §8 phasing).

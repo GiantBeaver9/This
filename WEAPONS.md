@@ -223,7 +223,9 @@ Enemy-dropped; **1 per pickup** (scarce — save it for a cluster).
     Head-Throwers convert.
 - **[LOCKED] Aim & decay:** `E` **fires straight ahead** in your facing direction (like the guns — no arrow
   aiming; the element is fixed at pickup). **6 casts** then the staff breaks (`TUNING.md` §6). **Cast warm-up
-  0.35 s** (§6). The **Fire walking-bomb explosion damages other enemies** in its r 2 wu blast for **35** (enemy friendly
+  0.35 s** (§6). **[LOCKED] Diegetic decay read (`UI.md` §3.6 — no HUD counter):** the staff's **crystal/orb
+  DIMS one notch per cast** (full glow at 6 → dark at 0), so remaining casts are read off how bright the orb
+  still is; the break is the definitive empty tell. The **Fire walking-bomb explosion damages other enemies** in its r 2 wu blast for **35** (enemy friendly
   fire, the same value as the grenade fastball blast at r 2 wu, `TUNING.md` §6/§6.2) — the lit enemy itself dies
   in the boom, and the player is killed outright if caught in the r 2 wu. Freeze/stun/slow are single-target on
   the hit enemy.
@@ -234,7 +236,8 @@ Enemy-dropped; **1 per pickup** (scarce — save it for a cluster).
 - **Slow combo** — its attack cadence is noticeably **slower** (heavy weapon).
 - **[LOCKED] The barrage is an `E`-fire, NOT the combo finisher** (per §1's supersede rule): **press `E`** to
   unload **~0.5s of point-blank fire** into the nearest enemy ahead — a guaranteed **auto-kill/headshot** on any
-  standing **regular** non-boss. The combo finisher with the gatling equipped is a plain
+  standing **regular** non-boss (**except a Zombie — its head is inert, so a Zombie takes the flat 45 body shot
+  instead, never an auto-kill or zombify roll**, `ENEMIES.md` §2.8 / `TUNING.md` §6). The combo finisher with the gatling equipped is a plain
   free melee blow. *(Older text called this a "finisher"; read it as the `E`-barrage.)*
 - **[LOCKED] Barrage vs. armored targets = fixed 45 damage, no auto-kill** (the ONE rule, authoritative copy in
   `TUNING.md` §6). Against **all H-weight enemies (Heavy, Ground Smasher, Gatling Gunner)**, **any miniboss**,
@@ -253,6 +256,9 @@ Enemy-dropped; **1 per pickup** (scarce — save it for a cluster).
 - **[LOCKED] Loss & targeting (`TUNING.md` §6):** **no ammo**; overheats after **5 barrages OR 20 s cumulative
   equipped** then discards; targets the **nearest enemy ahead within 8 wu** (one target, no pierce);
   **0.40 s spin-up**.
+- **[LOCKED] Diegetic heat read (`UI.md` §3.6 — no HUD counter):** the gatling's **barrel GLOWS progressively
+  hotter/redder** as it approaches the **5-barrage / 20-s** overheat limit (cool metal fresh → cherry-red at the
+  cap), so imminent overheat is read off the barrel's glow; the discard on overheat is the definitive empty tell.
 - **[SUPERSEDES]** the earlier "20–32 shots" — no ammo tracking now.
 
 ### 3.7 Monkey Merc — *summon, costs a dime (10¢, see §3.9)* **[LOCKED core]**
@@ -293,7 +299,10 @@ Enemy-dropped; **1 per pickup** (scarce — save it for a cluster).
   arena additionally guarantees** a bat supply via its weapon-gate (so you're never without one for the boss).
   Vignette → corpse drops → guaranteed at the boss = teach→tools→test intact. It is **not** boss-arena-only
   (`TUNING.md` §6.1).
-- **[LOCKED] Stats (`TUNING.md` §6):** melee **12/hit**, **12 connecting hits**, **reflect window 0.20 s**.
+- **[LOCKED] Stats (`TUNING.md` §6):** melee **12/hit**, **12 connecting hits**, **reflect window 0.20 s**. The
+  **0.20 s reflect window opens on the swing's ACTIVE frames** (the moment the bat is out and connecting) —
+  **NOT on the button press** — so a projectile is only reflected if it overlaps the bat during those active
+  frames, and the startup/recovery of the swing do not reflect (you must time the swing, not just tap it).
 - **[LOCKED] What it reflects (complete list):** thrown heads, head-grenades, boomerang-gun shots,
   arm-ripper/pistol rounds, shuriken, **AA rocks** (arced, slow — reflectable), and the **Helicopter's thrown
   heads** — any **telegraphed slow-to-medium single projectile.** It **CANNOT** reflect: the **gatling/barrage
