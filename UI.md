@@ -188,6 +188,16 @@ All in the **chunky-arcade** style (bold pixel frames, thick outlines).
 - **Money counter** — glyphs + **full-dime highlight**.
 - **Monkey status cluster** — monkey icon, **timer ring**, spent/greyed state.
 - **Boomerang-gun bullet pips**, **Ball & Chain use pips** (equip-only).
+- **Sniper red-dot** — **two variants:** (a) **player-special** dots (the ricochet-chain readout over enemies,
+  §3.5b) and (b) the **enemy-Sniper's red dot painted on the player's head** while an airborne player is scoped
+  (`ENEMIES.md` §2.14 / `AREAS.md` §4) — same dot sprite, different owner.
+- **Boss HP bar + name card + small boss-face icon** — the boss-face icon (one per boss, capping the bar,
+  §3.5c) is drawn from the boss's own portrait; **objective-boss progress readouts** (Helicopter 6-pip, Tank
+  2-pip, Colossus 6-segment, Monkey Boss HP-200, Phil HP+4-notches, §3.5c).
+- **Execute prompt** — the `▶ SPECIAL` glyph over a ≤10% executable boss (§3.5d).
+- **"BARRAGE INCOMING" warning** banner (§3.5b / `BOSSES.md` §5.6).
+- **Character-select Special icons** — **one icon per character's Special** (Sniper / Giant Shotgun / Werewolf
+  / Vaporize) shown on the select screen (§5).
 - **Non-HUD screens (§5, now LOCKED):** title/main-menu, character-select, pause, options (+rebinding), area
   card, results/grade, game-over — chunky-arcade, text + a few sprites. Fonts + button-prompt glyph set.
 

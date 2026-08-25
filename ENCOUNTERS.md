@@ -24,6 +24,11 @@
   §4, single model).
 - **A "wave" = a spawn batch.** The stage **gates** (camera lock) until the wave's **kill-quota** is met,
   then scrolls on.
+- **[LOCKED] Named-target gates clear the WHOLE wave, not just the named type.** A gate written as "kill AA" /
+  "kill the gunners" means **that named type is the objective**, but the camera lock **does not release until
+  every enemy the wave spawned is dead** (co-spawned Regulars included) — you can't skip past leftover adds. The
+  named type just tells the build which enemies define the wave's purpose; **"clear" and "kill <type>" both
+  resolve to an empty field** before the scroll.
 - **Spawn sides:** `L` left, `R` right, `B` back-Z, `A` ambush (door/window/manhole per area). Default L/R.
 - **Cadence:** "drip 0.8 s" = one enemy every 0.8 s, so the 8-cap breathes (not all at once).
 - **The spine vs. the full stage (length reconciliation) — [LOCKED]:** the tables below are the **mandatory
@@ -49,7 +54,8 @@
   platforming stretches (Stages 6, 10) — [LOCKED default layout]:** a **linear run of exactly 6 platforms**,
   each **10 wu** long with **4 wu gaps** between them (the pinned midpoints of the 5–7 / 8–12 / 3–5 design
   ranges; **(tunable)** per stage). Gaps are jumpable: jump distance ≈ 4 wu + air-dash 3.5 wu = ~7.5 wu reach,
-  so a **4 wu gap clears on a plain jump**. Water between platforms (fall = 10 HP chip + respawn on last
+  so a **4 wu gap clears on a plain jump** (jump distance = **5.0 wu**, air-dash +3.5 wu = 8.5 wu reach — the
+  authoritative kinematics are `TUNING.md` §1). Water between platforms (fall = 10 HP chip + respawn on last
   platform, §Stage 6). Exact decorative prop coordinates are level-editor polish, not a gameplay value — but
   the **6×10 wu platforms with 4 wu gaps is the concrete buildable default**, not a range to pick from.
 - **Checkpoints — [LOCKED] (matches `TUNING.md` §8.1):** **one at stage start** (respawn point on continue) +

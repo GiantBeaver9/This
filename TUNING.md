@@ -23,6 +23,8 @@
 | Playfield band (vertical screen share) | **bottom 60%** | **HUD/sky top 40%** (`AREAS.md` §1.1 LOCKED — matched; not tunable) |
 | **Z-band depth (near→far)** | **6.0 wu** standard | continuous, analog; near edge Z=0.0, far edge Z=6.0. **Boss arenas may set a deeper band** (listed per arena in `ENCOUNTERS.md`, up to **8.0 wu**) to fit big/airborne bosses — the band widens for that fight, then returns to 6.0. Depth-scaling (below) rescales to the arena's far edge. |
 | Player X-speed on band | see §3 | Z-movement uses same speed value |
+| **Jump kinematics (LOCKED)** | **height 2.5 wu · airtime 0.8 s · horizontal distance 5.0 wu** at full run | a plain forward jump covers **5.0 wu** horizontally (the horizontal air speed is a fixed **6.25 wu/s**, *not* the 7.0 run speed — the small air-control tax); this is the authoritative jump distance and **supersedes the "≈4 wu" shorthand** in `ENCOUNTERS.md` §0. So a **4 wu causeway gap clears on a plain jump** with margin. |
+| **Air-dash reach (LOCKED)** | **+3.5 wu** horizontal | one air-dash per jump; jump 5.0 + air-dash 3.5 = **8.5 wu total air reach** (clears any 3–5 wu gap trivially) |
 | **Sprite depth-scaling** | **100% at Z=0 → 80% at Z=6** | linear −3.33%/wu; floor 80% (`GAMEPLAY_LOOP.md` §3) |
 | Ground shadow / Z-marker | ON, 1 blob shadow per actor | reads exact Z (resolves the §3 [LATER]) |
 | Bullet/hitbox Z-tolerance | ±0.4 wu | a shot connects only within 0.4 wu depth of target |
@@ -378,6 +380,25 @@ of the killing hit:**
 | **Monkey Tamer cornered (no room to keep-away)** | he **stops fleeing and fights with a weak melee flail (5 dmg)** while still whistling — he never becomes un-attackable; cornering him is the intended kill window (his monkeys deactivate on his death, §4 row 9). |
 | **Enemy would exceed the 8-pursuer cap** | it **holds at a spawn edge** (visible, not attacking) until a slot frees — except Swarmer pods (`ENCOUNTERS.md` §0 exception). |
 
+**[LOCKED] Drop-roll & interaction resolutions (the last small "what about…" set):**
+- **Drop rolls are INDEPENDENT per kill.** On a qualifying kill the game rolls **each drop channel separately**:
+  **weapon** (§6 band %), **coin** (12%), and **heal** (5%, →20% at low HP). A single kill can therefore drop a
+  weapon *and* a coin *and* a heal (rare), or nothing. They are not mutually exclusive and do not share a roll.
+- **Swarmers drop NOTHING** — no coin (already LOCKED, `WEAPONS.md` §3.9), and **also no weapon and no heal**
+  (pure fodder never feeds any economy). The heal-drop channel is **suppressed on Swarmer kills** exactly like
+  the coin channel.
+- **Sniper-special kills drop nothing** on any channel (LOCKED) — weapon, coin, and heal all suppressed.
+- **Pods ARE valid sniper-ricochet targets** — a Pod is a destroyable body (50 HP); the ricochet may chain
+  through it and destroy it like any enemy (it counts toward the tier kill-count). Pods are **not** headshot/
+  zombify targets (they're structures, not heads).
+- **Werewolf slashes hit downed enemies** — the 5 s 1HKO is a raw slash, so a **downed/swept enemy is killed by
+  it too** (the "no normal hits while downed" rule, §2.6, blocks only *combo normals*, not the Werewolf
+  special). Same for any AoE/special (§2.6 downed-immunity block list).
+- **The meter DOES fill during a special's own hits** for the Shotgunner/Werewolf/Underdog (each connecting
+  slash/blast feeds the meter at the weapon-hit rate, §2.4) — this is how you start re-earning the next special
+  mid-special. The **Sniper special is the exception: its kills give no meter** (it would otherwise loop
+  infinitely), consistent with "sniper kills drop nothing."
+
 ---
 
 ## 5. Damage model cross-check (vs. Player HP = 100)
@@ -472,6 +493,15 @@ to fists), so ammo management is "use it or lose the drop," never a resource-hun
 > The §6 tier table says *what a given enemy CAN drop*; this table says *which weapons are UNLOCKED into the
 > pool by area*, so the early game stays melee-simple (`ENEMIES.md` §1, `STAGES.md` §3, `WEAPONS.md` §3.9). A
 > weapon can only drop once its area is reached, **even if the enemy's tier would otherwise roll it.**
+>
+> **[LOCKED — GLOBAL, cumulative availability] Unlocks only ADD; they NEVER expire.** Once a weapon becomes
+> available in an area/stage, it **stays available in EVERY subsequent area and stage for the rest of the run**
+> — the pool only grows. This holds for **both** sourcing methods: a **corpse-drop** weapon keeps rolling off
+> valid enemies in all later areas (a Sword can still drop in Area 4), and a **placed-pickup** weapon (Club,
+> Rocket Launcher) keeps appearing as a placed pickup in all later stages from its intro stage onward (the Club,
+> introduced at the airport, keeps spawning as a stage pickup through Areas 3–4 and the finale run-up). The
+> "cumulative" column below is literal: each row is **everything unlocked so far**, not just that area's new
+> additions. No weapon is ever "for that level only."
 
 > **Reading the table:** an entry means the weapon **becomes AVAILABLE from that area on**, by its own sourcing
 > method — most enter the **corpse-drop roll** (§6 tier table), but the two **placed-pickup** weapons (**Club**,
@@ -566,7 +596,7 @@ every **10 s** on a fixed track; **roller-coaster** (Stage 9) every **7 s** on i
 | **Colossus** | 2 (Sacramento) | **240** = **6 pieces ×40** | shed at 4 & 2 pieces (speeds up) | body swipe **22.5** | **whip off 6 stick-figure pieces**; torn pieces become T1 adds | 1:50 |
 | **Helicopter** | 2 (airport) | **objective — 6 damage-pips** (not HP-depleted) | after **3 pips** it descends lower & fires faster | thrown heads **15** (max 2 on screen) | fill a **6-pip** bar: a **reflected head = 1 pip**, a **lobbed grenade = 1.5 pips** — so **6 heads**, or **4 grenades** (4 × 1.5 = 6), or any mix summing to 6, downs it; main-boss-only | 1:40 |
 | **Monkey Boss** | 3 (farm) | **200** (only your mercs damage him) | 60% · 30% (throws dimes faster) | **0** direct; his mercs (T1 pistol 7.5) | proxy war: catch dimes → your mercs shoot him down; boss mercs ignore the 3-summons cap | 1:55 |
-| **big Arm-Ripper** | 3 (Dixon) | **280** (boss-scale) | **66% → fires 3 shots/s (from 2); 33% → adds a rolling reposition between volleys** | pistols **7.5/shot @ 2/s** | HP depletion; caps the Dixon boss rush | 1:50 |
+| **big Arm-Ripper** | 3 (Dixon) | **280** (boss-scale) | **66% → fires 3 shots/s (from 2); 33% → adds a rolling reposition between volleys** | pistols **7.5/shot @ 2/s** (base) | HP depletion; caps the Dixon boss rush. **Keeps the enemy Arm-Ripper's reload cadence — 2 s reload after every 6 shots** (`TUNING.md` §4 row 11), at all phases; the faster fire rate just reaches the 6-shot reload sooner (the reload is the punish window) | 1:50 |
 | **Tank** | 4 (Vallejo) | objective (**2 grenade drops**) | **after drop 1** (MG pattern intensifies) | MG stream **1/hit**; direct hit while mounting **22.5** | **climb + drop grenade in hatch ×2**; arena adds drop only grenades | 1:50 |
 | **Boomergunner boss** | 4 (Marin) | **320** (boss-scale, 80×4) | **66% → throws a 2nd orbiting gun (2 loops at once); 33% → both loops tighten toward the player** | boomerang-gun shots **5/shot** (base — see ranged note) | HP depletion | 1:45 |
 | **Gatling Gun Guy** | 4 (Golden Gate) | **260** | 66% · 33% | **barrage = instant death if caught in the open** (LOCKED); melee 22.5 | HP depletion; **hide behind cars** on the **~5 s "BARRAGE INCOMING"** cycle; Shield-Rush the fodder version | 1:55 |
@@ -647,7 +677,11 @@ minibosses / big-version *non-boss* elites** are sniper-killable like normal ene
 | Miniboss cadence | inject one every **5 min** (recurring big-versions) | |
 | Boss cadence | inject a main boss every **10 min** | at boss-scale, from the placed pool |
 | Spawn interval floor | never faster than a new pod every **4 s** | keeps it readable (`VFX.md` bullet budget) |
+| **Wave composition** | each refill spawns a **type-weighted pod drawn from the currently-unlocked tiers**: **40% current-top-tier · 60% below it** (mirrors the campaign filler weighting, `ENCOUNTERS.md` §0), picked by a **per-run seed** so a session is reproducible for playtest. Each spawned **Pod's emit-type is 50/50 Swarmer/Zombie** (§4 Pod typing) | one weighting rule, seeded like the campaign |
+| **Club (placed-pickup weapon)** | since Endless has no stages/mid-checkpoints, the **Club spawns as a periodic placed pickup every ~90 s** (same treatment as the Rocket Launcher) — the "all corpse-drop weapons unlocked" line covers corpse drops only; the two placed-pickup weapons (Club, Rocket) get this timed-spawn instead | resolves the placed-pickup gap in Endless |
+| **Catch-up trigger in Endless** | the §8.2 catch-up-miniboss trigger is **OFF in Endless** — Endless has its own **5-min miniboss cadence** (below), so the "clearing too fast" injector is campaign-only (it would double up with the cadence) | one miniboss source in Endless |
 | Economy/weapon rules | **all corpse-drop weapons unlocked from the start** (Endless has no areas, so the area-gate §6.1 doesn't apply to drops); the **Rocket Launcher stays world-pickup-only** — it spawns as a **periodic placed pickup every ~2 min** (never a corpse roll, per §6.1); **coins ON from minute 0** (Area-1–2 coin suppression is campaign-only); dimes/monkeys/decay as normal | Endless is the sanctioned playtest sandbox |
+| **Backdrop / arena** | Endless runs in a **single fixed flat arena = a stylized SF-streets loop** (reuses the Area-4 SF-streets backdrop + city crowd bed, `AUDIO.md` §4) — no scrolling, camera-locked, 26.7 wu wide; matches the Endless music (the SF electro-punk layered track, `AUDIO.md` §2). **No new art** | one reused backdrop, no new asset |
 | Injectable bosses | **only ungated HP-depletion bosses: Burly, big Arm-Ripper, Boomergunner, Sandwich Bros.** **Excluded** = every boss that needs a specific weapon, terrain, or script that Endless can't guarantee: **Colossus** (needs whips), **Gatling Gun Guy** (needs car cover), **Tank / Helicopter** (objective + weapon-gated adds), **Monkey Boss** (dime proxy), **Phil** (scripted). This prevents an un-winnable injection | resolves the Endless-boss + Colossus-softlock ambiguity |
 | End condition | endless until death; score = kills × time-survived multiplier | leaderboard **(tunable)** |
 

@@ -193,7 +193,8 @@ Weapon-by-weapon animation lists get pinned in `WEAPONS.md` alongside each weapo
 
 A short cinematic beat with dedicated frames:
 1. **Draw** — plant + pull the sniper rifle; **time slows** (world VFX in `VFX.md`).
-2. **Aim** — brief settle; **[PROPOSED]** an aim line telegraphs the ricochet path.
+2. **Aim** — brief settle; the **red-dot chain** (`UI.md` §3.5b) shows the auto-computed ricochet order (there
+   is no manual aim, and no separate "aim line" — CUT, `VFX.md` §6).
 3. **Fire** — one shot; ricochets headshot-to-headshot (kills, **no drops**).
 4. **Recover** — lower weapon, time resumes, meter empties.
 
@@ -209,6 +210,13 @@ spend on a boss **carries over.** The boss dodge is a **boss asset**.
 
 **Priority: P0 = prototype the core loop · P1 = vertical slice · P2 = polish.**
 
+> **[LOCKED] Frame-count convention (resolves "ranges = artist's choice").** Where a row shows a **range**
+> (e.g. "6–9", "2–4"), the **build target = the range's upper bound** (author that many frames; it is the
+> deliverable count, not a suggestion). The lower bound is the *minimum acceptable* fallback if time-boxed. A
+> single number is exact. All animations run at the **12 fps art rate** (`ASSET_MANIFEST.md` §0) over the
+> 60 fps sim, so a "5-frame" attack ≈ 0.42 s of art time regardless of the move's hitbox frame-data
+> (`TUNING.md` §2.5 governs *gameplay* timing; this table governs *drawn* frames). The two are independent.
+
 ### Base Human — fists (the full moveset)
 | Asset | Frames (est) | Priority |
 |---|---|---|
@@ -221,9 +229,12 @@ spend on a boss **carries over.** The boss dodge is a **boss asset**.
 | **Fall-over + getup** (dash into a heavy target) | 4–6 | P1 |
 | Jump: rise / peak / fall | 3 | P0 |
 | Land recovery | 2 | P0 |
-| Ground attack: **side** (P1/P2 of the 4-hit string, §3) | 6–9 | P0 |
-| Ground attack: **up** (launcher) | 3–4 | P0 |
-| Ground attack: **down** (sweep/pound) | 3–4 | P0 |
+| Ground attack: **P1 jab + P2 cross** (hits 1–2 of the 4-hit string, §3) | 4 + 4 | P0 |
+| **Combo sweep** (hit 3 — the horizontal knockdown-setter, wide low arc) | 5 | P0 |
+| **Combo finisher** (hit 4 — the free overhead melee that lands on a downed/swept enemy) | 5 | P0 |
+| **↑↑ launcher** (hit-3 up variant — pops the enemy airborne instead of knocking down) | 4 | P0 |
+| **Gun-execute variants** (`COMBOS.md` §2 — the 4 cinematic gun finishers: Quickdraw / Coup / Skyshot / No-Look) | 4 ×4 | P1 |
+| **Single-tap finish** (on an already-downed enemy — a short stomp/shot, §3) | 3 | P0 |
 | Air attack: **side** | 3 | P0 |
 | Air attack: **up** | 3 | P1 |
 | Air attack: **down / spike** | 3–4 | P1 |

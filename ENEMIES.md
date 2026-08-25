@@ -370,6 +370,14 @@ Pickpocket escape, Boomergunner catch, Head-Thrower head physics, Sniper-vs-grou
   the Snapper drops that sword** for the player to grab (a normal Sword pickup), *plus* his §6.1 T2 pool roll.
   *(Supersedes the earlier "kill the armed T1" wording — under the wield-it-himself model there is no separate
   T1.)*
+  - **[LOCKED] Dropped-sword durability = FULL 8 hits** (a fresh Sword pickup, `TUNING.md` §6). The Snapper's
+    own "sword decays after 8 hits" (`TUNING.md` §4 row 6) is **his internal AI weapon state**, tracked
+    separately from what he drops on death — the player always gets a full-durability Sword regardless of how
+    many swings the Snapper took.
+  - **[LOCKED] If the Snapper's own sword decays mid-fight** (he lands 8 swings), he **loses the blade and
+    immediately re-snaps** — snapping an adjacent T1 if one is in range, else **calling one in** (his no-fodder
+    behavior, §2.4 / `TUNING.md` §4 row 6: call-in every 4 s, max 2 pending). He never fights unarmed; the
+    re-snap is his refresh loop.
 - **Head-Thrower fire-boom AoE:** a staff-fire-lit Head-Thrower's explosion **also damages other enemies**
   within its blast (r 2 wu) — friendly fire among enemies (`WEAPONS.md` §3.5).
 - **Untiered-elite drops (LOCKED, resolves the Heavy/Tamer "what he drops"):** the **Heavy and Monkey Tamer

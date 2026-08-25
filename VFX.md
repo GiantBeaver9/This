@@ -97,8 +97,10 @@
 
 - **[LOCKED] Time-slow** overlay when the special fires (world slows, not player speeds — `PLAYER.md` §6).
 - **[PROPOSED]** desaturate/tint the screen, add scanline/vignette, slow-mo motion blur on bullets.
-- **[PROPOSED]** sniper **draw** flourish · **aim line** telegraphing the ricochet path · **tracer** that
-  **caroms head-to-head** · a **headshot pop** per kill.
+- **[LOCKED] sniper special FX set:** **draw flourish** (weapon-raise) · **tracer that caroms head-to-head**
+  (follows the auto-chain order) · a **headshot pop** per kill. **The "aim line" is CUT — superseded by the
+  LOCKED red-dot chain** (`UI.md` §3.5b): the red dots already show the full ricochet order, so a separate aim
+  line is redundant. Do not author an aim-line asset.
 - **[LOCKED] Boss dodge:** the boss plays a **dodge** and the tracer misses (`PLAYER.md` §6).
 - **[PROPOSED]** a brief **time-resume whoosh** as it ends.
 

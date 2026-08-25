@@ -21,10 +21,21 @@
   **Swarmer = 24 px** (half); **miniboss = ×1.2 (≈58 px)**; **boss = ×2.0 (≈96 px)**; **giant bosses**
   (Colossus, Helicopter) drawn at **up to 180 px** reaching into the band. World-unit ↔ pixel is fixed here so
   `TUNING.md` distances convert directly (e.g. a 4 wu dash = 96 px).
+- **[LOCKED] Vehicle bosses (non-humanoid, so scaled by footprint not the ×2 humanoid rule):**
+  - **Tank:** body footprint **6.0 wu wide × 3.0 wu tall** (**144 × 72 px**), a low bulk filling the left of its
+    34-wu arena. **Hatch** = a 1.0 wu circular target centered on the top of the turret at **~2.4 wu height**
+    (the grenade-drop point). **Rear-tread mount point** = a 1.0 wu climb-on zone at the **back-left**, ground
+    height, where the player mounts to climb (the "direct hit while mounting 22.5" risk zone, `TUNING.md` §7).
+    Turret **MG muzzle** sits front-center at ~1.8 wu height. The Tank does not walk — it holds position and
+    rotates the turret.
+  - **Helicopter:** drawn at up to 180 px, **hovers in the sky band** (top 40%) and descends 2 altitude steps
+    over the fight (`BOSSES.md` §5.5); its **rotor + cockpit** are the visible mass, no ground footprint.
 - **Palette:** a **shared 32-color base palette** (limited, cohesive) + **per-area 6-color accent ramp**
   swapped per theme. **Gore red is one fixed hue** (`VFX.md`) across all areas. Total on-screen ≤ ~48 colors.
 - **Animation fps & frame budgets:** play back at **12 fps** (anime-on-2s feel, cheap). Frame budgets:
-  **idle 2–4 · walk 6–8 · attack 3–6 · hurt 2 · death 4–6 · dash 3** (matches `PLAYER.md` §5). The **12 fps
+  **idle 2–4 · walk 6–8 · attack 3–6 · hurt 2 · death 4–6 · dash 3** (matches `PLAYER.md` §5/§7). **Where a
+  budget is a range, the build target is its upper bound** (the lower bound is the time-boxed fallback) — the
+  same convention `PLAYER.md` §7 pins for its per-move table; treat the two as one rule. The **12 fps
   playback is independent of the 60 fps sim** — frame data (`TUNING.md` §2.5) is in sim-frames; art just
   needs enough drawn frames to read.
 - **Framing:** **bottom 60% = scene**, **top 40% = themed HUD/sky backdrop** (`AREAS.md` §1.1, `TUNING.md` §1).
