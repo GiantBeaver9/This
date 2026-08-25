@@ -445,7 +445,7 @@ to fists), so ammo management is "use it or lose the drop," never a resource-hun
 | **Tank** | 4 (Vallejo) | objective (**2 grenade drops**) | **after drop 1** (MG pattern intensifies) | MG stream **1/hit**; direct hit while mounting **22.5** | **climb + drop grenade in hatch ×2**; arena adds drop only grenades | 1:50 |
 | **Boomergunner boss** | 4 (Marin) | **320** (boss-scale, 80×4) | 66% · 33% (2 guns orbiting) | boomerang-gun shots **5/shot** (base — see ranged note) | HP depletion | 1:45 |
 | **Gatling Gun Guy** | 4 (Golden Gate) | **260** | 66% · 33% | **barrage = instant death if caught in the open** (LOCKED); melee 22.5 | HP depletion; **hide behind cars** on the **~5 s "BARRAGE INCOMING"** cycle; Shield-Rush the fodder version | 1:55 |
-| **Phil (FINAL)** | Finale | **500**, gated behind sharpen windows | 100%→75%→50%→25%→**execute** = **4 damage windows of 125 HP (25%) each** | contact **15** · summons deal their own dmg · **fall off tower = instant death** | invuln while drawing; **sharpen window 3–5 s** (ends early if the window's cap is hit) is the only opening; **per-window damage cap = 125 (25%)** → exactly one threshold per window; killed **only** by the scripted **pencil-laser finisher** at the 5th (execute) window | **exempt** (~5–8 min) |
+| **Phil (FINAL)** | Finale | **500**, gated behind sharpen windows | 100%→75%→50%→25%→**execute** = **4 damage windows of 125 HP (25%) each** | contact **15** · summons deal their own dmg · **fall off tower = instant death** | invuln while drawing; **sharpen window 3–5 s** (ends early if the window's cap is hit) is the only opening; **per-window damage cap = 125 (25%)** → exactly one threshold per window; killed **only** by the scripted **pencil-laser finisher**, input in the window that takes his gated HP to ≤0 (the 4th on a clean run — no separate extra window) | **exempt** (~5–8 min) |
 
 **Big-version scaling rule (concrete):**
 
@@ -465,11 +465,12 @@ to fists), so ammo management is "use it or lose the drop," never a resource-hun
 - **The §7 table is authoritative for the 10 placed boss encounters (7 bespoke + 3 big-version);** the formula above is for **auto-generated**
   big-versions (catch-up minibosses, Endless elites) and for cross-checking the placed ones.
 
-**Boss & meter rules (LOCKED, restated):** specials only work ≤10% boss HP (execute prompt); unspent meter
-**carries over**; sniper visibly dodges above 10%. **The 10% rule covers EVERY area-capping boss** — the 7
-bespoke bosses **and** the big-version area bosses (Sandwich Bros, big Arm-Ripper, Boomergunner). Only
-**catch-up minibosses / big-version *non-boss* elites** are sniper-killable like normal enemies (resolves
-`BOSSES.md` §4 [ITERATE]). *(So the sniper can never one-shot an area boss.)*
+**Boss & meter rules (LOCKED, restated):** unspent meter **carries over**; the sniper visibly **dodges** every
+boss above the execute threshold. **The ≤10% execute applies ONLY to the 5 pure HP-depletion bosses** (Burly,
+big Arm-Ripper, Boomergunner, Gatling Gun Guy, Sandwich Bros — `BOSSES.md` §1 is authoritative). The other 5
+(**Colossus** whip-objective, **Tank**/**Helicopter** objective, **Monkey Boss** proxy, **Phil** scripted) have
+**no execute** — specials whiff on them. **No** boss (all 10) is sniper-one-shottable above 10%. Only **catch-up
+minibosses / big-version *non-boss* elites** are sniper-killable like normal enemies.
 
 ---
 

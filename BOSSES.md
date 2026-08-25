@@ -19,11 +19,13 @@
   the special** (the Tactical's sniper visibly **dodges**; Werewolf / Shotgun / Underdog specials do nothing).
   At **≤10% a prompt appears and the special *executes* the boss** — the one time any special ends a boss.
   **The `≤10%` boundary is inclusive** (exactly 10% executes); one rule, all four characters.
-- **[LOCKED] The execute rule applies ONLY to the 6 HP-depletion bosses** (Burly, Colossus, big Arm-Ripper,
-  Boomergunner, Gatling Gun Guy, Sandwich Bros). **Objective / proxy bosses have NO execute** — they have no
-  HP bar to reach 10% of: **Tank** and **Helicopter** are beaten by their objective, **Monkey Boss** only by
-  your mercs (a player special can't damage him at all), and **Phil** only by the scripted pencil-laser
-  (§5.1). Specials fired at these four simply whiff/do nothing (the sniper dodges as usual).
+- **[LOCKED] The execute rule applies ONLY to the 5 pure HP-depletion bosses** (Burly, big Arm-Ripper,
+  Boomergunner, Gatling Gun Guy, Sandwich Bros) — the ones whose HP bar can actually reach ≤10%. **The other 5
+  have NO execute:** **Colossus** (whip-objective — HP is 6 discrete pieces, can never sit in the 0–10% band,
+  §5.4), **Tank** & **Helicopter** (objective), **Monkey Boss** (proxy — a player special can't damage him at
+  all), and **Phil** (scripted pencil-laser only, §5.1). Specials fired at these five simply whiff (the sniper
+  dodges as usual). **This is the authoritative scope — `TUNING.md` §7's "every area-capping boss" line is
+  corrected to this 5-of-10 set.**
 - **[LOCKED] The meter is never wasted in a boss fight.** A charge you don't spend **carries over** (usable
   on any adds, or banked for after the boss). So you can **hold it for the low-HP execution** or spend it on
   adds — your call.
@@ -124,10 +126,11 @@
   pencil-laser finisher is the only kill** (above). This is deliberate: it forces the player to reach the final
   finisher rather than melting him with a banked meter.
 - **[LOCKED] Full fight script (authority for the finale beats; `ENCOUNTERS.md` defers here):**
-  - **HP 500, gated behind 4 damage windows + a 5th execute window** (`TUNING.md` §7): thresholds at
-    **100% → 75% → 50% → 25% → execute.** You can only damage him **during a sharpen window**; the **per-window
-    damage cap is exactly 125 HP (25%)**, so each window drops him **exactly one threshold** (500/4 = 125),
-    then he re-arms. Hit the cap and the window ends early.
+  - **HP 500, gated behind sharpen windows** (`TUNING.md` §7): thresholds at **100% → 75% → 50% → 25%**. You
+    can only damage him **during a sharpen window**; the **per-window damage cap is 125 HP (25%)**, so a clean
+    run needs **exactly 4 windows** (4 × 125 = 500). Hit the cap and the window ends early; **the window that
+    takes his gated HP to ≤0 IS the execute window** — there is no separate extra window. On a *clean* run
+    that's the **4th** window; under-damage earlier windows and it simply takes more (each still capped at 125).
   - **Lead pool & the dry-out clock (LOCKED costs):** each draw cycle he starts with **12 lead-points**. Per-
     summon cost: **Regular = 2 · Swarmer pod = 3 · reprise miniboss = 6 · Heavy = 4.** He keeps drawing (one
     summon whenever he has the lead and a free add-slot, ~every 1.5 s) until he **can't afford the next
@@ -151,10 +154,11 @@
     a giant upper-screen boss. **Sway/slippage** shifts your footing by up to **±1.5 wu** on a **~6 s sine**
     (telegraphed by the skybox tilting); **two edges have no railing → fall = instant death** (`TUNING.md`
     §6.2). He never falls; adds can be knocked off.
-  - **The kill:** Phil is **never swept/knocked down** (bosses can't be, `TUNING.md` §2.6). His **final (5th)
-    sharpen window IS his finisher-able state** — during it, a **finisher input (a `→→`/`↓↓` double-tap toward
-    him, `PLAYER.md` §3) triggers the scripted pencil-laser**: the finisher animation is replaced by the player
-    firing a laser from the pencil. Miss the window and he re-arms; land it and he dies. **Specials never
+  - **The kill:** Phil is **never swept/knocked down** (bosses can't be, `TUNING.md` §2.6). **The sharpen window
+    in which his gated HP reaches ≤0 becomes his finisher-able state** — during that window a **finisher input
+    (a `→→`/`↓↓` double-tap toward him, `PLAYER.md` §3) triggers the scripted pencil-laser**: the finisher
+    animation is replaced by the player firing a laser from the pencil. (You reach ≤0 by landing the last 125
+    of damage; the same window then accepts the laser input — no waiting for a further window.) **Specials never
     execute Phil** (the special-exemption rule above); this scripted finisher is the only kill.
   - **Length:** exempt from <2:00; target **~5–8 min** (`TUNING.md` §7).
 
@@ -201,6 +205,11 @@
   weapon-gated). The "6 × 40" in `TUNING.md` §7 is just the **HP-bar representation** (240 shown as 6 segments)
   — mechanically it is **6 pulls to win**, not a damage race. Each torn piece **becomes a T1 add** on the
   ground (crowd pressure as you dismantle).
+- **[LOCKED] Colossus is an OBJECTIVE boss (no ≤10% execute).** Because its "HP" is 6 discrete pieces, it can
+  never sit in the 0–10% band, so **no special executes it** (`BOSSES.md` §1) — you must strip all 6 pieces.
+  The general "everything except the sniper works in a boss fight" (§1) is **overridden here**: only the
+  **whip-pull** removes pieces; other weapons/combos hit the adds and let you survive, but do not advance the
+  win. (The meter is still worth building for the adds and the *next* fight.)
 - **[LOCKED] Attacks:**
   - **Body swipe:** a slow overhead arm sweep across the lane, windup **0.9 s**, **22.5 dmg**, cooldown 3 s.
   - **Piece-spit:** flings a loose stick-figure at you (like Burly's toss but weaker, **15 dmg**), every 4 s.

@@ -129,8 +129,10 @@ weapon itself rather than a number. (More weapons follow this same "made of the 
   enemy it touches as it caroms across the screen.
 - **Risk/reward:** enemies killed by the sniper **drop no weapons — they just die.** You trade the loot
   economy for a guaranteed multi-kill / panic-button clear.
-- **[LOCKED] The special can't skip a boss.** A boss **negates/dodges** it above **10% HP**; at **≤10%**
-  a prompt lets any character's special **execute** the boss (`BOSSES.md` §1). No mid-fight cheese.
+- **[LOCKED] The special can't skip a boss.** A boss **negates/dodges** it above **10% HP**; at **≤10%** a
+  prompt lets any character's special **execute** the boss — but **only the 5 pure HP-depletion bosses** can be
+  executed (objective/proxy bosses — Colossus, Tank, Helicopter, Monkey Boss, Phil — have no execute;
+  `BOSSES.md` §1). No mid-fight cheese.
 
 **[LOCKED] Meter fill — rewards fast, fists-first aggression:**
 - **Fists fill fastest** — roughly **30 punch-hits** of combat to earn a charge (**+3.34 pts/hit**, `TUNING.md` §2.4).

@@ -36,7 +36,7 @@ Each Special clears a crowd differently, balanced by **what loot survives** — 
 - **Faster** movement. **Less punch damage**, but **special meter fills faster** and **more weapon damage.**
   A speed/precision/weapons build.
 - **Special — Sniper time-slow:** `PLAYER.md` §6 / `GAMEPLAY_LOOP.md` §4.3 — ricochet headshots **wipe
-  everything**, boss dodge, low-HP boss execution. **No drops** from the special (§2.0).
+  everything**, boss dodge, low-HP execution (HP-depletion bosses only, `BOSSES.md` §1). **No drops** from the special (§2.0).
 
 ### 2.2 The Shotgunner *(redheaded friend; the bulky one)* — **[LOCKED core]**
 - **Bigger / bulkier.** Passives: **more punch damage** and **better shotgun damage.**
