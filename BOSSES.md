@@ -175,6 +175,12 @@
       alive at once** (that is the intent of "a second reprise miniboss" at 50–25%) — a 3rd miniboss draw is
       refused while 2 are live, though lower-cost adds (Regulars/pods/Heavies) still fill the remaining add
       slots up to the cap.
+    - **[LOCKED] Heavy concurrency = the global "max 2 Heavies" cap applies to Phil's draws too** (`TUNING.md`
+      §4 row 17): **Phil never has more than 2 Heavies alive at once**, even in the 25–0% band under his
+      most-expensive-affordable draw rule. Once 2 Heavies are live, a 3rd Heavy draw is **refused** — he
+      spends the lead/slot on the next-most-expensive affordable summon instead (a reprise miniboss if a
+      slot is open, else Regulars/pods). The Heavy cap and the 2-reprise-miniboss cap are independent, each
+      capping its own type; both sit under the shared 8-add ceiling.
     - Max **8 adds** on screen (Phil's own cap, overrides the §1 2-cap). **A drawn Swarmer pod counts as its
       live swarmers toward the 8** (and may briefly exceed it, the standard pod exception, `TUNING.md` §4) —
       Phil won't draw a new pod while at the cap.

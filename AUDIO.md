@@ -64,7 +64,7 @@ its own cue — so the boss-cue count is 8 sub-bosses + Phil, not counting Sandw
 - **[LOCKED] Stage → loop mapping (all 13 stages covered by the 12 loops; two Area-1 stages share).**
   | Stage | Loop used |
   |---|---|
-  | 1 Lincoln suburbs · 2 Rocklin/Old Hwy 65 | **A1 surf-rock opener** (both suburb stages share it) |
+  | 1 Lincoln suburbs · 2 Old Hwy 65 (→ Sandwich Bros) | **A1 surf-rock opener** (both suburb stages share it) |
   | 3 Roseville Galleria (mall) | **A1 synth-punk (mall)** |
   | 4 Sacramento | **A2 ragtime garage-rock** |
   | 5 Airport | **A2 industrial electronic** |
@@ -151,19 +151,21 @@ the Total line is authoritative).
 - **Voice:** the **creator's own voice-over**, recorded via their audio interface (LOCKED, `STAGES.md` §1b) —
   deliberately intimate/homemade, matching the "two friends passing a drawing" origin.
 - **Delivery:** narration over **~20 s hand-drawn still picture-clips** (LOCKED). Pin **5 clips**, ~20 s each
-  (~1:40 total):
+  (~1:40 total). **Full verbatim (draft) script for all 5 clips is authored in `STORY.md` §6** (clips 1 & 5
+  locked verbatim; **2–4 drafted there** — creator re-voices):
   1. *"In the beginning, there was just **this**."* — the drawings on the page.
-  2. Phil escapes and **captures the pencil**.
-  3. Phil **hunts the Holy Sharpener** — "he only has so much lead before it runs out."
-  4. The stakes — his army begins to spill into the world.
+  2. Phil escapes and **captures the pencil** (verbatim draft, `STORY.md` §6).
+  3. Phil **hunts the Holy Sharpener** — "he only has so much lead before it runs out." (verbatim draft, `STORY.md` §6)
+  4. The stakes — his army begins to spill into the world (verbatim draft, `STORY.md` §6).
   5. *"Your mission: defeat Phil."* → loads into the game.
 - **In-game tutorial VO:** none scripted — the first ~10 s teaches dodge + attack via **on-screen prompts**
   only (weapons are learn-by-use, LOCKED). Keeps VO reserved for the intro and Phil.
 - **Phil VO:** the **rooftop monologue** (menacing laughter; "found the Holy Sharpener," **"bring 2D chaos to
   this 3D planet"**) — same creator voice, pitched-down + reverb for villainy (LOCKED, `VIGNETTES.md`). Pin
-  **~30 s**, delivered during the elevator climb.
+  **~30 s**, delivered during the elevator climb. **Full verbatim (draft) monologue in `STORY.md` §6.**
 - **Outro VO:** **one last creator-voiced line** over the epilogue/credits (`STORY.md` §3) — same voice/spec,
-  pin **~10 s**. This is the only VO besides the intro clips and Phil's monologue.
+  pin **~10 s**. This is the only VO besides the intro clips and Phil's monologue. **Verbatim (draft) line in
+  `STORY.md` §6.**
 - **Recording spec:** mono, 44.1 kHz, cleaned/normalized to **−16 LUFS** (sits above music duck, §6).
 - **No in-GAMEPLAY spoken dialogue** in v1 — enemies/bosses are non-verbal (grunts, chatter); the only VO is the
   **intro clips, Phil's monologue, and the one outro line** (above). Keeps the VO scope tiny.

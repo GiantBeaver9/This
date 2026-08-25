@@ -133,9 +133,14 @@ adds/hazards · **boss HP bar + name card**. "Big version" bosses/minibosses nee
   speeds up at 4 and 2 pieces (§5.4).
 - **10 boss encounters placed = 7 bespoke + 3 big-version** (the 3 big-versions need **NO new art** — they
   reuse the enemy sprite at ~2× scale):
-- **P1 — 7 bespoke bosses (need bespoke art):** **Burly Macho Guy** (Area 1 dept store) · **Colossus** (Area 2
-  Sacramento, whip) · **Helicopter** (Area 2 airport) · **Monkey Boss** (Area 3 farm) · **Tank** (Area 4
-  Vallejo) · **Gatling Gun Guy** (Area 4 Golden Gate) · **Phil** (finale — top-hat zombie, pencil-draw, sharpen
+- **P1 — 7 bespoke bosses (need bespoke art):** **Burly Macho Guy** (Area 1 dept store — **an oversized,
+  barrel-chested pro-wrestler type: wrestling singlet/trunks + oversized championship belt, tiny head on a
+  huge V-torso, arms-crossed flexing swagger; the widest, most top-heavy boss silhouette, reads as a
+  scaled-up Heavy**) · **Colossus** (Area 2 Sacramento, whip) · **Helicopter** (Area 2 airport) · **Monkey
+  Boss** (Area 3 farm — **a ringmaster / organ-grinder showman: top-hat-and-tails ringmaster coat, big
+  handlebar mustache, a dime-pouch at the hip that he digs into to fling dimes skyward for his monkeys; a
+  tall, theatrical, cane-and-coattails silhouette, unmistakable against the ranch backdrop**) · **Tank**
+  (Area 4 Vallejo) · **Gatling Gun Guy** (Area 4 Golden Gate) · **Phil** (finale — top-hat zombie, pencil-draw, sharpen
   anim, rooftop sway, **and the scripted pencil-laser kill VFX** — the beam the player fires from the pencil in
   the execute window, `BOSSES.md` §5.1; the game's climax needs its own drawn asset).
 - **3 big-version bosses (NO new art):** **Sandwich Bros** (big Tier-1, Area 1) · **big Arm-Ripper** (Area 3

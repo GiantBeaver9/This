@@ -32,7 +32,8 @@
 | **[LOCKED] "Z-row" = 1.0 wu; per-attack Z-reach is pinned INDIVIDUALLY (they do NOT all equal one row)** | see list | The analog Z-band is diced into 1.0 wu conceptual rows only for *describing* attacks; each attack's actual Z-reach is one of these fixed half-widths, measured from the attacker's Z: **melee punch/P1/P2/normal = ±0.4 wu** (same as the projectile tolerance) · **combo sweep = ±1.0 wu** (the wide arc) · **Ball & Chain Ground Zero = ±1.5 wu** (its lane + one full row each side = 3 rows / 3.0 wu Z-span) · **Whip down-line = ±0.4 wu** (one row) but across its **full 4.0 wu X-length** · **Tank MG sweep = one 1.0 wu row at a time (±0.4 wu)** · **Ground Smasher shockwave = ±0.5 wu** (one 1.0-wu row — it travels down its Z-row, `TUNING.md` §4 row 16) · **Werewolf auto-slash = ±0.5 wu** (its 2.0 wu X reach is in `CHARACTERS.md` §2.3) · **projectile connect tolerance = ±0.4 wu**. "±1 Z-row" as loose prose elsewhere means *the sweep's ±1.0 wu* unless a doc says otherwise. |
 | **[LOCKED] Facing** | **set by the most recent of: last horizontal MOVE, or last horizontal ATTACK arrow** (whichever happened later) | facing is **left or right only** (the Z-axis doesn't flip the sprite). `E`-fire, gun shots, Shield Rush, the whip pull, and "directly ahead" targeting all use this facing. Pressing an attack arrow left while running right **turns the character to face left** (attack direction wins for that frame and sets facing). Neutral (no input) holds the last facing. |
 | **[LOCKED] "Directly ahead" targeting cone** | a target counts as "directly ahead" if it is **on the facing side (X) AND within ±0.8 wu of the player's Z** (its own tolerance — a little wider than a punch so aiming feels forgiving; not a "Z-row") | used by Shield Rush (within 2.0 wu) and the gatling barrage (within 8 wu on-row) — one shared definition of "ahead". |
-| **Pursuer separation radius** | **1.0 wu** min center-to-center | hard-separation (`GAMEPLAY_LOOP.md` §8.2) — pursuers push apart to keep this gap, so **you never eat two overlapping hitboxes at once** |
+| **Pursuer separation radius** | **1.0 wu** min center-to-center | hard-separation (`GAMEPLAY_LOOP.md` §8.2) — pursuers push apart to keep this gap, so **you never eat two overlapping hitboxes at once** (this is the **enemy↔enemy** separation and stays 1.0 wu) |
+| **[LOCKED] Player↔enemy body collision** | **SOFT — no hard body-block** | classic beat-'em-up: the **player can walk through / past enemy bodies** and is **never wall-stopped by an enemy**. Overlapping actors (player-on-enemy or enemy-on-enemy) **gently push apart via the 1.0 wu separation** above, but that separation is a soft nudge, not a solid wall — only real level geometry / arena bounds hard-stop the player. Enemies likewise do not hard-block each other (the 1.0 wu is the same soft push). |
 | **Attacker slots (melee ring)** | **max 2 enemies attack at once**; the rest hold a **standoff ring at 2.5 wu** | the "circle and wait" behavior; others step in as a slot frees (still within the 8-pursuer cap) |
 | **Ranged standoff distance** | **each ranged enemy holds at ITS OWN pinned hold-distance** (≤ its max reach; it fires from here and backs off if the player closes inside it): **AA rock 8 wu** (max reach 10 wu, §6.3 — holds at 8 to keep margin), **Head-Thrower 7 wu**, **Sniper 12 wu** (max range = whole screen, holds far), **Arm-Ripper ≤4 wu** (must close, §1 short-range rule), **Boomergunner 4 wu** (its thrown-gun orbit is an oval 5 wu wide × 3 wu deep extending ~5 wu forward, §6.3 / `WEAPONS.md` §3.8 — holding at 4 wu keeps the player inside the 5-wu-forward loop so the orbit passes through them; ≤ its reach) | not one global number — each ranged enemy has a single pinned hold-distance, always ≤ its firing range |
 | Boss arena width | **per-boss, 24–34 wu** (`ENCOUNTERS.md`) | **"camera-locked" = the level stops advancing** (no forward scroll to new ground); if the arena is wider than the ~26.7 wu screen the **camera pans within the arena box** (bounded, ≤ ±3.7 wu). Giant bosses reach down into the band. |
@@ -100,6 +101,12 @@ the player's fist/weapon):
   (`PLAYER.md` §3): the dash travels along the dominant held axis, **horizontal wins ties** (a `W+D` double-tap
   dashes **right**, `S+A` dashes **left**; a pure vertical hold dashes up/down along Z). The dash keeps its
   fixed **4.0 wu** distance regardless. This keeps dash and attack diagonal handling identical.
+- **[LOCKED] Mid-air steering & Z-lock.** While airborne the player **keeps horizontal (X) air-control at the
+  fixed 6.25 wu/s air speed** (§1 jump kinematics — the small air-control tax vs. the 7.0 ground run), so you
+  can still steer left/right in the air and adjust where you land. But the player **CANNOT change Z-row
+  mid-jump: the Z position is LOCKED from takeoff to landing.** You pick your depth on the ground before you
+  leave it; a jump commits that Z until you land. Horizontal steering and the one air-dash (§above) adjust X
+  only — never Z.
 
 ### 2.3 Shield Rush (forward double-tap into an enemy)
 
@@ -163,6 +170,11 @@ the player's fist/weapon):
   governs the *animation* string).
 - **Input buffer:** **9f (~0.15 s)** — a press up to 9 frames before an action is actionable still fires
   (matches `COMBOS.md` §1).
+- **[LOCKED] Movement-lock during an attack.** The player is **movement-locked during an attack's startup +
+  active frames** — you **cannot walk while the swing is out** (the character is planted for the wind-up and
+  the hit). Movement returns in the **recovery** frames (so you can walk out of / cancel the tail) and
+  immediately **on any cancel** (jump-cancel, dash-cancel, or chaining the next combo hit). Air attacks keep
+  the mid-air steering of §2.2 (horizontal air-control persists), but grounded startup+active plant you.
 - **Whiff vs. hit:** recovery is the same on whiff or hit; there is **no hitstop on normal hits**, only on
   **finishers/kills** and the **heavy-impact exception** (Ball & Chain launch / ground-slams / explosions = 3f,
   §2.6, `VFX.md` §4).
@@ -187,7 +199,12 @@ the player's fist/weapon):
   warm-up, layered on the fist-frame timing. **[LOCKED] The warm-up REPLACES the "+2f" on the FIRST swing ONLY**
   (it does not stack with the +2f, and it does not apply to later hits): so a Sword's **first** swing uses its
   **0.20 s start-up** in place of P1's `4f + 2f`, and **every follow-up combo swing (P2, sweep, …) uses the
-  normal weapon-swing timing = the matching fist frame + 2f** (§2.5 "Weapon swing" row). The warm-up is a
+  normal weapon-swing timing = the matching fist frame + 2f** (§2.5 "Weapon swing" row) — **EXCEPT heavy
+  weapons (Ball & Chain, Gatling bludgeon), which are excluded from the fist+2f follow-up rule entirely: ALL
+  of their swings (P1/P2/sweep) use the §2.5 "Heavy-weapon melee" row's `10f/4f/20f` throughout — that row
+  OVERRIDES the fist+2f timing for these two weapons on every hit, not just the first. The Ball & Chain's
+  0.40 s warm-up is the once-per-string draw before its first 10f swing; it does not change the 10f/4f/20f
+  cadence of the swings that follow.** The warm-up is a
   once-per-string draw cost, not a per-hit tax. For `E`-fire weapons the column is the E discharge delay as
   above. One column, two readings by weapon type — never both for one weapon.
 
@@ -798,6 +815,7 @@ minibosses / big-version *non-boss* elites** are sniper-killable like normal ene
 | **Continues per run** | **3** | when all 3 are spent → **the Game-Over screen** (`UI.md` §5), which offers **Restart the current stage from its start (fresh continue count)** or **Quit to title** **(tunable)** |
 | Continue cost (every death) | respawn at last checkpoint at **full HP**, but **wallet cleared + special meter emptied + weapon dropped (fists)** | one consistent respawn cost — full HP is the *only* thing you get back |
 | Lives before a continue | 1 (death → spend a continue) | no separate life stock; **every death = one continue spent** |
+| **[LOCKED] Post-death field reset** | on a **mid-wave death**, the current wave's **live enemies all despawn** — **no enemy persists across a death** | the field is wiped clean on respawn: you come back at the checkpoint to an **empty field**, and the wave that killed you **re-triggers as a FRESH wave (fresh gate) when you re-approach its gate X** from the checkpoint. You never inherit a half-cleared wave or leftover enemies; every re-run of a wave starts from full spawns |
 
 ### 8.2 Catch-up miniboss trigger (concrete "too fast" metric)
 
@@ -821,8 +839,8 @@ minibosses / big-version *non-boss* elites** are sniper-killable like normal ene
 | **"pod" = a spawn BATCH here (not the Pod entity)** | a refill spawns a **batch of `max(3, 2 + floor(minute))` enemies directly** at the arena edges | to avoid the name clash: this batch is *not* a Pod-spawner entity. A **Pod entity** only appears when the batch's composition roll actually yields the Zombie/Swarmer type (then a real Pod spawns and emits per §4). "Pod size" below = this batch size |
 | Pod (batch) size (spawn) | **max(3, 2 + floor(minute/1))** | +1 to the batch each elapsed minute |
 | Concurrent enemy cap | **8 + floor(minute/2)** | grows 1 every 2 min (swarms still exceed it) |
-| **Tier ramp** | unlock next tier every **3 min**: T0–1 (0–3m) → +T2 (3m) → +T3 (6m) → **+untiered elites (9m: Heavy, Ground Smasher, Gatling Gunner, Monkey Tamer — there is no T4 *enemy*, so "T4" here means the untiered-elite band)** → **full roster (12m+: adds the remaining types — Ninja, Pickpocket, and the economy Monkey — so the entire 17-enemy roster is live)** | |
-| Enemy stat ramp | **+5% HP and +3% damage per minute**, capped at +150% HP / +90% dmg | HP/dmg creep past the roster unlock |
+| **Tier ramp** | unlock next tier every **3 min**, band membership matching the §4 **Tier** column exactly: T0–1 (0–3m) → **+T2 (3m: every T1a/T1b/T2/T2-eff/T2a type — Anti-Aircraft, Swarmer/Pod, Head-Thrower, Snapper, Flying Monkey, Arm-Ripper, Boomergunner)** → **+T3 (6m: the four T3-family types — Sniper (T3-eff), Gatling Gunner (T3), Ground Smasher (T3-eff), Ninja (T3a))** → **+genuinely UNTIERED combat elites (9m: Heavy, Monkey Tamer — the two §4-untiered elites; there is no T4 *enemy*, so this is the untiered-elite band, NOT a T4 tier)** → **full roster (12m+: adds the remaining untiered economy/utility types — Pickpocket and the economy Monkey — so the entire 17-enemy roster is live)** | no enemy is placed in a band that contradicts its §4 tier: T3-family types (incl. Ninja) come in at 6m; only Heavy/Monkey Tamer wait for 9m |
+| Enemy stat ramp | **+5% HP and +3% damage per minute**, capped at +150% HP / +90% dmg | HP/dmg creep past the roster unlock. **[LOCKED] This ramp ALSO applies to Endless-injected minibosses AND bosses** (the §8.3 5-min miniboss cadence and any injectable boss) — the per-minute multiplier is layered **on top of** their §7 big-version stats at spawn, so a miniboss/boss injected at minute 20 carries the same +% as a regular spawned then. The ramp is universal to everything Endless spawns, not fodder-only |
 | Miniboss cadence | inject one every **5 min** (recurring big-versions) — **selected like the catch-up miniboss (§8.2): a random big-version of a currently-unlocked non-degenerate enemy type** (excludes Zombie/Swarmer/Pickpocket/Monkey; falls back to big Regular). Spawns at a **back-Z edge** | one selection rule shared with campaign catch-up |
 | Boss cadence | inject a main boss every **10 min** | at boss-scale, from the placed pool |
 | Spawn interval floor | never faster than a new pod every **4 s** | keeps it readable (`VFX.md` bullet budget) |

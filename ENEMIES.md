@@ -267,6 +267,10 @@
 ### 2.16 Pickpocket — **[LOCKED core]** — economy enemy — **debuts Area 4 (Vallejo)**
 - A **smaller, differently-colored** stick figure that **darts up and steals all the coins in your wallet**
   (currency, `WEAPONS.md` §3.9).
+- **[LOCKED] Visual accent (tunable):** a **hooded grey/green** figure — a **muted slate-grey hood/hoodie over
+  a drab olive-green body**, hunched and shifty, with a small bulging coin-pouch tell — so its dart-in reads at
+  a glance against the crowd (accents drawn from the shared 32-color palette, `ASSET_MANIFEST.md` §0, the same
+  way every character gets a pinned accent in `CHARACTERS.md` §2.5). **(tunable)** — exact hues.
 - **[LOCKED] Risk/reward:** **kill it and you get DOUBLE the coins back.** So you can **let it rob you, then
   chase it down for 2× your money**, or **kill it first** to avoid losing anything — your call.
 - Fills the **economy-interaction** role (the opposite of a coin drop). **[ITERATE]** speed/escape behavior,

@@ -256,8 +256,8 @@
   him → coins double** (`VIGNETTES.md`). Ninja teleport-kill + Pickpocket 2× reward.
 - **Pool:** **Ninja** (T3a, teleport/shuriken), **Pickpocket** (untiered, steals), Regular (T1), Snapper (T2).
 - **Hazard:** **roller-coaster cars** run damaging on-rail passes (50 dmg + knockdown, `TUNING.md` §6.2) + midway set-dressing (`AREAS.md`).
-- **World pickup:** a **Rocket Launcher** is placed **near the Tank arena entrance** (mid-stage, just before
-  the boss door) — the extra firepower for the objective fight (`WEAPONS.md` §3.8b, `TUNING.md` §6.1).
+- **World pickup:** a **Rocket Launcher** is placed **near the Tank arena entrance, just before the boss
+  door** — the extra firepower for the objective fight (`WEAPONS.md` §3.8b, `TUNING.md` §6.1).
 
 | Wave | Spawns | Sides | Cadence | Gate |
 |---|---|---|---|---|

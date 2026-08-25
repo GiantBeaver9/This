@@ -123,8 +123,8 @@ glints, **heal glint**, coin, dime highlight), and the **Phil pencil-laser beam*
 shake/hitstop (heavy on finishers/explosions, light on normals); **bullet-readability locked** (projectiles
 always render above/through VFX).
 
-**[LOCKED] Hitstop frame counts** (`TUNING.md` §2.6): **3f** on a non-killing finisher · **5f** on any kill (a finisher that kills uses 5f — the higher value wins) · **0f** on
-normal hits.
+**[LOCKED] Hitstop frame counts** (`TUNING.md` §2.6): **3f** on a non-killing finisher · **5f** on any kill (a finisher that kills uses 5f — the higher value wins) · **3f** on **heavy-impact hits — Ball & Chain launch, ground-slams, explosions — even though they aren't finishers** (`COMBOS.md` §5) · **0f** on
+all other normal hits.
 
 **[LOCKED] Screen-shake presets** (amplitude in px at the 640×360 internal res, `ASSET_MANIFEST.md` §0; decay
 over the listed duration): **light = 2 px / 0.10 s** (weapon hits, dashes) · **medium = 5 px / 0.15 s**

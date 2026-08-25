@@ -63,3 +63,42 @@
 - **No mid-stage dialogue system, no branching narrative** (campaign is linear, `STAGES.md` §5). Story assets
   = the intro clips + Phil's VO + the vignette scripts (all reuse existing art). This keeps the narrative
   **lightweight** and fully inside the existing asset budget.
+
+## 6. VO copy — draft verbatim script — **(draft — creator re-voices)**
+
+> The full spoken script for every VO line in the game, so recording has words on the page. **All copy below
+> is a placeholder draft in the established homemade / "two friends passing a drawing" tone — the creator
+> re-voices (and may re-word) it in their own voice.** Timing/delivery specs live in `AUDIO.md` §5; this is
+> the authoring home for the words. Intro clips **1 and 5 are already locked verbatim**; **2–4** are drafted
+> here to fill the beats-only gaps.
+
+**Intro clips** (creator voice over the five ~20 s hand-drawn still-clips, `AUDIO.md` §5):
+
+1. *(locked)* "In the beginning, there was just **this**." — the drawings on the page.
+2. *(draft — creator re-voices)* "Two friends. One notebook. One pencil — passing a drawing back and forth,
+   the way we always did. Until one of the doodles got ideas. A skinny little guy in a top hat. **Phil.**
+   Turns out that pencil was magic... and Phil figured out he could pick it up — and walk right off the page."
+3. *(draft — creator re-voices)* "But a magic pencil still runs out of lead. So Phil went hunting — for the
+   **Holy Sharpener**, the one thing that'd let him draw forever. And every mile of the way, he scratched up
+   something new and nasty to keep us off his back."
+4. *(draft — creator re-voices)* "And the scribbles didn't stay on the paper. They came crawling off the
+   flat, out of two dimensions and into ours — a whole hand-drawn army spilling into the real world. Somebody's
+   got to put it all back where it belongs."
+5. *(locked)* "Your mission: defeat Phil." → loads into the game.
+
+**Phil's rooftop monologue** (~30 s, creator voice pitched-down + reverb, menacing laughter, over the elevator
+climb + rooftop reveal, `AUDIO.md` §5 / `VIGNETTES.md` / `BOSSES.md` §5.1):
+
+> *(draft — creator re-voices)* "Heh. Heh-heh-**heh**... You actually made it. All this way — up the whole
+> coast — for a *pencil.* [laugh] You still don't get it, do you? I **found the Holy Sharpener.** Right up
+> here, at the very top. No more running dry. No more counting my lead. I can draw *forever* now — every
+> monster, every bad dream, every ugly little idea I ever had, straight out of my head and down onto your
+> nice clean streets. I'm going to **bring 2D chaos to this 3D planet**, and there aren't enough of you left
+> to erase me. [laughter] Feel that? The tower's already swaying. The whole world's starting to smudge at the
+> edges. Come on up, then — let me draw you one last friend."
+
+**Outro line** (~10 s, creator voice over the epilogue still-clip + credits — the drawing reclaimed, the
+world saved, `AUDIO.md` §5 / §3 above):
+
+> *(draft — creator re-voices)* "And just like that... the pencil came home. Phil's back on the page, right
+> where we drew him — and it's just two friends again. One notebook. One drawing. Passing it back and forth."
