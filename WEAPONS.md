@@ -121,8 +121,11 @@ Enemy-dropped; **1 per pickup** (scarce — save it for a cluster).
   & Chain's two arced shapes (`WEAPONS.md` §3.3). *(This resolves the "more taps = flatter" ambiguity.)*
 - **[LOCKED] Numbers (`TUNING.md` §6):** lob blast **60 (r 3 wu)**, fastball blast **35 (r 2 wu)**; fastball
   detonates at **8 wu or after 8 enemies**; **self-damage 40**. **Knockdown from the blast = the standard
-  1.2 s** (`TUNING.md` §2.6, applied to caught *regular* enemies — bosses/minibosses are immune, §2.6). The lob
-  **bounces 3× then explodes**.
+  1.2 s** (`TUNING.md` §2.6, applied to caught *regular* enemies — bosses/minibosses are immune, §2.6).
+- **[LOCKED] Lob & intermediate-step distances** (the ground-marker where it first lands): **0 taps = 6 wu**
+  ahead (highest arc) · **1 tap = 8 wu** · **2 taps = 10 wu** (liner) · **3+ taps = flat fastball** (travels
+  until 8 wu / 8 enemies). The lob **bounces 3× at ~2 wu spacing** past its landing marker, then explodes; the
+  liner bounces once; the fastball doesn't bounce. Each step's arc peak drops ~30%.
 
 ### 3.3 Ball & Chain — *heavy directional launcher* **[LOCKED core]**
 - **[LOCKED] How the two inputs compose:** you **hold a direction + press `E`** to pick the **launch SHAPE**
@@ -137,8 +140,10 @@ Enemy-dropped; **1 per pickup** (scarce — save it for a cluster).
   Uppercut**, ↓ **Ground Zero** (radial knockdown), back **Full Swing (360)**. Each spends 1 of the 3 uses.
   The **combo finisher** (double-tap on a swept enemy) with the Ball &
   Chain equipped is just the **free melee slam** — launching is the `E`-fire, not the finisher.
-- **[ITERATE]** exact reach per tap; whether it hits everything along the chain's path; knockback; whether
-  the 20% slow also touches attack speed.
+- **[LOCKED]** reach is **fixed per launch shape** (`COMBOS.md` §3: Meteor 8 wu line · Uppercut 4 wu up ·
+  Ground Zero r 3 wu · Full Swing r 2.5 wu ring) — **taps only flatten the arc, they do NOT change reach**.
+  Launches **hit everything along the chain's path** (each hit 80). The **20% slow is movement-only** (attack
+  speed is unaffected, `TUNING.md` §6).
 
 ### 3.4 Whip — *directional crowd melee* **[LOCKED core]**
 Each attack direction is a different tool:

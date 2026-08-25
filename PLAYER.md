@@ -22,7 +22,7 @@
   - This is both a **mechanic** (reach) and an **asset** (the air/gust VFX, per attack direction).
   - **[PROPOSED]** the air burst is purely a melee reach-extender (very short), *not* a travelling
     projectile — so it doesn't turn fists into a gun. (Flag if you want it to travel a little.)
-- **[LATER]** palette, damage/blood state on the sprite, any customization.
+- **[LOCKED] Palette** per character in `CHARACTERS.md` §2.5 (shared 32-color base + 3-color accent). **[LATER]** damage/blood state on the sprite, any customization.
 
 ---
 

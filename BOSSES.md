@@ -143,9 +143,10 @@
     loop lever: aggressive add-clearing shortens the invuln phase. (Killing an add gives Phil nothing back;
     it just accelerates his spend.)
   - **Draw phase (invuln):** he sketches adds at the arena's back edge. **Summon roster by threshold** (the
-    greatest-hits reprise): 100–75% → **Regulars + Swarmer pods**; 75–50% → **+ a reprise miniboss** (big
-    Snapper or big Head-Thrower); 50–25% → **+ a second reprise miniboss** (big Arm-Ripper or big Ninja);
-    25–0% → **+ Heavies**. Max **8 adds** on screen (the standard cap).
+    greatest-hits reprise): 100–75% → **Regulars + Swarmer pods**; 75–50% → **+ a reprise miniboss**; 50–25% →
+    **+ a second reprise miniboss**; 25–0% → **+ Heavies**. **Reprise-miniboss selection:** **random from the
+    threshold's pool, never repeating the last one** — 75–50% pool = {big Snapper, big Head-Thrower}; 50–25%
+    pool = {big Arm-Ripper, big Ninja}. Max **8 adds** on screen (Phil's own cap, overrides the §1 2-cap).
   - **Sharpen window (vulnerable 3–5 s):** when dry he **stops, hunches, and sharpens** — open and bleeding.
     Deal up to the **125-HP cap**; the window **ends early if you hit the cap**, else closes at **5 s** (a fast
     player caps it in ~3 s, a slow one gets the full 5). Matches `TUNING.md` §7.

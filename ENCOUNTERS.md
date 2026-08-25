@@ -314,6 +314,8 @@
   reprise-summon roster, sway strength, edge zones) is now specced in **`BOSSES.md` §5.1** — that is the
   authority for the finale's beats; this doc defers to it.
 - **Arena hazard:** rooftop **sway/slippage**, fall = instant death (§Boss arenas below).
+- **Checkpoint:** one **at the rooftop door** (the elevator arrival) — dying to Phil retries **the Phil fight**,
+  not the SF-streets stage (matches the boss-door checkpoint rule, §0 / `TUNING.md` §8.1).
 - **Kill condition:** **the pencil-laser finisher only** (`BOSSES.md` §5.1, `TUNING.md` §7). Exempt from the
   <2:00 rule; brutally hard.
 

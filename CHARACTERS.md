@@ -54,6 +54,10 @@ Each Special clears a crowd differently, balanced by **what loot survives** — 
   (i-frames + 1HKO throughout). **Vs. bosses:** slash dmg = 0 above 10% HP (executes only ≤10%, like all
   specials, `BOSSES.md` §1); **vs. Heavy/untiered it still 1HKOs** (`TUNING.md` §3.1). Meter fills the standard
   way (`TUNING.md` §2.4).
+- **[LOCKED] Werewolf-form kit (during the transform):** **WASD moves** at **×1.2 speed**; the werewolf
+  **auto-slashes in the facing direction** (no combo string, no aiming) at **~4 slashes/s, reach 2.0 wu**,
+  every slash a **1HKO**. **No weapon use, no `E`/`Q`, no jump-attacks** — it's a pure melee berserk. Full
+  i-frames throughout. Reverts to the current character at the end of the timer.
 
 ### 2.4 The Underdog *(the short friend — hard mode)* — **[LOCKED core]**
 - The group's **butt-of-the-jokes**, **shorter** than the rest — designed as **hard mode:** **less damage**,
@@ -66,6 +70,22 @@ Each Special clears a crowd differently, balanced by **what loot survives** — 
   3.0 wu** and buff **+20%/30 s** at 1 fill, **scaling to 4.0 wu / +25%** (2 fills) and **5.0 wu / +30%**
   (3 fills); the buff **refreshes, does not stack**; base stats = move ×1.00, punch ×0.80, weapon ×0.80 (the
   hard-mode penalty, `TUNING.md` §3).
+
+### 2.5 Visual specs & palettes — **[LOCKED]** (concrete looks for the 4 bespoke sets, `ASSET_MANIFEST.md` §1)
+
+> Each is a **48 px pixel-art person** (`ASSET_MANIFEST.md` §0), instantly distinct by silhouette + a **3-color
+> character accent** drawn from the shared 32-color palette. This is the art brief for the ×4 bespoke pipeline.
+
+| Character | Silhouette / look | Accent colors |
+|---|---|---|
+| **Tactical (you)** | lean; **cargo pants + tactical vest + backwards cap**; the sniper case on the back | **olive-green / black / orange** |
+| **Shotgunner** | **bulky, redheaded, bearded**; flannel + jeans; broad shoulders (widest silhouette) | **rust-red / denim-blue / cream** |
+| **Werewolf (Gabe)** | scruffy, medium build, band tee + jacket; **transforms into a hunched brown wolf** (bespoke transform + wolf set) | **brown / grey / yellow-eyes** |
+| **Underdog** | **short, slight**; oversized hoodie (comically outsized); the shortest silhouette | **purple / white / lime** |
+
+- **Readability:** the four are separable by **silhouette alone** (lean / broad / medium / short) so co-op
+  (future) and character-select read instantly. **Palette:** each uses the shared base 32-color palette + its
+  3-color accent (`ASSET_MANIFEST.md` §0) — this **supersedes `PLAYER.md` §8's palette [LATER]**.
 
 ---
 

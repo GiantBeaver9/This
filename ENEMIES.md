@@ -261,12 +261,14 @@ named enemy types.
 
 ---
 
-## 4. Rank (level) system — **[LOCKED approach], [LATER] specifics**
+## 4. Rank (level) system — **[CUT for v1]**
 
-- **[LOCKED] Ranks are subtle.** A higher-rank enemy looks almost identical — the tell is a **small marker
-  (e.g. a colored wristband)**, not a bigger body or new props. Reads as "same guy, tougher."
-- Each rank up = more **HP / damage / weight** and a better loot roll within the stage's constrained pool.
-- **[LATER]** how many ranks, the color code, HP/stat curves, which ranks appear where.
+- **[CUT]** The separate "subtle rank / wristband" sub-tier is **removed from v1** — it overlapped the **tier
+  ladder** (T0–T3, which already scales HP/damage/weight/loot by *type* across areas) and had no encounter
+  hooks. The campaign's difficulty ramp is delivered by **(a) the tier ladder** (roster introduced by area),
+  **(b) spawn density + the difficulty modes** (`TUNING.md` §8.4), and **(c) Endless's per-minute stat-creep**
+  (`TUNING.md` §8.3). No per-enemy rank stat, no wristband marker, no rank asset. *(A future "+more enemies"
+  update could reintroduce ranks; not v1.)*
 
 ### 4b. Damage model — **[LOCKED]**
 - **Player HP = 100.**
@@ -296,7 +298,7 @@ wallet-drop, monkey flair).
 **Locked system rules:** shared-body-plus-ability; ability tier rule (target ≥1 tier below; enemies loot
 each other; tiers span 0..N); telegraph timing (100ms fists / 150–200ms sword); **enemy guns short-range/
 dodgeable**; outside-the-tier specials; progressive type-introduction by stage; per-stage constrained
-random loot; catch-up minibosses; subtle wristband ranks; **headshot economy** (~10% zombify, sniper exempt).
+random loot; catch-up minibosses; **headshot economy** (~10% zombify, sniper exempt).
 
 **Defined enemies (17) — all placed with a debut area:**
 | Enemy | Tier | Debuts | Role it fills |

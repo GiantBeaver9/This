@@ -82,9 +82,9 @@ debut, frantic tone) → **department-store** area boss. Lead economy keeps it l
   - **Solo:** one big Tier-1. **2-player:** **two** + a **miniboss.**
 - **[ITERATE]** the Area-1 stage pacing, exact stage count, specific old-Hwy-65 landmarks.
 
-### 1.8 Rocklin (transition) — **[ITERATE]**
+### 1.8 Rocklin (transition) — **[LOCKED]**
 - The Lincoln→Roseville stretch passes through **Rocklin** — more suburban / old-town NorCal, connective
-  tissue between the suburbs and the mall. **[ITERATE]** specific look/landmarks, any set piece.
+  tissue between the suburbs and the mall — **older strip-mall + low storefronts, wider streets, sparse trees** (a plainer, grayer suburb than Lincoln). A brief connective stretch, no set piece.
 
 ### 1.9 Roseville Galleria — the Mall (Area 1 finale) — **[LOCKED core]**
 - **[LOCKED] Intro vignette (§`STAGES.md` 1c):** a **security guard shoots a Tier-1 enemy → it turns into a
