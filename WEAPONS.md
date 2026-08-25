@@ -47,7 +47,8 @@
 ### 2.1 Sword — *from a head-gone corpse*
 - **Type:** melee (real swing kit — full directional + air attacks).
 - **Behavior:** bigger reach & damage than fists; the go-to upgrade.
-- **Decay:** **5–10 connecting hits**, then it shatters/decays. **[PROPOSED]** exact number by tier.
+- **Decay:** **8 connecting hits** (of a 5–10 range), then it shatters/decays; blade chips at **6 / 4 / 2**
+  left (LOCKED, `TUNING.md` §6).
 - **Diegetic readout:** blade **visibly wears/chips** as hits deplete; final hit it breaks.
 - **Assets:** sword-in-hand idle/walk/jump · directional swing set (side/up/down + air) · wear states
   (fresh → chipped → breaking) · break VFX.
@@ -120,8 +121,8 @@ Enemy-dropped; **1 per pickup** (scarce — save it for a cluster).
   - **Fewer presses → high lob:** arcs up high and comes down for a **bigger explosion** (heavy blast,
     precise placement). A **ground marker shows where it first lands**; it **bounces 3×, then explodes.**
   - **More presses → fastball:** the reverse — a **fast, flat throw** that **plows along the ground,
-    knocking down enemies near its path**, and **explodes at a set distance (or after hitting ~5–10
-    enemies)** with a **smaller blast.**
+    knocking down enemies near its path**, and **explodes at 8 wu (or after hitting 8 enemies)** (LOCKED,
+    below) with a **smaller blast.**
 - **[LOCKED] Self-damage is real** — your own explosion **can catch you** if you're too close. Spacing is
   the price of the payload.
 - **[LOCKED] Tap→trajectory mapping (concrete):** count the `E`-taps during the **~0.4 s wind-up** — **4
@@ -197,12 +198,13 @@ Each attack direction is a different tool:
   unload **~0.5s of point-blank fire** into the nearest enemy ahead — a guaranteed **auto-kill/headshot** on any
   standing **regular** non-boss. The combo finisher with the gatling equipped is a plain
   free melee blow. *(Older text called this a "finisher"; read it as the `E`-barrage.)*
-- **[LOCKED] Barrage vs. armored targets = fixed 45 damage, no auto-kill.** Against **H-weight enemies (Heavy,
-  Ground Smasher, Gatling Gunner)** and **any miniboss**, one barrage deals a flat **45 damage** instead of an
-  instant kill (they have too much HP / are status-immune, `TUNING.md` §2.6). So a Heavy (220 HP) takes ~5
-  barrages; a T2 miniboss (45–80 HP) dies in 1–2. **Bosses** take **0** from the barrage above 10% HP (like every
-  other special, `TUNING.md` §3.1) — the gatling is not a boss-melt. The 10% zombify roll applies **only** to a
-  barrage that auto-kills a regular standing enemy, never to the 45-chunk case.
+- **[LOCKED] Barrage vs. armored targets = fixed 45 damage, no auto-kill** (the ONE rule, authoritative copy in
+  `TUNING.md` §6). Against **all H-weight enemies (Heavy, Ground Smasher, Gatling Gunner)**, **any miniboss**,
+  and **any boss**, one barrage deals a flat **45 damage** instead of an instant kill (too much HP to cheese; the
+  gatling is a weapon, so it *does* damage bosses — unlike a character special). So a Heavy (220 HP) takes ~5
+  barrages; a big-version T2 miniboss (90–160 HP after the ×2 scale) takes 2–4; a boss can be chipped but never
+  soloed — the gun overheats after **5 barrages = 225 damage**, below every boss's HP. The 10% zombify roll
+  applies **only** to a barrage that auto-kills a regular standing enemy, never to the flat-45 case.
 - **No i-frames — the player is locked and vulnerable** through the ~0.5s barrage: the kill is paid for in
   **exposure**, so throwing it out in a crowd gets you hit.
 - **[LOCKED] Zombie risk:** an `E`-barrage that lands as a **headshot kill** has a **~10% chance to spawn a

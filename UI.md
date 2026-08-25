@@ -92,9 +92,10 @@
 
 ### 3.5b Sniper special targeting — **[LOCKED]**
 - During the **sniper time-slow** (`TUNING.md` §3.1), a **red targeting dot** appears on each enemy the
-  ricochet will chain through, in order, as the player lines up the shot — the readout that makes the wipe
-  feel aimed. Renders at full saturation over the desaturated time-slow overlay (`VFX.md` §8). Clears when the
-  special ends.
+  auto-chain ricochet will pass through, **in the order the ricochet has already picked** (there is no manual
+  aiming — the chain auto-selects nearest-un-hit-head greedily, `TUNING.md` §3.1; the dots just *show* that
+  computed order as the slow plays out). The readout that makes the wipe feel aimed. Renders at full saturation
+  over the desaturated time-slow overlay (`VFX.md` §8). Clears when the special ends.
 
 ### 3.5d Execute prompt — **[LOCKED]**
 - When an HP-depletion boss drops to **≤10% HP** (`BOSSES.md` §1), a **`▶ SPECIAL` execute prompt** flashes
@@ -159,6 +160,17 @@ a few sprites), so they stay lightweight.
   reached** and **Endless best score** only). **All 4 characters are available from the start — there are no
   character unlocks** (`CHARACTERS.md`); the save has no progression to gate. No manual save slots
   (arcade-style). *(This resolves the `ASSET_MANIFEST.md` §10 save/settings open item.)*
+- **[LOCKED] Resume semantics (what the save does and does NOT restore).** The save is a **stage bookmark, not
+  a mid-run snapshot** — a *run* (HP, wallet, held weapon, continue count, active meter, current checkpoint
+  within a stage) **lives only in memory and is never serialized.**
+  - **Quitting to title mid-stage (or mid-run) discards that run entirely.** On next launch the title's
+    **"Continue" starts a FRESH run at the beginning of the furthest stage reached** — full HP, **3 continues
+    restored**, empty wallet, fists, empty meter. You never resume mid-stage or keep a partial continue count
+    across a quit; you only keep *which stage you unlocked.*
+  - **The in-stage checkpoint (`TUNING.md` §8.1) is a within-session respawn point only** — it is not written
+    to disk, so it is lost on quit (you restart that stage from its start, exactly like the Game-Over
+    "Restart the current stage" option, but with the furthest-stage bookmark intact).
+  - **Endless** persists **best score** only; each Endless entry is a fresh run.
 
 ---
 

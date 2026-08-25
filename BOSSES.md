@@ -24,8 +24,8 @@
   have NO execute:** **Colossus** (whip-objective — HP is 6 discrete pieces, can never sit in the 0–10% band,
   §5.4), **Tank** & **Helicopter** (objective), **Monkey Boss** (proxy — a player special can't damage him at
   all), and **Phil** (scripted pencil-laser only, §5.1). Specials fired at these five simply whiff (the sniper
-  dodges as usual). **This is the authoritative scope — `TUNING.md` §9.4's "every area-capping boss" line is
-  corrected to this 5-of-10 set.**
+  dodges as usual). **This is the authoritative scope** — it matches `TUNING.md` §9 item 4 (the two docs agree:
+  only the 5 pure HP-depletion bosses execute; the 5 objective/proxy bosses do not).
 - **[LOCKED] The meter is never wasted in a boss fight.** A charge you don't spend **carries over** (usable
   on any adds, or banked for after the boss). So you can **hold it for the low-HP execution** or spend it on
   adds — your call.
@@ -283,17 +283,28 @@
   summons his OWN mercs** — the same gun-monkeys, but **never above tier 1** (kept fair).
 - **[LOCKED] No soft-lock:** the boss throws **actual dimes** (not 1¢ coins to accumulate) — **catching one
   summons a merc directly** (boss-specific; no monkey-stick-figure or saved-up change needed), and these
-  boss-fight mercs are **OUTSIDE the "3 dead = no more" per-level cap** (`WEAPONS.md` §3.7). You can always
+  boss-fight mercs are **OUTSIDE the 3-summons-per-level cap** (`WEAPONS.md` §3.7). You can always
   keep fielding monkeys to damage him.
+- **[LOCKED] Live-merc ceiling in this fight = 3 at once.** The dime bypass lifts the *per-level summon count*
+  cap, not the squad-size model: **at most 3 mercs are alive simultaneously** (the `WEAPONS.md` §3.7 tier table
+  only defines 1/2/3 live). Catching a dime while **3 are already alive** spawns nothing extra — it instead
+  **refreshes the squad** (re-arms all three to their current tier and resets their lifespan timers), so a
+  steady catch-rate keeps 3 rockets-tier mercs up rather than stacking a 4th.
 - **[LOCKED] Pattern (HP 200, only your mercs damage him, `TUNING.md` §7):**
   - **Dime toss:** he lobs a **dime** in a high arc **every 4 s**, landing at a telegraphed spot — **run under
-    it and catch (`F`)** to spawn a merc directly (boss-fight mercs ignore the 3-death cap).
+    it and catch (`F`)** to spawn a merc directly (boss-fight mercs ignore the 3-summons cap, but still cap at
+    3 alive at once — above).
   - **He does not attack the player directly** (0 direct dmg) — the threat is **his own mercs** (T1 pistol,
     7.5) if you lose the dime race, plus positioning.
   - **Phase 2 (≤60%):** dime cadence → 3 s (faster race). **Phase 3 (≤30%):** he throws **two dimes at once**
     to opposite sides, forcing a choice.
-- **[LOCKED] Merc math:** your fielded mercs do ~**8/shot @ 2/s** each; a full monkey squad clears his 200 in
-  the length window. Psychologically hard, short (<2 min).
+- **[LOCKED] Merc math (why it's paced, not a melt):** boss-fight mercs are **hard-capped at PISTOL tier**
+  (8/shot @ 2/s = 16 DPS each; `BOSSES.md` above — *his* mercs stay ≤T1 and so do yours in this fight, to keep
+  the proxy race legible). They **never escalate to shotgun/rocket tier here** — the §3.7 tier ladder is
+  suspended for the Monkey Boss arena precisely so a lucky rocket squad can't delete him in a second. So 3 live
+  pistol mercs = 48 DPS; clearing 200 HP takes **~4 s of uninterrupted fire**, but you keep losing and
+  re-earning the squad as the dime race swings — which is what stretches it to the ~1:55 length window.
+  Psychologically hard, short (<2 min).
 
 *More bosses welcome — same §5 format.*
 

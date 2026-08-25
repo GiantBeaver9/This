@@ -204,9 +204,17 @@ the player's fist/weapon):
   makes the sweep the answer to armored *regular* units.
 - **[LOCKED — GLOBAL] Status-effect immunity.** **Bosses, minibosses, and H-weight enemies (Heavy, Ground
   Smasher, Gatling Gunner) are IMMUNE to all crowd-control** — **freeze (staff ice), stun (staff lightning /
-  boomerang 2 s), slow, and the whip's pull** do **not** apply to them (they still take the *damage* portion).
-  Only **regular L/M-weight enemies** get frozen/stunned/slowed/pulled. This mirrors the knockdown-immunity
-  rule and prevents a frozen-boss balance break. (CC lands fully on normal enemies.)
+  boomerang 2 s), slow, and the whip's pull-as-CC (yanking them out of position)** do **not** apply to them
+  (they still take the *damage* portion). Only **regular L/M-weight enemies** get frozen/stunned/slowed/pulled.
+  This mirrors the knockdown-immunity rule and prevents a frozen-boss balance break. (CC lands fully on normal
+  enemies.)
+  - **[LOCKED] Scripted-objective exception — this immunity blocks CC, NOT an objective interaction.** Where a
+    boss's *win condition* is a weapon interaction, that interaction is an **objective hit, not crowd control**,
+    and it always lands: the **Colossus's forward whip-pull tears off one stick-figure piece** (`BOSSES.md`
+    §5.4) — this is the objective and is **never** negated by the CC-immunity above (the immunity only stops the
+    whip from *repositioning* the Colossus, which it doesn't do anyway — it removes a piece in place). Likewise
+    the **Helicopter's reflected heads / lobbed grenades** register as objective hits. CC-immunity only ever
+    blocks the *status/displacement* rider of an attack, never a boss's scripted objective mechanic.
 - **[LOCKED — GLOBAL] No boss or miniboss can ever be swept or knocked down.** The sweep→finisher route is for
   **regular enemies only** (H-weight Heavy included — it is a regular enemy, not a boss). **Every boss encounter
   (all 10: the 7 bespoke + the 3 big-versions Sandwich Bros / big Arm-Ripper / Boomergunner) and every catch-up
@@ -336,8 +344,8 @@ of the killing hit:**
 - **Pistol pierce (12/6/3):** the headshot test is applied **per pierced target independently** — the first row
   enemy killed can zombify while a deeper pierced kill rolls its own 10%.
 - **Gatling `E`-barrage:** its guaranteed auto-kill on a standing regular **is** a headshot (rolls 10%); its
-  45-chunk hit on H-weight/minibosses and its 0 vs bosses are **not** kills-by-headshot, so **no roll**
-  (`WEAPONS.md` §3.6).
+  **flat 45-chunk** hit on H-weight, minibosses, and bosses is **not** a kill-by-headshot, so **no roll**
+  (`WEAPONS.md` §3.6 / `TUNING.md` §6).
 - **Sniper special is exempt** — its ricochet headshots **always kill cleanly**, never zombify.
 
 ### 4.1 Enemy AI edge-case resolutions — **[LOCKED]** (the "what does it do when…" table)
@@ -406,7 +414,7 @@ of the killing hit:**
 | **Ball & Chain** | T2 | **`E`-launch 80/swing** · **normal string 20/hit, finisher 50** | **3 uses** (launch only) | 0.40 s | tap-`E` trajectory; **carrying slows player 20%** (move only, not attack); `E`-launch shapes = `COMBOS.md` §3; the normal combo string & finisher spend **no** use |
 | **Whip** | T2 | **14/hit**; finisher = head-rip→grenade | **11 connecting hits** (of 10–12) | 0.25 s | **no E-fire** (pure melee); **arrow-melee directions**: up=arc / fwd=pull (drags enemy 3 wu) / down=line. **Finisher = the head-rip extraction** (a free-melee finisher variant, `COMBOS.md` §4; auto-dashes you back 4 wu) |
 | **Staff** | T2 | Ice: **8** +freeze 3 s · Fire: **6/s ×3 s** (18) · Lightning: **12** +stun 1 s +slow **−40% move for 2 s** (`WEAPONS.md` §3.5) | **6 casts** then breaks | 0.35 s | element fixed at pickup; `E` casts; Fire on a Head-Thrower → walking bomb (2 s→boom) |
-| **Gatling Gun** | T3 | **`E`-barrage 0.5 s auto-kill** of the **nearest enemy directly ahead within 8 wu on your row** | **no ammo**; overheats after **5 barrages OR 20 s cumulative equipped time** (whichever first) then discards | 0.40 s spin-up | melee bludgeon 8 (slow cadence); **no i-frames during barrage**; auto-kills **any standing non-boss it locks EXCEPT the Heavy** (Heavy takes **45/barrage** like a mini-boss — it can never be cheese-killed, `ENEMIES.md` §2.11); untiered fodder (Pickpocket, Monkey) auto-die; **bosses take 45/barrage** instead of dying |
+| **Gatling Gun** | T3 | **`E`-barrage 0.5 s** on the **nearest enemy directly ahead within 8 wu on your row** — **auto-kill vs. regular fodder, flat 45/barrage vs. everything armored** | **no ammo**; overheats after **5 barrages OR 20 s cumulative equipped time** (whichever first) then discards | 0.40 s spin-up | melee bludgeon 8 (slow cadence); **no i-frames during barrage**. **Barrage damage rule (ONE rule, LOCKED — matches `WEAPONS.md` §3.6):** (a) **standing regular non-boss** (Regular, Snapper, Head-Thrower, Ninja, Pickpocket, Monkey, etc.) → **auto-kill** (headshot, rolls 10% zombify); (b) **all H-weight (Heavy, Ground Smasher, Gatling Gunner)** and **any miniboss** → **flat 45/barrage, no auto-kill, no zombify**; (c) **bosses** → **flat 45/barrage** (a capped chunk — 5 barrages = 225, so the gatling can't solo any boss; never an auto-kill, never zombify). Airborne/downed enemies are struck as body shots (no headshot) |
 | **Monkey Merc** | T4 | **pistol 8/shot** · **shotgun ~18/blast** · **rocket ~40/rocket** — all **@ 2 shots/s** | **costs 1 dime**; **3 summons/level** then none | 0.5 s summon | 1=pistol/20 s · 2=shotguns/10 s · 3=rockets/5 s; adding a monkey **re-arms all to the new tier & resets timers**; **no friendly fire** (`WEAPONS.md` §3.7) |
 | **Club** | T1 | melee **14** + **6 wu knockback** | **10 hits** | 0.15 s | no E-fire; short reach, big knockback |
 | **Bat** | T2 | melee **12**; reflect | **12 hits**; **reflect window 0.20 s** | 0.15 s | swing-timed reflect of thrown heads/shots back at attacker (resolves §3.7b [ITERATE]) |
@@ -454,7 +462,13 @@ to fists), so ammo management is "use it or lose the drop," never a resource-hun
 > pool by area*, so the early game stays melee-simple (`ENEMIES.md` §1, `STAGES.md` §3, `WEAPONS.md` §3.9). A
 > weapon can only drop once its area is reached, **even if the enemy's tier would otherwise roll it.**
 
-| Area | Weapons UNLOCKED into the drop pool (cumulative) | Notes |
+> **Reading the table:** an entry means the weapon **becomes AVAILABLE from that area on**, by its own sourcing
+> method — most enter the **corpse-drop roll** (§6 tier table), but the two **placed-pickup** weapons (**Club**,
+> world/airport pickups; **Rocket Launcher**, world pickup) are listed here only to mark *when they start
+> appearing as placed pickups* — they **never enter the corpse-roll pool** (§6 note). So "Airport + Club" =
+> "Club pickups start spawning at the airport," not "Club can now roll off a corpse."
+
+| Area | Weapons AVAILABLE from this area on (cumulative) | Notes |
 |---|---|---|
 | **Area 1** (suburbs/mall) | **Sword, Boomerang** only | basic melee + the throw toy; **no guns yet** (matches "only basic melee early") |
 | **Area 2 — Sacramento (Stage 4)** | + **Pistol, Revolver, Whip, Staff** | guns + whip arrive with the Snapper/tier-2 layer |
@@ -537,9 +551,9 @@ every **10 s** on a fixed track; **roller-coaster** (Stage 9) every **7 s** on i
 | Boss | Area | HP | Phase thresholds | Attack dmg | Win condition / objective count | Length target |
 |---|---|---|---|---|---|---|
 | **Sandwich Bros / big Tier-1** | 1 (suburbs) | **160** (2× kit, big-version) | **50% → adds a jump-kick + slide-kick (uses the full Regular kit, faster)** | punch **11** | HP depletion; **solo = 1 big T1** | 1:15 |
-| **Burly Macho Guy** | 1 (dept store) | **300** | ≈66% (200) · ≈33% (100) | ground-spike **22.5** · **enemy-toss 40** | HP depletion | 1:45 |
+| **Burly Macho Guy** | 1 (dept store) | **300** | phase 2 at **200 HP** · phase 3 at **100 HP** (exact HP triggers, ≈66% / ≈33%) | ground-spike **22.5** · **enemy-toss 40** | HP depletion | 1:45 |
 | **Colossus** | 2 (Sacramento) | **240** = **6 pieces ×40** | shed at 4 & 2 pieces (speeds up) | body swipe **22.5** | **whip off 6 stick-figure pieces**; torn pieces become T1 adds | 1:50 |
-| **Helicopter** | 2 (airport) | **objective** (not HP-depleted) | after **3 hits** it descends lower & fires faster | thrown heads **15** (max 2 on screen) | **6 reflected heads OR 4 lobbed grenades = down** (each reflect/lob = 1 objective hit; a lobbed grenade counts as **1.5** so 4 finish it); main-boss-only | 1:40 |
+| **Helicopter** | 2 (airport) | **objective — 6 damage-pips** (not HP-depleted) | after **3 pips** it descends lower & fires faster | thrown heads **15** (max 2 on screen) | fill a **6-pip** bar: a **reflected head = 1 pip**, a **lobbed grenade = 1.5 pips** — so **6 heads**, or **4 grenades** (4 × 1.5 = 6), or any mix summing to 6, downs it; main-boss-only | 1:40 |
 | **Monkey Boss** | 3 (farm) | **200** (only your mercs damage him) | 60% · 30% (throws dimes faster) | **0** direct; his mercs (T1 pistol 7.5) | proxy war: catch dimes → your mercs shoot him down; boss mercs ignore the 3-summons cap | 1:55 |
 | **big Arm-Ripper** | 3 (Dixon) | **280** (boss-scale) | **66% → fires 3 shots/s (from 2); 33% → adds a rolling reposition between volleys** | pistols **7.5/shot @ 2/s** | HP depletion; caps the Dixon boss rush | 1:50 |
 | **Tank** | 4 (Vallejo) | objective (**2 grenade drops**) | **after drop 1** (MG pattern intensifies) | MG stream **1/hit**; direct hit while mounting **22.5** | **climb + drop grenade in hatch ×2**; arena adds drop only grenades | 1:50 |
@@ -555,6 +569,13 @@ every **10 s** on a fixed track; **roller-coaster** (Stage 9) every **7 s** on i
 | **Boss** | **2.0×** | **×4.0** | **×1.5** |
 
 (e.g. Regular Melee 40 HP → big-version boss 160 HP, 7.5→11 dmg — matches Sandwich Bros above.)
+
+- **[LOCKED — GLOBAL rounding rule] Every computed value rounds to the nearest integer (0.5 rounds up); HP
+  rounds to the nearest whole HP.** This applies to all multiplier products anywhere in the bible — big-version
+  scaling (7.5 × 1.5 = 11.25 → **11**; 7.5 × 1.25 = 9.375 → **9**), character stat multipliers (§3), difficulty
+  multipliers (§8.4), and the meter damage buff (§2.4). The placed §7 table values are already rounded; the
+  **auto-generated** catch-up minibosses (§8.2) and Endless elites (§8.3) apply this same rule at spawn. Enemy
+  HP is always an integer; damage is always an integer.
 
 - **Ranged big-version bosses keep BASE per-shot damage — [LOCKED override].** The ×1.5 damage multiplier
   applies to **melee/contact** attacks only. For **ranged** big-version bosses (**big Arm-Ripper** 7.5/shot,
@@ -585,7 +606,7 @@ minibosses / big-version *non-boss* elites** are sniper-killable like normal ene
 | **Weapon/loadout after respawn** | **fists only** — a death (or pause-restart) **drops any held weapon**; you respawn empty-handed at the checkpoint | keeps death a real setback; re-loot from the re-run |
 | **Meter after respawn** | **emptied** (death spends a continue, which clears the meter — below) | banked special is LOST on death; part of the continue cost |
 | Money on checkpoint | resets each **stage** (LOCKED, `UI.md` §3.4) | not stored across checkpoints |
-| **Continues per run** | **3** | then game-over → title **(tunable)** |
+| **Continues per run** | **3** | when all 3 are spent → **the Game-Over screen** (`UI.md` §5), which offers **Restart the current stage from its start (fresh continue count)** or **Quit to title** **(tunable)** |
 | Continue cost (every death) | respawn at last checkpoint at **full HP**, but **wallet cleared + special meter emptied + weapon dropped (fists)** | one consistent respawn cost — full HP is the *only* thing you get back |
 | Lives before a continue | 1 (death → spend a continue) | no separate life stock; **every death = one continue spent** |
 

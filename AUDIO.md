@@ -45,13 +45,15 @@
 | **A4 · Marin redwoods** | **atmospheric psych-rock** (delay, tremolo, forest reverb) | filtered light, drifting, eerie calm | 130 |
 | **A4 · Golden Gate Bridge** | **driving orchestral-rock** (strings + double-kick) | epic, wind-and-barrage crossing | 160 |
 | **A4 · San Francisco streets** | **fast electro-punk** (arcade synths, sirens) | climactic city gauntlet | 165 |
-| **Finale · Salesforce rooftop** | **full orchestral + choir** (leitmotif reprises) | operatic showdown, "2D chaos" | 170 |
+| **Finale · Salesforce rooftop (approach)** | **swelling orchestral build** (leitmotif fragments, no full choir yet) | the elevator climb + rooftop reveal + Phil's monologue — tension before the fight | 150→170 |
 
 - **Endless Mode:** an **adaptive layered version of the SF electro-punk track** — stems (drums / bass / lead /
   screamer synth) **add in every 3 minutes** as the tier ramp climbs (`TUNING.md` §8.3), so intensity tracks
   difficulty. Single track, ~4 stems.
 - **Transitions:** area cards (`UI.md` §5) get a **2-second stinger** in the incoming area's genre before its
-  loop starts.
+  loop starts. **[LOCKED] Count = 5 stingers** — one per area entry (A1, A2, A3, A4, Finale) — each **derived
+  from the incoming area's loop** (a 2 s intro flourish, no new melodic authoring). **Not counted in the 23
+  music assets** (they're sub-2 s cues cut from existing loops), listed here so the builder knows to author 5.
 
 **Music track count:** **12 area/stage loops + 1 title theme + 1 Endless layered track + 9 boss cues = 23
 music assets** — the 9 boss cues are **8 per-boss orchestrations of one shared "Phil's Army" motif** (Burly,
@@ -59,6 +61,11 @@ Colossus, Helicopter, Monkey Boss, big Arm-Ripper, Tank, Gatling Gun Guy, Boomer
 realized version** (§3). Because they all re-orchestrate a single 4-bar motif, authoring is far cheaper than 9
 from scratch. *(Sandwich Bros is a **big-version Tier-1**, `BOSSES.md`; it reuses the **Area 1 stage loop**, not
 its own cue — so the boss-cue count is 8 sub-bosses + Phil, not counting Sandwich Bros.)*
+- **[LOCKED] The Finale is TWO distinct tracks, not one — no double-count.** The **"Finale rooftop (approach)"
+  stage loop** (§2, the 12th stage loop) plays over the **elevator climb + rooftop reveal + Phil's monologue**
+  (pre-fight); **Phil's boss cue** (the 9th boss cue, §3 — the motif *fully realized* with full orchestra +
+  choir) starts **when the fight begins.** Stage 13 has a real pre-boss beat (the climb), so both slots are
+  used. They are separate assets: 12 stage loops **and** 9 boss cues both count in full.
 
 ---
 
@@ -88,9 +95,16 @@ its own cue — so the boss-cue count is 8 sub-bosses + Phil, not counting Sandw
 ## 4. Core SFX list — **86 one-shots (v1)**
 
 Grouped with concrete per-group counts. Each is a short arcade one-shot; pitch-randomized ±2 semitones at
-playback for variety without extra assets. **Counting convention:** each comma-item is one sound; a `+` or a
-slash inside an item marks **two** sounds (e.g. "throw+return" = 2), and an explicit "= N" gives that group's
-sub-count. Group counts below reflect that convention exactly.
+playback for variety without extra assets. **Counting convention (exact):**
+- each **comma-item is one sound**;
+- a **`+` inside an item marks two distinct sounds** (e.g. "throw+return" = 2 — two separate one-shots);
+- a **slash inside an item is TWO SPELLINGS OF ONE sound** (e.g. "hurt/grunt", "car/bus pass-by", "block/soak"
+  = **1** each) — **UNLESS** an explicit **(N)** is attached, which overrides to that count (e.g. "staff cast
+  ice/fire/lightning **(3)**" = 3 real elemental variants);
+- a trailing **(N)** on an item states its own sound count directly.
+
+Group counts below reflect this convention exactly, and the per-group sums add to the 86 total (the row math in
+the Total line is authoritative).
 
 | Group | Count | Contents |
 |---|---|---|
@@ -106,9 +120,12 @@ sub-count. Group counts below reflect that convention exactly.
 | **Hazards** | 6 | car/bus pass-by, plane jet-blast, cow moo (path-block), **SF trolley bell+rumble (2)**, tower-sway creak |
 | **Total** | **86** | 8+5+6+22+19+7+3+7+3+6 |
 
-- **Ambient beds (not counted above):** **1 looping bed per area theme (12)** — birds/traffic (suburbs), mall
-  murmur, tarmac hum, marsh/wind (causeway), redwood forest, bridge wind, city crowd, rooftop wind. Low in the
-  mix (§6).
+- **Ambient beds (not counted in the 86 SFX):** **1 looping bed per stage-music slot = 12**, one-to-one with
+  the §2 loops: **1** birds/traffic (Lincoln suburbs) · **2** mall murmur + shopper panic (Galleria) · **3**
+  old-town street tone (Sacramento downtown) · **4** tarmac hum + jet drone (Airport) · **5** marsh/wind
+  (Hills & causeway) · **6** barnyard/livestock (Farm) · **7** dry deserted-town wind (Dixon) · **8** carnival
+  crowd + rides (Vallejo) · **9** redwood forest + birdsong (Marin) · **10** bridge wind + cabling hum (Golden
+  Gate) · **11** city crowd + sirens (SF streets) · **12** high rooftop wind (Finale). Low in the mix (§6).
 
 ---
 
@@ -157,8 +174,9 @@ Priority = what wins when the mix gets crowded. Higher ducks lower.
 ## 7. Asset summary → feeds `ASSET_MANIFEST.md` §8
 
 - **Music:** 23 tracks (12 area/stage loops · 1 title · 1 Endless layered w/ 4 stems · 9 boss cues — 8 per-boss
-  orchestrations of one shared motif + Phil's full realization) + area transition stingers.
-- **Ambient:** 12 area beds.
+  orchestrations of one shared motif + Phil's full realization) + **5 area-transition stingers** (2 s each, cut
+  from the incoming loops, not in the 23).
+- **Ambient:** 12 area beds (§4, one per stage-music slot).
 - **SFX:** **86 core one-shots** (§4).
 - **VO:** 5 intro clips (creator voice) + Phil rooftop monologue (~30 s).
 - **Priority:** Intro VO + core SFX = **P1**; per-area music, ambient beds, boss themes, UI sounds = **P2**

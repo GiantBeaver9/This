@@ -124,10 +124,14 @@
 ### 2.7 Gatling Gunner — **[LOCKED core]** — **Tier 3** — **debuts Area 4**
 - **Ability:** grabs **2 tier-1s OR 1 tier-2** and, over **~2 seconds**, **contorts them into a gatling
   gun** — a clean showcase of the ability tier rule (a tier-3 spends units below it).
-- **Fire pattern:** **1-second bursts every 2–3 seconds** — rhythmic windows to close or dodge between bursts.
-- **Close-range switch:** if the **player gets within pistol range**, it **drops to melee** instead of firing.
-- **[ITERATE]** the ~2s contort telegraph & how vulnerable he is during it, burst spread/damage, what he
-  does with no valid fodder (call in like the Snapper?), does killing him drop a gatling for the player.
+- **Fire pattern:** **1-second bursts every 2.5 s** — rhythmic windows to close or dodge between bursts
+  (`TUNING.md` §4 row 15).
+- **Close-range switch:** if the **player gets within 3 wu**, it **drops to melee (22.5)** instead of firing
+  (`TUNING.md` §4 row 15 — the pinned melee-switch distance).
+- **[RESOLVED, see `TUNING.md`]** contort telegraph **2.0 s** (vulnerable throughout), burst = the 1/hit stream
+  (`TUNING.md` §4 row 15 / §6.2); **no valid fodder → he spawns already holding the gatling** (self-sufficient,
+  `TUNING.md` §4.1 — never a spawn dependency); **killing him drops a Gatling** for the player (Area-4 pool,
+  `TUNING.md` §6.1).
 
 ### 2.8 Zombie — **[LOCKED core]** — **Tier 0** (new lowest tier)
 - **Headshots don't kill it — they hollow it.** A headshot **empties the head** (filled head → see-through
