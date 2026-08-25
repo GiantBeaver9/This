@@ -202,7 +202,7 @@ spend on a boss **carries over.** The boss dodge is a **boss asset**.
 | **Fall-over + getup** (dash into a heavy target) | 4–6 | P1 |
 | Jump: rise / peak / fall | 3 | P0 |
 | Land recovery | 2 | P0 |
-| Ground attack: **side** (2–3 hit micro-combo) | 6–9 | P0 |
+| Ground attack: **side** (P1/P2 of the 4-hit string, §3) | 6–9 | P0 |
 | Ground attack: **up** (launcher) | 3–4 | P0 |
 | Ground attack: **down** (sweep/pound) | 3–4 | P0 |
 | Air attack: **side** | 3 | P0 |

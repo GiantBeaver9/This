@@ -302,7 +302,7 @@ chance to spawn a 10 s zombie instead of killing. **Sniper special is exempt** (
 | **Head-Thrower's thrown head** | uses **grenade fastball physics** (`WEAPONS.md` §3.2) — flat line-drive, **explodes on contact or after 8 wu**; the thrower **regrows its head in 4 s** (§4 row 5) and cannot throw again until it does. |
 | **Sniper with the player already downed/grounded** | **holds fire** (can't hit a grounded player, §4 row 7) and **re-scans**; it only fires at an airborne/jumping player (apex punish). |
 | **Flying Monkey when ≥2 grounded enemies exist** | **circles/harasses without swooping** until the grounded count drops below 2 (§4 row 8); never idles off-screen. |
-| **Enemy would exceed the 8-pursuer cap** | it **holds at a spawn edge** (visible, not attacking) until a slot frees — except Swarmer pods (§0 exception). |
+| **Enemy would exceed the 8-pursuer cap** | it **holds at a spawn edge** (visible, not attacking) until a slot frees — except Swarmer pods (`ENCOUNTERS.md` §0 exception). |
 
 ---
 

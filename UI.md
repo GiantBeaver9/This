@@ -85,6 +85,12 @@
 - **[PROPOSED]** top-right cluster: **monkey icons ×count**, each with a **shrinking timer ring**; a spent
   "3 have died — no more this level" state shown greyed out.
 
+### 3.5b Sniper special targeting — **[LOCKED]**
+- During the **sniper time-slow** (`TUNING.md` §3.1), a **red targeting dot** appears on each enemy the
+  ricochet will chain through, in order, as the player lines up the shot — the readout that makes the wipe
+  feel aimed. Renders at full saturation over the desaturated time-slow overlay (`VFX.md` §8). Clears when the
+  special ends.
+
 ### 3.6 Weapon-specific readouts — **[PROPOSED]**
 Most decay is diegetic, but a few weapons have HUD-worthy state:
 - **Boomerang Gun:** **10 bullets** (4/pass) — **[PROPOSED]** show remaining bullets only while equipped.

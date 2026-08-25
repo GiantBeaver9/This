@@ -18,8 +18,8 @@
 - **Implications we honor per area:** bounded on-screen sprite counts (enemy cap already 8 + swarms),
   **layered parallax backdrops** (a few scrolling layers, not dense geometry), **atlas-friendly** ambient
   props, and effects within the bullet-hell-safe/readable budget (`VFX.md`).
-- **[ITERATE → art specs]** canonical **resolution, sprite pixel sizes, palette, animation fps/frame counts,
-  atlas/naming** — lock these before mass asset generation (they keep every asset consistent).
+- **[LOCKED → `ASSET_MANIFEST.md` §0]** canonical **resolution (640×360), sprite sizes (48px), palette (32-color), fps (12), atlas/naming**
+  are all pinned there — no longer open.
 
 ---
 
@@ -70,7 +70,9 @@ debut, frantic tone) → **department-store** area boss. Lead economy keeps it l
 - **[LOCKED] Route:** follows the **real back way from Lincoln High to the fast food off old Highway 65 in
   Lincoln, CA** — old-town / semi-rural suburban character along the way (art reference for the backdrop).
 - **Stage 1** opens **at Lincoln High** (Phil's escape; **dancing zebra** mascot, §1.2) → **suburb streets /
-  the old Hwy 65 back way**; **Stage 2** continues toward the restaurant; the act **ends OUTSIDE Sandwich Bros.**
+  the old Hwy 65 back way**; **Stage 2** continues toward the restaurant and **ends at the Sandwich Bros fight**
+  (a **mid-act** boss, `ENCOUNTERS.md` Stage 2) — the act then continues through **Rocklin → the Galleria**,
+  where **Burly caps Area 1** (§1.9). *(The Sandwich Bros fight ends the Lincoln/suburb *segment*, not the act.)*
 - **[LOCKED] Fast food = "Sandwich Bros"** (our made-up brand — no real trademarks). The **boss fight is
   outside** the restaurant.
 - **[LOCKED] Boss = Phil draws a "bigger-than-normal person"** — a **big-version Tier-1** (Regular Melee at
@@ -155,8 +157,9 @@ whip-pull vignette · (whip **boss/Colossus** arena) · airport **terminal inter
 planes** · **ground crew + luggage carts** · **small planes** (vignette targets / hazard) · **Head-Thrower**
 enemy · **Bat** weapon pickup · **Helicopter** boss · funnel props.
 
-**[ITERATE]** tier-2 debut split (city vs airport), the whip-enemy question, Sacramento boss pick, plane-
-hazard rules, Area 2 stage pacing.
+**[RESOLVED]** tier-2 split = Snapper (Sacramento) / Head-Thrower+AA (airport) per `ENEMIES.md` §6; the whip is
+a weapon (no whip *enemy*); Area-2 bosses = Colossus (Sacramento) + Helicopter (airport); **taxiing-plane
+hazard = 50 dmg + knockdown** (`TUNING.md` §6.2). Fully locked.
 
 ---
 
