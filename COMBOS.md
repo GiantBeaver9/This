@@ -26,11 +26,13 @@
 - **Timing:** the two presses must land within **`0.35 s`** of each other; a **`0.15 s` input buffer** lets the
   second press register slightly before the sweep recovers (fighting-game leniency). Miss the window and the
   second press is a fresh normal attack.
-- **The swept gate (LOCKED):** the finisher/execute **only resolves on a knocked-down enemy** (the state the
-  sweep, or a Ball & Chain Ground-Zero, put it in — knockdown lasts **1.2 s**, `TUNING.md` §2.6). Whiff the
-  sweep and there is no execute. Bosses are swept/finished only where their spec allows (Phil only via the
-  scripted pencil-laser, `BOSSES.md` §5.1; unsweepable H-weight enemies are floored by the sweep like anyone
-  else, `TUNING.md` §2.6).
+- **The swept gate (LOCKED):** the finisher/execute **only resolves on a knocked-down / launched enemy**.
+  **Two entry paths** (`PLAYER.md` §3, `TUNING.md` §2.6): **(a)** the **primed double-tap** sweeps a *standing*
+  enemy then finishes it (the two taps ≤ **0.35 s** apart); **(b)** an enemy **already down** (e.g. from a Ball
+  & Chain Ground Zero, §3, or still inside its 1.2 s knockdown) takes a **single tap** to finish — no re-sweep.
+  Whiff the sweep on a standing enemy and there is no execute. Bosses are finished only where their spec allows
+  (Phil only via the scripted pencil-laser in his execute window, `BOSSES.md` §5.1 — he is **never** swept;
+  unsweepable H-weight enemies **are** floored by the sweep like anyone else, `TUNING.md` §2.6).
 - **Plain finisher = FREE melee (no ammo):** by default the second tap is a strong melee blow into the downed
   enemy — **no ammo/durability spent** (`WEAPONS.md` §1). Weapon-specific *executes* below only trigger under
   their stated condition (e.g. a gun round only if the downed target is **< 20% HP**); otherwise the finisher
@@ -79,12 +81,31 @@ otherwise the double-tap is a **melee pistol-whip finisher** (fist strength 10, 
 | `E` + back | **Full Swing (360)** | a full sweeping orbit around the Human — hits everything in melee range on all sides | r 2.5 wu ring · **80** all around |
 
 - Each `E`-launch spends **1 of 3 uses**. The **20% carry-slow** applies throughout (movement only).
-- **Ground Zero synergy:** because it knocks enemies down, you can immediately double-tap to **finish** one of
-  the downed enemies (free melee, or a gun-execute if you swap — normal §1 rules).
+- **Ground Zero synergy:** because it leaves enemies **already downed**, you finish one with a **single tap**
+  toward it (no re-sweep — the already-downed path, §1) — free melee, or a gun-execute if you swap.
 
 ---
 
-## 4. Shared execute FX
+## 4. Whip finisher — the head-rip extraction (`WEAPONS.md` §3.4)
+
+> The Whip is **pure melee** (no `E`-fire). Its **arrow-melee directions** are up=arc / fwd=pull / down=line
+> (they swing through the combo and spend the 11-hit durability like any melee hit). Its **finisher** — reached
+> the normal way, a **double-tap on a swept enemy** (or single-tap on an already-downed one, §1) — is the
+> signature **head-rip extraction**, a **free-melee finisher variant** (no durability spent beyond the finisher
+> itself).
+
+| Input | Effect |
+|---|---|
+| any finisher double-tap (`→→ ←← ↓↓`) on a swept enemy | the whip **wraps the neck, rips the head off**, the **head becomes a live grenade** (grenade fastball physics, `WEAPONS.md` §3.2/§3.5), and the Human **auto-dashes back 4 wu** to clear the blast. `↑↑` on a launched enemy rips it out of the air. |
+
+- **Gate:** like all finishers, it needs a **swept/launched** target (`TUNING.md` §2.6). It has **no HP gate**
+  (unlike the gun `<20%` execution) — the extraction works at any HP of a downed enemy.
+- **The head-grenade** then explodes on contact / after 8 wu, damaging **enemies** in its blast (r 2 wu) — a
+  self-made bomb with a built-in escape (the back-dash).
+
+---
+
+## 5. Shared execute FX
 
 Per `VFX.md` §4 (finisher/execute FX — pinned here as concrete cues):
 
@@ -93,11 +114,12 @@ Per `VFX.md` §4 (finisher/execute FX — pinned here as concrete cues):
 | Melee finisher | **finisher flash** + 3-frame hitstop + heavy hit-spark on the downed body (`VFX.md`) |
 | Gun execution | muzzle flash + straight tracer + **headshot pop** + the **cigarette-flick** arc + ejected casing |
 | Ball & Chain launch | heavy launch trail + big impact spark + **screen shake (heavy preset)** + 3-frame hitstop on connect |
-| All | a brief **gold flash** on the HUD combo popup naming the execute (e.g. `COUP!`, `METEOR!`) to confirm it registered |
+| Whip extraction | neck-wrap + **head-rip pop** + the head arcs off as a lit grenade + the back-dash dust |
+| All | a brief **gold flash** on the HUD combo popup naming the execute (e.g. `COUP!`, `METEOR!`, `RIP!`) to confirm it registered |
 
 ---
 
-## 5. Extensibility
+## 6. Extensibility
 
 The input language is deliberately tiny: **four same-direction double-taps** (`→→ ←← ↑↑ ↓↓`) for
 finishers/executes, plus **`E` + direction** for weapons (like the Ball & Chain) that fire a shaped

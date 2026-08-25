@@ -103,7 +103,9 @@ directional normals rather than a single canned combo string.
     **gun equipped**, the finisher into a **downed enemy under 20% HP** becomes a **gun execution** (fires a
     round, cinematic) — otherwise it stays a free melee blow (`COMBOS.md` §2). Either way it **requires the
     sweep-down first.**
-    *(Phil's kill is a finisher on a swept-down Phil — the pencil-laser, `BOSSES.md` §5.1.)*
+    *(Phil is **never swept** — bosses can't be knocked down. His **final execute window** (the last sharpen
+    window) is his finisher-able state: a **finisher input (double-tap toward him) in that window fires the
+    scripted pencil-laser**, `BOSSES.md` §5.1. That is the only finisher that touches a boss.)*
 - Every hit feeds the meter's rapid-hit multiplier; letting the rhythm lapse resets the counter.
 - **[LOCKED]** Works empty-handed (fists) with the air reach-extender on each hit.
 - **[LATER]** damage/knockback per hit, cancel windows. *(Finisher = the 4th hit, LOCKED above.)*

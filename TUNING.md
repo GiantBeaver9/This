@@ -21,7 +21,7 @@
 | Player sprite height | 2.0 wu | reference scale for all sprites; **= 48 px at 1 wu = 24 px** (`ASSET_MANIFEST.md` §0) |
 | Visible screen width | **~26.7 wu** | 640 px internal render ÷ **24 px/wu** = 26.67 wu (`ASSET_MANIFEST.md` §0); ~13 player-heights across |
 | Playfield band (vertical screen share) | **bottom 60%** | **HUD/sky top 40%** (`AREAS.md` §1.1 LOCKED — matched; not tunable) |
-| **Z-band depth (near→far)** | **6.0 wu** | continuous, analog; near edge Z=0.0, far edge Z=6.0 |
+| **Z-band depth (near→far)** | **6.0 wu** standard | continuous, analog; near edge Z=0.0, far edge Z=6.0. **Boss arenas may set a deeper band** (listed per arena in `ENCOUNTERS.md`, up to **8.0 wu**) to fit big/airborne bosses — the band widens for that fight, then returns to 6.0. Depth-scaling (below) rescales to the arena's far edge. |
 | Player X-speed on band | see §3 | Z-movement uses same speed value |
 | **Sprite depth-scaling** | **100% at Z=0 → 80% at Z=6** | linear −3.33%/wu; floor 80% (`GAMEPLAY_LOOP.md` §3) |
 | Ground shadow / Z-marker | ON, 1 blob shadow per actor | reads exact Z (resolves the §3 [LATER]) |
@@ -121,14 +121,16 @@
   (matches `COMBOS.md` §1).
 - **Whiff vs. hit:** recovery is the same on whiff or hit; there is **no hitstop on normal hits**, only on
   **finishers/kills** (§2.6, `VFX.md` §4).
-- **[LOCKED] Combo string & the execute gate:** the string is `P1 → P2 → sweep → finisher`. **P1 and P2** are
-  the first two directional presses. **The last two hits (sweep + finisher) are a SAME-DIRECTION DOUBLE-TAP**
-  — `→→`, `←←`, `↑↑`, or `↓↓`: the **first tap sweeps** (knockdown), the **second tap of that direction is the
-  finisher/execute** into the downed body. **Execute lands ONLY on a swept (knocked-down) enemy** — against a
-  still-standing target the second tap is just a normal hit (`PLAYER.md` §3). **Up-strike, down-strike, and all
-  air attacks are standalone normals** that deal their own damage but **do NOT advance or reset** the string.
-  Dropping the string (cancel window lapses) returns you to P1. The **gun `<20%` execution** (`COMBOS.md` §2)
-  is a finisher variant and inherits this: it too requires the sweep-down first.
+- **[LOCKED] Combo string & the execute gate (the "primed" state machine, `PLAYER.md` §3):** the string is
+  `P1 → P2 → sweep → finisher`. After **P1→P2 connect the string is PRIMED**; the next directional presses are
+  read as the **sweep + finisher SAME-DIRECTION DOUBLE-TAP** (`→→ ←← ↑↑ ↓↓`), **not** as standalone normals.
+  The **first tap sweeps** — `→→/←←/↓↓` knock the enemy **DOWN**, `↑↑` **launches** it — and the **second tap
+  finishes** into that state. **Outside a primed string**, `↑`/`↓`/air presses are **standalone normals**
+  (up-strike launcher etc.) that do NOT advance the string. So the same key means different things primed vs.
+  neutral — that is the resolution, no conflict. **Execute lands only on a swept/launched enemy**; a standing
+  target's second tap is a normal hit. **Already-downed** enemies take a **single-tap** finish (no re-sweep).
+  Dropping the string returns you to P1. The **gun `<20%` execution** (`COMBOS.md` §2) is a finisher variant
+  and inherits all of this.
 - **[LOCKED] Warm-up vs. frame data (no conflict):** the **~0.25 s weapon warm-up** (§2.2, `GAMEPLAY_LOOP.md`
   §4.1) is the aim/ready delay before an **`E`-fire/throw/cast discharges** — it applies to the **E action
   only**. The **+2f on the fist frames** (table above) is the **melee swing** when you bludgeon *through the
@@ -146,15 +148,16 @@
 | **L-stagger** (dash-hit, light) | **0.40 s (24f)** | L-weight | stumbles back **1.0 wu**, upright; actionable after |
 | **M-stagger** (dash-hit, medium) | **0.55 s (33f)** | M-weight | stumbles back **1.5 wu**; longer opening |
 | **H-floors-the-PLAYER** | player down **0.70 s (42f)** | player, on dashing a H-weight/boss | the "wasted getup, **not** invincible" risk (`PLAYER.md` §3) |
-| **Knockdown** (sweep, hit 3) | enemy down **1.2 s (72f)** | all non-boss | the **finisher window**; enemy is a valid finisher target this whole time, then auto-gets-up with **0.3 s** getup |
+| **Knockdown** (sweep, hit 3) | enemy down **1.2 s (72f)** | all non-boss | the **finisher window** — the enemy is finisher-able this whole 1.2 s (then auto-gets-up, **0.3 s** getup). Two entry paths (no conflict with the 0.35 s double-tap timing): **(a)** sweep a *standing* enemy with the primed double-tap (`→→` etc., the two taps ≤ **0.35 s** apart, `COMBOS.md` §1) — the second tap finishes; **(b)** an **already-downed** enemy (from an earlier sweep still in its 1.2 s, or a Ground-Zero knockdown) is finished by a **single tap** toward it, any time inside the 1.2 s. The 0.35 s is the *double-tap* timing; the 1.2 s is how long a downed enemy stays finisher-able. |
 | **Getup** (after any knockdown) | **0.30 s (18f)** | player & enemy | **no i-frames** on either (LOCKED — no-iframe rule) |
 | **Launch / juggle hang** (up-air, up-strike, Wrecking Uppercut) | **0.50 s (30f)** airborne | L/M enemies | juggle window; H-weight can't be launched |
 | **Hitstop (freeze-frame)** | **3f** on finishers · **5f** on any kill · **0f** on normals | both actors | `VFX.md` §4; scales screen-shake |
 | **Player hitstun** (taking a hit) | **0.25 s (15f)** | player | from §2.2; **no i-frames after** |
 
 - **Chip/interrupt rule:** a **normal hit** (hitstun 0.18 s) can be interrupted by the player's next combo hit,
-  so juggles/strings work; a **knockdown** (1.2 s) cannot be re-hit for damage until the finisher or getup —
-  only the finisher connects on a downed target (§2.5).
+  so juggles/strings work; a **downed** enemy (in its 1.2 s knockdown) **takes no further normal hits** — only
+  the **finisher** connects on it (a single tap toward it, §2.5). This is why Ground Zero's mass-knockdown sets
+  up single-tap finishes rather than re-sweeps.
 - **H-weight super-armor:** Gatling Gunner, Ground Smasher, and Heavy **shrug off normal-hit flinch** but still
   take damage and still **knock down to a sweep** (they are floored like anyone else by hit 3) — this is what
   makes the sweep the answer to armored units.
@@ -289,7 +292,7 @@ chance to spawn a 10 s zombie instead of killing. **Sniper special is exempt** (
 | **Revolver** | T1 | shot **30**, no pierce | **mag 6**, then discarded | 0.30 s | same: `E` fires freely; only the double-tap execute on a swept target is <20%-gated |
 | **Grenade** | T4 | lob blast **60** (r 3 wu) · fastball blast **35** (r 2 wu) | **1 use** | tap-`E` wind-up | few taps = high lob (bounces 3×→boom); many taps = fastball (boom at 8 wu or after 8 enemies); **self-dmg 40** |
 | **Ball & Chain** | T2 | **80/swing** | **3 uses** | 0.40 s | tap-`E` trajectory; **carrying slows player 20%** (move only, not attack); `E`-launch shapes = `COMBOS.md` §3 |
-| **Whip** | T2 | **14/hit**; finisher = head-rip→grenade | **11 connecting hits** (of 10–12) | 0.25 s | up=arc / fwd=pull (drags enemy to you 3 wu) / down=line; finisher auto-dashes you back 4 wu |
+| **Whip** | T2 | **14/hit**; finisher = head-rip→grenade | **11 connecting hits** (of 10–12) | 0.25 s | **no E-fire** (pure melee); **arrow-melee directions**: up=arc / fwd=pull (drags enemy 3 wu) / down=line. **Finisher = the head-rip extraction** (a free-melee finisher variant, `COMBOS.md` §4; auto-dashes you back 4 wu) |
 | **Staff** | T3 | Ice: **8** +freeze 3 s · Fire: **6/s ×3 s** (18) · Lightning: **12** +stun 1 s +slow | **6 casts** then breaks | 0.35 s | element fixed at pickup; `E` casts; Fire on a Head-Thrower → walking bomb (2 s→boom) |
 | **Gatling Gun** | T3 | finisher **0.5 s auto-kill** barrage | **no ammo**; overheats after **5 finisher-bursts OR 20 s equipped** (resolves §3.6 [ITERATE]) | 0.40 s spin-up | melee bludgeon 8 (slow cadence); **no i-frames during barrage** |
 | **Monkey Merc** | T4 | pistol shots **8/shot @ 2/s** | **costs 1 dime**; **3 summons/level** then none | 0.5 s summon | 1=pistol/20 s · 2=shotguns/10 s · 3=rockets/5 s; adding a monkey **re-arms all & resets their timers** (resolves §3.7 [ITERATE]) |

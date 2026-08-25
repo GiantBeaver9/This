@@ -312,8 +312,9 @@
 > Each boss fight is a **camera-locked arena** — the **level stops advancing** (no forward scroll to new
 > ground). Arenas wider than the ~26.7 wu screen (`TUNING.md` §1) let the **camera pan within the arena box**
 > (bounded), so the listed widths are the *arena bounds*, not the screen. Dimensions in **world-units (wu)**;
-> the play-band is the Z-lane depth the player can walk (`TUNING.md` §1). "Add ports" = where summoned adds
-> enter.
+> the play-band is the Z-lane depth the player can walk. **Arena Z-depths of 7–8 wu deepen the standard 6.0 wu
+> band for that boss fight** (allowed per `TUNING.md` §1 — big/airborne bosses get a wider band, then it
+> returns to 6.0). "Add ports" = where summoned adds enter.
 
 | Boss | Arena size (W × Z-depth) | Cover / terrain | Add ports | Hazard | Special layout notes |
 |---|---|---|---|---|---|

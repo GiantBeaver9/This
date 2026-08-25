@@ -130,9 +130,11 @@
     a giant upper-screen boss. **Sway/slippage** shifts your footing by up to **±1.5 wu** on a **~6 s sine**
     (telegraphed by the skybox tilting); **two edges have no railing → fall = instant death** (`TUNING.md`
     §6.2). He never falls; adds can be knocked off.
-  - **The kill:** at **execute (≤0% of the gated pool)** the final sharpen window triggers the scripted
-    **pencil-laser finisher** — the finisher animation is replaced by the player firing a laser from the
-    pencil. **Specials never execute Phil** (§5.1 above); this scripted finisher is the only kill.
+  - **The kill:** Phil is **never swept/knocked down** (bosses can't be, `TUNING.md` §2.6). His **final (5th)
+    sharpen window IS his finisher-able state** — during it, a **finisher input (a `→→`/`↓↓` double-tap toward
+    him, `PLAYER.md` §3) triggers the scripted pencil-laser**: the finisher animation is replaced by the player
+    firing a laser from the pencil. Miss the window and he re-arms; land it and he dies. **Specials never
+    execute Phil** (the special-exemption rule above); this scripted finisher is the only kill.
   - **Length:** exempt from <2:00; target **~5–8 min** (`TUNING.md` §7).
 
 ### 5.2 Burly Macho Guy — **boss** — **[LOCKED core]** — **caps Area 1 (department store)**
