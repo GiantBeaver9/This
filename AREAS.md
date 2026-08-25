@@ -38,8 +38,8 @@ debut, frantic tone) → **department-store** area boss. Lead economy keeps it l
 - **Time of day:** **late morning → early afternoon (~11:30–3)** — the "leaving school / lunch" hour. Sun
   high and bright.
 - **Sky:** clear **California blue** with only the **occasional wispy cloud** (CA has almost no clouds).
-- **[LOCKED] Framing:** the **bottom ~50–60% of the screen is the scene** (play band + sidewalk + the
-  houses/trees forming the back wall); the **top ~40% is sky** that **doubles as the backdrop for the HUD**
+- **[LOCKED] Framing:** the **bottom 60% of the screen is the scene** (play band + sidewalk + the
+  houses/trees forming the back wall); the **top 40% is sky** that **doubles as the backdrop for the HUD**
   (health, meter, money, etc.). Focus stays on the action; only a sliver of sky shows above the rooftops.
   *(Per-area: indoor themes swap this top backdrop for a themed one — the HUD band is always there.)*
 - **Parallax (light):** far — sky + rare wispy cloud + a hint of rolling-hill horizon; mid — **houses &

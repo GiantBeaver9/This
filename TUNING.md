@@ -97,9 +97,10 @@ the player's fist/weapon):
 | Consumes the enemy? | **No — shoves & releases staggered** | unless soak damage kills them (below) |
 | Damage it soaks | **up to 40 dmg** absorbed by the human-shield before it drops | e.g. eats gatling stream to close in |
 | Shielded enemy takes | 100% of soaked damage | dies if its own HP is exceeded, then rush ends |
-| Tier limit | **cannot grab Heavy or a boss** | grabbing them = you bounce & fall (weight rule) |
+| Tier limit | **cannot grab any H-weight enemy (Heavy, Ground Smasher, Gatling Gunner), any miniboss, or any boss** | grabbing one = you **bounce off & fall** (0.70 s H-floors the player, §2.6) — the weight rule; **all L/M-weight regulars are grabbable** |
 | Rush speed | 9.0 wu/s | faster than run, to close gaps |
-| Cooldown | **1.5 s** | |
+| **[LOCKED] Duration & termination — the rush ends at the FIRST of:** | (a) the shield **absorbs 40 cumulative dmg** and drops; (b) the shield's **own HP is exceeded** by soaked damage (it dies, you release); (c) you travel a **max 8.0 wu** from the grab point; (d) you **release the forward input**; (e) you **hit a wall / arena edge / an ungrabbable enemy** (H-weight/boss body). On ANY exit the grabbed enemy is **shoved forward 1.0 wu and released staggered (M-stagger 0.55 s)**, and the player returns to neutral. | a hard cap so the move can't be held indefinitely |
+| Cooldown | **1.5 s** (starts when the rush ends) | |
 
 ### 2.4 Special meter
 
@@ -252,10 +253,10 @@ the player's fist/weapon):
 | Special | Value | Notes |
 |---|---|---|
 | Tactical — Sniper | wipes 15/30/45 by tier (§2.4); **drops nothing**; boss dodges >10% HP | LOCKED |
-| Shotgunner — Giant Shotgun | **RULE: instakills every T3-and-below on screen** (ignores HP) + **8 wu knockback**; **also kills untiered *fodder* (Pickpocket, economy Monkey) and the T2-eff Flying Monkey**. **Survivors: the Heavy & Monkey Tamer take 45 dmg + knockback** (not instakill). **Bosses take NOTHING above 10% HP** (all specials are negated above 10%, `BOSSES.md` §1 — no chip, no knockback on a boss; at ≤10% the 5 HP-depletion bosses execute). **Drops stay**. **Arc geometry:** a **forward cone, 6/8/10 wu long × ~4 wu wide** at yellow/blue/green fills (the blast fills the cone; on-screen kills outside the cone still die — the "off the screen" wipe — but the cone is what draws + knocks back) | LOCKED — survivors = Heavy/Tamer/boss |
+| Shotgunner — Giant Shotgun | **RULE: instakills every T3-and-below on screen** (ignores HP) + **8 wu knockback**; **also kills untiered *fodder* (Pickpocket, economy Monkey) and the T2-eff Flying Monkey**. **Survivors: the Heavy, all H-weight (Ground Smasher, Gatling Gunner), the Monkey Tamer, and every MINIBOSS take 45 dmg + knockback** (not instakill — minibosses are big-version elites above the ≤T3 instakill gate; the sniper still one-shots them but this AoE does not). **Bosses take NOTHING above 10% HP** (all specials are negated above 10%, `BOSSES.md` §1 — no chip, no knockback on a boss; at ≤10% the 5 HP-depletion bosses execute). **Drops stay**. **Arc geometry:** a **forward cone, 6/8/10 wu long × ~4 wu wide** at yellow/blue/green fills (the blast fills the cone; on-screen kills outside the cone still die — the "off the screen" wipe — but the cone is what draws + knocks back) | LOCKED — survivors = H-weight/Tamer/miniboss/boss |
 | Werewolf | **5.0 s** transform, **full i-frames**, every slash = 1HKO, **drops stay**; slash dmg vs boss = 0 above 10% | cooldown = the meter |
 | **Werewolf vs. Heavy/untiered** | the 1HKO **DOES kill Heavy, Ground Smasher, Gatling Gunner, Monkey Tamer and every untiered enemy** — it is a raw slash, not a tier-gated special, so no ≤-tier rule applies. **Bosses only** survive (they take slash-dmg 0 above 10% HP, like the other specials). | the one special that ignores weight/tier — its cost is the tiny 5 s window |
-| Underdog — Vaporize | close radius **3.0 wu** instant-kill of **T3-and-below + untiered fodder** (Pickpocket, economy Monkey; the Flying Monkey is T2-eff, already covered) — **drops nothing**, sniper-style; **only Heavy, Monkey Tamer & bosses survive** (only the Werewolf **special** 1HKOs Heavies — keeps it unique); then **+20% to all dmg for 30 s**; **refreshes, does not stack (with itself)** | survivors: **Heavy & Monkey Tamer take 45**; **bosses take NOTHING above 10%** (negated like all specials, `BOSSES.md` §1) — same survivor rule as the Shotgunner. **The Vaporize buff (+20/25/30%) and the passive meter buff (+10/20/30%, §2.4) are separate sources and STACK multiplicatively** (green×green = ×1.3×1.3 ≈ ×1.69). |
+| Underdog — Vaporize | close radius **3.0 wu** instant-kill of **T3-and-below + untiered fodder** (Pickpocket, economy Monkey; the Flying Monkey is T2-eff, already covered) — **drops nothing**, sniper-style; **only H-weight (Heavy, Ground Smasher, Gatling Gunner), the Monkey Tamer, minibosses & bosses survive** (only the Werewolf **special** 1HKOs Heavies — keeps it unique); then **+20% to all dmg for 30 s**; **refreshes, does not stack (with itself)** | survivors: **H-weight, Monkey Tamer & every miniboss take 45** (in radius); **bosses take NOTHING above 10%** (negated like all specials, `BOSSES.md` §1) — same survivor rule as the Shotgunner. **The Vaporize buff (+20/25/30%) and the passive meter buff (+10/20/30%, §2.4) are separate sources and STACK multiplicatively** (green×green = ×1.3×1.3 ≈ ×1.69). |
 | Boss execution (all specials) | only ≤10% boss HP shows the execute prompt | LOCKED (`BOSSES.md` §1) |
 
 **[LOCKED] Meter-tier scaling — EACH special scales its own signature axis** (yellow = 1 fill · blue = 2 ·
@@ -284,6 +285,7 @@ tier; what scales is reach/knockback and duration. The Underdog's buff still ref
 | Range | **whole screen** — no per-bounce range cap (it's a screen-clear) |
 | Exemptions | **Heavy** (ricochet-immune, `TUNING.md` §4) and **bosses > 10% HP** (dodge) are the ONLY units the ricochet skips. **Every other enemy is a valid target** — including **Zombies**: the sniper special is a **clean kill that destroys the Zombie outright** (it is NOT a normal headshot, so the "headshots only hollow a Zombie" rule, `ENEMIES.md` §2.8, does **not** apply — the special overrides it). No "head lineup" predicate; the auto-chain picks the nearest un-hit enemy. **Drops nothing** from any sniper kill. |
 | Zombie tax | **exempt** — sniper kills are always clean (no 10% zombify, unlike hand-guns) |
+| **[LOCKED] Player safety during the slow** | the player is **fully invulnerable for the whole 2.5 s** (the ONE sanctioned i-frame window in a no-i-frame game — it is a cinematic special, not a dodge). Enemies and their in-flight projectiles crawl at 0.2× and **cannot damage the player** during the aim/fire; anything mid-flight that would have connected is simply survived. This is deliberate and does **not** contradict the global "no i-frames" rule (which governs *dashes/getups*), it is the special's defining payoff. Minibosses/bosses continue their (slowed) patterns but deal no damage in the window. |
 | Cooldown | = re-earning the meter (no separate cooldown) |
 
 ---
@@ -334,8 +336,10 @@ gatling) fires **straight ahead along the player's current Z-row, on a flat hori
 of the killing hit:**
 1. the target is a **standing** enemy (upright, not airborne/launched and not downed/swept — its head is on the
    fixed shot plane), **and**
-2. the target is a **regular non-boss** unit (not a boss, not a miniboss, not H-weight Heavy — those are
-   headshot-**immune**, `TUNING.md` §4 rows 15–17), **and**
+2. the target is a **regular non-boss** unit — **all three H-weight enemies (Gatling Gunner row 15, Ground
+   Smasher row 16, Heavy row 17), every miniboss, and every boss are headshot-IMMUNE** (a gun kill on them, if
+   the damage even gets there, is never a headshot and never zombifies; the Heavy is additionally immune to the
+   sniper ricochet, `TUNING.md` §4 row 17). Only L/M-weight regulars can be headshot, **and**
 3. the shot's damage **kills** the target on that hit (a headshot that does *not* kill just deals its damage —
    e.g. pistol 12 into a 40-HP Regular is a body-plane hit that chips, no zombify roll).
 - **Predicate result:** a qualifying headshot **kill** rolls the **10% zombify** — spawn a 10 s Zombie instead
@@ -437,6 +441,8 @@ of the killing hit:**
 | T2 | 22% | tier-2 weapons (Whip, Bat, Staff, Ball & Chain, Boomerang Gun — as unlocked) |
 | T3 | 26% | tier-3 weapons (Shotgun, Gatling — as unlocked) |
 | T4 / miniboss | 35% | tier-4 weapons (Grenade + the strongest unlocked pool) |
+| **Untiered combat elites** (Heavy, Monkey Tamer) | **26%** (roll on the **T3 band**) | treated as T3-strength for loot — they're tough kills, so they reward from the strongest-unlocked pool like a T3. The **Gatling Gunner is T3** already, so killing it drops a Gatling per §6.1; the **Heavy drops a T3-band weapon** (resolves `ENEMIES.md` §2.11's open drop item). |
+| **Economy enemies** (Monkey, Pickpocket) | **do NOT roll this table** | the **Monkey** drops the **Monkey Merc** stick (its only source, `ENEMIES.md` §2.2); the **Pickpocket** drops **coins** (2× what it stole, `ENEMIES.md` §2.16) — neither drops a weapon. |
 
 *The **Rocket Launcher is a world pickup only** (not in any random pool, `WEAPONS.md` §3.8b), and the
 **Monkey Merc drops only from the Monkey stick figure** (`ENEMIES.md` §2.2) — neither is a tier drop. At

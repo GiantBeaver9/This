@@ -139,9 +139,17 @@
 - **Slow march** straight at the player.
 - **Grab at close range:** it can **grab the player** (no bite — no mouth); the player **mashes/taps to
   break free.** A tempo trap, not burst damage.
-- **[LOCKED] How zombies die:** **regular body damage** kills them, or they **time out.**
+- **[LOCKED] How zombies die:** **regular body damage** kills them (30 HP, `TUNING.md` §4 row 1), or they
+  **time out.**
   - **Headshot-created zombies last ~10 seconds**, then drop on their own.
   - **Pod-spawned zombies** die to **any combo finisher** (the 4th-hit finisher is enough).
+- **[LOCKED] Guns vs. the Zombie (resolves the gun/head interaction):** because a Zombie's head is inert,
+  **guns never headshot a Zombie** — every gun hit lands as a **body shot dealing its normal damage** to the
+  30 HP: **pistol 12** (chips — 3 shots), **revolver 30** (one-shots the body), **gatling barrage** deals its
+  **flat 45** (a Zombie is not a "standing regular auto-kill" target for zombify purposes — it's already a
+  zombie, so **no zombify roll** ever fires on a Zombie). A gun shot on a *live enemy's* head is what may create
+  a Zombie (headshot economy); a gun shot *on a Zombie* just damages its body. The **sniper special destroys a
+  Zombie cleanly** (overrides the head-inert rule, `TUNING.md` §3.1).
 - **[LOCKED] Sources:**
   1. **Created by a headshot** — a headshot **hollows the head and spawns a ~10s zombie** instead of a
      clean kill.
@@ -364,6 +372,9 @@ Pickpocket escape, Boomergunner catch, Head-Thrower head physics, Sniper-vs-grou
   T1.)*
 - **Head-Thrower fire-boom AoE:** a staff-fire-lit Head-Thrower's explosion **also damages other enemies**
   within its blast (r 2 wu) — friendly fire among enemies (`WEAPONS.md` §3.5).
+- **Untiered-elite drops (LOCKED, resolves the Heavy/Tamer "what he drops"):** the **Heavy and Monkey Tamer
+  roll the T3 loot band (26%)**; the **Monkey and Pickpocket are economy enemies** and don't roll the weapon
+  table (Monkey → Monkey Merc, Pickpocket → 2× coins) — pinned in `TUNING.md` §6 drop table.
 
 **Roster is complete and locked.** Per-stage rosters live in `ENCOUNTERS.md`; all per-enemy numbers in
 `TUNING.md` §4/§4.1. **AA bait rule (flavor):** the Anti-Aircraft targets the **player's thrown boomerang**

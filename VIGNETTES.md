@@ -5,6 +5,12 @@
 > art (cheap). This doc tracks **every stage's vignette** so none are missed.
 >
 > **Legend:** **[LOCKED]** decided · **[ITERATE]** to plan.
+>
+> **[LOCKED] Vignettes are non-interactive scripted set-pieces** — the enemies are puppeteered to demonstrate a
+> mechanic, so a vignette may show an enemy *acting on* another enemy (e.g. a Ground Smasher knocking an enemy
+> off-balance for a gatling kill) **even where the runtime rules forbid enemy-vs-enemy CC/damage** (`TUNING.md`
+> §6.2: shockwaves don't affect enemies in play). The vignette is spectacle, not a statement of the runtime
+> rule; nothing in a vignette overrides `TUNING.md`.
 
 ---
 
@@ -21,7 +27,7 @@
 | **A3 · Dixon (boss rush)** | an **Arm-Ripper rips a guy's arms off and opens fire with akimbo pistols** | rip arms → guns; guns shoot | **[LOCKED]** |
 | **A4 · Vallejo (Six Flags)** | a **Pickpocket steals a Ninja's coins (10) and runs**; the **Ninja teleports and kills him → the coins double to 20** | Ninja (teleport-kill) + Pickpocket (kill for **2×**) | **[LOCKED]** |
 | **A4 · Marin redwoods** | a **Boomergunner terrorizing civilians throws his boomerang gun**; it **shoots a person and returns**, then pans to the player | Boomergunner | **[LOCKED]** |
-| **A4 · Golden Gate** | an enemy **advances → a Ground Smasher slams the ground, stunning him → the Gatling barrage eviscerates him**, but **anyone behind a car is unharmed** | zoner stun + barrage + **car cover** | **[LOCKED]** |
+| **A4 · Golden Gate** | an enemy **advances → a Ground Smasher slams the ground, knocking him off-balance → the Gatling barrage eviscerates him**, but **anyone behind a car is unharmed** | zoner threat + barrage + **car cover** | **[LOCKED — scripted set-piece]** |
 | **A4 · SF streets** | the **trolley plows through a regular enemy** — but the **Heavy doesn't care: he just steps aside** and the trolley keeps going | **trolley** flattens everything **except the immovable Heavy** | **[LOCKED]** |
 | **Finale · Salesforce rooftop** | **Phil's monologue** during the climb — **menacing laughter**: he still has the pencil, has **found the Holy Sharpener**, and will **"bring 2D chaos to this 3D planet"**; things slowly **sway** as he talks (foreshadows slippage) | the stakes + tower sway / fall = instant death | **[LOCKED]** |
 

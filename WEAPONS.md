@@ -177,7 +177,14 @@ Each attack direction is a different tool:
 ### 3.5 Staff — *magic caster* **[LOCKED core]**
 - **Element is set at pickup — randomly one of three: Ice, Fire, Lightning.** A given staff stays that
   one element for its whole life. The **finisher casts** the element's effect:
-  - **Ice** — crowd control: **freezes** enemies, **less damage**. Lockdown tool.
+  - **Ice** — crowd control: **8 damage + freezes the enemy solid for 3 s** (`TUNING.md` §6). Lockdown tool.
+    **[LOCKED] Freeze interaction rules:** (a) a frozen enemy is **fully inert** — its current action is
+    **interrupted** and it cannot move/attack/telegraph until thaw; (b) **damage does NOT break the freeze** —
+    you can freely wail on a frozen enemy and it stays frozen the full 3 s (freeze ends only on its **timer**);
+    (c) a frozen enemy **can still be swept and finished** — the sweep (hit 3) knocks the frozen body down and
+    the finisher connects normally (freeze doesn't protect it); (d) if the enemy **dies while frozen** it
+    **shatters** (normal death, drops roll as usual); (e) **H-weight, minibosses, and bosses are immune** — they
+    take the 8 damage but never freeze (status-immunity, `TUNING.md` §2.6).
   - **Lightning** — **12 damage + a 1 s stun, then a −40% movement slow for 2 s** after the stun ends
     (`TUNING.md` §6). Tempo/control. **H-weight and bosses/minibosses are immune to both the stun and the
     slow** (status-immunity, `TUNING.md` §2.6) — they take only the 12 damage.
