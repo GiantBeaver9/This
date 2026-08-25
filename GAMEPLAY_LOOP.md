@@ -211,10 +211,10 @@ and stays minimal so the busy lower playfield never fights the UI for the player
   playable characters** (each plays differently, `CHARACTERS.md`) **and Endless Mode** (`STAGES.md` §7b) —
   not from divergent stage paths.
 
-### 7.2 Performance feedback (cosmetic only) — **[PROPOSED]**
-Performance can still be *shown* (combo popups, an optional end-of-stage grade for score/bragging), but it
-**no longer changes the path** — everyone plays the same stage order. **[LATER]** whether an end-of-stage
-grade exists at all.
+### 7.2 Performance feedback (cosmetic only) — **[LOCKED]**
+Performance is *shown* (combo popups + a **cosmetic end-of-stage Results/grade screen**, LOCKED in `UI.md`
+§5) but **never changes the path** — everyone plays the same stage order, and the grade has **zero gameplay
+effect**. The grade exists (resolved); it's purely score/bragging.
 
 ### 7.3 Session goal — **[LATER]**
 Win condition = **beat Phil** (linear campaign); Endless Mode is separate. Meta-progression and any

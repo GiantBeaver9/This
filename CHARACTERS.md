@@ -62,7 +62,8 @@ Each Special clears a crowd differently, balanced by **what loot survives** — 
 
 ### 2.4 The Underdog *(the short friend — hard mode)* — **[LOCKED core]**
 - The group's **butt-of-the-jokes**, **shorter** than the rest — designed as **hard mode:** **less damage**,
-  **same move speed** as everyone else (no speed bump to offset the damage penalty).
+  a **base move speed of ×1.00** and **no compensating speed bump** to offset the damage penalty (unlike the
+  Tactical's ×1.12) — that's the hard-mode point: he's plain-statted with weaker hits (`TUNING.md` §3).
 - **Special — Vaporize + Empower:** **instantly vaporizes T3-and-below in a close radius** around him (untiered
   Heavy/Tamer & bosses survive — only the Werewolf **special** kills Heavies among the specials, `TUNING.md` §3.1), then
   grants **"power attacks" for ~30 seconds** — **everything hits ~20% harder** (all attacks/weapons,

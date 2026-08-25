@@ -216,10 +216,10 @@ the player's fist/weapon):
 | Special | Value | Notes |
 |---|---|---|
 | Tactical — Sniper | wipes 15/30/45 by tier (§2.4); **drops nothing**; boss dodges >10% HP | LOCKED |
-| Shotgunner — Giant Shotgun | **RULE: instakills every T3-and-below on screen** (ignores HP) + **8 wu knockback**; **also kills untiered *fodder* (Pickpocket, economy Monkey, Flying Monkey)**; **only the Heavy, Monkey Tamer, and bosses survive** (survivors take **45 dmg + the knockback**, not instakill); **drops stay**. **Arc geometry:** a **forward cone, 6/8/10 wu long × ~4 wu wide** at yellow/blue/green fills (the blast fills the cone; on-screen kills outside the cone still die — the "off the screen" wipe — but the cone is what draws + knocks back) | LOCKED — survivors = Heavy/Tamer/boss |
+| Shotgunner — Giant Shotgun | **RULE: instakills every T3-and-below on screen** (ignores HP) + **8 wu knockback**; **also kills untiered *fodder* (Pickpocket, economy Monkey) and the T2-eff Flying Monkey**. **Survivors: the Heavy & Monkey Tamer take 45 dmg + knockback** (not instakill). **Bosses take NOTHING above 10% HP** (all specials are negated above 10%, `BOSSES.md` §1 — no chip, no knockback on a boss; at ≤10% the 5 HP-depletion bosses execute). **Drops stay**. **Arc geometry:** a **forward cone, 6/8/10 wu long × ~4 wu wide** at yellow/blue/green fills (the blast fills the cone; on-screen kills outside the cone still die — the "off the screen" wipe — but the cone is what draws + knocks back) | LOCKED — survivors = Heavy/Tamer/boss |
 | Werewolf | **5.0 s** transform, **full i-frames**, every slash = 1HKO, **drops stay**; slash dmg vs boss = 0 above 10% | cooldown = the meter |
 | **Werewolf vs. Heavy/untiered** | the 1HKO **DOES kill Heavy, Ground Smasher, Gatling Gunner, Monkey Tamer and every untiered enemy** — it is a raw slash, not a tier-gated special, so no ≤-tier rule applies. **Bosses only** survive (they take slash-dmg 0 above 10% HP, like the other specials). | the one special that ignores weight/tier — its cost is the tiny 5 s window |
-| Underdog — Vaporize | close radius **3.0 wu** instant-kill of **T3-and-below + untiered fodder** (Pickpocket, Monkey, Flying Monkey) — **drops nothing**, sniper-style; **only Heavy, Monkey Tamer & bosses survive** (only the Werewolf **special** 1HKOs Heavies — keeps it unique); then **+20% to all dmg for 30 s**; **refreshes, does not stack (with itself)** | same survivor set as the Shotgunner. **The Vaporize buff (+20/25/30%) and the passive meter buff (+10/20/30%, §2.4) are separate sources and STACK multiplicatively** (green×green = ×1.3×1.3 ≈ ×1.69). |
+| Underdog — Vaporize | close radius **3.0 wu** instant-kill of **T3-and-below + untiered fodder** (Pickpocket, economy Monkey; the Flying Monkey is T2-eff, already covered) — **drops nothing**, sniper-style; **only Heavy, Monkey Tamer & bosses survive** (only the Werewolf **special** 1HKOs Heavies — keeps it unique); then **+20% to all dmg for 30 s**; **refreshes, does not stack (with itself)** | survivors: **Heavy & Monkey Tamer take 45**; **bosses take NOTHING above 10%** (negated like all specials, `BOSSES.md` §1) — same survivor rule as the Shotgunner. **The Vaporize buff (+20/25/30%) and the passive meter buff (+10/20/30%, §2.4) are separate sources and STACK multiplicatively** (green×green = ×1.3×1.3 ≈ ×1.69). |
 | Boss execution (all specials) | only ≤10% boss HP shows the execute prompt | LOCKED (`BOSSES.md` §1) |
 
 **[LOCKED] Meter-tier scaling — EACH special scales its own signature axis** (yellow = 1 fill · blue = 2 ·
@@ -292,7 +292,7 @@ While held: the player is **rooted**, cannot move/attack, and **takes full damag
 - **Headshot-made Zombie** expires after **10 s** regardless (releases any grab on expiry); **pod-spawned**
   Zombie dies to any finisher.
 
-**Headshot economy (LOCKED):** pistol/revolver head-lineups and the gatling auto-kill finisher have a **10%**
+**Headshot economy (LOCKED):** pistol/revolver head-lineups and the gatling `E`-barrage auto-kill have a **10%**
 chance to spawn a 10 s zombie instead of killing. **Sniper special is exempt** (always clean).
 
 ### 4.1 Enemy AI edge-case resolutions — **[LOCKED]** (the "what does it do when…" table)
@@ -303,7 +303,8 @@ chance to spawn a 10 s zombie instead of killing. **Sniper special is exempt** (
 |---|---|
 | **Arm-Ripper spawns with no T1 fodder to disarm** | it **arrives already armed** with its own akimbo pistols (it ripped its arms off-screen); the "rip a nearby T1" is a **flavor animation only when a T1 is adjacent** — never a spawn dependency. |
 | **Gatling Gunner spawns with no fodder to contort** | same — it **spawns with the gatling in hand**; the "2×T1 / 1×T2 → gatling" line is the *diegetic origin*, not a runtime requirement. Both are **self-sufficient on spawn**. |
-| **Ninja needs no fodder** | the Ninja is **fully self-contained** — teleport + shuriken + limb-shuriken are its own kit; the "limb-strip" is **flavor on its own body**, never a dependency on other enemies. Spawns combat-ready. |
+| **Ninja needs no fodder** | the Ninja is **fully self-contained** — teleport + shuriken are its own kit; **throws 2 shuriken per volley, cooldown 3 s, effectively unlimited** (self-restocks — the "2 per stripped limb" was flavor, not a finite ammo count). Spawns combat-ready. |
+| **Regular Melee attack selection** | by range: **≤1.0 wu → punch** (7.5); **1–4 wu → slide-kick** (gap-closer, 7.5); **player airborne within 3 wu → jump-kick** (7.5). Picks the fitting one for the current range each attack cycle (windup 100 ms). |
 | **Monkey Tamer's melee monkeys — stats** | each summoned monkey: **HP 20, contact dmg 5, speed 6.0 wu/s, L-stagger**; **max 2 live**; **deactivate instantly on the Tamer's death** (§4 row 9). They are lighter than the economy Monkey (row 10). |
 | **Pickpocket escapes with your coins** | if it **reaches a screen edge**, the stolen coins are **lost permanently** (the risk). Killing it before it exits **drops 2× the stolen pile**. It only steals **once per life**, then flees. |
 | **Boomergunner's gun is caught mid-orbit** | catching it (walk into the returning arc) **destroys the gun for that enemy** (it must re-loot/melee) and **staggers the Boomergunner 0.55 s**; the player does **not** gain the gun (it's the enemy's body-part, shatters on catch). |

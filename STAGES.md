@@ -170,7 +170,7 @@ Goal = **visible progression & diversity**: suburb → mall → city → airport
 
 - **No branching.** The run is a **single fixed path** (§2); **replay comes from the 4 characters + Endless
   Mode**, not divergent stages.
-- **[PROPOSED]** an optional **end-of-stage grade** may still show for score/bragging (`GAMEPLAY_LOOP.md`
+- **[LOCKED]** a **cosmetic end-of-stage grade** shows for score/bragging, no gameplay effect (`UI.md` §5, `GAMEPLAY_LOOP.md`
   §7.2) — cosmetic, it changes nothing about the path. **[LATER]** whether it exists at all.
 
 ---

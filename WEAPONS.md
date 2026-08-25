@@ -181,14 +181,17 @@ Each attack direction is a different tool:
 ### 3.6 Gatling Gun — *heavy risk/reward* **[LOCKED core]**
 - **No ammo count** — it doesn't deplete per shot.
 - **Slow combo** — its attack cadence is noticeably **slower** (heavy weapon).
-- **Finisher = ~0.5s of repeated fire into the enemy** — the player unloads point-blank for about half a
-  second; a guaranteed **auto-kill / headshot** on a normal enemy.
-- **No i-frames — the player is locked and vulnerable** through that ~0.5s barrage: the guaranteed kill is
-  paid for in **exposure**, so throwing it out in a crowd gets you hit.
-- **[LOCKED] Zombie risk:** the auto-kill headshot finisher has a **~10% chance to spawn a ~10s zombie
-  instead of killing** (see `ENEMIES.md` §2.8).
-- **[ITERATE]** how it's eventually lost (no ammo → overheat? time limit? N finishers?); does the headshot
-  hit one target or pierce/chain; warm-up/spin-up.
+- **[LOCKED] The barrage is an `E`-fire, NOT the combo finisher** (per §1's supersede rule): **press `E`** to
+  unload **~0.5s of point-blank fire** into the nearest enemy ahead — a guaranteed **auto-kill/headshot** on any
+  standing non-boss (Heavy excepted, `TUNING.md` §6). The combo finisher with the gatling equipped is a plain
+  free melee blow. *(Older text called this a "finisher"; read it as the `E`-barrage.)*
+- **No i-frames — the player is locked and vulnerable** through the ~0.5s barrage: the kill is paid for in
+  **exposure**, so throwing it out in a crowd gets you hit.
+- **[LOCKED] Zombie risk:** an `E`-barrage that lands as a **headshot kill** has a **~10% chance to spawn a
+  ~10s zombie instead** (`ENEMIES.md` §2.8).
+- **[LOCKED] Loss & targeting (`TUNING.md` §6):** **no ammo**; overheats after **5 barrages OR 20 s cumulative
+  equipped** then discards; targets the **nearest enemy ahead within 8 wu** (one target, no pierce);
+  **0.40 s spin-up**.
 - **[SUPERSEDES]** the earlier "20–32 shots" — no ammo tracking now.
 
 ### 3.7 Monkey Merc — *summon, costs a dime (10¢, see §3.9)* **[LOCKED core]**

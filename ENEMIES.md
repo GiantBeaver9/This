@@ -60,6 +60,14 @@
 
 ## 2. Known / locked enemies (surfaced during weapon design)
 
+> **⚠ [RESOLVED-ELSEWHERE BANNER] Every per-enemy `[ITERATE]` below is now PINNED** — read the concrete values
+> in **`TUNING.md` §4** (HP · damage · speed · weight · per-enemy timings), **`TUNING.md` §4.1** (AI edge-case
+> resolutions), **`TUNING.md` §6.3** (projectile speeds), and **`ENCOUNTERS.md`** (per-stage rosters). The
+> `[ITERATE]` tags in §2.1–§2.18 are **historical design notes, not open questions** — the numbers doc
+> supersedes them. (E.g. Regular Melee's attack-selection: **closes to ≤1.0 wu → punch; from 1–4 wu →
+> slide-kick; airborne player → jump-kick**; Snapper sword-drop, Head-Thrower regrow, Arm-Ripper reload — all in
+> §4/§4.1.)
+
 ### 2.1 Grenade Enemy ("Head-Thrower") — **[LOCKED core]**
 - **[LOCKED]** **Pulls off its own head and throws it at the player as a grenade.**
 - **[LOCKED] Fire interaction:** if set alight (fire staff), it **starts blinking, then after ~2s BOOM** —
@@ -136,7 +144,7 @@
   2. **Pods** — a **spawner** that pumps out zombies. **[ITERATE]** what a Pod is (destroyable spawner?
      count/rate, where it sits).
 - **[LOCKED — headshot economy]** Any **headshot-kill weapon** — **pistol/revolver** head-lineups and the
-  **gatling** auto-kill finisher — has a **~10% chance to spawn a ~10s zombie instead of killing**: a
+  **gatling** `E`-barrage auto-kill — has a **~10% chance to spawn a ~10s zombie instead of killing**: a
   small, ever-present downside to leaning on headshots. **The sniper special is exempt — it *always*
   cleanly kills** (ricochet headshots never spawn zombies).
 
