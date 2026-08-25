@@ -183,6 +183,19 @@
 | Underdog — Vaporize | close radius **3.0 wu** instant-kill (**drops nothing**, sniper-style; resolves §2.4 [ITERATE]); then **+20% to all dmg for 30 s**; **refreshes, does not stack** | |
 | Boss execution (all specials) | only ≤10% boss HP shows the execute prompt | LOCKED (`BOSSES.md` §1) |
 
+**[LOCKED] Meter-tier scaling — EACH special scales its own signature axis** (yellow = 1 fill · blue = 2 ·
+green = 3). The passive **+10 / +20 / +30% damage buff** rides on top for all characters (§2.4); on top of that:
+
+| Special | Yellow (1 fill) | Blue (2 fills) | Green (3 fills / max) |
+|---|---|---|---|
+| **Tactical — Sniper** | wipe **15** | wipe **30** | wipe **45** (whole screen) |
+| **Shotgunner — Giant Shotgun** | blast arc **6 wu** + **8 wu** knockback | arc **8 wu** + **11 wu** knockback | arc **10 wu** + **14 wu** knockback (instakill ≤T3 at every tier) |
+| **Werewolf** | **5.0 s** transform | **7.0 s** | **9.0 s** (full i-frames + 1HKO throughout) |
+| **Underdog — Vaporize** | radius **3.0 wu**, buff **+20% / 30 s** | radius **4.0 wu**, buff **+25% / 30 s** | radius **5.0 wu**, buff **+30% / 30 s** |
+
+*(The Shotgunner's ≤T3 instakill and the Werewolf's 1HKO are rules, not damage numbers — they hold at every
+tier; what scales is reach/knockback and duration. The Underdog's buff still refreshes-not-stacks at any tier.)*
+
 ---
 
 ## 4. Enemies — all 17 (HP · damage · speed · weight · timings)

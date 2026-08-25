@@ -37,8 +37,9 @@
 ---
 
 ## 1. Characters (4) — `PLAYER.md`, `CHARACTERS.md`
-**Pipeline note:** bespoke animation; **[OPEN]** shared-skeleton reskin (rec) vs. fully bespoke per character.
-All 4 share the moveset; each has a distinct **skin** + unique **Special**.
+**Pipeline note — [LOCKED]: FULLY BESPOKE per character** (`CHARACTERS.md` §3) — **4 complete animation sets**,
+no shared skeleton/reskin. All 4 share the *moveset design* but are **each animated from scratch**; each has a
+unique **Special**. Budget ~4× a single-character pile.
 
 ### 1a. Shared moveset (per character, or shared skeleton) — mostly **P0**
 Idle · walk/run (mirror) · dash + recover · **dash attacks per direction** (side/up/down + air) · air-dash ·

@@ -44,14 +44,17 @@ Each Special clears a crowd differently, balanced by **what loot survives** — 
   of an auto-kill it does **massive damage + knockback**, wiping **up to tier 3** (**T3-and-below; untiered Heavy/Tamer and bosses survive**), and
   **you get the drops on the ground.** *(Assuming this is the same person as the earlier "bulky friend" —
   flag if he's actually the 4th.)*
-- **[ITERATE]** stats trade-offs, meter fill, the exact blast/knockback.
+- **[LOCKED] Meter-tier scaling (`TUNING.md` §3.1):** blast arc **6→8→10 wu** and knockback **8→11→14 wu** at
+  yellow/blue/green fills; ≤T3 instakill holds at every tier.
 
 ### 2.3 The Werewolf *(Gabe)* — **[LOCKED core]**
 - **Special — Werewolf transformation:** **turns into a werewolf** for **~5 seconds** with **full i-frames**;
   you **slash everything** and **everything is a one-hit kill** — and you **still collect money/drops** from
   the kills. A berserk melee wipe (vs. the Tactical's ranged precision).
-- **[ITERATE]** base stats, whether the meter fills the same way, duration/cooldown tuning, what the
-  one-hit-kill does to bosses (immune? only in the sharpen-window?).
+- **[LOCKED] Meter-tier scaling (`TUNING.md` §3.1):** transform lasts **5→7→9 s** at yellow/blue/green fills
+  (i-frames + 1HKO throughout). **Vs. bosses:** slash dmg = 0 above 10% HP (executes only ≤10%, like all
+  specials, `BOSSES.md` §1); **vs. Heavy/untiered it still 1HKOs** (`TUNING.md` §3.1). Meter fills the standard
+  way (`TUNING.md` §2.4).
 
 ### 2.4 The Underdog *(the short friend — hard mode)* — **[LOCKED core]**
 - The group's **butt-of-the-jokes**, **shorter** than the rest — designed as **hard mode:** **less damage**,
@@ -60,8 +63,9 @@ Each Special clears a crowd differently, balanced by **what loot survives** — 
   grants **"power attacks" for ~30 seconds** — **everything hits ~20% harder** (all attacks/weapons,
   whatever the type). A **buff/utility** special, not a screen-wipe — fitting the underdog framing.
 - **[LOCKED, resolved in `TUNING.md` §3.1]** the close Vaporize **drops nothing** (sniper-style); **radius
-  3.0 wu**; the **+20% buff lasts 30 s and *refreshes*, does not stack**; base stats = move ×1.00, punch ×0.80,
-  weapon ×0.80 (the hard-mode penalty, `TUNING.md` §3).
+  3.0 wu** and buff **+20%/30 s** at 1 fill, **scaling to 4.0 wu / +25%** (2 fills) and **5.0 wu / +30%**
+  (3 fills); the buff **refreshes, does not stack**; base stats = move ×1.00, punch ×0.80, weapon ×0.80 (the
+  hard-mode penalty, `TUNING.md` §3).
 
 ---
 
@@ -70,9 +74,10 @@ Each Special clears a crowd differently, balanced by **what loot survives** — 
 - **[LOCKED] Each character is designed separately / visually distinct** — you can **tell at a glance which
   character you're playing** (own silhouette, colors, features). This matters especially for future
   **multiplayer** (§5), where several are on screen at once.
-- **[ITERATE] Animation pipeline (still open):** distinct *designs* don't force distinct *animation* —
-  **recommended: a shared moveset/weapon-animation skeleton with each character's distinct skin**, and
-  **unique art only for each Special.** The alternative — fully bespoke per character — is ~4× the pile.
+- **[LOCKED] Animation pipeline = FULLY BESPOKE per character.** Each of the 4 characters gets its **own
+  hand-made animation set** (moveset, weapon holds, hurt/death, Special) — **not** a shared-skeleton reskin.
+  Maximum individuality; the cost is ~4× the animation pile, which is accepted. Plan asset generation for
+  **4 complete character animation sets** (`ASSET_MANIFEST.md` §1).
 - Plus: a **character-select screen** (UI) and each character's **Special VFX/anim** (`VFX.md`).
 
 ---
@@ -86,7 +91,8 @@ Each Special clears a crowd differently, balanced by **what loot survives** — 
 **Locked:** all 4 designed as **visually distinct** characters; **single-player is the v1 target** (see §5).
 
 **Still open:**
-1. **Animation pipeline (§3):** shared-skeleton (distinct skins) — rec — or fully bespoke per character?
+1. ~~Animation pipeline~~ — ✅ **Resolved (§3): FULLY BESPOKE per character** (4 complete animation sets, no
+   shared skeleton).
 2. ~~Werewolf vs. bosses~~ — ✅ **Resolved:** **all** specials (Sniper, Werewolf, Shotgun, Underdog) only
    affect a boss **under 10% HP** (execution); above that the boss negates it (`BOSSES.md` §1).
 3. Confirm the **Shotgunner = the earlier "bulky friend"** (§2.2), not a 5th person.
