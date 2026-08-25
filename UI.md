@@ -75,6 +75,9 @@
   (you can now afford a monkey).
 - **[LOCKED] Resets each stage** — spend-it-or-lose-it; monkeys stay a tactical in-stage choice, no
   meta-banking.
+- **[LOCKED] Hidden until Area 3.** The money counter (and the whole coin/dime cluster) is **not shown in
+  Areas 1–2** — coins don't drop there (`TUNING.md` §6.1), and the economy is a **second-half reveal**
+  (`WEAPONS.md` §3.9). The counter **fades in when the first coin drops in Area 3.**
 
 ### 3.5 Monkey Merc status — **[LOCKED data], [PROPOSED] display**
 - Up to **3 per level** (death-limited); stacking sets their weapon & lifespan (pistol 20s / shotgun 10s /

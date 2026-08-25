@@ -120,13 +120,17 @@ Enemy-dropped; **1 per pickup** (scarce — save it for a cluster).
   **bounces 3× then explodes**.
 
 ### 3.3 Ball & Chain — *heavy directional launcher* **[LOCKED core]**
-- Plays **like the grenade's throw:** **tap `E` during the wind-up to change trajectory** (more taps =
-  flatter line-drive). The ball launches out on its chain and does a **ridiculous amount of damage.**
+- **[LOCKED] How the two inputs compose:** you **hold a direction + press `E`** to pick the **launch SHAPE**
+  (the 4 shapes in `COMBOS.md` §3); **for the two *arced/forward* shapes** (Meteor Line-Drive fwd, Wrecking
+  Uppercut ↑) **extra `E`-taps during the wind-up flatten that shape's arc** (more taps = flatter/faster line,
+  fewer = higher/slower — exactly the grenade's lob↔fastball feel). **The radial shapes (Ground Zero ↓, Full
+  Swing back) ignore tap-count** (they have no arc to flatten). So: **direction = shape, tap-count = arc**, no
+  ambiguity. The ball does a **ridiculous amount of damage (80/swing)**.
 - **Carrying it slows the player ~20%** — the weight is the tax; a heavy **commitment** weapon.
 - **Only 3 uses**, then it's gone — each swing is precious.
-- **[LOCKED] Directional `E`-launches (`COMBOS.md` §3):** hold a direction + `E` to shape the launch — forward
-  **Meteor Line-Drive**, ↑ **Wrecking Uppercut**, ↓ **Ground Zero** (radial knockdown), back **Full Swing
-  (360)**. Each spends 1 of the 3 uses. The **combo finisher** (double-tap on a swept enemy) with the Ball &
+- **[LOCKED] Directional `E`-launches (`COMBOS.md` §3):** forward **Meteor Line-Drive**, ↑ **Wrecking
+  Uppercut**, ↓ **Ground Zero** (radial knockdown), back **Full Swing (360)**. Each spends 1 of the 3 uses.
+  The **combo finisher** (double-tap on a swept enemy) with the Ball &
   Chain equipped is just the **free melee slam** — launching is the `E`-fire, not the finisher.
 - **[ITERATE]** exact reach per tap; whether it hits everything along the chain's path; knockback; whether
   the 20% slow also touches attack speed.

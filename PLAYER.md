@@ -180,7 +180,7 @@ A short cinematic beat with dedicated frames:
 
 **[LOCKED]** Against a **boss the shot is normally dodged** — the boss plays a **dodge animation** and the
 bullet misses; the special still ricochet-kills any normal enemies present in the arena. **Exception: at
-**under 10% boss HP** a prompt appears and the special *executes* the boss** (same rule for all characters,
+**at ≤10% boss HP** a prompt appears and the special *executes* the boss** (same rule for all characters,
 `BOSSES.md` §1). A charge you don't
 spend on a boss **carries over.** The boss dodge is a **boss asset**.
 

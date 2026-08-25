@@ -43,9 +43,14 @@
   demanding fight that stays SHORT — under ~2 minutes.** Past that it reads as annoying, not hard;
   difficulty comes from **pressure and reads, not HP bloat.** **Phil (the final boss) is the exception** —
   the endgame gauntlet, allowed to be long and brutal.
+- **[LOCKED] Arena add economy (concrete, all bosses).** Boss-arena adds obey: **max 2 adds alive at once**,
+  **one respawns 3 s after an add dies or is consumed** (thrown/whipped/ripped), from the arena's add-port(s)
+  (`ENCOUNTERS.md` arena table). This covers Burly's "2 Regulars stream in", the Colossus/Helicopter/Tank
+  weapon-gate adds, and Monkey Boss's dime cadence (which is separate, §5.7). Adds **stop spawning** once the
+  boss is defeated. This is the single cadence rule — no per-boss add-rate authoring needed.
 - **[LOCKED] Weapon-gated boss arenas guarantee the weapon.** When a boss requires a specific weapon (Tank →
-  grenade, Colossus → whip), the arena spawns **tier-1 enemies that, on death, drop ONLY that weapon** — so
-  the player can always re-arm. Some arenas offer **two options** (Helicopter → **Bat OR Grenade**). This
+  grenade, Colossus → whip), the arena's **2 tier-1 adds drop ONLY that weapon** on death — so the player can
+  always re-arm within the 3 s respawn cadence above. Some arenas offer **two options** (Helicopter → **Bat OR Grenade**). This
   resolves "where does the weapon come from" for every objective boss. **[LOCKED] Intentional exception** to
   the loot-tier rule (`ENEMIES.md` §1): these arena adds drop the **required weapon regardless of its normal
   tier** (e.g. the Tank's T4 grenade off tier-1 adds).
@@ -137,6 +142,11 @@
   - **Sharpen window (vulnerable 3–5 s):** when dry he **stops, hunches, and sharpens** — open and bleeding.
     Deal up to the **125-HP cap**; the window **ends early if you hit the cap**, else closes at **5 s** (a fast
     player caps it in ~3 s, a slow one gets the full 5). Matches `TUNING.md` §7.
+  - **[LOCKED] Under-damaging a window:** the **cap is a ceiling, not a requirement** — if you deal *less* than
+    125 in a window, Phil just re-arms with **whatever HP you left him**; the thresholds (75/50/25%) are only
+    *waypoints* for the summon-roster escalation, not gates you must land exactly on. The **execute window is
+    simply the one where his HP reaches ≤0 of the gated pool** — you keep getting sharpen windows until then.
+    (Because the cap ≥ one threshold's worth, a clean run is 4 windows; a sloppy run just takes more windows.)
   - **Arena — [LOCKED]:** a **play-band brawler on the swaying rooftop** (30 × 8 wu, `ENCOUNTERS.md`), **not**
     a giant upper-screen boss. **Sway/slippage** shifts your footing by up to **±1.5 wu** on a **~6 s sine**
     (telegraphed by the skybox tilting); **two edges have no railing → fall = instant death** (`TUNING.md`

@@ -209,10 +209,10 @@ the player's fist/weapon):
 | Special | Value | Notes |
 |---|---|---|
 | Tactical — Sniper | wipes 15/30/45 by tier (§2.4); **drops nothing**; boss dodges >10% HP | LOCKED |
-| Shotgunner — Giant Shotgun | **RULE: instakills every T3-and-below on screen** (ignores HP — not a damage number) + **8 wu knockback**; untiered Heavy/Tamer & all bosses survive; **drops stay** | LOCKED ≤T3 |
+| Shotgunner — Giant Shotgun | **RULE: instakills every T3-and-below on screen** (ignores HP) + **8 wu knockback**; **also kills untiered *fodder* (Pickpocket, economy Monkey, Flying Monkey)**; **only the Heavy, Monkey Tamer, and bosses survive**; **drops stay** | LOCKED — "survivors = Heavy/Tamer/boss," everything else dies |
 | Werewolf | **5.0 s** transform, **full i-frames**, every slash = 1HKO, **drops stay**; slash dmg vs boss = 0 above 10% | cooldown = the meter |
 | **Werewolf vs. Heavy/untiered** | the 1HKO **DOES kill Heavy, Ground Smasher, Gatling Gunner, Monkey Tamer and every untiered enemy** — it is a raw slash, not a tier-gated special, so no ≤-tier rule applies. **Bosses only** survive (they take slash-dmg 0 above 10% HP, like the other specials). | the one special that ignores weight/tier — its cost is the tiny 5 s window |
-| Underdog — Vaporize | close radius **3.0 wu** instant-kill of **T3-and-below** (**drops nothing**, sniper-style); **untiered Heavy/Tamer & all bosses survive** (only the Werewolf **special** 1HKOs Heavies — keeps that special unique); then **+20% to all dmg for 30 s**; **refreshes, does not stack** | |
+| Underdog — Vaporize | close radius **3.0 wu** instant-kill of **T3-and-below + untiered fodder** (Pickpocket, Monkey, Flying Monkey) — **drops nothing**, sniper-style; **only Heavy, Monkey Tamer & bosses survive** (only the Werewolf **special** 1HKOs Heavies — keeps it unique); then **+20% to all dmg for 30 s**; **refreshes, does not stack** | same survivor set as the Shotgunner |
 | Boss execution (all specials) | only ≤10% boss HP shows the execute prompt | LOCKED (`BOSSES.md` §1) |
 
 **[LOCKED] Meter-tier scaling — EACH special scales its own signature axis** (yellow = 1 fill · blue = 2 ·
@@ -323,7 +323,10 @@ chance to spawn a 10 s zombie instead of killing. **Sniper special is exempt** (
 
 ## 6. Weapons — all 16 (damage · durability/ammo · warm-up · E-fire)
 
-> **Melee combo hits do fist-strength (10)** with the weapon in hand; the **finisher (hit 4) is free melee (35)**.
+> **Ranged weapons bludgeon at fist-strength (10) through the combo, finisher = free melee 35** (the fist
+> baseline, §2.1). **Genuine melee weapons swing at their OWN per-hit / finisher values** (below — Sword
+> 18/45, Whip 14, Club 14, Bat 12, Sword's finisher 45, etc.); they are real swing kits, not fist re-skins.
+> So "the finisher is 35" applies to **fists and gun-bludgeons only** — melee weapons use their row's numbers.
 > **`E` spends ammo/durability** (fire/throw/cast). Throwables: **tap `E` during wind-up** — more taps = flatter.
 
 | Weapon | Tier | E-fire dmg | Durability / Ammo | Warm-up | E-fire behavior |
@@ -414,6 +417,9 @@ to fists), so ammo management is "use it or lose the drop," never a resource-hun
 | **School bus** (suburb) | **60** + knockdown | **60** + knockdown | bigger, slower, wider lane coverage |
 | **Trolley / cable-car** (SF) | **instant death** | **instant kill** (flattens) | except the **Heavy steps aside** (`VIGNETTES.md`); telegraphed by bell + 0.8 s |
 | **Jet blast** (airport boss) | **0 dmg**, pushes player **3 wu** | pushes enemies 3 wu | positional only, not damage |
+| **Taxiing plane** (airport stage) | **50** + knockdown | **50** | crosses the tarmac on a fixed path (like the suburb cars); engine-whine + 0.8 s telegraph (resolves `AREAS.md` §2.2 [ITERATE]) |
+| **Mall escalator / kiosk, city crowd** (Areas 1/4) | **0** (funnel/blocker only) | **0** | terrain funnels, not damaging (`STAGES.md` §7c) — they pinch the lane, no hazard damage |
+| **Ground Smasher shockwave** (enemy attack) | **22.5** + **1.2 s knockdown** | — | the lane shockwave floors you (standard knockdown, §2.6); it is an enemy attack, listed here for the knockdown value |
 | **Roller-coaster car** (Vallejo) | **50** + knockdown | **50** | on-rail, fixed timing telegraph |
 | **Causeway water** (Stage 6) | **10 chip** + respawn on last platform | enemies that fall are **removed (count as killed)** | no drowning death for the player |
 | **Pond/puddle** (farm) | **0** (slows movement 30% while in it) | same slow | soft terrain, not damage |
