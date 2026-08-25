@@ -109,7 +109,7 @@ its own cue — so the boss-cue count is 8 sub-bosses + Phil, not counting Sandw
 
 ---
 
-## 4. Core SFX list — **89 one-shots (v1)**
+## 4. Core SFX list — **92 one-shots (v1)**
 
 Grouped with concrete per-group counts. Each is a short arcade one-shot; pitch-randomized ±2 semitones at
 playback for variety without extra assets. **Counting convention (exact):**
@@ -120,7 +120,7 @@ playback for variety without extra assets. **Counting convention (exact):**
   ice/fire/lightning **(3)**" = 3 real elemental variants);
 - a trailing **(N)** on an item states its own sound count directly.
 
-Group counts below reflect this convention exactly, and the per-group sums add to the 89 total (the row math in
+Group counts below reflect this convention exactly, and the per-group sums add to the 92 total (the row math in
 the Total line is authoritative).
 
 | Group | Count | Contents |
@@ -134,10 +134,10 @@ the Total line is authoritative).
 | **Phil / finale** | 3 | **pencil-draw scribble** (summon), **sharpen scrape** (vulnerable window), **pencil-laser fire** (the scripted kill) |
 | **UI** | 7 | menu move, confirm, cancel, coin pickup, **full-dime highlight**, combo-popup pips, **"BARRAGE INCOMING" alarm** |
 | **Economy / misc** | 3 | pickpocket steal, coins-doubled jingle, checkpoint chime |
-| **Hazards** | 6 | car/bus pass-by, plane jet-blast, cow moo (path-block), **SF trolley bell+rumble (2)**, tower-sway creak |
-| **Total** | **89** | 8+6+6+24+19+7+3+7+3+6 |
+| **Hazards** | 9 | car/bus pass-by, **car horn** (the LOCKED 0.6 s telegraph, `TUNING.md` §6.2), plane jet-blast, cow moo (path-block), **SF trolley bell+rumble (2)**, tower-sway creak, **roller-coaster pass** (Stage 9), **causeway water splash** (fall) |
+| **Total** | **92** | 8+6+6+24+19+7+3+7+3+9 |
 
-- **Ambient beds (not counted in the 89 SFX):** **1 looping bed per stage-music slot = 12**, one-to-one with
+- **Ambient beds (not counted in the 92 SFX):** **1 looping bed per stage-music slot = 12**, one-to-one with
   the §2 loops: **1** birds/traffic (Lincoln suburbs) · **2** mall murmur + shopper panic (Galleria) · **3**
   old-town street tone (Sacramento downtown) · **4** tarmac hum + jet drone (Airport) · **5** marsh/wind
   (Hills & causeway) · **6** barnyard/livestock (Farm) · **7** dry deserted-town wind (Dixon) · **8** carnival
@@ -197,7 +197,7 @@ Priority = what wins when the mix gets crowded. Higher ducks lower.
   orchestrations of one shared motif + Phil's full realization) + **5 area-transition stingers** (2 s each, cut
   from the incoming loops, not in the 23).
 - **Ambient:** 12 area beds (§4, one per stage-music slot).
-- **SFX:** **89 core one-shots** (§4).
+- **SFX:** **92 core one-shots** (§4).
 - **VO:** 5 intro clips (creator voice) + Phil rooftop monologue (~30 s).
 - **Priority:** Intro VO + core SFX = **P1**; per-area music, ambient beds, boss themes, UI sounds = **P2**
   (matches `ASSET_MANIFEST.md` §8 phasing).

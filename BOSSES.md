@@ -130,6 +130,12 @@
   the **killing blow must be a finisher**, and at the climax that finisher is **replaced** — the player
   **"shoots" Phil with a laser that fires from the pencil**. This scripted **pencil-laser finisher** is the
   only thing that ends him (it's not gated on the 10% special rule the other bosses use).
+- **[LOCKED] Weapons vs. Phil (reconciles `BOSSES.md` §1 "everything but the sniper works" with the gatling
+  rule).** During a sharpen window Phil has a real, damageable HP bar (deal up to the 125-HP cap), so **looted
+  weapons and combos damage him normally** in that window — EXCEPT the **gatling `E`-barrage, which does 0 to
+  Phil** (`TUNING.md` §6 rule (d): the barrage is 0 vs all 5 objective/proxy bosses, Phil included — its
+  auto-kill/flat-45 logic can't apply to a script-gated HP bar). Use its **melee bludgeon (10)** or any other
+  weapon in the window instead. Outside a window Phil is invulnerable to everything (drawing).
 - **[LOCKED] The endgame** — the absolute final fight, **exempt from the <2-min rule**, meant to be
   **brutally hard.**
 - **[LOCKED, resolved]** the **low-HP special execution does *not* apply to Phil.** Every other boss dies to a
@@ -145,7 +151,13 @@
   - **Lead pool & the dry-out clock (LOCKED costs):** each draw cycle he starts with **12 lead-points**. Per-
     summon cost: **Regular = 2 · Swarmer pod = 3 · reprise miniboss = 6 · Heavy = 4.** He keeps drawing (one
     summon whenever he has the lead and a free add-slot, **one draw every 1.5 s**) until he **can't afford the
-    next summon** → he runs dry and must sharpen. **Killing his adds faster empties the field, so he keeps spending
+    next summon** → he runs dry and must sharpen.
+  - **[LOCKED] Draw-selection rule (all bands, one policy):** each draw, Phil picks the **most expensive summon
+    type he can currently afford** from the **types unlocked at the current HP band** (100–75% = Regular/pod;
+    75–50% adds Pool-A miniboss; 50–25% adds Pool-B miniboss; 25–0% adds Heavy — cumulative, §above), **breaking
+    ties at random** and respecting the 2-live-miniboss concurrency cap. So early bands spend lead on
+    Regulars/pods (nothing pricier is unlocked); later bands front-load a miniboss when affordable, then fill the
+    remaining lead/slots with cheaper adds. This makes the escalation deterministic to implement. **Killing his adds faster empties the field, so he keeps spending
     lead to refill → dries out sooner** (fewer live adds = more draws = faster to the window). This is the core
     loop lever: aggressive add-clearing shortens the invuln phase. (Killing an add gives Phil nothing back;
     it just accelerates his spend.)

@@ -47,7 +47,8 @@
     characters read consistently across every area; only the environment accent ramp swaps.
 - **[LOCKED] Font:** a **single bundled bitmap pixel font** — **"chunky-arcade" all-caps display face, ~8px cap
   height** at the 640×360 internal res, uniform-width heavy strokes (readable at 1×). One face used everywhere
-  (HUD numerals, screen text, combo popups, boss name cards); glyph set = **A–Z, 0–9, and `$ . ¢ % ! ? ▶ · / + -`**.
+  (HUD numerals, screen text, combo popups, boss name cards); glyph set = **A–Z, 0–9, and `$ . : ¢ % ! ? ▶ · / + -`**
+  (the **`:`** is required for the Endless `mm:ss` timer, `TUNING.md` §8.3).
   Bundled as a PNG glyph atlas (`ui_font.png`, same import settings as sprites). No secondary font in v1.
 - **Animation fps & frame budgets:** play back at **12 fps** (anime-on-2s feel, cheap). Frame budgets:
   **idle 2–4 · walk 6–8 · attack 3–6 · hurt 2 · death 4–6 · dash 3** (matches `PLAYER.md` §5/§7). **Where a
@@ -117,6 +118,17 @@ Each: idle · walk (mirror) · attack(s) · hurt/stagger · **death + part/gore*
 ## 4. Bosses — `BOSSES.md`
 Each **bespoke** boss: idle/move · attacks + telegraphs · phase transitions · hurt · death · **sniper-dodge** ·
 adds/hazards · **boss HP bar + name card**. "Big version" bosses/minibosses need **no new art**.
+- **[LOCKED] Per-boss attack-animation enumeration = the attack list in that boss's `BOSSES.md` §5 entry** (not
+  the generic "attack 3–6" budget) — author one telegraph+active+recovery anim per named attack. E.g. **Burly**:
+  ground-spike, enemy-toss, charge (§5.2); **Tank**: MG-sweep, hatch-open, reposition (§5.3); **Helicopter**:
+  head-throw, rotor-gust, descend (§5.5); **Gatling Gun Guy**: barrage wind-up, chip-stream, melee (§5.6);
+  **Monkey Boss**: dime-toss ×1, dime-toss ×2 (§5.7); **Phil**: pencil-draw, sharpen, contact, pencil-laser
+  (§5.1). Frame budget per attack = the §0 upper-bound (6) unless the §5 entry pins otherwise.
+- **[LOCKED] Colossus piece-shed breakdown (6 pieces, `BOSSES.md` §5.4):** the giant is a stack of stick-figure
+  parts; whip-pull removes them **top-down in a fixed order: (6) head → (5) right arm → (4) left arm → (3)
+  torso-upper → (2) right leg → (1) left leg/core**. Author the **6 silhouette states** (one per remaining-piece
+  count, each ~20 s on screen) + each torn piece as a **T1 add** that drops in (reuses the Regular sprite). It
+  speeds up at 4 and 2 pieces (§5.4).
 - **10 boss encounters placed = 7 bespoke + 3 big-version** (the 3 big-versions need **NO new art** — they
   reuse the enemy sprite at ~2× scale):
 - **P1 — 7 bespoke bosses (need bespoke art):** **Burly Macho Guy** (Area 1 dept store) · **Colossus** (Area 2
@@ -163,13 +175,17 @@ Each theme: parallax backdrop layers + lane floor + set dressing + ambient actor
 - **Area 1 (P0/P1):** suburb sky+wispy clouds, houses, **mulberry/tall trees**, sidewalk/road; ambient (fleeing civilians, mail carrier, kid+bike, jogger; dog/cat/birds; **dancing Zebra**); props (parked car, trash can, hydrant, mailbox, hedge, fence, porch, lawn sign); **hazard: cars & school buses**; **Lincoln High**, **Sandwich Bros**; **Galleria mall** interior (storefronts + cowering shoppers, atrium, skylight, kiosks/planters/benches/escalators).
 - **Area 2 (P1):** Sacramento **Victorian houses**, streetcar, lamp posts; **airport terminal + tarmac**, taxiing **planes**, ground crew, luggage carts, small planes.
 - **Area 3 (P1):** rolling **hills/farmland**, **Yolo causeway + platforms**, marsh; **Dixon** (mid-2000s: main street, water tower, feed store, storefronts); animals (**cows**, goats, chickens, crows), tractors, hay bales, fences; **hazards: ponds/puddles + cow blocking path**.
-- **Area 4 (P1/P2):** **Vallejo** amusement park (roller coasters, ferris wheel, midway); **redwood forest** (redwoods, ferns, mist); bay **causeway/bridge**; **Golden Gate Bridge** (+ **car cover**); **San Francisco** cityscape + **trolley/cable-car** (hazard) + **Salesforce Tower** exterior/elevator/**swaying rooftop**.
+- **Area 4 (P1/P2):** **Vallejo** amusement park (roller coasters, ferris wheel, midway) + the **roller-coaster
+  HAZARD car** (an on-rail hazard vehicle, 50 dmg every 7 s, Stage 9 — a drawn moving car, distinct from the
+  backdrop coasters, like Area 1's hazard vehicles); **redwood forest** (redwoods, ferns, mist); bay
+  **causeway/bridge** + **water-splash** on a fall; **Golden Gate Bridge** (+ **car cover**); **San Francisco**
+  cityscape + **trolley/cable-car** (hazard) + **Salesforce Tower** exterior/elevator/**swaying rooftop**.
 
 ---
 
-## 8. Audio — see **`AUDIO.md`** (fully specced: 23 music tracks, 89 SFX, VO plan, mix) — VO+SFX creator-produced
+## 8. Audio — see **`AUDIO.md`** (fully specced: 23 music tracks, 92 SFX, VO plan, mix) — VO+SFX creator-produced
 - **P1:** **Intro VO** (creator voice, the in-the-beginning-there-was-this script) · core SFX (punch, hit, weapon fires, explosions, zombie, whistle, trolley) .
-- **P2:** per-area **music**, ambient beds, boss themes, UI sounds. *(Full audio pass is **specced** — see `AUDIO.md`: 23 tracks, 89 SFX, VO, mix.)*
+- **P2:** per-area **music**, ambient beds, boss themes, UI sounds. *(Full audio pass is **specced** — see `AUDIO.md`: 23 tracks, 92 SFX, VO, mix.)*
 
 ---
 

@@ -216,7 +216,11 @@ Enemy-dropped; **1 per pickup** (scarce — save it for a cluster).
     enemy into a walking bomb you must not be next to. *(Grenade enemy specced in `ENEMIES.md`.)*
     **[LOCKED] Fire DoT = 6/s for 3 s (18 total); a re-cast on an already-burning enemy REFRESHES the 3 s timer,
     it does not stack** (damage stays 6/s, never doubles) — one burn instance per enemy. A burn on a non-grenade
-    enemy just ticks; on a Head-Thrower it triggers the walking-bomb.
+    enemy just ticks; on a **regular Head-Thrower** it triggers the walking-bomb.
+    **[LOCKED] The walking-bomb CONVERSION does NOT apply to a big Head-Thrower miniboss** (or any boss) — the
+    conversion is a status effect, and minibosses/bosses are status-immune (`TUNING.md` §2.6); they still take
+    the 6/s burn *damage*, but they never become a walking bomb (no one-shot on an elite). Only regular
+    Head-Throwers convert.
 - **[LOCKED] Aim & decay:** `E` **fires straight ahead** in your facing direction (like the guns — no arrow
   aiming; the element is fixed at pickup). **6 casts** then the staff breaks (`TUNING.md` §6). **Cast warm-up
   0.35 s** (§6). The **Fire walking-bomb explosion damages other enemies** in its r 2 wu blast (enemy friendly
@@ -288,9 +292,12 @@ Enemy-dropped; **1 per pickup** (scarce — save it for a cluster).
   Vignette → corpse drops → guaranteed at the boss = teach→tools→test intact. It is **not** boss-arena-only
   (`TUNING.md` §6.1).
 - **[LOCKED] Stats (`TUNING.md` §6):** melee **12/hit**, **12 connecting hits**, **reflect window 0.20 s**.
-- **[LOCKED] What it reflects:** thrown heads, head-grenades, boomerang-gun shots, arm-ripper/pistol rounds,
-  shuriken — any **telegraphed slow-to-medium projectile.** It **cannot** reflect the **gatling/barrage
-  stream** (too dense) or **melee.** A reflected shot deals the **original attacker's damage** back.
+- **[LOCKED] What it reflects (complete list):** thrown heads, head-grenades, boomerang-gun shots,
+  arm-ripper/pistol rounds, shuriken, **AA rocks** (arced, slow — reflectable), and the **Helicopter's thrown
+  heads** — any **telegraphed slow-to-medium single projectile.** It **CANNOT** reflect: the **gatling/barrage
+  stream** (too dense), the **Tank MG stream** (also a dense hitscan stream, not a discrete projectile), the
+  **enemy Sniper's hitscan apex shot** (instant, no travel), or **melee.** A reflected shot deals the **original
+  attacker's damage** back.
 
 ### 3.7c Club — *basic heavy melee* **[LOCKED]** — **pickup, debuts Area 2 (airport, after the vignette)**
 - A simple **blunt melee** weapon — an early workhorse alongside the Sword. Bigger knockback than fists,

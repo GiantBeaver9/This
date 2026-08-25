@@ -52,8 +52,9 @@
 
 ## 2. Pistol & Revolver executes (`WEAPONS.md` §3.1)
 
-**Requires a swept, downed enemy (§1). The shot only fires if that downed enemy is < 20% HP** (execution);
-otherwise the double-tap is a **melee pistol-whip finisher** (fist strength 10, no bullet spent). Pistol
+**Requires a swept, downed enemy (§1). The shot only fires if that downed enemy is < 20% of its MAX HP**
+(execution — e.g. a 40-HP Regular below 8 HP, a 70-HP Snapper below 14 HP); otherwise the double-tap is a
+**melee pistol-whip finisher** (fist strength 10, no bullet spent). Pistol
 **pierces 3 (12/6/3)**; Revolver **30, no pierce**. Each ends on the signature **cigarette-flick** (`VFX.md` §4).
 
 | Input | Direction | Name | Effect (executes a downed < 20% HP target; else melee finisher) |
