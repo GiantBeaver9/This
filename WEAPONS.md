@@ -84,13 +84,14 @@ the feel.
   fire** the gun straight ahead (spending 1 mag round) at an enemy of **any** health. Pistol pierces the row
   (12/6/3), Revolver hits one for 30. This is the everyday shot — the pierce and headshot lineups work on
   full-HP enemies. **The `E`-fire is NOT gated on HP.**
-- **[LOCKED] The `<20% HP` gate applies ONLY to the *secret-combo directional finishers*** (`COMBOS.md` §3) —
-  the stylish per-direction execution moves (Quickdraw, Coup de Grâce, etc.). Those **execute** a target under
-  20% HP with a cinematic flourish (and a cigarette-flick); above 20% the **same secret-combo input** plays as
-  a **melee pistol-whip** (no bullet spent). So there are two ways to shoot: **plain `E` (any HP, spends a
-  round)** and the **secret-combo execution (<20% HP only, also spends a round)**. The **plain combo finisher
-  (4th hit) stays free melee** and never fires. *(This resolves the old "only discharges on the finisher,
-  only <20%" line — that was the superseded rule; it now describes only the secret-combo variant.)*
+- **[LOCKED] The `<20% HP` gate applies ONLY to the *finisher execute*** (`COMBOS.md` §2) — the
+  **same-direction double-tap** (`→→ ←← ↑↑ ↓↓`) that fires into a **swept, downed** enemy (Quickdraw, Coup de
+  Grâce, Skyshot, No-Look). The shot only discharges if that downed enemy is **< 20% HP**; otherwise the
+  double-tap is a **melee pistol-whip finisher** (no bullet spent). So there are two ways to shoot: **plain `E`
+  (any standing target, any HP, spends a round)** and the **finisher execute (a swept enemy < 20% HP, also
+  spends a round)**. **Execute can never hit a random standing enemy — you must sweep it down first**
+  (`PLAYER.md` §3). *(This resolves the old "only discharges on the finisher, only <20%" line — superseded; it
+  now describes only the double-tap execute.)*
 - **Pistol:** **more bullets, less damage**, and **pierces up to 3 enemies**, damage **halving through
   each** — a lined-up shot can drop a whole row.
 - **Revolver:** **more damage, no pierce**, fewer bullets — the heavy single-target hitter.
@@ -121,8 +122,10 @@ Enemy-dropped; **1 per pickup** (scarce — save it for a cluster).
   flatter line-drive). The ball launches out on its chain and does a **ridiculous amount of damage.**
 - **Carrying it slows the player ~20%** — the weight is the tax; a heavy **commitment** weapon.
 - **Only 3 uses**, then it's gone — each swing is precious.
-- **Finisher = directional secret combos** (we define these later). **[LATER]** the secret-combo inputs and
-  their effects — see the *Secret Combos* concept (to be documented).
+- **[LOCKED] Directional `E`-launches (`COMBOS.md` §3):** hold a direction + `E` to shape the launch — forward
+  **Meteor Line-Drive**, ↑ **Wrecking Uppercut**, ↓ **Ground Zero** (radial knockdown), back **Full Swing
+  (360)**. Each spends 1 of the 3 uses. The **combo finisher** (double-tap on a swept enemy) with the Ball &
+  Chain equipped is just the **free melee slam** — launching is the `E`-fire, not the finisher.
 - **[ITERATE]** exact reach per tap; whether it hits everything along the chain's path; knockback; whether
   the 20% slow also touches attack speed.
 

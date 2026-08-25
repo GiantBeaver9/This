@@ -1,101 +1,105 @@
-# this.l — Secret Combos
+# this.l — Finishers & Secret Combos
 
-> **Scope:** the "Secret Combos" system flagged by `WEAPONS.md` §3.3 (Ball & Chain finisher) and §3.1
-> (Pistol/Revolver per-direction finishers). These are **directional-input strings** that trigger special
-> finishers and effects. This doc pins the **concrete input strings** (arrow-key scheme) and their effects.
-> No placeholders.
+> **Scope:** the **execute/finisher** input and its weapon-specific variants (the system flagged by
+> `WEAPONS.md` §3.1 guns and §3.3 Ball & Chain). This doc pins the **concrete inputs** and effects. No
+> placeholders.
 >
-> **Ties into LOCKED rules:** attacks are on the **Arrow keys** (8-directional, independent of WASD movement,
-> `PLAYER.md` §2). `E` fires/throws (spends ammo); the **finisher is the free 4th melee hit**. The combo string
-> is **punch → punch → sweep → finisher**; a **secret combo is entered on the finisher step** (hit 4) by
-> completing a directional motion instead of a single tap. Damage numbers reference `TUNING.md` §6.
+> **Ties into LOCKED rules (`PLAYER.md` §3, `TUNING.md` §2.5):**
+> - The combo string is **`punch → punch → sweep → finisher`**.
+> - **The last two hits are a SAME-DIRECTION DOUBLE-TAP** — `→→`, `←←`, `↑↑`, or `↓↓`. The **first tap sweeps**
+>   (hit 3, knocks the enemy DOWN); the **second tap of that direction is the finisher/EXECUTE** into the
+>   downed body.
+> - **[LOCKED] Execute lands ONLY on a SWEPT (knocked-down) enemy — never a random standing one.** If the
+>   target is still standing on the second tap, that press is just a normal directional hit (no finisher, no
+>   execute). You must sweep first.
+> - **The direction of the double-tap picks the finisher variant** (forward/back/up/down). Weapon-specific
+>   finishers below are keyed to those same four double-taps.
+> - Damage numbers reference `TUNING.md` §6.
 
 ---
 
-## 1. Notation & rules
+## 1. Notation & rules — **[LOCKED]**
 
-- **Arrows:** `←` `→` `↑` `↓` and the four diagonals `↖ ↗ ↘ ↙`. "Forward/back" resolve to the direction the
-  Human currently faces (`→` = forward when facing right).
-- **A secret combo = a motion of 2–3 arrow presses**, where **each press must land within `0.35 s` of the
-  previous one** (the per-step window). So a 2-press motion completes in ≤ 0.35 s and a 3-press motion in
-  ≤ 0.70 s. Separately, the game keeps a **`0.15 s` input buffer** — the motion's *final* press may be pressed
-  up to 0.15 s **before** the weapon is free to act and still register (standard fighting-game leniency). Miss
-  the per-step window and the string resolves as a plain directional attack.
-- **Entry point:** you may start a secret motion **any time the weapon can act**. For the **Ball & Chain** and
-  the **guns**, the motion's *final* press is the finisher/fire input; the lead-in presses arm the flourish.
-- **Gate (secret-combo executions only):** the **secret-combo directional finisher's** shot half **only
-  discharges if the target is < 20% HP** (LOCKED, `WEAPONS.md` §3.1). Above 20%, the same secret-combo input
-  plays as its **melee** flourish (no bullet spent). **This gate is specific to these stylish combo executions
-  — plain `E`-fire shoots any target at any HP** (`WEAPONS.md` §3.1); the two firing paths are separate.
-- **Universality:** these strings are **weapon-specific**. Empty-handed and other weapons ignore them and just
-  attack in the pressed direction.
-- **Cost:** a secret-combo finisher spends the same durability/use as that weapon's normal `E`-fire (Ball &
-  Chain: 1 of its 3 uses; guns: 1 mag round). It never costs extra.
-
----
-
-## 2. Ball & Chain secret combos (`WEAPONS.md` §3.3)
-
-The Ball & Chain launches on its chain for **80 dmg/swing** and has **3 uses**. Each secret combo shapes that
-launch differently. Plays like the grenade throw (tap-`E` alters flatness), but the **arrow motion selects the
-finisher shape**; the final press releases it.
-
-| # | Input string | Name | Effect | Reach / dmg |
-|---|---|---|---|---|
-| 1 | `↓ ↘ →` | **Meteor Line-Drive** | flat, fast line-drive down the lane; plows every enemy along the chain's path, knocking them down | 8 wu line · **80** to each hit |
-| 2 | `↓ ↑` | **Wrecking Uppercut** | ball whips straight up; anti-air + launches a grounded enemy into a juggle | 4 wu up · **80** + knock-up |
-| 3 | `→ →` | **Comet Rush** | dash-cancel into a forward launch; you advance 3 wu behind the ball, closing distance while it clears the row | 6 wu fwd · **80**, pierces the row |
-| 4 | `↓ ↓` | **Ground Zero** | slams the ball down at your feet for a **radial shockwave** (its own lane + both neighbor Z-rows) | r 3 wu · **80** + 0.5 s knockdown |
-| 5 | `← ↓ →` | **Full Swing (360)** | a full sweeping orbit of the ball around the Human — hits everything in melee range on all sides | r 2.5 wu ring · **80** all around |
-
-- **Default (no motion):** a plain combo finisher is a **free melee swing** (no ammo, per `WEAPONS.md` §1) —
-  it does **not** spend a use. **Launching the ball** (any of the 5 finishers below) requires the secret
-  **motion input**, and each spends 1 of 3 uses. *(Historical note: an earlier draft had the plain tap auto-launch
-  a Meteor Line-Drive — superseded; the plain finisher is now a free melee swing.)*
-- Each of the 5 above spends **1 of 3 uses**. The **20% carry-slow** applies throughout (movement only).
+- **The four execute inputs:** `→→` (forward), `←←` (back), `↑↑` (up), `↓↓` (down). "Forward/back" resolve to
+  the direction the Human faces (`→→` = forward when facing right). **Each is a same-direction double-tap** —
+  the first press is the **sweep**, the second is the **finisher/execute**.
+- **Timing:** the two presses must land within **`0.35 s`** of each other; a **`0.15 s` input buffer** lets the
+  second press register slightly before the sweep recovers (fighting-game leniency). Miss the window and the
+  second press is a fresh normal attack.
+- **The swept gate (LOCKED):** the finisher/execute **only resolves on a knocked-down enemy** (the state the
+  sweep, or a Ball & Chain Ground-Zero, put it in — knockdown lasts **1.2 s**, `TUNING.md` §2.6). Whiff the
+  sweep and there is no execute. Bosses are swept/finished only where their spec allows (Phil only via the
+  scripted pencil-laser, `BOSSES.md` §5.1; unsweepable H-weight enemies are floored by the sweep like anyone
+  else, `TUNING.md` §2.6).
+- **Plain finisher = FREE melee (no ammo):** by default the second tap is a strong melee blow into the downed
+  enemy — **no ammo/durability spent** (`WEAPONS.md` §1). Weapon-specific *executes* below only trigger under
+  their stated condition (e.g. a gun round only if the downed target is **< 20% HP**); otherwise the finisher
+  stays the free melee blow.
+- **`E`-fire is separate:** pressing **`E`** fires/throws the equipped weapon at **any** standing target, any
+  HP — that is **not** an execute and does not require a sweep (`WEAPONS.md` §1/§3.1). The execute is only ever
+  the second tap of the double-tap on a downed enemy.
+- **Universality:** the four double-taps work with any weapon; the *variant* that plays is weapon-specific.
+  Empty-handed, all four are melee finishers.
 
 ---
 
-## 3. Pistol & Revolver per-direction finishers (`WEAPONS.md` §3.1)
+## 2. Pistol & Revolver executes (`WEAPONS.md` §3.1)
 
-Each **direction has its own stylish finisher**. The shot half fires **only vs a target < 20% HP** (execution);
-otherwise the same input is a melee pistol-whip flourish. Pistol **pierces 3 (12/6/3)**; Revolver **30, no
-pierce**. Every one ends on a **cigarette-flick** flourish (the signature `VFX.md` §4 casing/cigarette bit).
+**Requires a swept, downed enemy (§1). The shot only fires if that downed enemy is < 20% HP** (execution);
+otherwise the double-tap is a **melee pistol-whip finisher** (fist strength 10, no bullet spent). Pistol
+**pierces 3 (12/6/3)**; Revolver **30, no pierce**. Each ends on the signature **cigarette-flick** (`VFX.md` §4).
 
-| # | Input string | Direction | Name | Effect (executes < 20% HP; else melee) |
-|---|---|---|---|---|
-| 1 | `→` (tap on finisher) | forward | **Quickdraw** | straight horizontal shot at the head; Pistol pierces the row (12/6/3), Revolver one clean 30; flick cigarette |
-| 2 | `↓ →` | forward-low | **Fan the Hammer** *(Revolver)* / **Double-Tap** *(Pistol)* | two fast shots — Revolver empties 2 rounds for **30+30**; Pistol fires 2 piercing rounds; wider execution window |
-| 3 | `↑` | up | **Skyshot** | fires upward — executes an airborne/launched or juggled enemy (pairs with Wrecking Uppercut / up-air) |
-| 4 | `↓` | down | **Coup de Grâce** | point-blank execution into a **downed** enemy (post-sweep) — guaranteed headshot; the classic finisher |
-| 5 | `← ↙ ↓` | back / spin | **No-Look** | Human spins and fires **behind** without turning to face — punishes an enemy flanking from the rear |
+| Input | Direction | Name | Effect (executes a downed < 20% HP target; else melee finisher) |
+|---|---|---|---|
+| `→→` | forward | **Quickdraw** | straight horizontal shot into the downed body; Pistol pierces the row (12/6/3), Revolver one clean 30; flick cigarette |
+| `↓↓` | down | **Coup de Grâce** | point-blank muzzle-to-head execution into the downed enemy — the classic finisher |
+| `↑↑` | up | **Skyshot** | executes a **launched/juggled** enemy (pairs with an up-air or up-strike knock-up — that airborne enemy counts as "downed" for the gate) |
+| `←←` | back | **No-Look** | Human fires **behind** without turning to face — executes a downed enemy flanking from the rear |
 
-- **Headshot / zombie tax (LOCKED):** any of these that lands as a **headshot kill** has the **10% chance to
-  spawn a 10 s zombie** instead (`ENEMIES.md` §2.8, `TUNING.md` §4). The **sniper special is exempt**; these
-  hand-guns are not.
-- **Melee fallback:** above 20% HP, `Quickdraw`/`Coup de Grâce`/etc. play as pistol-whip strikes at fist
-  strength (10) — the gun still bludgeons through the combo (`WEAPONS.md` §1), no bullet spent.
-- **Ammo:** an executed shot spends **1 mag round** (Pistol mag 8 / Revolver mag 6). A whiffed melee flourish
-  spends none.
+- **Ammo:** an executed shot spends **1 mag round** (Pistol mag 8 / Revolver mag 6). A melee finisher spends none.
+- **Headshot / zombie tax (LOCKED):** a gun execution that lands as a **headshot kill** has the **10% chance to
+  spawn a 10 s zombie** instead (`ENEMIES.md` §2.8, `TUNING.md` §4). The **sniper special is exempt**; hand-guns
+  are not.
 
 ---
 
-## 4. Shared secret-combo FX
+## 3. Ball & Chain — directional launches (`WEAPONS.md` §3.3)
 
-Per `VFX.md` §4 (secret-combo finisher FX marked [LATER] there — pinned here as concrete cues):
+> The Ball & Chain is different: its big **launch is an `E`-fire**, not the combo finisher. You **hold a
+> direction and press `E`** (tapping `E` during the wind-up flattens the arc, like the grenade, `WEAPONS.md`
+> §3.3). This shapes the launch. **3 uses**, **80 dmg/swing**. The **combo finisher** (a double-tap on a swept
+> enemy) with the Ball & Chain equipped is just the **free melee slam** — launching costs a use, the finisher
+> does not.
 
-| Combo family | FX cue |
+| `E` + direction | Name | Effect | Reach / dmg |
+|---|---|---|---|
+| `E` + forward | **Meteor Line-Drive** | flat, fast line-drive down the lane; plows every enemy along the chain's path, knocking them down | 8 wu line · **80** each hit |
+| `E` + ↑ | **Wrecking Uppercut** | ball whips straight up; anti-air + launches a grounded enemy into a juggle | 4 wu up · **80** + knock-up |
+| `E` + ↓ | **Ground Zero** | slams the ball down at your feet for a **radial shockwave** (its lane + both neighbor Z-rows); **knocks enemies down** (so it can set up a finisher) | r 3 wu · **80** + 0.5 s knockdown |
+| `E` + back | **Full Swing (360)** | a full sweeping orbit around the Human — hits everything in melee range on all sides | r 2.5 wu ring · **80** all around |
+
+- Each `E`-launch spends **1 of 3 uses**. The **20% carry-slow** applies throughout (movement only).
+- **Ground Zero synergy:** because it knocks enemies down, you can immediately double-tap to **finish** one of
+  the downed enemies (free melee, or a gun-execute if you swap — normal §1 rules).
+
+---
+
+## 4. Shared execute FX
+
+Per `VFX.md` §4 (finisher/execute FX — pinned here as concrete cues):
+
+| Family | FX cue |
 |---|---|
-| Ball & Chain launches | heavy launch trail + **big impact spark + screen shake (heavy preset)** + 3-frame hitstop on connect |
-| Gun executions | muzzle flash + straight tracer + **headshot pop** + the **cigarette-flick** arc + ejected casing |
-| Both | a brief **gold input-flash** on the HUD combo popup reading the combo's **name** (e.g. `METEOR!`, `COUP!`) to confirm the secret input registered |
+| Melee finisher | **finisher flash** + 3-frame hitstop + heavy hit-spark on the downed body (`VFX.md`) |
+| Gun execution | muzzle flash + straight tracer + **headshot pop** + the **cigarette-flick** arc + ejected casing |
+| Ball & Chain launch | heavy launch trail + big impact spark + **screen shake (heavy preset)** + 3-frame hitstop on connect |
+| All | a brief **gold flash** on the HUD combo popup naming the execute (e.g. `COUP!`, `METEOR!`) to confirm it registered |
 
 ---
 
 ## 5. Extensibility
 
-The motion vocabulary is deliberately small and reusable so new weapons can adopt it cheaply:
-- `↓↘→` = "line-drive / forward power" · `↓↑` = "launcher" · `→→` = "rush" · `↓↓` = "radial slam" ·
-  `←↓→` = "sweep-all" · `←↙↓` = "reverse."
-- Any future weapon that wants a directional finisher should map onto these six motions rather than inventing
-  new ones, keeping the input language consistent across the roster.
+The input language is deliberately tiny: **four same-direction double-taps** (`→→ ←← ↑↑ ↓↓`) for
+finishers/executes, plus **`E` + direction** for weapons (like the Ball & Chain) that fire a shaped
+projectile. Any future weapon maps onto these — a directional **execute** variant on the four double-taps, or a
+directional **`E`-fire** — so the control language stays consistent across the whole roster.

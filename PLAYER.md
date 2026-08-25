@@ -44,7 +44,7 @@
   - **Use weapon (`E`) = right trigger** · **Pick-up (`F`) = right bumper** (paired on the same side)
 - **[LOCKED] `E` vs. the finisher (reconciled):** `E` **fires/throws** the equipped weapon at any time (spends
   ammo/use); the **combo finisher (4th hit) is a *free melee* swing** — it never auto-fires the gun and costs no
-  ammo (`WEAPONS.md` §1, `COMBOS.md` §2). A ranged weapon may therefore fire **outside** the combo (`E`) *and*
+  ammo (`WEAPONS.md` §1, `COMBOS.md` §1). A ranged weapon may therefore fire **outside** the combo (`E`) *and*
   bludgeon **through** it (arrow melee) — these do not conflict. **[ITERATE]** a **rebinding** UI (cosmetic, post-slice).
 
 **[LOCKED] Dash + Jump both exist.** Dash = grounded evasive burst (no i-frames). Jump adds a full
@@ -75,11 +75,20 @@ directional normals rather than a single canned combo string.
 - **One hit per press** — each arrow press is a single strike in that direction (no per-direction
   auto-string). The *variety* comes from **which directions you chain**, on the ground and in the air.
 - **[LOCKED] The string is `punch → punch → sweep → finisher`** (4 hits), attacking in the direction pressed.
-  - **Hit 3 = a sweep that KNOCKS THE ENEMY DOWN.** **Hit 4 = the finisher, which only lands on a
-    knocked-down enemy** — so you must **tap the same direction twice** (sweep to floor them, then finisher
-    into the downed body). A deliberate commit, **not** an automatic 4th hit; against a standing enemy that
-    4th tap is just a normal hit.
-  - **Finisher = strong, FREE melee (no ammo);** weapon-fire is separate (`E`, §2 / `WEAPONS.md` §1).
+  - **[LOCKED] The last two hits (sweep + finisher) are a SAME-DIRECTION DOUBLE-TAP** — `→→`, `←←`, `↑↑`, or
+    `↓↓` (any of the four directions). **The first tap is the SWEEP** (hit 3, **knocks the enemy DOWN**); **the
+    second tap of the same direction is the FINISHER/EXECUTE**, which lands into the now-downed body.
+  - **[LOCKED] Execute only lands on a SWEPT (knocked-down) enemy — never a random standing one.** If the
+    target is still standing when you press the second tap (you never swept it, or it's an unsweepable target),
+    that press is **just a normal directional hit** — no finisher, no execute. You **must sweep first.** (The
+    sweep→finisher double-tap is the *only* route to the finisher; there is no auto 4th hit.)
+  - The **direction of the double-tap picks the finisher's facing** (forward `→→`, back `←←`, up `↑↑` for a
+    launched/juggled target, down `↓↓` for the classic grounded execute). Weapon-specific finisher *variants*
+    are keyed to these same four double-taps (`COMBOS.md`).
+  - **Finisher = strong, FREE melee (no ammo);** weapon-fire is separate (`E`, §2 / `WEAPONS.md` §1). With a
+    **gun equipped**, the finisher into a **downed enemy under 20% HP** becomes a **gun execution** (fires a
+    round, cinematic) — otherwise it stays a free melee blow (`COMBOS.md` §2). Either way it **requires the
+    sweep-down first.**
     *(Phil's kill is a finisher on a swept-down Phil — the pencil-laser, `BOSSES.md` §5.1.)*
 - Every hit feeds the meter's rapid-hit multiplier; letting the rhythm lapse resets the counter.
 - **[LOCKED]** Works empty-handed (fists) with the air reach-extender on each hit.
@@ -133,7 +142,7 @@ cast — spending ammo) you press **`E`** (§2, `WEAPONS.md` §1). Consequences 
   finisher/fire** animation. Cheaper than a full bespoke melee weapon, still fully animated.
 - **[LOCKED, reconciled]** a ranged weapon **does** fire outside the combo — `E` fires/throws at any time
   (spends ammo), and the finisher stays a **free melee** swing (no ammo). Firing is **not** locked to the
-  finisher. (`WEAPONS.md` §1, `COMBOS.md` §2.)
+  finisher. (`WEAPONS.md` §1, `COMBOS.md` §1.)
 
 Weapon-by-weapon animation lists get pinned in `WEAPONS.md` alongside each weapon's behavior.
 

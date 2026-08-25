@@ -121,12 +121,14 @@
   (matches `COMBOS.md` §1).
 - **Whiff vs. hit:** recovery is the same on whiff or hit; there is **no hitstop on normal hits**, only on
   **finishers/kills** (§2.6, `VFX.md` §4).
-- **[LOCKED] Which attacks advance the combo string:** the `punch→punch→sweep→finisher` counter advances **only
-  on consecutive *side/forward* ground attacks** (the P1/P2/Sweep rows). **Up-strike, down-strike, and all air
-  attacks are standalone normals** — they deal their own damage but **do NOT advance or reset** the string;
-  they're spacing/juggle tools, not combo steps. The **finisher (hit 4)** additionally requires the
-  **same-direction double-tap toward a downed enemy** (`PLAYER.md` §3) — you cannot reach it except after a
-  Sweep knockdown. Dropping the string (letting the cancel window lapse) returns you to P1.
+- **[LOCKED] Combo string & the execute gate:** the string is `P1 → P2 → sweep → finisher`. **P1 and P2** are
+  the first two directional presses. **The last two hits (sweep + finisher) are a SAME-DIRECTION DOUBLE-TAP**
+  — `→→`, `←←`, `↑↑`, or `↓↓`: the **first tap sweeps** (knockdown), the **second tap of that direction is the
+  finisher/execute** into the downed body. **Execute lands ONLY on a swept (knocked-down) enemy** — against a
+  still-standing target the second tap is just a normal hit (`PLAYER.md` §3). **Up-strike, down-strike, and all
+  air attacks are standalone normals** that deal their own damage but **do NOT advance or reset** the string.
+  Dropping the string (cancel window lapses) returns you to P1. The **gun `<20%` execution** (`COMBOS.md` §2)
+  is a finisher variant and inherits this: it too requires the sweep-down first.
 - **[LOCKED] Warm-up vs. frame data (no conflict):** the **~0.25 s weapon warm-up** (§2.2, `GAMEPLAY_LOOP.md`
   §4.1) is the aim/ready delay before an **`E`-fire/throw/cast discharges** — it applies to the **E action
   only**. The **+2f on the fist frames** (table above) is the **melee swing** when you bludgeon *through the
@@ -270,10 +272,10 @@ chance to spawn a 10 s zombie instead of killing. **Sniper special is exempt** (
 | **Sword** | T2 | melee **18/swing**, finisher **45** | **8 connecting hits** (of 5–10) then shatters | 0.20 s | no E-fire; pure melee; blade chips at 6/4/2 left |
 | **Shotgun** | T3 | blast **40 + 6 wu knockback** | **5 spine segments** (of 4–6) = 5 shots | 0.25 s | `E` fires + cocks + ejects a spine segment |
 | **Boomerang** | T1 | throw hit **8** + **2 s stun** | **lost on first enemy hit** (retrievable on ground) | 0.15 s | `E` throws; misses return to hand |
-| **Pistol** | T1 | shot **12**, pierces 3 (**12/6/3** halving) | **mag 8**, then discarded | 0.25 s | **`E` fires any target, any HP**; the **secret-combo execution** (`COMBOS.md` §3) is the only <20%-gated path |
-| **Revolver** | T1 | shot **30**, no pierce | **mag 6**, then discarded | 0.30 s | same: `E` fires freely; only the secret-combo execution is <20%-gated |
+| **Pistol** | T1 | shot **12**, pierces 3 (**12/6/3** halving) | **mag 8**, then discarded | 0.25 s | **`E` fires any target, any HP**; the **double-tap execute on a swept target** (`COMBOS.md` §2) is the only <20%-gated path |
+| **Revolver** | T1 | shot **30**, no pierce | **mag 6**, then discarded | 0.30 s | same: `E` fires freely; only the double-tap execute on a swept target is <20%-gated |
 | **Grenade** | T4 | lob blast **60** (r 3 wu) · fastball blast **35** (r 2 wu) | **1 use** | tap-`E` wind-up | few taps = high lob (bounces 3×→boom); many taps = fastball (boom at 8 wu or after 8 enemies); **self-dmg 40** |
-| **Ball & Chain** | T2 | **80/swing** | **3 uses** | 0.40 s | tap-`E` trajectory; **carrying slows player 20%** (move only, not attack); finisher = §COMBOS secret combos |
+| **Ball & Chain** | T2 | **80/swing** | **3 uses** | 0.40 s | tap-`E` trajectory; **carrying slows player 20%** (move only, not attack); `E`-launch shapes = `COMBOS.md` §3 |
 | **Whip** | T2 | **14/hit**; finisher = head-rip→grenade | **11 connecting hits** (of 10–12) | 0.25 s | up=arc / fwd=pull (drags enemy to you 3 wu) / down=line; finisher auto-dashes you back 4 wu |
 | **Staff** | T3 | Ice: **8** +freeze 3 s · Fire: **6/s ×3 s** (18) · Lightning: **12** +stun 1 s +slow | **6 casts** then breaks | 0.35 s | element fixed at pickup; `E` casts; Fire on a Head-Thrower → walking bomb (2 s→boom) |
 | **Gatling Gun** | T3 | finisher **0.5 s auto-kill** barrage | **no ammo**; overheats after **5 finisher-bursts OR 20 s equipped** (resolves §3.6 [ITERATE]) | 0.40 s spin-up | melee bludgeon 8 (slow cadence); **no i-frames during barrage** |
