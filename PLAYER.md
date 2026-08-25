@@ -235,4 +235,5 @@ attack→dash cancel, and air-dash** all in; **bespoke animation for every weapo
 bludgeon through the combo, fired with `E`** (finisher = free 4th-hit melee); **boss dodges** the sniper special.
 
 **[RESOLVED]:** damage/knockback numbers (`TUNING.md` §2.1/§2.5), weapon dash attack = stagger-only-no-fire
-(§3), `E`-use action (§2, `WEAPONS.md` §1). **[LATER]:** palette only. *(Keybinds/gamepad LOCKED in §2.)*
+(§3), `E`-use action (§2, `WEAPONS.md` §1). **Palette:** per character, LOCKED in `CHARACTERS.md` §2.5.
+*(Keybinds/gamepad LOCKED in §2.)*
