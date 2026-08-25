@@ -123,8 +123,10 @@ directional normals rather than a single canned combo string.
     Ground Zero, `COMBOS.md` §3, or still within its 1.2 s knockdown, `TUNING.md` §2.6) is finished by a
     **single directional tap toward it** — no fresh sweep needed (it's already down). The double-tap is only
     for the sweep-*then*-finish of a standing enemy.
-  - **[LOCKED] Target selection when several downed enemies lie in the tapped direction:** the finisher hits
-    the **NEAREST downed enemy** in that direction (within the finisher reach). One finisher = one target.
+  - **[LOCKED] Target selection when several downed enemies lie in the tapped direction:** the finisher
+    **auto-acquires the CLOSEST knocked-down enemy in that direction within ~5 wu** and moves the Human onto it
+    to execute — there is **no fixed finisher swing-reach**; the 5 wu acquisition radius is the rule, and the
+    Human steps to the target rather than whiffing at a fixed distance. One finisher = one target. *(tunable)*
   - **[LOCKED] `↑↑` on an H-weight enemy** (Heavy / Ground Smasher / Gatling Gunner — which **can't be
     launched**, `TUNING.md` §2.6): the first tap **still sweeps them to the ground** (H-weight IS floored by the
     sweep), and the second tap lands as the **grounded finisher** — `↑↑` just resolves as a grounded execute on

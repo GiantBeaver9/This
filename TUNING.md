@@ -441,6 +441,7 @@ of the killing hit:**
 | **Arm-Ripper spawns with no T1 fodder to disarm** | it **arrives already armed** with its own akimbo pistols (it ripped its arms off-screen); the "rip a nearby T1" is a **flavor animation only when a T1 is adjacent** — never a spawn dependency. |
 | **Gatling Gunner spawns with no fodder to contort** | same — it **spawns with the gatling in hand**; the "2×T1 / 1×T2 → gatling" line is the *diegetic origin*, not a runtime requirement. Both are **self-sufficient on spawn**. |
 | **Ninja needs no fodder** | the Ninja is **fully self-contained** — teleport + shuriken are its own kit; **throws 2 shuriken per volley, cooldown 3 s, effectively unlimited** (self-restocks — the "2 per stripped limb" was flavor, not a finite ammo count). Spawns combat-ready. |
+| **Ninja teleport destination & attack choice (LOCKED)** | on each teleport (3 s cooldown, 0.3 s smoke tell) the Ninja **reappears 10–15 wu BEHIND the player** (opposite the player's current facing, same Z-row ±1 row) — the flanking pressure that keeps the player turning. On arrival it throws a **shuriken volley** at range; if the player closes and it's within its 22.5 melee range it **slashes** instead (windup 0.2 s). It re-teleports on the 3 s cooldown or if the player closes within ~1 wu. |
 | **Regular Melee attack selection** | by range: **≤1.0 wu → punch** (7.5); **1–4 wu → slide-kick** (gap-closer, 7.5); **player airborne within 3 wu → jump-kick** (7.5). Picks the fitting one for the current range each attack cycle (windup 100 ms). |
 | **Monkey Tamer's melee monkeys — stats** | each summoned monkey: **HP 20, contact dmg 5, speed 6.0 wu/s, L-stagger**; **max 2 live**; **deactivate instantly on the Tamer's death** (§4 row 9). They are lighter than the economy Monkey (row 10). |
 | **Pickpocket escapes with your coins** | if it **reaches a screen edge**, the stolen coins are **lost permanently** (the risk). Killing it before it exits **drops 2× the stolen pile**. It only steals **once per life**, then flees. |
@@ -680,7 +681,13 @@ to fists), so ammo management is "use it or lose the drop," never a resource-hun
 | Hazard | Damage to player | Damage to enemies | Notes |
 |---|---|---|---|
 | **Car** (suburb lane) | **40** + knockdown | **40** + knockdown | vehicles **DO hit enemies** (resolves `AREAS.md` §1.4 [ITERATE]); telegraphed by horn + 0.6 s |
-| **School bus** (suburb) | **60** + knockdown | **60** + knockdown | bigger, slower, wider lane coverage |
+| **School bus** (suburb) | **60** + knockdown | **60** + knockdown | bigger, slower; **double-lane Z-coverage (±2.0 wu, two players tall)** — the "wider lane" |
+
+> **[LOCKED] Hazard lane geometry (all on-rail hazards):** a hazard **travels down the X axis on a fixed
+> Z-lane**, and its **damage catch-zone is ±1.0 wu of that lane's Z center** (= **one full player of Z-coverage,
+> half a player above and half below** the lane line). So you **dodge a hazard by changing Z-row** — step more
+> than 1.0 wu off its lane and it passes harmlessly. The **school bus is the wide exception at ±2.0 wu**
+> (two-player coverage, harder to dodge). The trolley/coaster/plane use the base ±1.0 wu unless noted.
 | **Trolley / cable-car** (SF) | **instant death** | **instant kill** (flattens) | except the **Heavy steps aside** (`VIGNETTES.md`); telegraphed by bell + 0.8 s |
 | **Jet blast** (airport boss) | **0 dmg**, pushes player **3 wu** | pushes enemies 3 wu | positional only, not damage |
 | **Taxiing plane** (airport stage) | **50** + knockdown | **50** | crosses the tarmac on a fixed path (like the suburb cars); engine-whine + 0.8 s telegraph (resolves `AREAS.md` §2.2 [ITERATE]) |
