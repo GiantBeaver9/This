@@ -95,7 +95,8 @@ adds/hazards · **boss HP bar + name card**. "Big version" bosses/minibosses nee
 ## 5. UI / HUD — `UI.md` (chunky-arcade)
 - **P0:** Health bar (pixel, **damage chunk→explosion** anim, green/yellow/red) · **Special meter** (yellow/blue/green + armed pulse) · **combo popup** (`N HIT!`) · weapon-type icon.
 - **P1:** Money counter (+ full-dime highlight) · Monkey-merc cluster (icon + timer ring) · boomerang-gun bullets · ball&chain use-pips · **boss HP bar + name card** · **"BARRAGE INCOMING"** warning · Sniper **red-dot** targeting.
-- **P2:** Title · pause · **results/grade** (cosmetic) · area cards · game-over · button prompts · fonts.
+- **P2 (all specced, `UI.md` §5):** Title/main-menu · **character-select** · pause · options (+rebinding) ·
+  **results/grade** (cosmetic) · area cards · game-over · button-prompt glyphs · fonts.
 
 ---
 
@@ -131,9 +132,12 @@ Each theme: parallax backdrop layers + lane floor + set dressing + ambient actor
 
 ---
 
-## 10. Systems still open (won't block art, but pin before final build)
-Character animation pipeline choice (shared-skeleton vs. bespoke) · save/settings menus.
-**Now LOCKED (were open):** player attack **frame data** + universal **reaction-state durations**
+## 10. Systems status — **all major systems now LOCKED**
+Nothing here blocks art. Everything previously open is resolved:
+**Now LOCKED (were open):** **animation pipeline** = fully bespoke, 4 sets (`CHARACTERS.md` §3) · **save +
+settings/options menus** (`UI.md` §5) · player attack **frame data** + universal **reaction-state durations**
 (`TUNING.md` §2.5–2.6) · **per-stage encounter/wave tables** + **boss arena layouts** (`ENCOUNTERS.md`) ·
-checkpoint & continue specifics (`TUNING.md` §8.1) · Controls/keybinds + gamepad (`PLAYER.md` §2) ·
-audio pass (`AUDIO.md`).
+**special meter-tier scaling** for all 4 characters (`TUNING.md` §3.1) · checkpoint & continue specifics
+(`TUNING.md` §8.1) · Controls/keybinds + gamepad (`PLAYER.md` §2) · **hazard damage** + **area-gated loot
+pools** (`TUNING.md` §6.1–6.2) · audio pass (`AUDIO.md`) · story spine (`STORY.md`).
+*(Residual polish only: exact icon placement, minor per-enemy flavor — none block the overnight build.)*

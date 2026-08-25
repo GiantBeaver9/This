@@ -48,10 +48,13 @@
 - A **pixel bar** (chunky-arcade), top-left.
 - **[LOCKED] Damage juice:** when you take a hit, the **pixels you're losing enlarge and then vanish under
   little "explosions"** — each hit reads as a satisfying chunk blown off the bar.
-- **[LOCKED] Color states by remaining %:** **green above 50%** → **yellow under ~40%** → **red at ~15%
-  (one hit from death).**
-- **[LOCKED] Max HP = 100** (`ENEMIES.md` §4b damage model). Color states: green >50, yellow <~40, red ~15.
-- **[LATER]** heal/regen sources, extra low-health warning (screen-edge pulse?).
+- **[LOCKED] Color states by remaining % (no gaps):** **green 50–100%** → **yellow 20–49%** → **red 0–19%**
+  (one hit from death). The **20%** yellow→red line is set below the **≤25% rubber-band threshold** (`TUNING.md`
+  §2.2) so the bar goes red just after low-HP drops kick in — a readable "danger now" cue.
+- **[LOCKED] Max HP = 100** (`ENEMIES.md` §4b damage model).
+- **[LOCKED] Low-HP warning:** at **≤19% (red)** the bar **pulses** and a subtle **screen-edge vignette pulse**
+  turns on (off above 20%). No heal/regen sources exist mid-stage — recovery is drops (`TUNING.md` §6.1) and
+  checkpoints (§8.1).
 
 ### 3.2 Special meter — **[LOCKED data], [PROPOSED] art**
 - Fills from combat: **fists ~30 hits**, weapons ~half that rate, **rapid combos multiply** the fill
@@ -99,11 +102,25 @@ Most decay is diegetic, but a few weapons have HUD-worthy state:
 
 ---
 
-## 5. Other screens — **[PROPOSED] scaffold** (outside the tight loop)
+## 5. Other screens — **[LOCKED] concrete scaffold** (outside the tight loop)
 
-Listed so the asset manifest knows they exist; detailed later.
-- **Title / main menu** · **Pause** · **Stage-transition / area card** (linear — just the next area's name) · **Results / grade** (cosmetic score, no path effect) · **Game over** ·
-  **Controls/tutorial prompts.** **[LATER]** full designs.
+All are **chunky-arcade**, same palette/fonts as the HUD, controller+keyboard navigable. Minimal art (text +
+a few sprites), so they stay lightweight.
+
+| Screen | Contents & behavior — **[LOCKED]** |
+|---|---|
+| **Title / main menu** | game logo + the `this.l` drawing motif; menu: **Start · Character Select · Endless · Options · Quit**. Background = a slow parallax of the SF skyline. |
+| **Character Select** | the **4 characters** (`CHARACTERS.md`) as portraits + name + one-line Special; left/right to pick, confirm to start. Shows each one's Special icon. |
+| **Pause** (mid-run) | dims the frame; **Resume · Restart checkpoint · Options · Quit to title**. Freezes the sim. |
+| **Options** | volume (music/SFX sliders), fullscreen/windowed, integer-scale toggle, **rebinding** (the `PLAYER.md` §2 [ITERATE] lives here), a "reduce screen-shake" accessibility toggle. |
+| **Area card** (stage transition) | a 2-second card: the **next area's name** (linear, `STAGES.md`), with the incoming genre stinger (`AUDIO.md` §2). No path choice (linear). |
+| **Results / grade** (post-stage) | **cosmetic** score: enemies felled, best combo, time, a letter grade — **no gameplay effect** (`STAGES.md`). Advances on confirm. |
+| **Game over** | on losing all continues (`TUNING.md` §8.1): "GAME OVER" + **Retry from last checkpoint (if continues remain) · Quit to title**. |
+| **Controls / tutorial prompts** | contextual button-prompt overlays during the first stage's vignette (the teaching device), not a separate screen. |
+
+- **[LOCKED] Save:** a single **auto-save at each checkpoint + area boundary** (stage reached, character
+  unlocks, Endless best). No manual save slots (arcade-style). *(This resolves the `ASSET_MANIFEST.md` §10
+  save/settings open item.)*
 
 ---
 
@@ -118,7 +135,8 @@ All in the **chunky-arcade** style (bold pixel frames, thick outlines).
 - **Money counter** — glyphs + **full-dime highlight**.
 - **Monkey status cluster** — monkey icon, **timer ring**, spent/greyed state.
 - **Boomerang-gun bullet pips**, **Ball & Chain use pips** (equip-only).
-- **[LATER]** menu / pause / results / game-over screen art, fonts, button prompts.
+- **Non-HUD screens (§5, now LOCKED):** title/main-menu, character-select, pause, options (+rebinding), area
+  card, results/grade, game-over — chunky-arcade, text + a few sprites. Fonts + button-prompt glyph set.
 
 ---
 
@@ -131,4 +149,5 @@ yellow/red states; **chunky-arcade** HUD vibe; **weapon-type icon shown, no ammo
 **Still open (small):** weapon-type icon placement (top-left cluster vs. floating above the player); whether
 the money counter's full-dime highlight is enough or needs a stronger "you can summon" cue. *(Max HP = 100,
 locked §3.1.)*
-**[LATER]:** the non-HUD screens (§5).
+**Non-HUD screens (§5): now LOCKED** (title, character-select, pause, options+rebinding, area card,
+results/grade, game-over, auto-save).
