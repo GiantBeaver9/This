@@ -111,6 +111,7 @@ the player's fist/weapon):
 | **Combo multiplier curve** | 1–4 hits ×1.0 · 5–9 ×1.25 · 10–14 ×1.5 · **15+ ×2.0** | "~15 quick hits surges it" (LOCKED) |
 | Combo-drop timeout | 2.0 s without a hit resets the counter | |
 | Killed-Sniper rifle pickup | **instant +100 pts (fills one tier)** | free special (`ENEMIES.md` §2.14) |
+| **Overfill cap** | meter **caps at green (300 pts / 3 fills)** — excess is **discarded** | if the +100 rifle lands while already at green, it's wasted (no 4th tier); the meter never banks past max |
 | Taking damage | breaks the combo counter; does **NOT** drain the meter | resolves §4.3 [LATER] |
 | **Tier yellow (1 fill)** | +10% dmg · sniper wipes **15** | |
 | **Tier blue (2 fills)** | +20% dmg · sniper wipes **30** | LOCKED 15→30 |
@@ -302,6 +303,7 @@ chance to spawn a 10 s zombie instead of killing. **Sniper special is exempt** (
 | **Head-Thrower's thrown head** | uses **grenade fastball physics** (`WEAPONS.md` §3.2) — flat line-drive, **explodes on contact or after 8 wu**; the thrower **regrows its head in 4 s** (§4 row 5) and cannot throw again until it does. |
 | **Sniper with the player already downed/grounded** | **holds fire** (can't hit a grounded player, §4 row 7) and **re-scans**; it only fires at an airborne/jumping player (apex punish). |
 | **Flying Monkey when ≥2 grounded enemies exist** | **circles/harasses without swooping** until the grounded count drops below 2 (§4 row 8); never idles off-screen. |
+| **Monkey Tamer cornered (no room to keep-away)** | he **stops fleeing and fights with a weak melee flail (5 dmg)** while still whistling — he never becomes un-attackable; cornering him is the intended kill window (his monkeys deactivate on his death, §4 row 9). |
 | **Enemy would exceed the 8-pursuer cap** | it **holds at a spawn edge** (visible, not attacking) until a slot frees — except Swarmer pods (`ENCOUNTERS.md` §0 exception). |
 
 ---

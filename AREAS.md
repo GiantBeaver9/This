@@ -168,7 +168,7 @@ hazard = 50 dmg + knockdown** (`TUNING.md` §6.2). Fully locked.
 ## 3. Area 3 — Hills, the Causeway & Dixon — **[LOCKED core]**
 
 *Two parts: **(1) The Road** — rolling hills → Causeway/Davis → the **farm/ranch** (Monkey Boss); **(2)
-Dixon** — a nearly-deserted mid-2000s small town run as a **boss rush** (4–5 minibosses → 1 big boss).*
+Dixon** — a nearly-deserted mid-2000s small town run as a **boss rush** (exactly **4 minibosses** → 1 big boss, `ENCOUNTERS.md` Stage 8).*
 
 ### 3.1 Part 1 — The Road: hills → causeway → farm (water platforming) — **[LOCKED core]**
 - **Backdrop:** golden **rolling hills & farmland**, then a **water area / causeway** — the Yolo-Causeway-style
@@ -200,7 +200,7 @@ Dixon** — a nearly-deserted mid-2000s small town run as a **boss rush** (4–5
   the mood.**
 - **[LOCKED] Shorter but brutal — a difficulty spike.** Dixon is a **short** level **packed with heavy-duty
   enemies** — the **first big wall** of the game.
-- **[LOCKED] Boss rush:** **4–5 minibosses** (big-version enemies of the crew you've met) → **1 big boss.**
+- **[LOCKED] Boss rush:** **4 minibosses** (big-version enemies of the crew you've met) → **1 big boss** (`ENCOUNTERS.md` Stage 8).
 - **[LOCKED] Debut + big boss = Arm-Ripper.** The **Arm-Ripper** debuts here, and the **big-version
   Arm-Ripper** is **Dixon's big boss.**
 - **[ITERATE]** the exact 4–5 minibosses, Dixon's vignette (a "gauntlet" intro, or the Arm-Ripper arm-rip

@@ -71,7 +71,8 @@ in-hand + fist-combo-holding-weapon + unique **finisher/fire** + muzzle/projecti
 ## 3. Enemies (17) — `ENEMIES.md`
 Each: idle · walk (mirror) · attack(s) · hurt/stagger · **death + part/gore** · projectile/telegraph VFX ·
 **subtle rank marker** (wristband). **Big versions** = same art scaled ~1.2× (miniboss) / ~2× (boss).
-- **P0 (Area 1):** Regular Melee · Swarmer · Zombie (+ hollow-head state).
+- **P0 (Area 1):** Regular Melee · Swarmer · Zombie (+ hollow-head state) · **Pod** (destroyable HP-50 spawner — idle/pulse/spit/destroyed, `TUNING.md` §4).
+- **Vignette-only actors (P1, reuse where possible):** the **mall security guard** (fires once, gets grabbed — Stage 3 vignette), **fleeing Marin civilian** (Boomergunner vignette), the **airport Bat demo-actor** (an enemy holding a bat). These are scripted bit-players, not roster enemies (`VIGNETTES.md`, `ENEMIES.md` §6).
 - **P1 (Area 2):** Anti-Aircraft · Head-Thrower (+ blink-explode) · Snapper (+ snap-to-sword). *(The "Bat
   enemy" in the airport vignette is a **demo actor, not one of the 17** — no roster asset needed.)*
 - **P1 (Area 3):** Sniper (beret+rifle, scope up/down) · Flying Monkey · Monkey Tamer (+ enemy monkeys) · Monkey · Arm-Ripper (+ Headbutt state).
@@ -118,9 +119,9 @@ Each theme: parallax backdrop layers + lane floor + set dressing + ambient actor
 
 ---
 
-## 8. Audio — see **`AUDIO.md`** (fully specced: 23 music tracks, 76 SFX, VO plan, mix) — VO+SFX creator-produced
+## 8. Audio — see **`AUDIO.md`** (fully specced: 23 music tracks, 80 SFX, VO plan, mix) — VO+SFX creator-produced
 - **P1:** **Intro VO** (creator voice, the in-the-beginning-there-was-this script) · core SFX (punch, hit, weapon fires, explosions, zombie, whistle, trolley) .
-- **P2:** per-area **music**, ambient beds, boss themes, UI sounds. *(Full audio pass is **specced** — see `AUDIO.md`: 23 tracks, 76 SFX, VO, mix.)*
+- **P2:** per-area **music**, ambient beds, boss themes, UI sounds. *(Full audio pass is **specced** — see `AUDIO.md`: 23 tracks, 80 SFX, VO, mix.)*
 
 ---
 

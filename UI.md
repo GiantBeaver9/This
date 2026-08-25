@@ -37,8 +37,8 @@
 - **Top-right:** **Money** (`$0.07`) and **Monkey Merc** status (count + each one's countdown).
 - **Center, transient:** the **combo popup** (`7 HIT!`) — flashes and fades, never persistent.
 - **Held weapon:** a **weapon-type icon is shown** (so you always know what you're holding) but **no
-  hits-left / ammo counter** — durability & ammo stay **diegetic on the sprite.** **[PROPOSED]** icon sits
-  in the top-left cluster by health/meter. *(Confirm: top-left vs. floating above the player.)*
+  hits-left / ammo counter** — durability & ammo stay **diegetic on the sprite.** **[LOCKED] Icon sits in the
+  top-left cluster** by health/meter (not floating above the player).
 
 ---
 
@@ -52,8 +52,8 @@
   (one hit from death). The **20%** yellow→red line is set below the **≤25% rubber-band threshold** (`TUNING.md`
   §2.2) so the bar goes red just after low-HP drops kick in — a readable "danger now" cue.
 - **[LOCKED] Max HP = 100** (`ENEMIES.md` §4b damage model).
-- **[LOCKED] Low-HP warning:** at **≤19% (red)** the bar **pulses** and a subtle **screen-edge vignette pulse**
-  turns on (off above 20%). Recovery is **heal drops** (rate `ENEMIES.md` §4b, **flat +25% each, no full heals**
+- **[LOCKED] Low-HP warning:** at **red (<20%)** the bar **pulses** and a subtle **screen-edge vignette pulse**
+  turns on (off at ≥20%). Recovery is **heal drops** (rate `ENEMIES.md` §4b, **flat +25% each, no full heals**
   `TUNING.md` §2.2) and checkpoint respawns — no passive regen.
 
 ### 3.2 Special meter — **[LOCKED data], [PROPOSED] art**
@@ -156,8 +156,7 @@ All in the **chunky-arcade** style (bold pixel frames, thick outlines).
 yellow/red states; **chunky-arcade** HUD vibe; **weapon-type icon shown, no ammo/durability counters**
 (those stay diegetic); **money resets each stage.**
 
-**Still open (small):** weapon-type icon placement (top-left cluster vs. floating above the player); whether
-the money counter's full-dime highlight is enough or needs a stronger "you can summon" cue. *(Max HP = 100,
-locked §3.1.)*
+**Still open (cosmetic only):** whether the full-dime highlight needs a stronger "you can summon" cue.
+*(Weapon-icon placement locked top-left §2; max HP = 100 §3.1.)*
 **Non-HUD screens (§5): now LOCKED** (title, character-select, pause, options+rebinding, area card,
 results/grade, game-over, auto-save).
