@@ -65,6 +65,7 @@
 | Landing recovery | 0.08 s | |
 | Weapon warm-up (baseline) | **0.25 s** | per weapon in §6 (`GAMEPLAY_LOOP.md` §4.1) |
 | Low-HP rubber-band threshold | **≤25 HP (25%)** | heal drop 5%→20%, other drops ×2; matches Sniper "<25" kill line |
+| **Heal pickup restore amount** | **flat +25 HP (25% of max)** per pickup — **no full heals exist** (LOCKED) | the *drop rate* is 5%→20% at low HP (`ENEMIES.md` §4b); every heal restores the same flat 25, capped at 100. There is **no big/full heal** anywhere (not in boss arenas, not at checkpoints — a checkpoint respawn restores to full only on a *death*, not as a pickup). |
 | Hitstun (taking a hit) | 0.25 s | no i-frames |
 
 ### 2.3 Shield Rush (forward double-tap into an enemy)
@@ -206,6 +207,21 @@ green = 3). The passive **+10 / +20 / +30% damage buff** rides on top for all ch
 *(The Shotgunner's ≤T3 instakill and the Werewolf's 1HKO are rules, not damage numbers — they hold at every
 tier; what scales is reach/knockback and duration. The Underdog's buff still refreshes-not-stacks at any tier.)*
 
+**[LOCKED] Sniper special — full execution spec** (the Tactical's marquee move; supersedes the [PROPOSED] in
+`VFX.md` §6):
+
+| Field | Value |
+|---|---|
+| Time-slow factor | game slows to **0.2×** (enemies + projectiles; the player aims at 1×) |
+| Slow duration | **2.5 s** wall-clock (the aim/fire sequence) |
+| Targets hit | **15 / 30 / 45** by fill tier (§2.4) — the ricochet auto-chains that many kills |
+| Ricochet target order | **nearest un-hit enemy head first**, then the next-nearest to the last hit, greedily, until the tier count is reached or no valid targets remain |
+| Fewer targets than cap | if the field has fewer enemies than the cap, it **hits them all and ends** (no wasted bounces; leftover count is lost, not banked) |
+| Range | **whole screen** — no per-bounce range cap (it's a screen-clear) |
+| Exemptions | **Heavy** (ricochet-immune, `TUNING.md` §4), **bosses > 10% HP** (dodge), **untiered summoner/economy** enemies count only if they have a head lineup; **drops nothing** from any sniper kill |
+| Zombie tax | **exempt** — sniper kills are always clean (no 10% zombify, unlike hand-guns) |
+| Cooldown | = re-earning the meter (no separate cooldown) |
+
 ---
 
 ## 4. Enemies — all 17 (HP · damage · speed · weight · timings)
@@ -301,8 +317,8 @@ chance to spawn a 10 s zombie instead of killing. **Sniper special is exempt** (
 | **Ball & Chain** | T2 | **80/swing** | **3 uses** | 0.40 s | tap-`E` trajectory; **carrying slows player 20%** (move only, not attack); `E`-launch shapes = `COMBOS.md` §3 |
 | **Whip** | T2 | **14/hit**; finisher = head-rip→grenade | **11 connecting hits** (of 10–12) | 0.25 s | **no E-fire** (pure melee); **arrow-melee directions**: up=arc / fwd=pull (drags enemy 3 wu) / down=line. **Finisher = the head-rip extraction** (a free-melee finisher variant, `COMBOS.md` §4; auto-dashes you back 4 wu) |
 | **Staff** | T3 | Ice: **8** +freeze 3 s · Fire: **6/s ×3 s** (18) · Lightning: **12** +stun 1 s +slow | **6 casts** then breaks | 0.35 s | element fixed at pickup; `E` casts; Fire on a Head-Thrower → walking bomb (2 s→boom) |
-| **Gatling Gun** | T3 | finisher **0.5 s auto-kill** barrage | **no ammo**; overheats after **5 finisher-bursts OR 20 s equipped** (resolves §3.6 [ITERATE]) | 0.40 s spin-up | melee bludgeon 8 (slow cadence); **no i-frames during barrage** |
-| **Monkey Merc** | T4 | pistol shots **8/shot @ 2/s** | **costs 1 dime**; **3 summons/level** then none | 0.5 s summon | 1=pistol/20 s · 2=shotguns/10 s · 3=rockets/5 s; adding a monkey **re-arms all & resets their timers** (resolves §3.7 [ITERATE]) |
+| **Gatling Gun** | T3 | **`E`-barrage 0.5 s auto-kill** of the **nearest enemy directly ahead within 8 wu on your row** | **no ammo**; overheats after **5 barrages OR 20 s cumulative equipped time** (whichever first) then discards | 0.40 s spin-up | melee bludgeon 8 (slow cadence); **no i-frames during barrage**; auto-kills **any standing non-boss** it locks (incl. H-weight/untiered — that's the payoff); **bosses take 22.5/barrage** instead of dying |
+| **Monkey Merc** | T4 | **pistol 8/shot** · **shotgun ~18/blast** · **rocket ~40/rocket** — all **@ 2 shots/s** | **costs 1 dime**; **3 summons/level** then none | 0.5 s summon | 1=pistol/20 s · 2=shotguns/10 s · 3=rockets/5 s; adding a monkey **re-arms all to the new tier & resets timers**; **no friendly fire** (`WEAPONS.md` §3.7) |
 | **Club** | T1 | melee **14** + knockback | **10 hits** (resolves §3.7c [ITERATE]) | 0.15 s | no E-fire; short reach, big knockback |
 | **Bat** | T2 | melee **12**; reflect | **12 hits**; **reflect window 0.20 s** | 0.15 s | swing-timed reflect of thrown heads/shots back at attacker (resolves §3.7b [ITERATE]) |
 | **Boomerang Gun** | T2 | **8/shot** | **10 bullets, 4/pass** (~3 passes) | 0.20 s | `E` throws on a fixed orbit auto-firing; **fists only while out**; throw cooldown 1 s; shot-down = lose remaining bullets |
@@ -320,7 +336,7 @@ chance to spawn a 10 s zombie instead of killing. **Sniper special is exempt** (
 
 | Enemy level band | Weapon-drop chance | Roll weighted toward (within the area-unlocked pool, §6.1) |
 |---|---|---|
-| T0–T1 | 18% | the area-unlocked basics — **Area 1: Sword (T2-strength starter) + Boomerang**; +Club/guns once Area 2 unlocks them |
+| T0–T1 | 18% | the area-unlocked **corpse-drop** basics — **Area 1: Sword (T2-strength starter) + Boomerang**; Pistol/Revolver join the corpse pool in Area 2 (Sacramento). *(The **Club is a placed pickup, not a corpse drop** — it never rolls on this table, §6.1.)* |
 | T2 | 22% | tier-2 weapons (Whip, Bat, Staff, Ball & Chain, Boomerang Gun — as unlocked) |
 | T3 | 26% | tier-3 weapons (Shotgun, Gatling — as unlocked) |
 | T4 / miniboss | 35% | tier-4 weapons (Grenade + the strongest unlocked pool) |
@@ -394,7 +410,7 @@ to fists), so ammo management is "use it or lose the drop," never a resource-hun
 | Boss | Area | HP | Phase thresholds | Attack dmg | Win condition / objective count | Length target |
 |---|---|---|---|---|---|---|
 | **Sandwich Bros / big Tier-1** | 1 (suburbs) | **160** (2× kit, big-version) | 50% | punch **11** | HP depletion; **solo = 1 big T1; 2P = 2 + a miniboss** | 1:15 |
-| **Burly Macho Guy** | 1 (dept store) | **300** | 66% (200) · 33% (100) | ground-spike **22.5** · **enemy-toss 40** | HP depletion | 1:45 |
+| **Burly Macho Guy** | 1 (dept store) | **300** | ≈66% (200) · ≈33% (100) | ground-spike **22.5** · **enemy-toss 40** | HP depletion | 1:45 |
 | **Colossus** | 2 (Sacramento) | **240** = **6 pieces ×40** | shed at 4 & 2 pieces (speeds up) | body swipe **22.5** | **whip off 6 stick-figure pieces**; torn pieces become T1 adds | 1:50 |
 | **Helicopter** | 2 (airport) | **objective** (not HP-depleted) | after **3 hits** it descends lower & fires faster | thrown heads **15** (max 2 on screen) | **6 reflected heads OR 4 lobbed grenades = down** (each reflect/lob = 1 objective hit; a lobbed grenade counts as **1.5** so 4 finish it); main-boss-only | 1:40 |
 | **Monkey Boss** | 3 (farm) | **200** (only your mercs damage him) | 60% · 30% (throws dimes faster) | **0** direct; his mercs (T1 pistol 7.5) | proxy war: catch dimes → your mercs shoot him down; boss mercs ignore the 3-death cap | 1:55 |

@@ -220,7 +220,7 @@
     (2 s lead). The barrage is **instant death in the open** — you must be **behind a car** (hard cover) or
     off his firing row. Barrage lasts 1.5 s.
   - **Between barrages:** he **repositions** one car-length and **spawns 1–2 Regular fodder** you can
-    **Shield-Rush** behind to close distance (`PLAYER.md` §3) and land melee (22.5 to him per exchange).
+    **Shield-Rush** behind to close distance (`PLAYER.md` §3) and land your fist string (~32) or a weapon hit.
   - **Phase 2 (≤66%):** barrage cadence → 4 s. **Phase 3 (≤33%):** he fires **two rows** per barrage, forcing
     a specific car.
 - **Caps Area 4** (`STAGES.md` §4). Psychologically hard, short (<2 min).

@@ -48,13 +48,13 @@
 - A **pixel bar** (chunky-arcade), top-left.
 - **[LOCKED] Damage juice:** when you take a hit, the **pixels you're losing enlarge and then vanish under
   little "explosions"** — each hit reads as a satisfying chunk blown off the bar.
-- **[LOCKED] Color states by remaining % (no gaps):** **green 50–100%** → **yellow 20–49%** → **red 0–19%**
+- **[LOCKED] Color states by remaining % (no gaps):** **green ≥50%** → **yellow <50% && ≥20%** → **red <20%**
   (one hit from death). The **20%** yellow→red line is set below the **≤25% rubber-band threshold** (`TUNING.md`
   §2.2) so the bar goes red just after low-HP drops kick in — a readable "danger now" cue.
 - **[LOCKED] Max HP = 100** (`ENEMIES.md` §4b damage model).
 - **[LOCKED] Low-HP warning:** at **≤19% (red)** the bar **pulses** and a subtle **screen-edge vignette pulse**
-  turns on (off above 20%). No heal/regen sources exist mid-stage — recovery is drops (`TUNING.md` §6.1) and
-  checkpoints (§8.1).
+  turns on (off above 20%). Recovery is **heal drops** (rate `ENEMIES.md` §4b, **flat +25% each, no full heals**
+  `TUNING.md` §2.2) and checkpoint respawns — no passive regen.
 
 ### 3.2 Special meter — **[LOCKED data], [PROPOSED] art**
 - Fills from combat: **fists ~30 hits**, weapons ~half that rate, **rapid combos multiply** the fill
@@ -116,7 +116,7 @@ a few sprites), so they stay lightweight.
 | **Options** | volume (music/SFX sliders), fullscreen/windowed, integer-scale toggle, **rebinding** (the `PLAYER.md` §2 [ITERATE] lives here), a "reduce screen-shake" accessibility toggle. |
 | **Area card** (stage transition) | a 2-second card: the **next area's name** (linear, `STAGES.md`), with the incoming genre stinger (`AUDIO.md` §2). No path choice (linear). |
 | **Results / grade** (post-stage) | **cosmetic** score: enemies felled, best combo, time, a letter grade — **no gameplay effect** (`STAGES.md`). Advances on confirm. |
-| **Game over** | on losing all continues (`TUNING.md` §8.1): "GAME OVER" + **Retry from last checkpoint (if continues remain) · Quit to title**. |
+| **Game over** | appears when **all continues are spent** (`TUNING.md` §8.1). Options: **Restart the current stage from its start** (fresh continue count) · **Quit to title**. *(Mid-stage deaths that still have continues left respawn at the last checkpoint without this screen.)* |
 | **Controls / tutorial prompts** | contextual button-prompt overlays during the first stage's vignette (the teaching device), not a separate screen. |
 
 - **[LOCKED] Save:** a single **auto-save at each checkpoint + area boundary** (stage reached, character

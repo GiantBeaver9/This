@@ -35,9 +35,20 @@
 - **[LOCKED] Filler-wave composition rule (so it's not hand-waved):** each filler wave = **weighted random draw
   from the stage pool**, weighted **60% toward the stage's *newest* enemy type** (reinforce what it teaches),
   **40% split across the rest**, capped at the 8-pursuer limit. Wave size **ramps linearly** from **4 → 6**
-  enemies across the filler block (early waves 4, late waves 6). **No two consecutive waves are identical.**
-  Deterministic seed = stage index (so a stage plays the same each run). This makes filler fully reproducible
-  from the pool + these rules — no per-wave authoring needed.
+  enemies across the filler block. **No two consecutive waves are identical.** Deterministic seed = stage index
+  (so a stage plays the same each run).
+- **[LOCKED] Exact filler-wave COUNT per stage = the midpoint of the listed range**, rounded up (e.g. "10–14"
+  → **12**; "12–16" → **14**; "8–10" → **9**). The range in each table is illustrative; the midpoint is the
+  fixed count the seed fills. So the whole stage is reproducible with **zero per-wave authoring** — count is
+  pinned, composition is seeded.
+- **[LOCKED] Stage geometry (so the level isn't invented from prose):** each **combat stage lane = ~140 wu
+  long** (spine + filler + funnel; the vignette plays at the head, the boss arena caps the tail). The camera
+  scrolls forward as waves clear (gated per §0). **Prop/funnel/cover placement follows `AREAS.md`** per theme
+  (parked cars & hedges pinch the lane into fighting pockets; cars-as-cover on the Golden Gate). **Causeway
+  platforming stretches (Stages 6, 10):** a **linear run of 5–7 platforms**, each **8–12 wu** long with **3–5
+  wu gaps** (jumpable: jump distance ≈ 4 wu + air-dash 3.5 wu = ~7.5 wu reach), water between (fall = 10 HP
+  chip + respawn on last platform, §Stage 6). Exact decorative prop coordinates are level-editor polish, not a
+  gameplay value — the lane length, platform pattern, and cover *rules* here are what the build needs.
 - **Checkpoints — [LOCKED] (matches `TUNING.md` §8.1):** **one at stage start** (respawn point on continue) +
   **one mid-stage** (marked below, roughly halfway through the filler block) + **one at the boss door** (retry
   the boss, not the stage). Bossless stages get start + mid only.
@@ -200,8 +211,8 @@
 | **Miniboss 1** | **big Snapper** (~1.2×) + 2 Regular adds | lane + L,R | — | defeat |
 | **Miniboss 2** | **big Head-Thrower** (~1.2×) + 2 AA | lane + B | — | defeat |
 | **CHECKPOINT** (main street) | — | — | — | — |
-| **Miniboss 3** | **big Sniper** (~1.2×) + 2 Regular | perch + L,R | — | defeat |
-| **Miniboss 4** | **big Anti-Aircraft** (~1.2×) + 2 Regular | B + L,R | — | defeat |
+| **Miniboss 3** | **big Flying Monkey** (~1.2×, swoops — threatens a grounded player, unlike the Sniper) + 2 Regular | air + L,R | — | defeat |
+| **Miniboss 4** | **big Arm-Ripper elite** (~1.2×, akimbo close fire) + 2 Regular | B + L,R | — | defeat |
 | *filler* | Arm-Ripper / Snapper / Regular, 8–10 waves | L,R,B | drip 0.8 s | clear each |
 | 2 (funnel) | 3 Arm-Ripper + 2 Regular | L,R,B | drip 0.8 s | clear → boss door |
 | **BOSS** | **big Arm-Ripper** (Dixon wall, `BOSSES.md` §5) | town square | — | defeat |
