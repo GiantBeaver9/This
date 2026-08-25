@@ -48,8 +48,9 @@
 - **[LOCKED] Arena add economy (default for the standard bosses).** Weapon-gate / fodder adds obey: **max 2
   adds alive at once**, **one respawns 3 s after an add dies or is consumed** (thrown/whipped/ripped), from the
   arena's add-port(s) (`ENCOUNTERS.md` arena table). This covers **Burly** (2 toss-fodder Regulars),
-  **Colossus** (2 whip-gate adds — *separate* from the torn pieces that become adds, §5.4), **Helicopter**, and
-  **Tank**. **Exceptions with their own cadence:** **Monkey Boss** (dime cadence, §5.7) and **Phil** (his
+  **Colossus** (2 whip-gate adds — *separate* from the torn pieces that become adds, §5.4), **Helicopter**,
+  **Tank**, and **Gatling Gun Guy** (his "1–2 Regular fodder between barrages", §5.6). **Exceptions with their
+  own cadence:** **Monkey Boss** (dime cadence, §5.7) and **Phil** (his
   lead-cost draw cadence, up to **8 adds**, §5.1) — these override the 2-cap. Colossus's **torn-piece adds do
   NOT count against the 2 gate-adds** (they're the objective's byproduct). Adds **stop spawning** once the boss
   is defeated. **This add cadence is difficulty-independent** — the `TUNING.md` §8.4 spawn multiplier scales

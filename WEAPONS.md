@@ -26,8 +26,10 @@
   a weapon runs the **melee combo** at fist strength; the **finisher is the regular 4th hit** — a strong melee
   blow that **costs no ammo**. To actually **fire / throw / cast** the weapon (spending ammo/durability) you
   press **`E` (use weapon)** (`PLAYER.md` §2). **[SUPERSEDES]** the earlier "ranged weapons fire on the
-  finisher" — **firing is on `E`; the finisher is free melee.** Read every per-weapon "fire/finisher"
-  description below as the **`E`-fire** action.
+  finisher" — **firing is on `E`; the plain finisher is free melee.** Read the per-weapon **fire/throw/cast**
+  description as the **`E`-fire** action. **Two exceptions are genuine finisher-path moves, not `E`-fire:** the
+  **gun `<20%` executions** (`COMBOS.md` §2) and the **Whip head-rip extraction** (`COMBOS.md` §4) — those fire
+  on the finisher double-tap, per COMBOS.
 - **[LOCKED] Carry = single slot**, fists as the permanent fallback.
   - **Empty-handed:** walking over a drop **auto-picks** it.
   - **Already armed:** auto-pickup is suppressed; **tap the swap key** to take the weapon on the ground —

@@ -229,7 +229,8 @@ hitters — **Gatling Gunner** and **Ninja**.*
   wheel, game booths. **[ITERATE]** park set pieces, any coaster hazard.
 - **[LOCKED] Debuts:** the **Ninja** (teleport shuriken) and the **Pickpocket** (`ENEMIES.md` §2.16 — steals
   your coins; kill it for **2× back**). **[ITERATE]** a vignette for each.
-- The **Gatling Gunner** also appears across Area 4, leading into the Golden Gate boss. **[ITERATE].**
+- The **Gatling Gunner debuts at the Golden Gate (Stage 11)**, not Vallejo (`ENEMIES.md` §6, `ENCOUNTERS.md`
+  Stage 11) — it does **not** appear in Vallejo/Marin.
 - **[LOCKED] Vallejo boss = the Tank** (`BOSSES.md` §5.3) — **military is nearby** (Travis-AFB flavor), so a
   tank rampaging the park fits; beat it by dropping **grenades** (from the weapon-gated adds) in the hatch — 2 drops.
 
@@ -252,8 +253,9 @@ hitters — **Gatling Gunner** and **Ninja**.*
 - **[ITERATE]** Marin look, bridge fog/wind, car-cover layout, the barrage pattern.
 
 ### 4.3 San Francisco → the Tower → Phil finale (last level) — **[LOCKED core]**
-- **[LOCKED] The SF slog:** a long **20–30 minute** gauntlet with the **full roster** — **every enemy type**
-  coming at you. You **follow the SF trolley / cable-car path** back and forth through the city.
+- **[LOCKED] The SF slog:** the **longest combat stage, ~18 min** (the top of the ~15–18 min band, `STAGES.md`
+  §2 — the authority on minutes-per-stage) with the **full roster** — **every enemy type** coming at you. You
+  **follow the SF trolley / cable-car path** back and forth through the city.
 - **[LOCKED] Trolley hazard:** the **trolley comes through and plows straight down the middle** — it **can't
   tell friend from foe** and **flattens whatever's in its lane** (enemies *and* you). **[LOCKED] No cars in SF**
   (too much going on) — the **trolley is the signature hazard** that caps the game.

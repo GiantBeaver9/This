@@ -28,7 +28,7 @@
 | Bullet/hitbox Z-tolerance | ±0.4 wu | a shot connects only within 0.4 wu depth of target |
 | **Pursuer separation radius** | **1.0 wu** min center-to-center | hard-separation (`GAMEPLAY_LOOP.md` §8.2) — pursuers push apart to keep this gap, so **you never eat two overlapping hitboxes at once** |
 | **Attacker slots (melee ring)** | **max 2 enemies attack at once**; the rest hold a **standoff ring at ~2.5 wu** | the "circle and wait" behavior; others step in as a slot frees (still within the 8-pursuer cap) |
-| **Ranged standoff distance** | **6–8 wu** (holds at its attack range) | short-range gunners/throwers keep this gap and fire from it, rather than crowding into melee |
+| **Ranged standoff distance** | **each ranged enemy holds at ITS OWN attack range** (§4/§6.3): **throwers/lobbers 6–8 wu** (AA, Head-Thrower), **close gunners ≤4 wu** (Arm-Ripper — must close, §1 short-range rule) | not one global number — the enemy backs off to its firing range and holds there |
 | Boss arena width | **per-boss, 24–34 wu** (`ENCOUNTERS.md`) | **"camera-locked" = the level stops advancing** (no forward scroll to new ground); if the arena is wider than the ~26.7 wu screen the **camera pans within the arena box** (bounded, ≤ ±3.7 wu). Giant bosses reach down into the band. |
 
 ---
@@ -297,6 +297,7 @@ chance to spawn a 10 s zombie instead of killing. **Sniper special is exempt** (
 |---|---|
 | **Arm-Ripper spawns with no T1 fodder to disarm** | it **arrives already armed** with its own akimbo pistols (it ripped its arms off-screen); the "rip a nearby T1" is a **flavor animation only when a T1 is adjacent** — never a spawn dependency. |
 | **Gatling Gunner spawns with no fodder to contort** | same — it **spawns with the gatling in hand**; the "2×T1 / 1×T2 → gatling" line is the *diegetic origin*, not a runtime requirement. Both are **self-sufficient on spawn**. |
+| **Ninja needs no fodder** | the Ninja is **fully self-contained** — teleport + shuriken + limb-shuriken are its own kit; the "limb-strip" is **flavor on its own body**, never a dependency on other enemies. Spawns combat-ready. |
 | **Monkey Tamer's melee monkeys — stats** | each summoned monkey: **HP 20, contact dmg 5, speed 6.0 wu/s, L-stagger**; **max 2 live**; **deactivate instantly on the Tamer's death** (§4 row 9). They are lighter than the economy Monkey (row 10). |
 | **Pickpocket escapes with your coins** | if it **reaches a screen edge**, the stolen coins are **lost permanently** (the risk). Killing it before it exits **drops 2× the stolen pile**. It only steals **once per life**, then flees. |
 | **Boomergunner's gun is caught mid-orbit** | catching it (walk into the returning arc) **destroys the gun for that enemy** (it must re-loot/melee) and **staggers the Boomergunner 0.55 s**; the player does **not** gain the gun (it's the enemy's body-part, shatters on catch). |
@@ -427,8 +428,38 @@ to fists), so ammo management is "use it or lose the drop," never a resource-hun
 | **Causeway water** (Stage 6) | **10 chip** + respawn on last platform | enemies that fall are **removed (count as killed)** | no drowning death for the player |
 | **Pond/puddle** (farm) | **0** (slows movement 30% while in it) | same slow | soft terrain, not damage |
 | **Grenade self-blast / rocket self-blast** | **40 / 35** | full blast | your own ordnance (§6) |
-| **Head-Thrower fire-boom** (staff-lit) | **instant death if adjacent** | kills the lit enemy | the walking-bomb interaction (`WEAPONS.md` §3.5) |
+| **Head-Thrower fire-boom** (staff-lit) | **instant death within r 2 wu** | kills the lit enemy | the walking-bomb interaction (`WEAPONS.md` §3.5); "adjacent" = the r 2 wu blast |
+| **Golden Gate wind gust** (GGG arena) | **0 dmg**, pushes player **1.5 wu** toward a Z-edge every ~4 s | pushes enemies too | positional pressure on the bridge (arena table, `ENCOUNTERS.md`) |
 | **Fall off Salesforce rooftop** | **instant death** | enemies knocked off = killed | Phil arena only |
+
+**[LOCKED] Hazard pass frequency** (how often the on-rail hazards cross): **cars/buses** (Stages 1–2) every
+**6–9 s**, random side, one at a time; **taxiing planes** (Stage 5) every **8–12 s**; **SF trolley** (Stage 12)
+every **10 s** on a fixed track; **roller-coaster** (Stage 9) every **7 s** on its rail. All telegraphed per
+§6.2. (Boss-arena hazards fire on their boss's own cadence, `BOSSES.md` §5.)
+
+### 6.3 Projectile kinematics — **[LOCKED]** (speeds & ranges — the systemic gap closed)
+
+> Every projectile's **travel speed** (wu/s) and **max range** (wu before it despawns/falls). Damage is in §6
+> (weapons) / §4 (enemies); reach/hitbox in §2.1. Enemy shots obey the **short-range rule** (`ENEMIES.md` §1)
+> — they connect only within their listed max range, so you can always dash out.
+
+| Projectile | Speed | Max range | Notes |
+|---|---|---|---|
+| **Pistol / Revolver round** | 40 wu/s | **12 wu** then despawns | player guns; pierces per §6 |
+| **Shotgun blast** | instant (hitscan cone) | **6 wu cone**, ~4 wu wide | short-range spread |
+| **Staff cast** (ice/fire/lightning bolt) | 22 wu/s | **10 wu** | straight, facing dir |
+| **Boomerang (thrown)** | 18 wu/s out | **8 wu** then returns | returns on miss |
+| **Boomerang Gun** | orbits at 14 wu/s | 5×3 wu loop (§WEAPONS §3.8) | auto-fires inward |
+| **Grenade fastball** | 20 wu/s | 8 wu / 8 enemies | lob = arced, lands 6/8/10 wu (`WEAPONS.md` §3.2) |
+| **Rocket** | 16 wu/s | 14 wu | blast r 3 wu |
+| **AA rock** (enemy) | 12 wu/s arc | **10 wu** | arced lobber; boomerang-baitable |
+| **Arm-Ripper pistol** (enemy) | 30 wu/s | **≤4 wu** (must close, §4) | close gunner |
+| **Ninja shuriken** (enemy) | 26 wu/s | **12 wu** | the telegraphed thrown exception |
+| **Head-grenade** (enemy) | fastball physics | 8 wu | `WEAPONS.md` §3.2 |
+| **Helicopter head** (boss) | 14 wu/s (falls toward player) | drops from top band | max 2 airborne; bat/lob to counter |
+| **Boomergunner gun-shot** (enemy) | 16 wu/s along the orbit | 5 wu loop | 5/shot |
+| **Sniper (both player special & enemy)** | **hitscan** (instant) | full screen | no travel |
+| **Gatling stream** | hitscan, 8 wu | 8 wu | 1/hit chip |
 
 ---
 
@@ -484,7 +515,7 @@ minibosses / big-version *non-boss* elites** are sniper-killable like normal ene
 | Field | Value | Notes |
 |---|---|---|
 | **Checkpoint cadence** | **1 at stage start + 1 mid-stage + 1 at the boss door** | ~2–3 per ~15–18 min stage (`ENCOUNTERS.md` §0); bossless stages = start + mid |
-| Heal on checkpoint | **full HP restore** | forgiving over a 3–4 hr run |
+| Heal on checkpoint | **only a death-respawn restores full HP** (`TUNING.md` §2.2) — **reaching** a checkpoint does **NOT** heal | consistent with "no full-heal pickups"; you respawn full only after dying |
 | Money on checkpoint | resets each **stage** (LOCKED, `UI.md` §3.4) | not stored across checkpoints |
 | **Continues per run** | **3** | then game-over → title **(tunable)** |
 | Continue cost | resets to the last checkpoint; **wallet cleared**; special meter emptied | forgiving-but-not-free |
