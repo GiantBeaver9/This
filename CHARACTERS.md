@@ -23,7 +23,10 @@
 ### 2.0 The specials & the drops trade-off — **[LOCKED core]**
 Each Special clears a crowd differently, balanced by **what loot survives** — the core axis is
 **completeness vs. loot retention:**
-- **Tactical / Sniper** — **kills everything** (one-shot ricochet), but **drops NOTHING.** Cleanest wipe, zero loot.
+- **Tactical / Sniper** — **one-shots every targetable enemy** it can lock (up to the tier cap 15/30/45), but
+  **drops NOTHING.** Cleanest wipe, zero loot. *(Exceptions: the **Heavy is immune to the ricochet/headshot-pick**
+  — `ENEMIES.md` §2.11, `TUNING.md` §4 — and **bosses only die to it under 10% HP**, `BOSSES.md` §1. "Everything"
+  = every sweepable/targetable enemy, not the immune Heavy or a healthy boss.)*
 - **Shotgunner** — **massive damage + knockback**, **wipes up to tier 3** (T3-and-below; the untiered Heavy/Monkey-Tamer and bosses survive), and **enemies
   it kills still drop loot on the ground.** Less absolute, keeps the economy.
 - **Werewolf** — **5s of i-frame slash-everything**; you **still get money/drops** from the kills. Melee

@@ -23,7 +23,7 @@
   ≈ 12%** per non-swarm kill (raised from 5% so dimes are reachable); **Swarmers drop 0**. **Sniper-special
   kills drop nothing.**
 - **[LOCKED] Types are introduced progressively by stage.** Stage 1 is mostly **basic melee**; new types
-  unlock as you climb (e.g. **grenade / Head-Throwers arrive ~stage 2**), so difficulty ramps by *roster*,
+  unlock as you climb (e.g. **Head-Throwers arrive Area 2 (airport)**), so difficulty ramps by *roster*,
   not just numbers. *(Specific per-stage rosters get defined later, alongside stages.)*
 - **[LOCKED] Catch-up minibosses:** if the player is **clearing too fast**, a **miniboss** is injected to
   re-apply pressure (dynamic pacing). *(Miniboss designs → `BOSSES.md`; the spawn trigger is a stage/pacing

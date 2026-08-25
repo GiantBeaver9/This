@@ -35,12 +35,15 @@
 - **Checkpoints — [LOCKED] (matches `TUNING.md` §8.1):** **one at stage start** (respawn point on continue) +
   **one mid-stage** (marked below, roughly halfway through the filler block) + **one at the boss door** (retry
   the boss, not the stage). Bossless stages get start + mid only.
-- **Threat Budget** = Σ(spine enemy count × tier), a **monotonic** design guardrail across the campaign (each
-  stage ≥ the previous); filler is excluded from the number. It is a guardrail, not a runtime value.
+- **Threat Budget** = Σ(spine fodder count × tier), **+ the boss** on boss stages (a boss counts as its HP/50,
+  so Sandwich Bros 160 ≈ +3.2, Burly 300 ≈ +6). It **trends upward across the campaign** measured **per act**
+  (Act 1 < Act 2 < … each act's total ≥ the last); it is **not** required to rise on every single stage —
+  e.g. Stage 2's fodder spine (7) dips below Stage 1's (10) because Stage 2 spends its budget on the Sandwich
+  Bros boss instead. Filler is excluded. A design guardrail, not a runtime value.
 
 ---
 
-## ACT 1 — Placer Suburbs & Mall  ·  *tier 0–1 → intro tier-2*
+## ACT 1 — Placer Suburbs & Mall  ·  *tier 0–1 (first T2 enemy debuts Area 2)*
 
 > **Area-1 structure (`AREAS.md` §1.6/§1.9):** Lincoln High → suburb/old-Hwy-65 → **Sandwich Bros fight** →
 > Rocklin → **Roseville Galleria (Area-1 finale, Burly)**. Debuts here (`ENEMIES.md` §6): **Regular (suburbs),
@@ -86,7 +89,7 @@
 | 1 | 3 Regular | L, R | drip 0.9 s | kill 3 |
 | 2 | 1 Pod (Swarmers, cap 6) + 2 Regular | B + L | pod 1/3 s | destroy Pod |
 | **CHECKPOINT** (atrium) | — | — | — | — |
-| 3 | 1 Zombie + 3 Regular | A + L,R | drip 0.8 s | clear (first grab here) |
+| 3 | 1 Zombie (Pod-spawned) + 3 Regular | A + L,R | drip 0.8 s | clear (first grab here) |
 | *filler* | Regular / Swarmer-pod / occasional Zombie, 12–16 waves | L,R,B | drip 0.8 s | clear each |
 | 4 (funnel to dept store) | 4 Regular + 1 Zombie Pod | L,R,A | drip 0.7 s | clear → boss door |
 | **BOSS** | **Burly Macho Guy** (HP 300, `TUNING.md` §7) | dept-store arena | — | defeat |
@@ -101,7 +104,10 @@
 ### Stage 4 — Sacramento Victorian old-town + **Snapper** debut → **BOSS: The Colossus** — **[LOCKED]**
 - **Teaches (vignette):** an enemy **whips and pulls down** another — the Whip's crowd-control pull
   (`VIGNETTES.md`). **Snapper** (first tier-2) debuts mid-stage, snapping a T1 → sword.
-- **Pool:** Regular (T1), **Snapper** (T2), Whip-armed Regular (Snapper-style hand-off / drop).
+- **Pool:** Regular (T1), **Snapper** (T2). *(The **Whip** is introduced here as a **weapon** — the Colossus
+  arena is whip weapon-gated, `BOSSES.md` §5.4, and whips enter the Area-2 drop pool, `TUNING.md` §6.1. The
+  whip-wielding figure in the vignette is a **demo actor**, not a roster enemy — like the airport Bat demo,
+  `ENEMIES.md` §6.)*
 
 | Wave | Spawns | Sides | Cadence | Gate |
 |---|---|---|---|---|

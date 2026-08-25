@@ -74,8 +74,9 @@ direction**. Then it hands off to normal play.
   - a Head-Thrower **fastballs** a grenade and a **Bat enemy swats it away**, launching it to explode.
 - **[LOCKED]** The **very first stage gets only a light vignette** — the **dancing Zebra punches a regular
   enemy** to demo the **punch** (the only mechanic there). Full vignette plan → **`VIGNETTES.md`**.
-- **[LOCKED] Weapon-availability ramp:** the first stages hand out **only basic melee** (early low-tier
-  weapons — e.g. the **Club** (early low-tier); the Sword is T2 and appears a touch later); each
+- **[LOCKED] Weapon-availability ramp:** the first stages hand out **only basic melee** — the **Area-1 pool is
+  Sword + Boomerang** (`TUNING.md` §6.1). The **Club debuts in Area 2** (airport pickup, `WEAPONS.md` §3.7c),
+  and guns/heavier kit unlock by area from there; each
   new stage **introduces its mechanic via the vignette, then lets the matching weapons spawn.** So it's
   **teaching → tools → test** every stage, and it pairs with the boss (e.g. airport teaches bat+grenade →
   Helicopter boss).
@@ -148,7 +149,7 @@ Goal = **visible progression & diversity**: suburb → mall → city → airport
 
 | Area | Real route | Theme / set pieces | Enemy ramp |
 |---|---|---|---|
-| **1 — Placer Suburbs & Mall** | Lincoln → Rocklin → Roseville | **Lincoln High** + suburbs (**Sandwich Bros** fight, car/bus hazard), Rocklin, the **Roseville Galleria** mall (**department-store** area boss) | tier 0–1 → intro tier-2 |
+| **1 — Placer Suburbs & Mall** | Lincoln → Rocklin → Roseville | **Lincoln High** + suburbs (**Sandwich Bros** fight, car/bus hazard), Rocklin, the **Roseville Galleria** mall (**department-store** area boss) | tier 0–1 (T2 enemies debut Area 2) |
 | **2 — Sacramento & Airport** | Sacramento → Sac. airport | medium city, **Victorian old-town housing** (clear sky), then the **Sacramento Airport** set piece | + tier-2/3 |
 | **3 — Hills, Causeway & Dixon** | hills → Davis causeway → Dixon | rolling hills → **Yolo-style causeway** (platforming) → **farm** (Monkey Boss) → **Dixon boss rush** (first big wall, **big Arm-Ripper**) | + tier-3; Sniper, Flying Monkey, Arm-Ripper |
 | **4 — Vallejo to the City** | Vallejo → bay → Marin → SF | **Vallejo** (Six-Flags coasters) → **bay causeway to Marin** → **Golden Gate Bridge** → **San Francisco** (skyscraper) | full roster; **Gatling Gunner, Ninja** debut |

@@ -72,8 +72,12 @@ directional normals rather than a single canned combo string.
 | ↓ | **Down air / spike** | slam downward; can spike/bounce, combo starter on landing |
 
 ### Combo model — **[LOCKED]**
-- **One hit per press** — each arrow press is a single strike in that direction (no per-direction
-  auto-string). The *variety* comes from **which directions you chain**, on the ground and in the air.
+- **One hit per press** — each arrow press is a single strike in that direction. Two systems coexist:
+  - **Standalone directional normals** (up-strike, down-strike, air attacks) — free-form pokes/juggle tools you
+    can throw in any order; they **do not** advance the auto-string (`TUNING.md` §2.5).
+  - **The auto-string** `punch → punch → sweep → finisher`, which advances on **side/forward** presses (the
+    bread-and-butter combo). *Variety* comes from mixing the standalone normals **around** the string, not from
+    the string itself accepting any direction.
 - **[LOCKED] The string is `punch → punch → sweep → finisher`** (4 hits), attacking in the direction pressed.
   - **[LOCKED] The last two hits (sweep + finisher) are a SAME-DIRECTION DOUBLE-TAP** — `→→`, `←←`, `↑↑`, or
     `↓↓` (any of the four directions). **The first tap is the SWEEP** (hit 3, **knocks the enemy DOWN**); **the

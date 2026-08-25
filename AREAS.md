@@ -11,7 +11,7 @@
 
 ## 0. Performance & art direction — **[LOCKED target]**
 
-- **[LOCKED] Lightweight first.** The game must **run great on modest hardware** (e.g. a 3050/2090), not
+- **[LOCKED] Lightweight first.** The game must **run great on modest hardware** (e.g. a GTX 1650 / RTX 3050), not
   only high-end (5090). **Pixel-art 2.5D** keeps it cheap: **2D sprites, simple parallax, no heavy 3D/shaders.**
 - **[LOCKED] Design goal:** *more lightweight and more fun* — a player on a low-end rig has just as good a
   time as one on a high-end rig.
@@ -134,9 +134,13 @@ signage · **department-store boss** arena.
 - **[LOCKED] Intro vignette (§`STAGES.md` 1c):** entering the **terminal**, the player **sees the mechanic
   acted out** — enemies **throw head-grenades that hit planes in the air**, and a **Bat enemy swats a
   grenade into a small plane**, exploding it. Teaches **head-grenades + bat-reflect** before you use them.
-- **[LOCKED] Debuts:** **Head-Throwers** (grenade-from-head), the **Bat** weapon, and **Anti-Aircraft**
-  (stone-throwers — seen **pelting the planes** in the vignette/ambient) — and grenades + bats **spawn** here
-  so the player can practice the exact tools the boss needs.
+- **[LOCKED] Debuts:** **Head-Throwers** (grenade-from-head), the **Bat** weapon (Area-2 drop pool onward,
+  `TUNING.md` §6.1), and **Anti-Aircraft** (stone-throwers — seen **pelting the planes**).
+- **[LOCKED] Grenades at the airport = the Helicopter boss-arena weapon-gate, NOT the general pool.** Grenades
+  are otherwise **Area-3-gated** (`TUNING.md` §6.1); the exception is the **Helicopter arena**, which — like the
+  Tank's grenade gate — has its **tier-1 adds drop bats + grenades** so the player has the exact two tools the
+  boss needs (bat the heads back / lob grenades up). The general Area-2 stage pool has **bats but not
+  grenades**; the grenade practice is inside the boss arena. (Resolves the AREAS-vs-TUNING drop-pool conflict.)
 - **Backdrop:** terminal interior → **tarmac** with **taxiing planes**, ground crew **marshalling planes**,
   luggage carts. **Hazards:** taxiing planes / jet blast **[ITERATE]**.
 - **[LOCKED] Area boss = the Helicopter** (`BOSSES.md` §5.5): the airport **taught bat + grenade**, and the
@@ -228,9 +232,10 @@ hitters — **Gatling Gunner** and **Ninja**.*
 - **[LOCKED] Marin/redwoods boss = a Boomergunner** (big-version) at the end.
 - **[ITERATE]** redwoods hazards (falling logs? mist?), a Boomergunner vignette.
 
-### 4.2 Across the bay to Marin, then the Golden Gate (penultimate level) — **[LOCKED core]**
+### 4.2 Across the bay to Marin, then the Golden Gate (Area-4 cap) — **[LOCKED core]**
 - **[LOCKED] Bay causeway run** across to **Marin County** (water platforming again), then the **Golden Gate
-  Bridge** crossing — the **penultimate level.**
+  Bridge** crossing — **Stage 11 of 13**, the **Area-4 capping boss** (Gatling Gun Guy). The **SF streets
+  (Stage 12)** and the **Salesforce rooftop (Stage 13 / Phil)** follow it as the finale approach + finale.
 - **[LOCKED] Golden Gate boss = the Gatling Gun Guy** (`BOSSES.md` §5.6): he **shoots you like crazy** with a
   **barrage every ~5 seconds.** A **"BARRAGE INCOMING" warning** flashes on screen; you must **hide behind the
   cars** on the bridge — **everything caught in the open gets eviscerated** (enemies included). Cover + timing.

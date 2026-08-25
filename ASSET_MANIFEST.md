@@ -13,7 +13,7 @@
 
 ## 0. Production specs — **[LOCKED defaults]** (concrete; override only deliberately)
 > These are pinned so mass asset-generation and the Unity import can proceed with **zero further decisions**.
-> They are chosen lightweight-first (runs on a 3050/2090 and a 5090 alike). Treat as authoritative defaults.
+> They are chosen lightweight-first (runs on a GTX 1650 / RTX 3050 up to an RTX 5090). Treat as authoritative defaults.
 
 - **Canvas resolution / aspect:** **16:9**, internal render **640 × 360** (integer-scaled to the window —
   crisp pixels at 720p/1080p/1440p/4K via ×2/×3/×4/×6). Camera is orthographic 2.5D.

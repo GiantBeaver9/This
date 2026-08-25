@@ -291,9 +291,13 @@ chance to spawn a 10 s zombie instead of killing. **Sniper special is exempt** (
 > "weighted toward" column says which tier the roll favors — but a weapon only appears once its area has
 > unlocked it (§6.1), so early kills yield the basic-melee pool regardless of band.
 
+> **Note on Sword's tier:** the Sword is a **T2-strength** weapon (`WEAPONS.md` §2.1, §6 table) but is
+> **unlocked in Area 1** as the intentional **starter upgrade** — availability (§6.1 area gate) is independent
+> of combat tier. So a T0–T1 kill in Area 1 can still roll a Sword even though it out-tiers the band.
+
 | Enemy level band | Weapon-drop chance | Roll weighted toward (within the area-unlocked pool, §6.1) |
 |---|---|---|
-| T0–T1 | 18% | tier-1 weapons (Sword, Boomerang; +Club/guns once Area 2 unlocks them) |
+| T0–T1 | 18% | the area-unlocked basics — **Area 1: Sword (T2-strength starter) + Boomerang**; +Club/guns once Area 2 unlocks them |
 | T2 | 22% | tier-2 weapons (Whip, Bat, Staff, Ball & Chain, Boomerang Gun — as unlocked) |
 | T3 | 26% | tier-3 weapons (Shotgun, Gatling — as unlocked) |
 | T4 / miniboss | 35% | tier-4 weapons (Grenade + the strongest unlocked pool) |
@@ -333,6 +337,10 @@ to fists), so ammo management is "use it or lose the drop," never a resource-hun
 
 - **The tier roll (§6) is filtered by this table:** e.g. a Snapper (T2) killed in Area 2 can drop Whip/Bat/
   Staff but **not** Ball & Chain (Area-3-gated) yet. In Area 3+ the full T2 pool is available.
+- **Boss-arena weapon-gate exceptions (override the area gate *inside that arena only*):** the **Helicopter**
+  arena (Area 2) drops **grenades** and **bats** despite grenades being Area-3-gated, and the **Tank** arena
+  (Area 4) drops **grenades**, and the **Colossus** arena (Area 2) drops **whips** — each supplies exactly the
+  weapon its objective needs (`BOSSES.md` §1). These are the only places a weapon appears ahead of its area gate.
 - **No money in Areas 1–2 (`WEAPONS.md` §3.9):** the **12% coin roll (§6) is DISABLED in Area 1 and Area 2**;
   coins begin dropping in **Area 3** with the dime/monkey economy. (Weapon drops still happen in Areas 1–2 per
   this table.) This resolves the "first half has no money" rule that the global 12% line implied everywhere.
