@@ -335,6 +335,12 @@ field cap of 6 pod-spawned units; sits at the back Z-edge of the encounter (reso
   each placed Pod's type ("Swarmer pod" / "Zombie Pod"); a build reads that label as the Pod's fixed emit-type.
   In **Endless** (§8.3) each spawned Pod is assigned a type at spawn (50/50 Swarmer/Zombie). The **6-unit field
   cap is shared across all Pods** (total pod-spawned units on screen ≤ 6, not per-Pod).
+- **[LOCKED] Pod-spawned units (BOTH Swarmers and Zombies) may exceed the 8-pursuer cap** — they are a
+  **separate category** governed only by the 6-unit pod-field cap, not the 8 grounded-pursuer cap (so on screen
+  you can face up to 8 pursuers **plus** up to 6 pod-spawned units). This is one rule for both pod types; the
+  ENCOUNTERS §0 "Swarmer exception" wording is shorthand for this — it applies to Zombie pods too. (Phil's draw
+  phase counts a drawn pod's live units toward **his own 8-add cap**, §5.1 — a boss-arena rule, separate from
+  the field pursuer cap.)
 
 **[LOCKED] Enemy attack cadence (the moment-to-moment pacing — one place).** Each attacking enemy runs
 **windup → active hit → recovery → cooldown**, then may attack again. The windups are the §4 table's "timings";
@@ -663,7 +669,7 @@ every **10 s** on a fixed track; **roller-coaster** (Stage 9) every **7 s** on i
 
 | Boss | Area | HP | Phase thresholds | Attack dmg | Win condition / objective count | Length target |
 |---|---|---|---|---|---|---|
-| **Sandwich Bros / big Tier-1** | 1 (suburbs) | **160** (2× kit, big-version) | **50% → adds a jump-kick + slide-kick (uses the full Regular kit, faster)** | punch **11** | HP depletion; **solo = 1 big T1** | 1:15 |
+| **Sandwich Bros / big Tier-1** | 1 (suburbs) | **160** (boss-scale = Regular 40 × **4.0**) | **50% → adds a jump-kick + slide-kick (uses the full Regular kit, faster)** | punch **11** (7.5 × 1.5, rounded) | HP depletion; **solo = 1 big T1**; **move speed = base Regular 6.5 wu/s** (the big-version speed multiplier = **×1.0**, unchanged — see scaling note) | 1:15 |
 | **Burly Macho Guy** | 1 (dept store) | **300** | phase 2 at **200 HP** · phase 3 at **100 HP** (exact HP triggers, ≈66% / ≈33%) | ground-spike **22.5** · **enemy-toss 40** | HP depletion | 1:45 |
 | **Colossus** | 2 (Sacramento) | **240** = **6 pieces ×40** | shed at 4 & 2 pieces (speeds up) | body swipe **22.5** | **whip off 6 stick-figure pieces**; torn pieces become T1 adds | 1:50 |
 | **Helicopter** | 2 (airport) | **objective — 6 damage-pips** (not HP-depleted) | after **3 pips** it descends lower & fires faster | thrown heads **15** (max 2 on screen) | fill a **6-pip** bar: a **reflected head = 1 pip**, a **lobbed grenade = 1.5 pips** — so **6 heads**, or **4 grenades** (4 × 1.5 = 6), or any mix summing to 6, downs it; main-boss-only | 1:40 |
@@ -676,12 +682,25 @@ every **10 s** on a fixed track; **roller-coaster** (Stage 9) every **7 s** on i
 
 **Big-version scaling rule (concrete):**
 
-| Class | Size | HP multiplier | Damage multiplier |
-|---|---|---|---|
-| **Miniboss** | **1.2×** | **×2.0** | **×1.25** |
-| **Boss** | **2.0×** | **×4.0** | **×1.5** |
+| Class | Size | HP multiplier | Damage multiplier | Move-speed multiplier |
+|---|---|---|---|---|
+| **Miniboss** | **1.2×** | **×2.0** | **×1.25** | **×1.0** (same speed as the base enemy) |
+| **Boss** | **2.0×** | **×4.0** | **×1.5** | **×0.9** (slightly slower — the bulk tax; keeps a giant readable) |
 
-(e.g. Regular Melee 40 HP → big-version boss 160 HP, 7.5→11 dmg — matches Sandwich Bros above.)
+(e.g. Regular Melee 40 HP → big-version boss 160 HP, 7.5→11 dmg, speed 6.5 × 0.9 ≈ **5.9 wu/s** — matches
+Sandwich Bros above at ~6 wu/s.)
+
+**[LOCKED] Bespoke-boss base move speeds** (the 7 hand-authored bosses don't come from the ×0.9 formula — they
+each get a pinned walk/reposition speed; special attack lunges are called out in `BOSSES.md` §5):
+| Boss | Base move speed |
+|---|---|
+| **Burly Macho Guy** | **4.5 wu/s** (heavy bruiser; 12 wu/s ground-spike charge is the exception, `BOSSES.md` §5.2) |
+| **Colossus** | **3.5 wu/s** (a lumbering giant) |
+| **Helicopter** | **8.0 wu/s** strafe (already pinned, §5.5) |
+| **Tank** | **stationary** except the one Phase-2 reposition at **3.0 wu/s** (`BOSSES.md` §5.3) |
+| **Monkey Boss** | **5.0 wu/s** (repositions between dime tosses; deals no contact damage) |
+| **Gatling Gun Guy** | **4.0 wu/s** (holds a firing line; drops to melee inside 3 wu) |
+| **Phil** | **5.0 wu/s** (contact 15; mostly stationary while drawing/invuln, `BOSSES.md` §5.1) |
 
 - **[LOCKED — GLOBAL rounding rule] Every computed value rounds to the nearest integer (0.5 rounds up); HP
   rounds to the nearest whole HP.** This applies to all multiplier products anywhere in the bible — big-version
@@ -731,7 +750,7 @@ minibosses / big-version *non-boss* elites** are sniper-killable like normal ene
 | **Trigger** | average kill interval **< 3.0 s** (i.e. clearing faster than 1 kill / 3 s) **for 20 s straight** |
 | Injection | spawn **1 recurring miniboss** (a **big-version enemy**, generated by the §7 boss-scaling formula) at the front Z-edge |
 | **Which enemy** (LOCKED selection) | the big-version is the **big-version of a random enemy type the player has *already encountered* this run** (any non-boss type that has appeared in a wave up to this point), chosen uniformly at spawn. **Areas 1–2 fallback:** if the pool of seen types is empty or all-fodder (Zombie/Swarmer only), spawn a **big Regular Melee** — the guaranteed early-game default |
-| Stats | HP & damage from the §7 auto-generated big-version formula (2× kit); **immune to sweep/knockdown & the ≤10% execute** (it's a miniboss, §2.6), but **sniper-killable** like any non-boss elite (§8.2 note) |
+| Stats | HP & damage from the §7 auto-generated big-version formula (miniboss = HP ×2.0, dmg ×1.25); **immune to sweep/knockdown & the ≤10% execute** (it's a miniboss, §2.6), but **sniper-killable** like any non-boss elite (§8.2 note) |
 | Re-arm cooldown | **90 s** before the trigger can fire again |
 | Cap | max **1 catch-up miniboss active** at a time |
 

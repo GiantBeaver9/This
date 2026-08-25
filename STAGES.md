@@ -148,7 +148,7 @@ New types **debut** act by act, then **recombine** with everything prior. (Roste
 - **[PROPOSED]** "Big version" minibosses (`BOSSES.md` §1) re-test earlier foes at higher stakes; minibosses recur.
 - **[ITERATE]** exact debut *stage within an area*; per-stage rosters. *(All 7 bespoke bosses now placed.)*
 
-### 4.1 Acts & themes — **[LOCKED core]** (~2–3 stages each; each area ends in a boss, linear)
+### 4.1 Acts & themes — **[LOCKED core]** (Area 1 = 3 · Area 2 = 2 · Area 3 = 3 · Area 4 = 4 stages, +finale = 13; each area ends in a boss, linear)
 
 Route: **Lincoln → Rocklin → Roseville → Sacramento → Dixon → Marin → San Francisco** — a real NorCal drive.
 Goal = **visible progression & diversity**: suburb → mall → city → airport → hills → small town → bridge → the city.

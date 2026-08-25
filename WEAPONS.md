@@ -55,8 +55,9 @@
 
 ### 2.2 Shotgun — *spine = ammo*
 - **Type:** ranged, but **melee'd through the combo**; **fires a shell on `E`** (the free 4th-hit finisher is melee).
-- **Behavior:** finisher = **blast** (short-range spread, big damage / knockback). After firing, the Human
-  **cocks it** and a **spine segment ejects** — the **remaining spine = shots left.**
+- **Behavior:** **`E` fires the blast** (short-range spread, big damage / knockback — NOT the combo finisher;
+  the finisher is the free melee, per §1's supersede rule). After firing, the Human **cocks it** and a
+  **spine segment ejects** — the **remaining spine = shots left.**
 - **Ammo:** number of **spine segments** (e.g. 4–6). When spine is spent, gun is gone.
 - **Diegetic readout:** the **spine magazine** shrinks segment-by-segment; no HUD ammo counter needed.
 - **Warm-up:** slight aim before the blast (per weapon warm-up rule).
@@ -196,7 +197,8 @@ Enemy-dropped; **1 per pickup** (scarce — save it for a cluster).
 
 ### 3.5 Staff — *magic caster* **[LOCKED core]**
 - **Element is set at pickup — randomly one of three: Ice, Fire, Lightning.** A given staff stays that
-  one element for its whole life. The **finisher casts** the element's effect:
+  one element for its whole life. **`E` casts** the element's effect (NOT the combo finisher — the finisher is
+  the free melee, per §1's supersede rule):
   - **Ice** — crowd control: **8 damage + freezes the enemy solid for 3 s** (`TUNING.md` §6). Lockdown tool.
     **[LOCKED] Freeze interaction rules:** (a) a frozen enemy is **fully inert** — its current action is
     **interrupted** and it cannot move/attack/telegraph until thaw; (b) **damage does NOT break the freeze** —

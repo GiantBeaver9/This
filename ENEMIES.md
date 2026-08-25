@@ -137,8 +137,12 @@
   weapon → guaranteed drop" exception the Snapper and Arm-Ripper use (`TUNING.md` §6 note).
 
 ### 2.8 Zombie — **[LOCKED core]** — **Tier 0** (new lowest tier)
-- **Headshots don't kill it — they hollow it.** A headshot **empties the head** (filled head → see-through
-  outline) but the zombie **keeps marching.**
+- **A Zombie's head is already hollow — it can't be head-killed.** The **hollow (see-through) head is the
+  Zombie's permanent look**: a headshot-*created* Zombie is born with its head emptied by the shot that made it
+  (`TUNING.md` §4 headshot economy), and it keeps that hollow head while it marches. **Shooting an existing
+  Zombie does NOT re-hollow or head-kill it** — the head is inert, so every gun hit on a Zombie is a **body shot
+  dealing normal damage** (LOCKED block below). You kill a Zombie by depleting its 30 body-HP or letting it time
+  out, never by a headshot.
 - **Slow march** straight at the player.
 - **Grab at close range:** it can **grab the player** (no bite — no mouth); the player **mashes/taps to
   break free.** A tempo trap, not burst damage.

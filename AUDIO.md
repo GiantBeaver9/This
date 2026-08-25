@@ -162,8 +162,11 @@ the Total line is authoritative).
 - **Phil VO:** the **rooftop monologue** (menacing laughter; "found the Holy Sharpener," **"bring 2D chaos to
   this 3D planet"**) — same creator voice, pitched-down + reverb for villainy (LOCKED, `VIGNETTES.md`). Pin
   **~30 s**, delivered during the elevator climb.
+- **Outro VO:** **one last creator-voiced line** over the epilogue/credits (`STORY.md` §3) — same voice/spec,
+  pin **~10 s**. This is the only VO besides the intro clips and Phil's monologue.
 - **Recording spec:** mono, 44.1 kHz, cleaned/normalized to **−16 LUFS** (sits above music duck, §6).
-- **No other spoken dialogue** in v1 — enemies/bosses are non-verbal (grunts, chatter). Keeps the VO scope tiny.
+- **No in-GAMEPLAY spoken dialogue** in v1 — enemies/bosses are non-verbal (grunts, chatter); the only VO is the
+  **intro clips, Phil's monologue, and the one outro line** (above). Keeps the VO scope tiny.
 
 ---
 
