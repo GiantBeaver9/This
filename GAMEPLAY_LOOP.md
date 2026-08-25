@@ -237,8 +237,11 @@ This is where 2.5D + bullet-hell get technical. Kept as **[PROPOSED]** design in
   - **Rushers** path to melee range, then commit a swing and back off/reposition (so they don't just
     pile into one square).
   - **Shooters** (short-range only, per `ENEMIES.md` §1 — they must **close in**) advance to their **fire
-    range** and a **clear Z-row**, then fire; they don't camp at long standoff. *(No keep-away, no sniping —
-    `ENEMIES.md` is authoritative over this early sketch.)*
+    range** and a **clear Z-row**, then fire. *(This early sketch only rules out **generic, universal
+    camping** — the default shooter doesn't just sit at max range plinking. Specific enemies DO keep away or
+    snipe per their pinned specs: the **Snapper** and **Monkey Tamer** keep-away, the **Sniper** is full-screen,
+    and ranged enemies hold at their pinned 6–12 wu standoff and back off when closed on — `ENEMIES.md` /
+    `TUNING.md` §1 are authoritative.)*
 
 ### 8.2 Spacing & anti-clumping — **[LOCKED] rule + [PROPOSED] mechanics**
 **[LOCKED]** Up to **8 enemies** actively pursue the player at once. But **hard separation** is

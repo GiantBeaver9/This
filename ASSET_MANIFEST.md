@@ -92,14 +92,16 @@ in-hand + fist-combo-holding-weapon + unique **finisher/fire** + muzzle/projecti
 - **P1:** Boomerang (in-flight + stun) · **Pistol & Revolver** (straight tracer, pierce, cigarette-flick finisher) ·
   **Grenade/Bomb** (bounce marker, lob/fastball trails, big/small blast) · **Whip** (arc/pull/line + head-rip→grenade) ·
   **Bat** (reflect) · **Staff** (ice/fire/lightning cast FX) · **Gatling** (0.5s barrage) · **Boomerang Gun**
-  (orbit + auto-fire) · **Ball & Chain** (launch, heavy impact) · **Rocket Launcher** (world pickup).
+  (orbit + auto-fire) · **Ball & Chain** (launch, heavy impact) · **Rocket Launcher** (world pickup) ·
+  **Club** (in-hand idle/walk + short-swing + big-knockback swing kit + wear states + **placed-pickup sprite** —
+  the airport/Stage-5-on placed heavy-melee option, `WEAPONS.md` §3.7c / `TUNING.md` §6.1).
 - **P1/P2:** **Monkey Merc** (summon poof, pistol/shotgun/rocket variants, expire) · **Merc-claim token** ground
   sprite (the pickup a killed Monkey drops, `WEAPONS.md` §3.7) · ground **pickup sprites** for every weapon.
 - **[LOCKED] Non-weapon ground pickups (were missing — now itemized):** **heal pickup** sprite (a distinct
   positive-read item, e.g. a small first-aid/health mote; drop per `TUNING.md` §2.2, chime per `AUDIO.md` §4) ·
   **coin** (1¢) and **dime** (10¢) sprites (`UI.md` §3.4) · the **Sniper's dropped rifle** — the +100-meter
   ground pickup (a rifle icon, distinct from the enemy Sniper's held rifle; `ENEMIES.md` §2.14). All use the
-  standard 12 s ground-lifetime (`TUNING.md` §6).
+  standard 12 s ground-lifetime (`TUNING.md` §4.1).
 
 ---
 
@@ -107,7 +109,7 @@ in-hand + fist-combo-holding-weapon + unique **finisher/fire** + muzzle/projecti
 Each: idle · walk (mirror) · attack(s) · hurt/stagger · **death + part/gore** · projectile/telegraph VFX ·
 **Big versions** = same art scaled ~1.2× (miniboss) / ~2× (boss). *(No rank/wristband marker — the rank system is cut for v1, `ENEMIES.md` §4.)*
 - **P0 (Area 1):** Regular Melee · Swarmer · Zombie (+ hollow-head state) · **Pod** (destroyable HP-50 spawner — idle/pulse/spit/destroyed, `TUNING.md` §4).
-- **Vignette-only actors (P1, reuse where possible):** the **mall security guard** (fires once, gets grabbed — Stage 3 vignette), **fleeing Marin civilian** (Boomergunner vignette), the **airport Bat demo-actor** (an enemy holding a bat). These are scripted bit-players, not roster enemies (`VIGNETTES.md`, `ENEMIES.md` §6).
+- **Vignette-only actors (P1, reuse where possible):** the **mall security guard** (fires once, gets grabbed — Stage 3 vignette), **fleeing Marin civilian** (Boomergunner vignette), the **airport Bat demo-actor** (an enemy holding a bat), the **Sacramento whip demo-actor** (the whip-wielding figure of the Stage-4 whip-pull vignette — its airport-Bat counterpart is already listed, `ENCOUNTERS.md` Stage 4 / `VIGNETTES.md`). These are scripted bit-players, not roster enemies (`VIGNETTES.md`, `ENEMIES.md` §6).
 - **P1 (Area 2):** Anti-Aircraft · Head-Thrower (+ blink-explode) · Snapper (+ snap-to-sword). *(The "Bat
   enemy" in the airport vignette is a **demo actor, not one of the 17** — no roster asset needed.)*
 - **P1 (Area 3):** Sniper (beret+rifle, scope up/down) · Flying Monkey · Monkey Tamer (+ enemy monkeys) · Monkey · Arm-Ripper (+ Headbutt state).
@@ -144,7 +146,7 @@ adds/hazards · **boss HP bar + name card**. "Big version" bosses/minibosses nee
 
 ## 5. UI / HUD — `UI.md` (chunky-arcade)
 - **P0:** Health bar (pixel, **damage chunk→explosion** anim, green/yellow/red) · **Special meter** (yellow/blue/green + armed pulse) · **combo popup** (`N HIT!`) · weapon-type icon.
-- **P1:** Money counter (+ full-dime highlight) · Monkey-merc cluster (icon + timer ring) · boomerang-gun bullets · ball&chain use-pips · **boss HP bar + name card** · **"BARRAGE INCOMING"** warning · Sniper **red-dot** targeting.
+- **P1:** Money counter (+ full-dime highlight) · Monkey-merc cluster (icon + timer ring) · boomerang-gun bullets · ball&chain use-pips · **boss HP bar + name card** · **"BARRAGE INCOMING"** warning · Sniper **red-dot** targeting · **Endless HUD: live score readout + `mm:ss` elapsed timer** (top-center, independent of the top-left health/meter cluster; Endless-only, `TUNING.md` §8.3 / `UI.md` §5).
 - **P2 (all specced, `UI.md` §5):** Title/main-menu · **difficulty-select** (+ in-run HUD difficulty badge) ·
   **character-select** · pause · options (+rebinding) · **results/grade** (cosmetic) · area cards · game-over ·
   **execute-prompt** (`▶ SPECIAL` over a ≤10% boss) · **boss HP bar + name card** (+ objective-boss pip
@@ -153,7 +155,7 @@ adds/hazards · **boss HP bar + name card**. "Big version" bosses/minibosses nee
 ---
 
 ## 6. VFX — `VFX.md` (comedic transient gore; scaled shake/hitstop; bullets always readable)
-- **P0:** air-punch gust · dash dust · jump/land puff · hit spark · finisher flash · **red-pixel death burst** (clears) · muzzle flash.
+- **P0:** air-punch gust · dash dust · jump/land puff · hit spark · finisher flash · **red-pixel death burst** (clears) · muzzle flash · **blob ground-shadow / Z-marker (1 per actor** — the most-instanced sprite, reads each actor's exact Z, `TUNING.md` §1).
 - **P1:** air-dash streak · sword wear/break · **spine eject** · boomerang stun · staff ice/fire/lightning · grenade trails+explosions · **head-grenade** · whip crack · ball&chain impact · **time-slow overlay** + sniper tracer/ricochet · zombie hollow-head · enemy transformations (snap/rip/contort/teleport smoke) · **screen-shake presets** · hitstop (code).
 - **P2:** monkey summon/expire · boss phase flashes · tower-sway ambient · barrage eviscerate · **heal-pickup
   glint** · **pencil-laser beam** (Phil's scripted kill, `BOSSES.md` §5.1).
@@ -172,7 +174,7 @@ Each theme: parallax backdrop layers + lane floor + set dressing + ambient actor
   (one per §2 music/backdrop theme, so the two Area-1 suburb stages share a set, matching the loop/bed sharing,
   `AUDIO.md` §2), swapped at each theme boundary — **not** 5 (that's the area count; backdrops swap by
   stage-theme, not by area).
-- **Area 1 (P0/P1):** suburb sky+wispy clouds, houses, **mulberry/tall trees**, sidewalk/road; ambient (fleeing civilians, mail carrier, kid+bike, jogger; dog/cat/birds; **dancing Zebra**); props (parked car, trash can, hydrant, mailbox, hedge, fence, porch, lawn sign); **hazard: cars & school buses**; **Lincoln High**, **Sandwich Bros**; **Galleria mall** interior (storefronts + cowering shoppers, atrium, skylight, kiosks/planters/benches/escalators).
+- **Area 1 (P0/P1):** suburb sky+wispy clouds, houses, **mulberry/tall trees**, sidewalk/road; ambient (fleeing civilians, mail carrier, kid+bike, jogger; dog/cat/birds; **dancing Zebra** (+ its **vignette PUNCH anim** — the Stage-1 Zebra-punch vignette, `VIGNETTES.md`)); props (parked car, trash can, hydrant, mailbox, hedge, fence, porch, lawn sign); **hazard: cars & school buses**; **Lincoln High**, **Sandwich Bros**; **Galleria mall** interior (storefronts + cowering shoppers, atrium, skylight, kiosks/planters/benches/escalators).
 - **Area 2 (P1):** Sacramento **Victorian houses**, streetcar, lamp posts; **airport terminal + tarmac**, taxiing **planes**, ground crew, luggage carts, small planes.
 - **Area 3 (P1):** rolling **hills/farmland**, **Yolo causeway + platforms**, marsh; **Dixon** (mid-2000s: main street, water tower, feed store, storefronts); animals (**cows**, goats, chickens, crows), tractors, hay bales, fences; **hazards: ponds/puddles + cow blocking path**.
 - **Area 4 (P1/P2):** **Vallejo** amusement park (roller coasters, ferris wheel, midway) + the **roller-coaster
@@ -183,9 +185,9 @@ Each theme: parallax backdrop layers + lane floor + set dressing + ambient actor
 
 ---
 
-## 8. Audio — see **`AUDIO.md`** (fully specced: 23 music tracks, 92 SFX, VO plan, mix) — VO+SFX creator-produced
+## 8. Audio — see **`AUDIO.md`** (fully specced: 23 music tracks, 95 SFX, VO plan, mix) — VO+SFX creator-produced
 - **P1:** **Intro VO** (creator voice, the in-the-beginning-there-was-this script) · core SFX (punch, hit, weapon fires, explosions, zombie, whistle, trolley) .
-- **P2:** per-area **music**, ambient beds, boss themes, UI sounds. *(Full audio pass is **specced** — see `AUDIO.md`: 23 tracks, 92 SFX, VO, mix.)*
+- **P2:** per-area **music**, ambient beds, boss themes, UI sounds. *(Full audio pass is **specced** — see `AUDIO.md`: 23 tracks, 95 SFX, VO, mix.)*
 
 ---
 

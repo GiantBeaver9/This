@@ -223,8 +223,10 @@ Enemy-dropped; **1 per pickup** (scarce — save it for a cluster).
     Head-Throwers convert.
 - **[LOCKED] Aim & decay:** `E` **fires straight ahead** in your facing direction (like the guns — no arrow
   aiming; the element is fixed at pickup). **6 casts** then the staff breaks (`TUNING.md` §6). **Cast warm-up
-  0.35 s** (§6). The **Fire walking-bomb explosion damages other enemies** in its r 2 wu blast (enemy friendly
-  fire, like the head-grenade). Freeze/stun/slow are single-target on the hit enemy.
+  0.35 s** (§6). The **Fire walking-bomb explosion damages other enemies** in its r 2 wu blast for **35** (enemy friendly
+  fire, the same value as the grenade fastball blast at r 2 wu, `TUNING.md` §6/§6.2) — the lit enemy itself dies
+  in the boom, and the player is killed outright if caught in the r 2 wu. Freeze/stun/slow are single-target on
+  the hit enemy.
 - **[SUPERSEDES]** the earlier "each direction = a different spell" — element is now fixed per pickup.
 
 ### 3.6 Gatling Gun — *heavy risk/reward* **[LOCKED core]**
@@ -314,7 +316,7 @@ Enemy-dropped; **1 per pickup** (scarce — save it for a cluster).
 - **[LOCKED] It can be shot down mid-flight** — an enemy destroying it **loses you the remaining bullets.**
 - **[LOCKED] Shot down = gone for good** — if an enemy destroys it mid-flight you **lose it and the remaining
   bullets** (no drop to re-grab); back to fists. **Stats (`TUNING.md` §6):** **10 bullets, 4/pass** (~3 passes),
-  fire cadence within a pass ~**0.15 s/shot**, **throw cooldown 1 s**.
+  fire cadence within a pass **0.15 s/shot**, **throw cooldown 1 s**.
 - **[LOCKED] Orbit path:** a **horizontal oval loop ~5 wu wide × ~3 wu deep**, extending **forward from the
   throw point** in the direction you're facing, traveled **clockwise**; it **auto-fires at any enemy inside the
   loop** as it sweeps, then **returns to hand after one full loop (~2.5 s)**. You **aim it by where you stand

@@ -30,6 +30,7 @@
 
 | Effect | Trigger | Notes | Priority |
 |---|---|---|---|
+| **Blob ground-shadow / Z-marker** | every actor, always | **1 blob shadow per actor** (the most-instanced sprite) — reads the actor's exact Z on the band (`TUNING.md` §1) | P0 |
 | **Air-punch gust** | every punch/attack | the reach-extender wind off the fist; per direction | P0 |
 | **Dash dust** | grounded dash | kick-up at start + streak | P0 |
 | **Jump puff / landing puff** | jump / land | small poofs | P0 |
@@ -108,7 +109,7 @@
 
 ## 7. VFX asset list → feeds `ASSET_MANIFEST.md`
 
-Grouped: **movement** (gust, dusts, streaks, getup), **impact** (sparks, finisher flash, hit-flash,
+Grouped: **movement** (blob ground-shadow, gust, dusts, streaks, getup), **impact** (sparks, finisher flash, hit-flash,
 hitstop is code), **camera** (shake presets, time-slow overlay), **weapon FX** (§4 per weapon), **enemy FX**
 (§5 transforms, gore, hollow-head, poofs, telegraphs), **special** (§6 full set), **pickups** (weapon
 glints, **heal glint**, coin, dime highlight), and the **Phil pencil-laser beam** (the scripted finisher,

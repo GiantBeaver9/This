@@ -77,6 +77,10 @@
 - **Checkpoints — [LOCKED] (matches `TUNING.md` §8.1):** **one at stage start** (respawn point on continue) +
   **one mid-stage** (marked below, roughly halfway through the filler block) + **one at the boss door** (retry
   the boss, not the stage). Bossless stages get start + mid only.
+  - **[LOCKED] Checkpoint marker:** each checkpoint has a **visible world marker** — a **flag/beacon** planted in
+    the lane (themed per area, e.g. the streetcar-stop / gate-lounge dressing the wave tables name) — that the
+    player sees and passes, **in addition to** the checkpoint **chime** (`AUDIO.md` §4). So a checkpoint reads
+    both visually (the marker) and audibly (the chime), never audio-only.
 - **Threat Budget** = Σ(spine fodder count × tier), **+ the boss** on boss stages (a boss counts as its HP/50,
   so Sandwich Bros 160 ≈ +3.2, Burly 300 ≈ +6). It **trends upward across the campaign** measured **per act**
   (Act 1 < Act 2 < … each act's total ≥ the last); it is **not** required to rise on every single stage —
@@ -155,7 +159,7 @@
 |---|---|---|---|---|
 | Vignette | whip-pull demo (scripted) | — | — | auto |
 | 1 | 3 Regular | L, R | drip 0.9 s | clear |
-| 2 | 1 Snapper (snaps a Regular into a sword he wields) + 2 Regular | B + L | — | kill Snapper + 2 |
+| 2 | 1 Snapper (snaps a Regular into a sword he wields) + 2 Regular | B + L | — | clear (§0 field-clear — the Snapper consumes one Regular into its sword, so the count self-adjusts) |
 | **CHECKPOINT** (streetcar stop) | — | — | — | — |
 | *filler* | Regular / Snapper, 12–14 waves | L,R,B | drip 0.8 s | clear each |
 | 3 (funnel) | 4 Regular + 1 Snapper | L,R,A | drip 0.7 s | clear → boss door |

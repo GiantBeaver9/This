@@ -88,6 +88,15 @@ directional normals rather than a single canned combo string.
 | ↑ | **Up air** | juggle / hit above |
 | ↓ | **Down air / spike** | slam downward; can spike/bounce, combo starter on landing |
 
+- **[LOCKED] Diagonal attack input → DOMINANT-CARDINAL resolution.** There are only **4 attack verbs**
+  (side / up / down + their air variants), so a **diagonal arrow (or right-stick diagonal) attack resolves to
+  its DOMINANT cardinal, with HORIZONTAL winning ties:** `↗ / ↘ / ↖ / ↙` **all fire a SIDE strike** (the
+  horizontal component dominates or ties — side wins), while **pure `↑` = up-strike** and **pure `↓` =
+  down-strike**. Only a straight-up or straight-down press yields the up/down verb; anything with a horizontal
+  component is a side attack, facing that horizontal direction (facing rule, `TUNING.md` §1). This is the whole
+  resolution for the "8-directional attack" input against a 4-verb moveset — no diagonal-only attacks exist.
+  The same dominant-cardinal rule governs a **diagonal WASD double-tap dash** (`TUNING.md` §2.2).
+
 ### Combo model — **[LOCKED]**
 - **One hit per press** — each arrow press is a single strike in that direction. Two systems coexist:
   - **Standalone directional normals** (up-strike, down-strike, air attacks) — free-form pokes/juggle tools you

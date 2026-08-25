@@ -23,7 +23,7 @@
 | Playfield band (vertical screen share) | **bottom 60%** | **HUD/sky top 40%** (`AREAS.md` §1.1 LOCKED — matched; not tunable) |
 | **Z-band depth (near→far)** | **6.0 wu** standard | continuous, analog; near edge Z=0.0, far edge Z=6.0. **Boss arenas may set a deeper band** (listed per arena in `ENCOUNTERS.md`, up to **8.0 wu**) to fit big/airborne bosses — the band widens for that fight, then returns to 6.0. Depth-scaling (below) rescales to the arena's far edge. |
 | Player X-speed on band | see §3 | Z-movement uses same speed value |
-| **Jump kinematics (LOCKED)** | **height 3.0 wu** (matches §2.2, apex clears a normal enemy) · **airtime 0.8 s · horizontal distance 5.0 wu** at full run | a plain forward jump covers **5.0 wu** horizontally (the horizontal air speed is a fixed **6.25 wu/s**, *not* the 7.0 run speed — the small air-control tax); this is the authoritative jump distance and **supersedes the "≈4 wu" shorthand** in `ENCOUNTERS.md` §0. So a **4 wu causeway gap clears on a plain jump** with margin. |
+| **Jump kinematics (LOCKED)** | **height 3.0 wu** (matches §2.2, apex clears a normal enemy) · **airtime 0.8 s · horizontal distance 5.0 wu** at full run | a plain forward jump covers **5.0 wu** horizontally (the horizontal air speed is a fixed **6.25 wu/s**, *not* the 7.0 run speed — the small air-control tax); this is the authoritative jump distance (`ENCOUNTERS.md` §0 pins the matching 4 wu causeway gaps). So a **4 wu causeway gap clears on a plain jump** with margin. |
 | **Air-dash reach (LOCKED)** | **+3.5 wu** horizontal | one air-dash per jump; jump 5.0 + air-dash 3.5 = **8.5 wu total air reach** (clears any 3–5 wu gap trivially) |
 | **Sprite depth-scaling** | **100% at Z=0 → 80% at Z=6** | linear −3.33%/wu; floor 80% (`GAMEPLAY_LOOP.md` §3) |
 | Ground shadow / Z-marker | ON, 1 blob shadow per actor | reads exact Z (resolves the §3 [LATER]) |
@@ -33,8 +33,8 @@
 | **[LOCKED] Facing** | **set by the most recent of: last horizontal MOVE, or last horizontal ATTACK arrow** (whichever happened later) | facing is **left or right only** (the Z-axis doesn't flip the sprite). `E`-fire, gun shots, Shield Rush, the whip pull, and "directly ahead" targeting all use this facing. Pressing an attack arrow left while running right **turns the character to face left** (attack direction wins for that frame and sets facing). Neutral (no input) holds the last facing. |
 | **[LOCKED] "Directly ahead" targeting cone** | a target counts as "directly ahead" if it is **on the facing side (X) AND within ±0.8 wu of the player's Z** (its own tolerance — a little wider than a punch so aiming feels forgiving; not a "Z-row") | used by Shield Rush (within 2.0 wu) and the gatling barrage (within 8 wu on-row) — one shared definition of "ahead". |
 | **Pursuer separation radius** | **1.0 wu** min center-to-center | hard-separation (`GAMEPLAY_LOOP.md` §8.2) — pursuers push apart to keep this gap, so **you never eat two overlapping hitboxes at once** |
-| **Attacker slots (melee ring)** | **max 2 enemies attack at once**; the rest hold a **standoff ring at ~2.5 wu** | the "circle and wait" behavior; others step in as a slot frees (still within the 8-pursuer cap) |
-| **Ranged standoff distance** | **each ranged enemy holds at ITS OWN pinned hold-distance** (≤ its max reach; it fires from here and backs off if the player closes inside it): **AA rock 8 wu** (max reach 10 wu, §6.3 — holds at 8 to keep margin), **Head-Thrower 7 wu**, **Sniper 12 wu** (max range = whole screen, holds far), **Arm-Ripper ≤4 wu** (must close, §1 short-range rule), **Boomergunner 6 wu** (its thrown-gun orbit is an oval 5 wu wide × 3 wu deep, §6.3) | not one global number — each ranged enemy has a single pinned hold-distance, always ≤ its firing range |
+| **Attacker slots (melee ring)** | **max 2 enemies attack at once**; the rest hold a **standoff ring at 2.5 wu** | the "circle and wait" behavior; others step in as a slot frees (still within the 8-pursuer cap) |
+| **Ranged standoff distance** | **each ranged enemy holds at ITS OWN pinned hold-distance** (≤ its max reach; it fires from here and backs off if the player closes inside it): **AA rock 8 wu** (max reach 10 wu, §6.3 — holds at 8 to keep margin), **Head-Thrower 7 wu**, **Sniper 12 wu** (max range = whole screen, holds far), **Arm-Ripper ≤4 wu** (must close, §1 short-range rule), **Boomergunner 4 wu** (its thrown-gun orbit is an oval 5 wu wide × 3 wu deep extending ~5 wu forward, §6.3 / `WEAPONS.md` §3.8 — holding at 4 wu keeps the player inside the 5-wu-forward loop so the orbit passes through them; ≤ its reach) | not one global number — each ranged enemy has a single pinned hold-distance, always ≤ its firing range |
 | Boss arena width | **per-boss, 24–34 wu** (`ENCOUNTERS.md`) | **"camera-locked" = the level stops advancing** (no forward scroll to new ground); if the arena is wider than the ~26.7 wu screen the **camera pans within the arena box** (bounded, ≤ ±3.7 wu). Giant bosses reach down into the band. |
 
 ---
@@ -80,7 +80,7 @@ the player's fist/weapon):
 
 | Field | Value | Notes |
 |---|---|---|
-| Base run speed | **7.0 wu/s** | on X and Z |
+| Base run speed | **7.0 wu/s** | on X and Z; **[LOCKED] diagonal movement is speed-NORMALIZED to 7.0 wu/s TOTAL** (the velocity is the 7.0 vector, **not** 7.0 on each axis — a diagonal is never faster than a cardinal; each axis contributes ~4.95 wu/s) |
 | Walk speed | 4.5 wu/s | analog stick low-tilt |
 | **Dash distance** | **4.0 wu** | grounded burst, **no i-frames** |
 | **Dash duration** | **0.20 s** | ~20 wu/s peak during the burst |
@@ -94,6 +94,12 @@ the player's fist/weapon):
 | Low-HP rubber-band threshold | **≤25 HP (25%)** | heal drop 5%→20%, other drops ×2; matches Sniper "<25" kill line |
 | **Heal pickup restore amount** | **flat +25 HP (25% of max)** per pickup — **no full heals exist** (LOCKED) | the *drop rate* is 5%→20% at low HP (`ENEMIES.md` §4b); every heal restores the same flat 25, capped at 100. There is **no big/full heal** anywhere (not in boss arenas, not at checkpoints — a checkpoint respawn restores to full only on a *death*, not as a pickup). |
 | Hitstun (taking a hit) | 0.25 s | no i-frames |
+
+- **[LOCKED] Diagonal WASD double-tap dash → DOMINANT-CARDINAL resolution.** A dash (double-tap, §above) fired
+  on a diagonal WASD hold resolves its dash direction by the **same dominant-cardinal rule as diagonal attacks**
+  (`PLAYER.md` §3): the dash travels along the dominant held axis, **horizontal wins ties** (a `W+D` double-tap
+  dashes **right**, `S+A` dashes **left**; a pure vertical hold dashes up/down along Z). The dash keeps its
+  fixed **4.0 wu** distance regardless. This keeps dash and attack diagonal handling identical.
 
 ### 2.3 Shield Rush (forward double-tap into an enemy)
 
@@ -150,6 +156,7 @@ the player's fist/weapon):
 | Down strike (ground) | 6f | 4f | 12f | — | low |
 | **Dash attack** (any dir) | 5f | 6f (the lunge) | 10f | jump-cancel on hit | **0 dmg, weight-stagger only** (§2.1) |
 | Weapon swing (in-hand, per combo hit) | **+2f** on the matching fist hit above | = fist | +2f | same as fist | ranged weapons bludgeon at fist frames (`PLAYER.md` §5) |
+| **Heavy-weapon melee** (Gatling bludgeon, Ball & Chain normal swing) | **10f** | 4f | **20f** | next hit @ active+2f | **[LOCKED] the "slow cadence"** (§6) pinned: noticeably slower than the fist's 4f/3f/8f — a deliberate weight tax. Applies to the Gatling's fist-strength bludgeon (10 dmg) and the Ball & Chain's 20/hit normal string |
 
 - **Combo cadence:** P1→P2→Sweep chains if the next input lands inside the cancel window; drop it and the
   string resets (matches the **2.0 s** combo-counter timeout, §2.4 — that governs the *meter* counter, this
@@ -176,10 +183,12 @@ the player's fist/weapon):
 - **[LOCKED] Reading the §6 "warm-up" column for pure-melee weapons (Sword 0.20, Whip 0.25, Club 0.15, Bat 0.15,
   Ball & Chain 0.40):** these weapons have **no `E`-fire**, so their warm-up value is the **swing start-up on the
   weapon's first combo hit** (the wind-up before the blade/club connects) — the melee equivalent of the E-fire
-  warm-up, layered on the fist-frame timing (it *replaces* the "+2f" for that weapon, it does not stack). So a
-  Sword's first swing has a 0.20 s start-up; subsequent chained hits use the combo frame data (§2.5). For
-  `E`-fire weapons the column is the E discharge delay as above. One column, two readings by weapon type — never
-  both for one weapon.
+  warm-up, layered on the fist-frame timing. **[LOCKED] The warm-up REPLACES the "+2f" on the FIRST swing ONLY**
+  (it does not stack with the +2f, and it does not apply to later hits): so a Sword's **first** swing uses its
+  **0.20 s start-up** in place of P1's `4f + 2f`, and **every follow-up combo swing (P2, sweep, …) uses the
+  normal weapon-swing timing = the matching fist frame + 2f** (§2.5 "Weapon swing" row). The warm-up is a
+  once-per-string draw cost, not a per-hit tax. For `E`-fire weapons the column is the E discharge delay as
+  above. One column, two readings by weapon type — never both for one weapon.
 
 ### 2.6 Universal reaction states — **[LOCKED]** (who freezes, how long)
 
@@ -357,7 +366,7 @@ the **re-attack cooldowns** are pinned here:
 | **Monkey Tamer (cornered flail)** | melee flail **5** | windup **0.3 s**, cooldown **1.5 s** (§4.1 cornered rule) |
 | **Ninja** | 22.5 melee slash (its close-range attack) | windup **0.2 s**, cooldown **1.5 s** (between teleports; the 3 s teleport cooldown is separate, §4 row 12) |
 | **Gatling Gunner** (melee inside 3 wu) | 22.5 pistol-whip/melee | windup **0.25 s**, cooldown **1.5 s** (only when the player is inside 3 wu, else it fires the stream, §4 row 15) |
-| **Boomergunner after its gun is caught/lost** | 12 melee (a bare-hand swing) | windup **0.2 s**, cooldown **1.5 s** — until it re-loots or its thrown gun returns (§4.1) |
+| **Boomergunner after its gun is caught/lost** | 12 melee (a bare-hand swing) | windup **0.2 s**, cooldown **1.5 s** — until its thrown gun returns to hand after the 2.5 s orbit (or it re-throws a fresh loop on its normal cadence); it bare-hand melees until then (§4.1) |
 | **disarmed T1 → headbutt** (Arm-Ripper's stripped arm-donor) | headbutt **7.5** | windup **0.2 s**, cooldown **1.5 s** (§4 row 11) |
 - **Ranged enemies** use their §4-row throw/fire cadence directly (AA 2.5 s, Head-Thrower 3.0 s, Sniper the
   3 s-scope/2 s-down cycle, Arm-Ripper 2/s + 2 s reload after 6, Boomergunner 2.5 s orbit, Gatling Gunner 1 s
@@ -390,7 +399,9 @@ of the killing hit:**
 2. the target is a **regular non-boss** unit — **all three H-weight enemies (Gatling Gunner row 15, Ground
    Smasher row 16, Heavy row 17), every miniboss, and every boss are headshot-IMMUNE** (a gun kill on them, if
    the damage even gets there, is never a headshot and never zombifies; the Heavy is additionally immune to the
-   sniper ricochet, `TUNING.md` §4 row 17). Only L/M-weight regulars can be headshot, **and**
+   sniper ricochet, `TUNING.md` §4 row 17). **Zombies (row 1) are ALSO never headshot targets** — a Zombie's
+   head is already inert/hollow, so a gun shot on one only damages its body (never a headshot, never a
+   re-zombify, `ENEMIES.md` §2.8). Only L/M-weight regulars can be headshot, **and**
 3. the shot's damage **kills** the target on that hit (a headshot that does *not* kill just deals its damage —
    e.g. pistol 12 into a 40-HP Regular is a body-plane hit that chips, no zombify roll).
 - **Predicate result:** a qualifying headshot **kill** rolls the **10% zombify** — spawn a 10 s Zombie instead
@@ -415,7 +426,7 @@ of the killing hit:**
 | **Regular Melee attack selection** | by range: **≤1.0 wu → punch** (7.5); **1–4 wu → slide-kick** (gap-closer, 7.5); **player airborne within 3 wu → jump-kick** (7.5). Picks the fitting one for the current range each attack cycle (windup 100 ms). |
 | **Monkey Tamer's melee monkeys — stats** | each summoned monkey: **HP 20, contact dmg 5, speed 6.0 wu/s, L-stagger**; **max 2 live**; **deactivate instantly on the Tamer's death** (§4 row 9). They are lighter than the economy Monkey (row 10). |
 | **Pickpocket escapes with your coins** | if it **reaches a screen edge**, the stolen coins are **lost permanently** (the risk). Killing it before it exits **drops 2× the stolen pile**. It only steals **once per life**, then flees. |
-| **Boomergunner's gun is caught mid-orbit** | catching it (walk into the returning arc) **destroys the gun for that enemy** (it must re-loot/melee) and **staggers the Boomergunner 0.55 s**; the player does **not** gain the gun (it's the enemy's body-part, shatters on catch). **This applies to the Boomergunner *boss* too:** each of its orbiting guns is **individually catchable** — catching one **destroys that loop** (the boss loses that orbit) and staggers the boss 0.55 s. So in its 2-loop phase (≤66%) the player can pick off one loop at a time; the boss re-throws a fresh loop on its normal cadence. Bosses are **status-immune** (§2.6) so the catch never *stuns* the boss beyond the 0.55 s stagger, and the guns still **cannot be kept** by the player. |
+| **Boomergunner's gun is caught mid-orbit** | catching it (walk into the returning arc) **destroys the gun for that enemy** (its thrown gun returns to hand after the 2.5 s orbit, OR it bare-hand melees until then — there is **no enemy loot mechanic**) and **staggers the Boomergunner 0.55 s**; the player does **not** gain the gun (it's the enemy's body-part, shatters on catch). **This applies to the Boomergunner *boss* too:** each of its orbiting guns is **individually catchable** — catching one **destroys that loop** (the boss loses that orbit) and staggers the boss 0.55 s. So in its 2-loop phase (≤66%) the player can pick off one loop at a time; the boss re-throws a fresh loop on its normal cadence. Bosses are **status-immune** (§2.6) so the catch never *stuns* the boss beyond the 0.55 s stagger, and the guns still **cannot be kept** by the player. |
 | **Head-Thrower's thrown head** | uses **grenade fastball physics** (`WEAPONS.md` §3.2) — flat line-drive, **explodes on contact or after 8 wu**; the thrower **regrows its head in 4 s** (§4 row 5) and cannot throw again until it does. |
 | **Sniper with the player already downed/grounded** | **holds fire** (can't hit a grounded player, §4 row 7) and **re-scans**; it only fires at an airborne/jumping player (apex punish). |
 | **Sniper reposition / escape when the player closes in** | when the player gets **within 6 wu**, the Sniper **lowers the rifle and back-steps** (at his 4.0 wu/s speed) toward the **farthest perch/spawn-edge on his side**, trying to re-open range; if **cornered (no room to retreat)** he **fights with a weak melee pistol-whip (7.5, windup 0.2 s, cooldown 1.5 s)** — never un-attackable. He re-scopes only once he's ≥8 wu away again. He **perches at the back Z-edge** (the `B(perch)` marker in `ENCOUNTERS.md`). |
@@ -458,6 +469,12 @@ of the killing hit:**
   **enemy-on-enemy** (a fire-boom catching another enemy, a Snapper's called add killed by another hazard). So:
   hazard/enemy-cross kills clear waves but pay no loot or meter; everything the player or their proxy kills pays
   out normally.
+  - **[LOCKED] Carve-out — the killed-Sniper rifle is a FIXED guaranteed drop, exempt from the hazard-no-drop
+    rule.** The +100-meter sniper rifle (`ENEMIES.md` §2.14) **drops regardless of what killed the Sniper —
+    fists, weapon, OR hazard/enemy-cross.** It is not a loot-roll credited to a killer; it is a fixed pickup the
+    dying Sniper always leaves, so the "hazard/enemy kills pay no drop" rule does **not** suppress it (this is
+    the one guaranteed drop that survives a hazard kill). It still grants no *meter/kill credit* to the player
+    when a hazard did the killing — only the rifle pickup itself always appears.
 - **[LOCKED] Ground-pickup persistence.** Dropped **weapons, coins, and heals persist on the ground for 12 s**
   then despawn (a soft fade begins at 9 s); **the Monkey-Merc claim token uses its own ~5 s** (`WEAPONS.md`
   §3.7). Crossing a **checkpoint or clearing the stage despawns all un-grabbed pickups** (they don't carry to
@@ -510,7 +527,7 @@ of the killing hit:**
 | **Whip** | T2 | **14/hit**; finisher = head-rip→grenade | **11 connecting hits** (of 10–12) | 0.25 s | **no E-fire** (pure melee); **arrow-melee directions**: up=arc / fwd=pull (drags enemy 3 wu) / down=line. **Finisher = the head-rip extraction** (a free-melee finisher variant, `COMBOS.md` §4; auto-dashes you back 4 wu) |
 | **Staff** | T2 | Ice: **8** +freeze 3 s · Fire: **6/s ×3 s** (18) · Lightning: **12** +stun 1 s +slow **−40% move for 2 s** (`WEAPONS.md` §3.5) | **6 casts** then breaks | 0.35 s | element fixed at pickup; `E` casts; Fire on a Head-Thrower → walking bomb (2 s→boom) |
 | **Gatling Gun** | T3 | **`E`-barrage 0.5 s** on the **nearest enemy directly ahead within 8 wu on your row** — **auto-kill vs. regular fodder, flat 45/barrage vs. everything armored** | **no ammo**; overheats after **5 barrages OR 20 s cumulative equipped time** (whichever first) then discards | 0.40 s spin-up | melee bludgeon **10** (fist-strength per the §6 header rule; **slow cadence** — the heavy weapon swings slower, but the per-hit value is the standard bludgeon 10, not a special number); **no i-frames during barrage**. **Barrage damage rule (ONE rule, LOCKED — matches `WEAPONS.md` §3.6):** (a) **standing regular non-boss** (Regular, Snapper, Head-Thrower, Ninja, Pickpocket, Monkey, etc.) → **auto-kill** (headshot, rolls 10% zombify); (b) **all H-weight (Heavy, Ground Smasher, Gatling Gunner)** and **any miniboss** → **flat 45/barrage, no auto-kill, no zombify**; (c) **the 5 HP-depletion bosses** (Burly, big Arm-Ripper, Boomergunner, Gatling Gun Guy, Sandwich Bros) → **flat 45/barrage** (a capped chunk — 5 barrages = 225, so the gatling can't solo any boss; never an auto-kill, never zombify); (d) **the 5 objective/proxy bosses** (Colossus, Tank, Helicopter, Monkey Boss, Phil) → **0** — their HP isn't a normal bar (pieces/pips/proxy/script, `BOSSES.md` §1), so the barrage does nothing to them, exactly like it can't shortcut their objective. Airborne/downed enemies are struck as body shots (no headshot) |
-| **Monkey Merc** | T4 | **pistol 8/shot** · **shotgun ~18/blast** · **rocket ~40/rocket** — all **@ 2 shots/s** | **costs 1 dime**; **3 summons/level** then none | 0.5 s summon | 1=pistol/20 s · 2=shotguns/10 s · 3=rockets/5 s; adding a monkey **re-arms all to the new tier & resets timers**; **no friendly fire** (`WEAPONS.md` §3.7) |
+| **Monkey Merc** | T4 | **pistol 8/shot** · **shotgun 18/blast** · **rocket 40/rocket** — all **@ 2 shots/s** | **costs 1 dime**; **3 summons/level** then none | 0.5 s summon | 1=pistol/20 s · 2=shotguns/10 s · 3=rockets/5 s; adding a monkey **re-arms all to the new tier & resets timers**; **no friendly fire** (`WEAPONS.md` §3.7) |
 | **Club** | T1 | melee **14** + **6 wu knockback** | **10 hits** | 0.15 s | no E-fire; short reach, big knockback |
 | **Bat** | T2 | melee **12**; reflect | **12 hits**; **reflect window 0.20 s** | 0.15 s | swing-timed reflect of thrown heads/shots back at attacker (resolves §3.7b [ITERATE]) |
 | **Boomerang Gun** | T2 | **8/shot** | **10 bullets, 4/pass** (~3 passes) | 0.20 s | `E` throws on a fixed orbit auto-firing; **fists only while out**; throw cooldown 1 s; shot-down = lose remaining bullets |
@@ -548,9 +565,24 @@ that the current area has unlocked (§6.1), plus every weapon **one tier below**
 **70% → the band's own tier, 30% → one tier below**; **within the chosen tier, pick uniformly** among its
 unlocked candidates. **Tier membership = the weapon's own §6-table tier** (so the **Sword is T2** even though
 it unlocks in Area 1). If the band's own tier has **no** unlocked weapon yet (early areas), the whole roll falls
-to the next-lower unlocked tier (uniform). Example: a **T2 kill in Area 2** rolls 70% among the unlocked T2 pool
-**{Whip, Staff, Sword}** (Sword is T2-strength; Bat/Ball&Chain/Boomerang-Gun not yet unlocked) and 30% among the
-unlocked T1 pool **{Boomerang, Pistol, Revolver}**. This is the single selection rule for every band row above.
+to the next-lower unlocked tier (uniform).
+- **[LOCKED] Empty "one tier below" pool → the 30% branch rolls within the OWN-tier pool instead.** When the
+  band's own tier IS unlocked but the tier one below it has **no** unlocked weapon — the **T0–T1 band** is the
+  standing case: own tier T1, one-below tier T0, and **T0 has no weapons at all** — the 30% "one below" branch
+  has an empty pool, so that 30% is **redirected into the own-tier pool** (the whole roll collapses to uniform
+  within the own tier). No roll ever lands on an empty pool.
+- **[LOCKED] Starter-upgrade exception — the Sword is a PINNED member of the Area-1 T0–T1 corpse pool** despite
+  its T2 combat tier. The selection rule would normally never place a T2 weapon in a T1-band pool, but the Sword
+  is the intentional Area-1 starter upgrade (§6 "Sword's tier" note, §6.1) — so in **Area 1** it is
+  **force-included in the T0–T1 corpse candidate pool** and can roll off a T0–T1 kill, sitting in the **own-tier
+  (T1) branch** for the 70/30 roll (alongside Boomerang; with the empty-T0 fallback above the Area-1 T0–T1 roll
+  is simply uniform over **{Sword, Boomerang}**). In every LATER area the Sword follows the normal rule (a
+  genuine T2, rolling in the T2 band).
+
+Example: a **T2 kill in Sacramento (Area 2, Stage 4)** rolls 70% among the unlocked T2 pool **{Whip, Staff,
+Sword}** (Sword is T2-strength; **Bat/Club only arrive at the Stage-5 airport**, and Ball&Chain/Boomerang-Gun
+are Area-3/4-gated — none of them is in the Stage-4 pool) and 30% among the unlocked T1 pool **{Boomerang,
+Pistol, Revolver}**. This is the single selection rule for every band row above.
 
 *The **Rocket Launcher is a world pickup only** (not in any random pool, `WEAPONS.md` §3.8b), and the
 **Monkey Merc drops only from the Monkey stick figure** (`ENEMIES.md` §2.2) — neither is a tier drop. At
@@ -639,8 +671,8 @@ to fists), so ammo management is "use it or lose the drop," never a resource-hun
 | **Causeway water** (Stage 6) | **10 chip** + respawn on last platform | enemies that fall are **removed (count as killed)** | no drowning death for the player |
 | **Pond/puddle** (farm) | **0** (slows movement 30% while in it) | same slow | soft terrain, not damage |
 | **Grenade self-blast / rocket self-blast** | **40 / 35** | full blast | your own ordnance (§6) |
-| **Head-Thrower fire-boom** (staff-lit) | **instant death within r 2 wu** | kills the lit enemy | the walking-bomb interaction (`WEAPONS.md` §3.5); "adjacent" = the r 2 wu blast |
-| **Golden Gate wind gust** (GGG arena) | **0 dmg**, pushes player **1.5 wu** toward a Z-edge every ~4 s | pushes enemies too | positional pressure on the bridge (arena table, `ENCOUNTERS.md`) |
+| **Head-Thrower fire-boom** (staff-lit) | **instant death within r 2 wu** | **35** to other enemies in r 2 wu (kills the lit enemy outright) | the walking-bomb interaction (`WEAPONS.md` §3.5); "adjacent" = the r 2 wu blast; bystander **35** = the grenade fastball blast value (r 2 wu, §6) |
+| **Golden Gate wind gust** (GGG arena) | **0 dmg**, pushes player **1.5 wu** toward a Z-edge every 4 s | pushes enemies too | positional pressure on the bridge (arena table, `ENCOUNTERS.md`) |
 | **Fall off Salesforce rooftop** | **instant death** | enemies knocked off = killed | Phil arena only |
 
 **[LOCKED] Hazard pass frequency** (how often the on-rail hazards cross): **cars/buses** (Stages 1–2) every
@@ -717,12 +749,19 @@ each get a pinned walk/reposition speed; special attack lunges are called out in
 | **Gatling Gun Guy** | **4.0 wu/s** (holds a firing line; drops to melee inside 3 wu) |
 | **Phil** | **5.0 wu/s** (contact 15; mostly stationary while drawing/invuln, `BOSSES.md` §5.1) |
 
-- **[LOCKED — GLOBAL rounding rule] Every computed value rounds to the nearest integer (0.5 rounds up); HP
-  rounds to the nearest whole HP.** This applies to all multiplier products anywhere in the bible — big-version
-  scaling (7.5 × 1.5 = 11.25 → **11**; 7.5 × 1.25 = 9.375 → **9**), character stat multipliers (§3), difficulty
-  multipliers (§8.4), and the meter damage buff (§2.4). The placed §7 table values are already rounded; the
-  **auto-generated** catch-up minibosses (§8.2) and Endless elites (§8.3) apply this same rule at spawn. Enemy
-  HP is always an integer; damage is always an integer.
+- **[LOCKED — GLOBAL rounding rule] The BASE ladder values are EXACT and MAY be fractional; only the RESULT of
+  a multiplier CHAIN rounds to the nearest integer (0.5 rounds up).** The tier × 7.5 damage ladder (7.5 / 22.5,
+  Swarm 1.5, etc.) and every other pinned base value are **exact numbers used as-is** — they are **never forced
+  to a whole number** just for being fractional. Rounding happens **only when a value passes through a
+  multiplier chain** (big-version scaling ×1.5/×1.25, character stat multipliers §3, the difficulty multiplier
+  §8.4, the meter damage buff §2.4): the **final product** rounds to the nearest int (0.5 up). **A ×1.0
+  multiplier leaves the value UNCHANGED** — 7.5 through a ×1.0 pass **stays 7.5**, it is never bumped to 8 (an
+  identity multiply is not a "computed value" to round). Examples that DO round: big-version 7.5 × 1.5 = 11.25 →
+  **11**; 7.5 × 1.25 = 9.375 → **9**. The placed §7 table values are already the rounded results; the
+  **auto-generated** catch-up minibosses (§8.2) and Endless elites (§8.3) apply this same rule at spawn.
+  **HP is ALWAYS an integer** (round every HP result to a whole HP). **Damage may be fractional** where a base
+  value is (7.5, 22.5, 1.5) or a ×1.0 chain leaves it so; the engine **may track internal damage as a float**
+  and only the base ladder / rounded products are the authoritative numbers.
 
 - **Ranged big-versions keep BASE per-shot damage — [LOCKED override, applies to BOTH bosses AND minibosses].**
   The damage multiplier (×1.5 boss / ×1.25 miniboss) applies to **melee/contact** attacks only. For **any ranged
@@ -780,21 +819,21 @@ minibosses / big-version *non-boss* elites** are sniper-killable like normal ene
 | **"pod" = a spawn BATCH here (not the Pod entity)** | a refill spawns a **batch of `max(3, 2 + floor(minute))` enemies directly** at the arena edges | to avoid the name clash: this batch is *not* a Pod-spawner entity. A **Pod entity** only appears when the batch's composition roll actually yields the Zombie/Swarmer type (then a real Pod spawns and emits per §4). "Pod size" below = this batch size |
 | Pod (batch) size (spawn) | **max(3, 2 + floor(minute/1))** | +1 to the batch each elapsed minute |
 | Concurrent enemy cap | **8 + floor(minute/2)** | grows 1 every 2 min (swarms still exceed it) |
-| **Tier ramp** | unlock next tier every **3 min**: T0–1 (0–3m) → +T2 (3m) → +T3 (6m) → **+untiered elites (9m: Heavy, Ground Smasher, Gatling Gunner, Monkey Tamer — there is no T4 *enemy*, so "T4" here means the untiered-elite band)** → full roster (12m+) | |
+| **Tier ramp** | unlock next tier every **3 min**: T0–1 (0–3m) → +T2 (3m) → +T3 (6m) → **+untiered elites (9m: Heavy, Ground Smasher, Gatling Gunner, Monkey Tamer — there is no T4 *enemy*, so "T4" here means the untiered-elite band)** → **full roster (12m+: adds the remaining types — Ninja, Pickpocket, and the economy Monkey — so the entire 17-enemy roster is live)** | |
 | Enemy stat ramp | **+5% HP and +3% damage per minute**, capped at +150% HP / +90% dmg | HP/dmg creep past the roster unlock |
 | Miniboss cadence | inject one every **5 min** (recurring big-versions) — **selected like the catch-up miniboss (§8.2): a random big-version of a currently-unlocked non-degenerate enemy type** (excludes Zombie/Swarmer/Pickpocket/Monkey; falls back to big Regular). Spawns at a **back-Z edge** | one selection rule shared with campaign catch-up |
 | Boss cadence | inject a main boss every **10 min** | at boss-scale, from the placed pool |
 | Spawn interval floor | never faster than a new pod every **4 s** | keeps it readable (`VFX.md` bullet budget) |
 | **Wave composition** | each refill spawns a **type-weighted pod drawn from the currently-unlocked tiers**: **40% current-top-tier · 60% below it** (mirrors the campaign filler weighting, `ENCOUNTERS.md` §0), picked by a **per-run seed** so a session is reproducible for playtest. Each spawned **Pod's emit-type is 50/50 Swarmer/Zombie** (§4 Pod typing) | one weighting rule, seeded like the campaign |
-| **Club (placed-pickup weapon)** | since Endless has no stages/mid-checkpoints, the **Club spawns as a periodic placed pickup every ~90 s** (same treatment as the Rocket Launcher) — the "all corpse-drop weapons unlocked" line covers corpse drops only; the two placed-pickup weapons (Club, Rocket) get this timed-spawn instead | resolves the placed-pickup gap in Endless |
+| **Club (placed-pickup weapon)** | since Endless has no stages/mid-checkpoints, the **Club spawns as a periodic placed pickup every 90 s** (same treatment as the Rocket Launcher) — the "all corpse-drop weapons unlocked" line covers corpse drops only; the two placed-pickup weapons (Club, Rocket) get this timed-spawn instead | resolves the placed-pickup gap in Endless |
 | **Catch-up trigger in Endless** | the §8.2 catch-up-miniboss trigger is **OFF in Endless** — Endless has its own **5-min miniboss cadence** (below), so the "clearing too fast" injector is campaign-only (it would double up with the cadence) | one miniboss source in Endless |
-| Economy/weapon rules | **all corpse-drop weapons unlocked from the start** (Endless has no areas, so the area-gate §6.1 doesn't apply to drops); the **Rocket Launcher stays world-pickup-only** — it spawns as a **periodic placed pickup every ~2 min** (never a corpse roll, per §6.1); **coins ON from minute 0** (Area-1–2 coin suppression is campaign-only); dimes/monkeys/decay as normal | Endless is the sanctioned playtest sandbox |
+| Economy/weapon rules | **all corpse-drop weapons unlocked from the start** (Endless has no areas, so the area-gate §6.1 doesn't apply to drops); the **Rocket Launcher stays world-pickup-only** — it spawns as a **periodic placed pickup every 120 s** (never a corpse roll, per §6.1); **coins ON from minute 0** (Area-1–2 coin suppression is campaign-only); dimes/monkeys/decay as normal | Endless is the sanctioned playtest sandbox |
 | **Backdrop / arena** | Endless runs in a **single fixed flat arena = a stylized SF-streets loop** (reuses the Area-4 SF-streets backdrop + city crowd bed, `AUDIO.md` §4) — no scrolling, camera-locked, 26.7 wu wide; matches the Endless music (the SF electro-punk layered track, `AUDIO.md` §2). **No new art** | one reused backdrop, no new asset |
 | Injectable bosses | **only ungated HP-depletion bosses: Burly, big Arm-Ripper, Boomergunner, Sandwich Bros.** **Excluded** = every boss that needs a specific weapon, terrain, or script that Endless can't guarantee: **Colossus** (needs whips), **Gatling Gun Guy** (needs car cover), **Tank / Helicopter** (objective + weapon-gated adds), **Monkey Boss** (dime proxy), **Phil** (scripted). This prevents an un-winnable injection | resolves the Endless-boss + Colossus-softlock ambiguity |
 | **Continues in Endless** | **none — one life** | the §8.1 3-continues system is **campaign-only**; Endless is a single run that ends at the first death (that's the score-attack point). No checkpoints either |
 | End condition | endless until death | — |
 | **Score formula (LOCKED)** | **score = total_kills × (1 + 0.1 × minutes_survived)** — each full minute alive adds +10% to the kill tally's worth (so surviving longer at the same kill rate scores higher). Rounded to a whole number at death. **(the 0.1/min factor is tunable)** | one concrete formula, not prose |
-| **Endless HUD (LOCKED)** | in-run, the top HUD adds a **live score readout** (top-center, under the meter) and an **elapsed timer** (mm:ss); on death the **Game-Over screen shows final score + best score** (`UI.md` §5). Only Endless shows these; the campaign HUD does not | resolves the missing Endless readout |
+| **Endless HUD (LOCKED)** | in-run, the top HUD adds a **live score readout + elapsed timer (mm:ss)** placed **top-center (independent of the top-left health/meter cluster** — the special meter is top-left, §2/§3.2**)**; on death the **Game-Over screen shows final score + best score** (`UI.md` §5). Only Endless shows these; the campaign HUD does not | resolves the missing Endless readout |
 
 ### 8.4 Difficulty modes — **[LOCKED]** (chosen at the title / character-select, `UI.md` §5)
 

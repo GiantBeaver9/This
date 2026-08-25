@@ -187,7 +187,7 @@
     simply the one where his HP reaches ≤0 of the gated pool** — you keep getting sharpen windows until then.
     (Because the cap ≥ one threshold's worth, a clean run is 4 windows; a sloppy run just takes more windows.)
   - **Arena — [LOCKED]:** a **play-band brawler on the swaying rooftop** (30 × 8 wu, `ENCOUNTERS.md`), **not**
-    a giant upper-screen boss. **Sway/slippage** shifts your footing by up to **±1.5 wu** on a **~6 s sine**
+    a giant upper-screen boss. **Sway/slippage** shifts your footing by up to **±1.5 wu** on a **6 s sine**
     (telegraphed by the skybox tilting); **two edges have no railing → fall = instant death** (`TUNING.md`
     §6.2). He never falls; adds can be knocked off.
   - **The kill:** Phil is **never swept/knocked down** (bosses can't be, `TUNING.md` §2.6). **The sharpen window

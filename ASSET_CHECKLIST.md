@@ -97,19 +97,19 @@ floor + set dressing + funnels + hazards + ambient (non-hittable) actors.
 
 ---
 
-## B. SFX — 92 one-shots (`AUDIO.md` §4)
+## B. SFX — 95 one-shots (`AUDIO.md` §4)
 Short arcade mono one-shots, pitch-randomized ±2 semitones. Grouped exactly as the bible counts them (`+` = 2
 sounds; a `/` = variant spellings of 1 unless an explicit count is given).
 - [ ] **Player melee (8):** punch ×2, sweep, finisher (heavy), air-hit, dash-whoosh, jump, land
 - [ ] **Player states (6):** hurt/grunt, death, weapon-pickup, **heal-pickup chime**, weapon-break puff, shield-rush scrape
 - [ ] **Impacts/juice (6):** hit-spark, finisher-crunch, enemy stagger, knockdown thud, block/soak, screen-shake boom
 - [ ] **Weapon fire (24):** sword swing+break, shotgun blast+cock, boomerang throw+return, pistol, revolver, grenade throw+explode, ball&chain launch+impact, whip crack, whip head-rip pop, staff cast ice/fire/lightning (3), gatling barrage, boomerang-gun spin, boomerang-gun shot-down break, rocket launch+blast, club whack, bat reflect-ping
-- [ ] **Enemy signature (19):** zombie moan+grab, swarmer chitter, head-throw, fire-blink→BOOM, snapper snap-to-sword, arm-rip, gatling contort, ninja smoke-teleport, sniper scope-in+shot, ground-smash overhead+shockwave, whistle (tamer), monkey merc chatter, AA rock-throw, ninja shuriken throw, boomergunner gun-throw, Pod spawn-burst
-- [ ] **Meter/specials (7):** meter tick-up, armed "ready" chime, sniper time-slow enter, time-resume whoosh, Werewolf transform-howl, Giant Shotgun boom, Underdog Vaporize whomp
+- [ ] **Enemy signature (20):** zombie moan+grab, swarmer chitter, head-throw, fire-blink→BOOM, snapper snap-to-sword, arm-rip, gatling contort, ninja smoke-teleport, sniper scope-in+shot, ground-smash overhead+shockwave, whistle (tamer), monkey merc chatter, AA rock-throw, ninja shuriken throw, boomergunner gun-throw, Pod spawn-burst, Tank MG stream
+- [ ] **Meter/specials (8):** meter tick-up, armed "ready" chime, sniper time-slow enter, time-resume whoosh, Werewolf transform-howl, Werewolf auto-slash, Giant Shotgun boom, Underdog Vaporize whomp
 - [ ] **Phil/finale (3):** pencil-draw scribble, sharpen scrape, pencil-laser fire
 - [ ] **UI (7):** menu move, confirm, cancel, coin pickup, full-dime highlight, combo-popup pips, "BARRAGE INCOMING" alarm
 - [ ] **Economy/misc (3):** pickpocket steal, coins-doubled jingle, checkpoint chime
-- [ ] **Hazards (9):** car/bus pass-by, car horn, plane jet-blast, cow moo, SF trolley bell+rumble, tower-sway creak, roller-coaster pass, causeway water splash
+- [ ] **Hazards (10):** car/bus pass-by, car horn, plane jet-blast, taxiing-plane engine-whine, cow moo, SF trolley bell+rumble, tower-sway creak, roller-coaster pass, causeway water splash
 
 *(Recording spec: mono, 44.1 kHz. VO + SFX are creator-produced — this is the record-against shot-list.)*
 
@@ -155,7 +155,7 @@ Streamed loops (OGG, 44.1 kHz stereo, ~128 kbps). Creator-composed (CC0 library 
 | Bespoke boss sprite sets | 7 |
 | Weapon sprite sets | 16 |
 | Backdrop themes (3 layers each) | 12 |
-| SFX one-shots | 92 |
+| SFX one-shots | 95 |
 | Music assets (+5 stingers) | 23 (+5) |
 | Ambient beds | 12 |
 | VO clips | 7 |

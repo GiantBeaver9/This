@@ -248,7 +248,7 @@
   - **[LOCKED] Pickup mechanics:** the rifle is a **ground pickup, claimed by walking over it** (automatic, no
     `F`, no dime) — it is a **meter item, not a held weapon** (it never occupies your weapon slot; it just adds
     the +100 and vanishes). It **persists 12 s** on the ground then despawns (the standard pickup lifetime,
-    `TUNING.md` §6). If the meter is **already at green (max)** when claimed, the +100 is **discarded** (overfill
+    `TUNING.md` §4.1 ground-pickup persistence). If the meter is **already at green (max)** when claimed, the +100 is **discarded** (overfill
     cap, §2.4). It drops from **any** Sniper kill (fists, weapon, hazard) — this is a fixed drop, not a % roll.
 - **[LOCKED] Exception to the short-range-gun rule (§1)** — the one ranged enemy, gated to the predictable
   apex + the scope rhythm.

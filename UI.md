@@ -156,7 +156,7 @@ a few sprites), so they stay lightweight.
 
 | Screen | Contents & behavior — **[LOCKED]** |
 |---|---|
-| **Title / main menu** | game logo + the `this.l` drawing motif; menu: **Start · Character Select · Endless · Options · Quit**. Background = a slow parallax of the SF skyline. |
+| **Title / main menu** | game logo + the `this.l` drawing motif; menu: **Start · Continue · Character Select · Endless · Options · Quit**. **"Continue"** resumes a **FRESH run at the beginning of the furthest stage reached** (per the save block below — full HP, 3 continues, empty wallet/meter, fists); it is greyed out when no stage past Stage 1 has been unlocked. Background = a slow parallax of the SF skyline. |
 | **Difficulty Select** | **Easy · Normal · Hard** (`TUNING.md` §8.4), shown before/with character select — one-line each (Easy = fewer, softer enemies; Hard = 2× the crowd, +50% enemy damage). Default **Normal**. The chosen difficulty shows as a small HUD badge in-run. |
 | **Character Select** | the **4 characters** (`CHARACTERS.md`) as portraits + name + one-line Special; left/right to pick, confirm to start. Shows each one's Special icon. |
 | **Pause** (mid-run) | dims the frame; **Resume · Restart checkpoint · Options · Quit to title**. Freezes the sim. **"Restart checkpoint" is a voluntary respawn — it COSTS a continue** (same as dying) and restores full HP. This closes the free-heal loophole: full HP only ever comes with a continue spent (`TUNING.md` §8.1). If no continues remain, the option is greyed out. |
