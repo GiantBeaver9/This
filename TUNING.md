@@ -28,6 +28,10 @@
 | **Sprite depth-scaling** | **100% at Z=0 → 80% at Z=6** | linear −3.33%/wu; floor 80% (`GAMEPLAY_LOOP.md` §3) |
 | Ground shadow / Z-marker | ON, 1 blob shadow per actor | reads exact Z (resolves the §3 [LATER]) |
 | Bullet/hitbox Z-tolerance | ±0.4 wu | a shot connects only within 0.4 wu depth of target |
+| **[LOCKED] Z → screen-Y projection** | **24 px of screen-Y per 1.0 wu of Z** (= the same 24 px/wu as X) | an actor at Z=0 (near) sits at the **bottom of the play band**; each +1.0 wu of Z lifts its screen-Y by 24 px, so the full 6 wu band spans **144 px** of the 216 px play band, leaving headroom for sprite height. This is the core 2.5D constant (resolves `GAMEPLAY_LOOP.md` §3 [LATER]); it stacks with depth-scaling (row above) — far actors are both higher on screen and smaller. |
+| **[LOCKED] "Z-row" width (for row-based attacks)** | **1.0 wu** | attacks that speak of "rows" (sweep hits **±1 Z-row = ±1.0 wu**, Ball & Chain Ground Zero hits its lane + both neighbor rows = **±1.0 wu each side, ±2.0 wu total**, Tank MG "one row" = a 1.0 wu Z-slice, Whip down-line "hits the whole Z-row" = the target's 1.0 wu slice full-width) — the analog Z-band is diced into 1.0 wu conceptual rows for these hitboxes. Distinct from the tighter ±0.4 wu *projectile* tolerance above. |
+| **[LOCKED] Facing** | **set by the most recent of: last horizontal MOVE, or last horizontal ATTACK arrow** (whichever happened later) | facing is **left or right only** (the Z-axis doesn't flip the sprite). `E`-fire, gun shots, Shield Rush, the whip pull, and "directly ahead" targeting all use this facing. Pressing an attack arrow left while running right **turns the character to face left** (attack direction wins for that frame and sets facing). Neutral (no input) holds the last facing. |
+| **[LOCKED] "Directly ahead" targeting cone** | a target counts as "directly ahead" if it is **on the facing side (X) AND within ±0.8 wu of the player's Z** (±1 Z-row) | used by Shield Rush (within 2.0 wu) and the gatling barrage (within 8 wu on-row) — one shared definition of "ahead". |
 | **Pursuer separation radius** | **1.0 wu** min center-to-center | hard-separation (`GAMEPLAY_LOOP.md` §8.2) — pursuers push apart to keep this gap, so **you never eat two overlapping hitboxes at once** |
 | **Attacker slots (melee ring)** | **max 2 enemies attack at once**; the rest hold a **standoff ring at ~2.5 wu** | the "circle and wait" behavior; others step in as a slot frees (still within the 8-pursuer cap) |
 | **Ranged standoff distance** | **each ranged enemy holds at ITS OWN pinned hold-distance** (≤ its max reach; it fires from here and backs off if the player closes inside it): **AA rock 8 wu** (max reach 10 wu, §6.3 — holds at 8 to keep margin), **Head-Thrower 7 wu**, **Sniper 12 wu** (max range = whole screen, holds far), **Arm-Ripper ≤4 wu** (must close, §1 short-range rule), **Boomergunner 6 wu** (its thrown-gun orbit is an oval 5 wu wide × 3 wu deep, §6.3) | not one global number — each ranged enemy has a single pinned hold-distance, always ≤ its firing range |
@@ -97,7 +101,7 @@ the player's fist/weapon):
 |---|---|---|
 | Grab target | **nearest enemy directly ahead within 2.0 wu** | resolves `PLAYER.md` §3 [ITERATE] |
 | Consumes the enemy? | **No — shoves & releases staggered** | unless soak damage kills them (below) |
-| Damage it soaks | **up to 40 dmg** absorbed by the human-shield before it drops | e.g. eats gatling stream to close in |
+| Damage it soaks | **up to 40 dmg from ANY source** (incoming projectiles AND melee swings that hit the shield body) absorbed before it drops | e.g. eats gatling stream or a punch to close in; every hit that would have struck the player-behind-shield instead lands on the shield and counts toward the 40 |
 | Shielded enemy takes | 100% of soaked damage | dies if its own HP is exceeded, then rush ends |
 | Tier limit | **cannot grab any H-weight enemy (Heavy, Ground Smasher, Gatling Gunner), any miniboss, or any boss** | grabbing one = you **bounce off & fall** (0.70 s H-floors the player, §2.6) — the weight rule; **all L/M-weight regulars are grabbable** |
 | Rush speed | 9.0 wu/s | faster than run, to close gaps |
@@ -332,6 +336,27 @@ field cap of 6 pod-spawned units; sits at the back Z-edge of the encounter (reso
   In **Endless** (§8.3) each spawned Pod is assigned a type at spawn (50/50 Swarmer/Zombie). The **6-unit field
   cap is shared across all Pods** (total pod-spawned units on screen ≤ 6, not per-Pod).
 
+**[LOCKED] Enemy attack cadence (the moment-to-moment pacing — one place).** Each attacking enemy runs
+**windup → active hit → recovery → cooldown**, then may attack again. The windups are the §4 table's "timings";
+the **re-attack cooldowns** are pinned here:
+| Enemy | Attack | Re-attack cooldown (after recovery) |
+|---|---|---|
+| **Regular Melee** | punch / jump-kick / slide-kick | **1.2 s** |
+| **Snapper** | sword swing | **1.5 s** (call-in a T1 every 4 s if unarmed) |
+| **Heavy** | extended punch | **1.6 s** |
+| **Ground Smasher** | shockwave | **4.0 s** (per §4 row 16) |
+| **Swarmer** | **contact-tick** — deals its **1.5 on touch, then a 1.0 s per-Swarmer touch cooldown** (can't chain-tick faster); it has **no windup/swing**, the body IS the hitbox | 1.0 s per Swarmer |
+| **economy Monkey (flail) / Monkey-Tamer's monkeys** | melee flail **5** | windup **0.3 s**, cooldown **1.5 s** |
+| **Monkey Tamer (cornered flail)** | melee flail **5** | windup **0.3 s**, cooldown **1.5 s** (§4.1 cornered rule) |
+- **Ranged enemies** use their §4-row throw/fire cadence directly (AA 2.5 s, Head-Thrower 3.0 s, Sniper the
+  3 s-scope/2 s-down cycle, Arm-Ripper 2/s + 2 s reload after 6, Boomergunner 2.5 s orbit, Gatling Gunner 1 s
+  burst / 2.5 s). No separate cooldown needed — the row value IS the cadence.
+- **[LOCKED] Attacker-slot rotation:** of the ≤8 pursuers, **max 2 hold an attack slot at once**. A slot is
+  **held from windup start until the attack's recovery ends**, then **released**; the nearest ring-waiting enemy
+  claims the freed slot on the next frame (there is no extra hold delay — the cooldown above keeps the same
+  enemy from immediately re-slotting, so slots naturally rotate through the crowd). Ring-waiters sidestep to
+  maintain the 2.5 wu standoff and the 1.0 wu separation.
+
 **Zombie grab resolution (LOCKED):** on contact the Zombie **grabs and holds** (deals 0 on the grab itself).
 While held: the player is **rooted**, cannot move/attack, and **takes full damage from any *other* enemy**
 (the grab is a positioning-death setup, not direct damage). **Break-free = mash any 6 attack inputs within a
@@ -381,6 +406,9 @@ of the killing hit:**
 | **Boomergunner's gun is caught mid-orbit** | catching it (walk into the returning arc) **destroys the gun for that enemy** (it must re-loot/melee) and **staggers the Boomergunner 0.55 s**; the player does **not** gain the gun (it's the enemy's body-part, shatters on catch). **This applies to the Boomergunner *boss* too:** each of its orbiting guns is **individually catchable** — catching one **destroys that loop** (the boss loses that orbit) and staggers the boss 0.55 s. So in its 2-loop phase (≤66%) the player can pick off one loop at a time; the boss re-throws a fresh loop on its normal cadence. Bosses are **status-immune** (§2.6) so the catch never *stuns* the boss beyond the 0.55 s stagger, and the guns still **cannot be kept** by the player. |
 | **Head-Thrower's thrown head** | uses **grenade fastball physics** (`WEAPONS.md` §3.2) — flat line-drive, **explodes on contact or after 8 wu**; the thrower **regrows its head in 4 s** (§4 row 5) and cannot throw again until it does. |
 | **Sniper with the player already downed/grounded** | **holds fire** (can't hit a grounded player, §4 row 7) and **re-scans**; it only fires at an airborne/jumping player (apex punish). |
+| **Sniper reposition / escape when the player closes in** | when the player gets **within 6 wu**, the Sniper **lowers the rifle and back-steps** (at his 4.0 wu/s speed) toward the **farthest perch/spawn-edge on his side**, trying to re-open range; if **cornered (no room to retreat)** he **fights with a weak melee pistol-whip (7.5, windup 0.2 s, cooldown 1.5 s)** — never un-attackable. He re-scopes only once he's ≥8 wu away again. He **perches at the back Z-edge** (the `B(perch)` marker in `ENCOUNTERS.md`). |
+| **big-version catch-up miniboss would be a degenerate type** | the §8.2 random-seen-type pick **excludes Zombie, Swarmer, Pickpocket, and economy Monkey** (they'd make a broken miniboss — 0-damage, fodder, or steal-and-flee). If the roll lands on one, **re-roll**; if the whole seen-pool is only those, fall back to **big Regular Melee** (the Areas-1–2 fallback, extended to any all-degenerate pool). |
+| **Flying Monkey swoop path (the dive itself)** | from its sky-band hover (~4 wu up), on swoop it **dives in a fast arc to the player's current ground position at 9.0 wu/s**, its **body-hitbox live for the descent** (contact **7.5**), then **climbs back to the hover band** over ~0.5 s. Miss or hit, it returns to circling; **3.0 s swoop cooldown** before the next dive. Only hittable by **air attacks or anti-air** while diving/hovering (a grounded melee can't reach the hover band). |
 | **Flying Monkey when ≥2 grounded enemies exist** | **circles/harasses without swooping** until the grounded count drops below 2 (§4 row 8); never idles off-screen. **Max 2 Flying Monkeys airborne at once** (they're the sky-category cap, separate from the 8 grounded pursuers). |
 | **big / miniboss Flying Monkey (catch-up injection or placed miniboss)** | **[LOCKED] ignores the `<2 grounded` swoop gate — it swoops on cooldown regardless of the grounded count** (a miniboss is always a live threat, `ENCOUNTERS.md` §Dixon miniboss 3). It still respects the **3.0 s swoop cooldown** and the **max-2-airborne** sky cap; the gate override is the only difference from the fodder version. |
 | **Catch-up miniboss during a boss fight or vignette** | **suppressed** — the §8.2 catch-up trigger **never fires inside a boss arena or during a scripted vignette**; it only injects in normal stage waves. |
@@ -405,6 +433,24 @@ of the killing hit:**
   slash/blast feeds the meter at the weapon-hit rate, §2.4) — this is how you start re-earning the next special
   mid-special. The **Sniper special is the exception: its kills give no meter** (it would otherwise loop
   infinitely), consistent with "sniper kills drop nothing."
+- **Specials vs. Pods (LOCKED):** the **Shotgunner ≤T3 instakill, Werewolf 1HKO, and Underdog Vaporize all
+  destroy a Pod** if it's in their area/reach (a Pod is a 50-HP structure below the T3 line — it dies to the
+  instakill/1HKO like any ≤T3 target; Vaporize destroys it in radius). This clears the spawner, not just its
+  spawns. (The sniper ricochet also hits Pods, above.)
+- **[LOCKED] Kill attribution — what a kill credits the player.** A kill counts toward the player's **meter,
+  drop rolls, wave-clear gates, AND the §8.2 kill-interval metric** when the killing blow is the **player's own
+  action OR a player-owned proxy**: fists/weapons/thrown items, **reflected projectiles** (Bat), **grenade/
+  rocket/Ball&Chain/staff/gatling**, **Monkey-Merc shots**, and **specials** (except the sniper's meter carve-
+  out above). A kill **does NOT credit the player** (no meter, no drop, but it DOES still satisfy a wave-clear
+  gate — the field must empty regardless) when it's an **environmental hazard** (car/trolley/fire-boom/fall) or
+  **enemy-on-enemy** (a fire-boom catching another enemy, a Snapper's called add killed by another hazard). So:
+  hazard/enemy-cross kills clear waves but pay no loot or meter; everything the player or their proxy kills pays
+  out normally.
+- **[LOCKED] Ground-pickup persistence.** Dropped **weapons, coins, and heals persist on the ground for 12 s**
+  then despawn (a soft fade begins at 9 s); **the Monkey-Merc claim token uses its own ~5 s** (`WEAPONS.md`
+  §3.7). Crossing a **checkpoint or clearing the stage despawns all un-grabbed pickups** (they don't carry to
+  the next segment). A **death/respawn clears the field's pickups** too (fresh from the checkpoint). Pickups
+  never persist across a quit (nothing but the stage bookmark is saved, `UI.md` §5).
 
 ---
 
@@ -684,11 +730,12 @@ minibosses / big-version *non-boss* elites** are sniper-killable like normal ene
 | Field | Value | Notes |
 |---|---|---|
 | Refill trigger | on-screen enemies **≤ 2** | LOCKED |
-| Pod size (spawn) | **max(3, 2 + floor(minute/1))** | +1 to the pod each elapsed minute |
+| **"pod" = a spawn BATCH here (not the Pod entity)** | a refill spawns a **batch of `max(3, 2 + floor(minute))` enemies directly** at the arena edges | to avoid the name clash: this batch is *not* a Pod-spawner entity. A **Pod entity** only appears when the batch's composition roll actually yields the Zombie/Swarmer type (then a real Pod spawns and emits per §4). "Pod size" below = this batch size |
+| Pod (batch) size (spawn) | **max(3, 2 + floor(minute/1))** | +1 to the batch each elapsed minute |
 | Concurrent enemy cap | **8 + floor(minute/2)** | grows 1 every 2 min (swarms still exceed it) |
 | **Tier ramp** | unlock next tier every **3 min**: T0–1 (0–3m) → +T2 (3m) → +T3 (6m) → +T4/untiered (9m) → full roster (12m+) | |
 | Enemy stat ramp | **+5% HP and +3% damage per minute**, capped at +150% HP / +90% dmg | HP/dmg creep past the roster unlock |
-| Miniboss cadence | inject one every **5 min** (recurring big-versions) | |
+| Miniboss cadence | inject one every **5 min** (recurring big-versions) — **selected like the catch-up miniboss (§8.2): a random big-version of a currently-unlocked non-degenerate enemy type** (excludes Zombie/Swarmer/Pickpocket/Monkey; falls back to big Regular). Spawns at a **back-Z edge** | one selection rule shared with campaign catch-up |
 | Boss cadence | inject a main boss every **10 min** | at boss-scale, from the placed pool |
 | Spawn interval floor | never faster than a new pod every **4 s** | keeps it readable (`VFX.md` bullet budget) |
 | **Wave composition** | each refill spawns a **type-weighted pod drawn from the currently-unlocked tiers**: **40% current-top-tier · 60% below it** (mirrors the campaign filler weighting, `ENCOUNTERS.md` §0), picked by a **per-run seed** so a session is reproducible for playtest. Each spawned **Pod's emit-type is 50/50 Swarmer/Zombie** (§4 Pod typing) | one weighting rule, seeded like the campaign |

@@ -133,6 +133,8 @@ Enemy-dropped; **1 per pickup** (scarce — save it for a cluster).
 - **[LOCKED] Numbers (`TUNING.md` §6):** lob blast **60 (r 3 wu)**, fastball blast **35 (r 2 wu)**; fastball
   detonates at **8 wu or after 8 enemies**; **self-damage 40**. **Knockdown from the blast = the standard
   1.2 s** (`TUNING.md` §2.6, applied to caught *regular* enemies — bosses/minibosses are immune, §2.6).
+  **[LOCKED] Fastball's in-flight plow knocks down enemies within 1.0 wu of its travel line (±1 Z-row)** as it
+  crosses them (before the blast); the terminal blast then knocks down everything in its r 2 wu.
 - **[LOCKED] Lob & intermediate-step distances** (the ground-marker where it first lands): **0 taps = 6 wu**
   ahead (highest arc) · **1 tap = 8 wu** · **2 taps = 10 wu** (liner) · **3+ taps = flat fastball** (travels
   until 8 wu / 8 enemies). The lob **bounces 3× at ~2 wu spacing** past its landing marker, then explodes; the
@@ -170,9 +172,21 @@ Each attack direction is a different tool:
 - **Finisher — "the extraction":** the whip **chases an enemy, wraps its neck**, the player **rips the head
   clean off**, the **head becomes a live grenade**, and the player **auto-dashes backward** (opposite the
   grenade) to clear the blast. A self-made bomb with a built-in escape.
-- **Decay:** breaks after **~10–12 connecting hits** (fray states, like the sword).
-- **[ITERATE]** pull distance and whether it drags the enemy to you or you to them; the head-grenade's
-  blast (reuse §3.2 tuning?); finisher target priority; exact hit count by tier.
+- **[LOCKED] How the Whip composes with the combo string** (it's a directional melee, so the P1→P2→sweep→
+  finisher string maps to the whip's tools): **P1/P2 = the down-line crack (14/hit)**, **the sweep (hit 3) = the
+  down-line at knockdown strength (still 14, but sets the 1.2 s knockdown)** — the whip *can* knock a regular
+  down. The **forward-pull and up-arc are the whip's `E`-equivalent directional variants** (press the arrow
+  direction to use them instead of the plain string): **forward-pull drags a regular enemy 3 wu toward you**
+  (a combo starter; pull is CC, so H-weight/bosses/minibosses are immune to the drag, §2.6), **up-arc hits
+  above/flanking**. The **finisher (hit 4) is the head-rip extraction**, replacing the free-melee finisher.
+- **[LOCKED] Whip finisher on a headless target:** a target with **no head to rip** — a Head-Thrower in its 4 s
+  regrow window, or a hollow-head Zombie — **cannot be head-ripped**; the finisher instead lands as a **plain
+  free-melee finisher (35)** on it (kills a downed one outright like any finisher). The head-grenade only spawns
+  when there's a real head to extract.
+- **Decay:** breaks after **11 connecting hits** (of a 10–12 range, `TUNING.md` §6; fray states like the sword).
+- **[LOCKED] pull drags the ENEMY to you** (not you to them); the **head-grenade reuses the grenade fastball
+  blast (35, r 2 wu, `WEAPONS.md` §3.2)**; **finisher target priority = the nearest swept/downed enemy in
+  front** (same as any finisher, `COMBOS.md` §4).
 
 ### 3.5 Staff — *magic caster* **[LOCKED core]**
 - **Element is set at pickup — randomly one of three: Ice, Fire, Lightning.** A given staff stays that
@@ -192,6 +206,9 @@ Each attack direction is a different tool:
     (the stick figure that pulls off its own head to throw at you) makes it **start blinking, then after
     ~2s BOOM** — a small blast that **kills the player** if caught in it. Great damage, but it turns that
     enemy into a walking bomb you must not be next to. *(Grenade enemy specced in `ENEMIES.md`.)*
+    **[LOCKED] Fire DoT = 6/s for 3 s (18 total); a re-cast on an already-burning enemy REFRESHES the 3 s timer,
+    it does not stack** (damage stays 6/s, never doubles) — one burn instance per enemy. A burn on a non-grenade
+    enemy just ticks; on a Head-Thrower it triggers the walking-bomb.
 - **[LOCKED] Aim & decay:** `E` **fires straight ahead** in your facing direction (like the guns — no arrow
   aiming; the element is fixed at pickup). **6 casts** then the staff breaks (`TUNING.md` §6). **Cast warm-up
   0.35 s** (§6). The **Fire walking-bomb explosion damages other enemies** in its r 2 wu blast (enemy friendly
@@ -298,7 +315,9 @@ Each attack direction is a different tool:
   firepower. First of the **non-enemy weapon source** (§1).
 - Distinct from the **Monkey Merc rocket launchers** (§3.7) — this one is the player's own.
 - **[LOCKED] Stats & placement (`TUNING.md` §6/§6.1):** **3 rockets**, blast **70 (r 3 wu)**, **self-damage 35**
-  (like the grenade), **warm-up 0.50 s**, **`E` free-fire** (not finisher-gated — it's a fired weapon).
+  (like the grenade), **warm-up 0.50 s**, **`E` free-fire** (not finisher-gated — it's a fired weapon). **The
+  blast knocks down every caught regular enemy in the r 3 wu (standard 1.2 s knockdown; bosses/minibosses/
+  H-weight immune, `TUNING.md` §2.6)**, same as the grenade.
   **Placed pickups:** near the **Tank** fight (Stage 9) and in the **SF gauntlet** (Stage 12) — never in a
   random drop pool.
 

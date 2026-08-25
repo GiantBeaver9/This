@@ -49,7 +49,17 @@
   pinned, composition is seeded.
 - **[LOCKED] Stage geometry (so the level isn't invented from prose):** each **combat stage lane = ~140 wu
   long** (spine + filler + funnel; the vignette plays at the head, the boss arena caps the tail). The camera
-  scrolls forward as waves clear (gated per §0). **Prop/funnel/cover placement follows `AREAS.md`** per theme
+  scrolls forward as waves clear (gated per §0).
+- **[LOCKED] Wave trigger placement & normal-stage camera.** Waves are **triggered by the camera reaching a
+  gate X**, not by a timer. Distribute the stage's waves **evenly along the ~140 wu**: the **first spine wave at
+  ~8 wu in**, then a wave-gate roughly **every (140 ÷ total-wave-count) wu** (the seed jitters each by ±2 wu so
+  they don't feel gridded), with the **funnel wave at ~120 wu** and the **boss arena from ~130 wu to the tail**.
+  When the player crosses a gate X the wave spawns and the **camera hard-locks** (no forward scroll) until the
+  field is clear (§0), then unlocks and scrolls on. **Normal-stage camera:** follows the player with a **±4 wu
+  horizontal deadzone** (player can move within it without scrolling), **scroll speed = the player's run speed
+  (7.0 wu/s) capped**, **never scrolls backward** (left of the furthest-reached X is walled), and keeps the
+  player in the **left-third lead** when advancing. Vertical (Z) never scrolls — the whole band is always
+  on-screen. **Prop/funnel/cover placement follows `AREAS.md`** per theme
   (parked cars & hedges pinch the lane into fighting pockets; cars-as-cover on the Golden Gate). **Causeway
   platforming stretches (Stages 6, 10) — [LOCKED default layout]:** a **linear run of exactly 6 platforms**,
   each **10 wu** long with **4 wu gaps** between them (the pinned midpoints of the 5–7 / 8–12 / 3–5 design
