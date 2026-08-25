@@ -15,10 +15,15 @@
   normal melee (`TUNING.md` §2.6). This applies to **all 10 boss encounters** (7 bespoke + the 3 big-versions
   Sandwich Bros / big Arm-Ripper / Boomergunner) **and every catch-up miniboss**. Bosses are defeated only by
   **HP depletion, their objective, or a scripted kill** — plus the ≤10% special execution below.
-- **[LOCKED] Specials only work on a boss under 10% HP — for ALL characters.** Above 10%, a boss **negates
-  the special** (the Tactical's sniper visibly **dodges**; Werewolf / Shotgun / Underdog specials simply do
-  nothing to the boss). **At/under 10% a prompt appears and the special *executes* the boss** — the one time
-  any special ends a boss. One rule across all four characters.
+- **[LOCKED] Specials execute a boss only at **≤10% HP** — for ALL characters.** Above 10%, a boss **negates
+  the special** (the Tactical's sniper visibly **dodges**; Werewolf / Shotgun / Underdog specials do nothing).
+  At **≤10% a prompt appears and the special *executes* the boss** — the one time any special ends a boss.
+  **The `≤10%` boundary is inclusive** (exactly 10% executes); one rule, all four characters.
+- **[LOCKED] The execute rule applies ONLY to the 6 HP-depletion bosses** (Burly, Colossus, big Arm-Ripper,
+  Boomergunner, Gatling Gun Guy, Sandwich Bros). **Objective / proxy bosses have NO execute** — they have no
+  HP bar to reach 10% of: **Tank** and **Helicopter** are beaten by their objective, **Monkey Boss** only by
+  your mercs (a player special can't damage him at all), and **Phil** only by the scripted pencil-laser
+  (§5.1). Specials fired at these four simply whiff/do nothing (the sniper dodges as usual).
 - **[LOCKED] The meter is never wasted in a boss fight.** A charge you don't spend **carries over** (usable
   on any adds, or banked for after the boss). So you can **hold it for the low-HP execution** or spend it on
   adds — your call.

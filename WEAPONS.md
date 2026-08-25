@@ -115,9 +115,9 @@ Enemy-dropped; **1 per pickup** (scarce — save it for a cluster).
 - **[LOCKED] Self-damage is real** — your own explosion **can catch you** if you're too close. Spacing is
   the price of the payload.
 - **[LOCKED] Numbers (`TUNING.md` §6):** lob blast **60 (r 3 wu)**, fastball blast **35 (r 2 wu)**; fastball
-  detonates at **8 wu or after 8 enemies**; **self-damage 40**. **Knockdown from the blast lasts 0.8 s**
-  (`TUNING.md` §2.6 standard knockdown, applied to caught *regular* enemies — bosses/minibosses are immune,
-  §2.6). The lob **bounces 3× then explodes**.
+  detonates at **8 wu or after 8 enemies**; **self-damage 40**. **Knockdown from the blast = the standard
+  1.2 s** (`TUNING.md` §2.6, applied to caught *regular* enemies — bosses/minibosses are immune, §2.6). The lob
+  **bounces 3× then explodes**.
 
 ### 3.3 Ball & Chain — *heavy directional launcher* **[LOCKED core]**
 - Plays **like the grenade's throw:** **tap `E` during the wind-up to change trajectory** (more taps =

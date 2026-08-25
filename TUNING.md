@@ -26,6 +26,9 @@
 | **Sprite depth-scaling** | **100% at Z=0 → 80% at Z=6** | linear −3.33%/wu; floor 80% (`GAMEPLAY_LOOP.md` §3) |
 | Ground shadow / Z-marker | ON, 1 blob shadow per actor | reads exact Z (resolves the §3 [LATER]) |
 | Bullet/hitbox Z-tolerance | ±0.4 wu | a shot connects only within 0.4 wu depth of target |
+| **Pursuer separation radius** | **1.0 wu** min center-to-center | hard-separation (`GAMEPLAY_LOOP.md` §8.2) — pursuers push apart to keep this gap, so **you never eat two overlapping hitboxes at once** |
+| **Attacker slots (melee ring)** | **max 2 enemies attack at once**; the rest hold a **standoff ring at ~2.5 wu** | the "circle and wait" behavior; others step in as a slot frees (still within the 8-pursuer cap) |
+| **Ranged standoff distance** | **6–8 wu** (holds at its attack range) | short-range gunners/throwers keep this gap and fire from it, rather than crowding into melee |
 | Boss arena width | **per-boss, 24–34 wu** (`ENCOUNTERS.md`) | **"camera-locked" = the level stops advancing** (no forward scroll to new ground); if the arena is wider than the ~26.7 wu screen the **camera pans within the arena box** (bounded, ≤ ±3.7 wu). Giant bosses reach down into the band. |
 
 ---
@@ -48,6 +51,24 @@
 | Air-punch gust reach bonus | +**0.6 wu** hitbox extension | the reach-extender; not a projectile |
 
 > Full fist string on a fresh T1 (40 HP): 10+10+12 = 32, then finisher 35 → **kills in one string**. Intended.
+
+**[LOCKED] Melee reach & hitbox sizes** (horizontal reach from the actor's center; the gust adds +0.6 wu to
+the player's fist/weapon):
+
+| Attacker / weapon | Base reach | Hitbox height (Z + vertical) | Notes |
+|---|---|---|---|
+| Player **fist / punch** | **1.2 wu** (→ **1.8** with gust) | 1 Z-row ±0.4 wu, ~1.5 wu tall | the baseline all "+0.6 gust" and weapon reaches build on |
+| Player **Sword** | **1.8 wu** (→2.4 gust) | as fist | the reach upgrade |
+| Player **Club / Bat** | **1.0 / 1.4 wu** | as fist | club short + knockback; bat swing arc |
+| Player **Whip** | up=arc **2.5 wu** / fwd=pull **3.0 wu** / down=line **4.0 wu** | line hits the whole Z-row | the long-reach crowd tool |
+| Player **sweep (hit 3)** | **1.5 wu**, wider arc | hits ±1 Z-row (catches a small clump) | the knockdown setter |
+| **Regular Melee** enemy | **1.0 wu** (slide-kick closes from 4 wu) | as fist | inside the player's 1.2/1.8 — the spacing edge |
+| **Snapper** (sword) | **1.7 wu** | as fist | "longer reach" pinned |
+| **Heavy** punch | **1.8 wu** (+0.8 reach, emits gust) | tall | out-reaches the player's bare fist |
+| **AA rock** throw range | up to **10 wu** (arc) | lands in a 1 wu splash | the long lobber |
+| **Ninja shuriken** | **12 wu** straight | thin | telegraphed thrown exception |
+| **Sniper** | full screen (hitscan, apex only) | head-line | can't hit grounded |
+| Enemy **Boomergunner** orbit | **5 wu** loop radius | shots along the loop | catchable mid-orbit |
 
 ### 2.2 Movement, dash, jump
 
@@ -191,7 +212,7 @@
 | Shotgunner — Giant Shotgun | **RULE: instakills every T3-and-below on screen** (ignores HP — not a damage number) + **8 wu knockback**; untiered Heavy/Tamer & all bosses survive; **drops stay** | LOCKED ≤T3 |
 | Werewolf | **5.0 s** transform, **full i-frames**, every slash = 1HKO, **drops stay**; slash dmg vs boss = 0 above 10% | cooldown = the meter |
 | **Werewolf vs. Heavy/untiered** | the 1HKO **DOES kill Heavy, Ground Smasher, Gatling Gunner, Monkey Tamer and every untiered enemy** — it is a raw slash, not a tier-gated special, so no ≤-tier rule applies. **Bosses only** survive (they take slash-dmg 0 above 10% HP, like the other specials). | the one special that ignores weight/tier — its cost is the tiny 5 s window |
-| Underdog — Vaporize | close radius **3.0 wu** instant-kill of **T3-and-below** (**drops nothing**, sniper-style); **untiered Heavy/Tamer & all bosses survive** (only the Werewolf 1HKOs Heavies — keeps that unique); then **+20% to all dmg for 30 s**; **refreshes, does not stack** | |
+| Underdog — Vaporize | close radius **3.0 wu** instant-kill of **T3-and-below** (**drops nothing**, sniper-style); **untiered Heavy/Tamer & all bosses survive** (only the Werewolf **special** 1HKOs Heavies — keeps that special unique); then **+20% to all dmg for 30 s**; **refreshes, does not stack** | |
 | Boss execution (all specials) | only ≤10% boss HP shows the execute prompt | LOCKED (`BOSSES.md` §1) |
 
 **[LOCKED] Meter-tier scaling — EACH special scales its own signature axis** (yellow = 1 fill · blue = 2 ·
@@ -317,7 +338,7 @@ chance to spawn a 10 s zombie instead of killing. **Sniper special is exempt** (
 | **Ball & Chain** | T2 | **80/swing** | **3 uses** | 0.40 s | tap-`E` trajectory; **carrying slows player 20%** (move only, not attack); `E`-launch shapes = `COMBOS.md` §3 |
 | **Whip** | T2 | **14/hit**; finisher = head-rip→grenade | **11 connecting hits** (of 10–12) | 0.25 s | **no E-fire** (pure melee); **arrow-melee directions**: up=arc / fwd=pull (drags enemy 3 wu) / down=line. **Finisher = the head-rip extraction** (a free-melee finisher variant, `COMBOS.md` §4; auto-dashes you back 4 wu) |
 | **Staff** | T3 | Ice: **8** +freeze 3 s · Fire: **6/s ×3 s** (18) · Lightning: **12** +stun 1 s +slow | **6 casts** then breaks | 0.35 s | element fixed at pickup; `E` casts; Fire on a Head-Thrower → walking bomb (2 s→boom) |
-| **Gatling Gun** | T3 | **`E`-barrage 0.5 s auto-kill** of the **nearest enemy directly ahead within 8 wu on your row** | **no ammo**; overheats after **5 barrages OR 20 s cumulative equipped time** (whichever first) then discards | 0.40 s spin-up | melee bludgeon 8 (slow cadence); **no i-frames during barrage**; auto-kills **any standing non-boss** it locks (incl. H-weight/untiered — that's the payoff); **bosses take 22.5/barrage** instead of dying |
+| **Gatling Gun** | T3 | **`E`-barrage 0.5 s auto-kill** of the **nearest enemy directly ahead within 8 wu on your row** | **no ammo**; overheats after **5 barrages OR 20 s cumulative equipped time** (whichever first) then discards | 0.40 s spin-up | melee bludgeon 8 (slow cadence); **no i-frames during barrage**; auto-kills **any standing non-boss it locks EXCEPT the Heavy** (Heavy takes **45/barrage** like a mini-boss — it can never be cheese-killed, `ENEMIES.md` §2.11); untiered fodder (Pickpocket, Monkey) auto-die; **bosses take 45/barrage** instead of dying |
 | **Monkey Merc** | T4 | **pistol 8/shot** · **shotgun ~18/blast** · **rocket ~40/rocket** — all **@ 2 shots/s** | **costs 1 dime**; **3 summons/level** then none | 0.5 s summon | 1=pistol/20 s · 2=shotguns/10 s · 3=rockets/5 s; adding a monkey **re-arms all to the new tier & resets timers**; **no friendly fire** (`WEAPONS.md` §3.7) |
 | **Club** | T1 | melee **14** + knockback | **10 hits** (resolves §3.7c [ITERATE]) | 0.15 s | no E-fire; short reach, big knockback |
 | **Bat** | T2 | melee **12**; reflect | **12 hits**; **reflect window 0.20 s** | 0.15 s | swing-timed reflect of thrown heads/shots back at attacker (resolves §3.7b [ITERATE]) |
@@ -483,8 +504,8 @@ bespoke bosses **and** the big-version area bosses (Sandwich Bros, big Arm-Rippe
 | Miniboss cadence | inject one every **5 min** (recurring big-versions) | |
 | Boss cadence | inject a main boss every **10 min** | at boss-scale, from the placed pool |
 | Spawn interval floor | never faster than a new pod every **4 s** | keeps it readable (`VFX.md` bullet budget) |
-| Economy/weapon rules | **all weapons unlocked from the start** (Endless has no areas, so the area-gate §6.1 doesn't apply); **coins ON from minute 0** (the Area-1–2 coin suppression is campaign-only); dimes/monkeys/decay as normal | Endless is the sanctioned playtest sandbox |
-| Objective bosses in the pool | **excluded** — only **HP-depletion** bosses inject (Burly, Colossus, big Arm-Ripper, Boomergunner, Gatling Gun Guy, Sandwich Bros); **Tank, Helicopter (objective) and Monkey Boss (dime proxy) and Phil are NOT injected** (their weapon-gated/scripted arenas don't exist in Endless) | resolves the §8.3 Endless-boss ambiguity |
+| Economy/weapon rules | **all corpse-drop weapons unlocked from the start** (Endless has no areas, so the area-gate §6.1 doesn't apply to drops); the **Rocket Launcher stays world-pickup-only** — it spawns as a **periodic placed pickup every ~2 min** (never a corpse roll, per §6.1); **coins ON from minute 0** (Area-1–2 coin suppression is campaign-only); dimes/monkeys/decay as normal | Endless is the sanctioned playtest sandbox |
+| Injectable bosses | **only ungated HP-depletion bosses: Burly, big Arm-Ripper, Boomergunner, Sandwich Bros.** **Excluded** = every boss that needs a specific weapon, terrain, or script that Endless can't guarantee: **Colossus** (needs whips), **Gatling Gun Guy** (needs car cover), **Tank / Helicopter** (objective + weapon-gated adds), **Monkey Boss** (dime proxy), **Phil** (scripted). This prevents an un-winnable injection | resolves the Endless-boss + Colossus-softlock ambiguity |
 | End condition | endless until death; score = kills × time-survived multiplier | leaderboard **(tunable)** |
 
 ### 8.4 Difficulty modes — **[LOCKED]** (chosen at the title / character-select, `UI.md` §5)
