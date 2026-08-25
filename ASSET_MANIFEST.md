@@ -33,6 +33,22 @@
     over the fight (`BOSSES.md` §5.5); its **rotor + cockpit** are the visible mass, no ground footprint.
 - **Palette:** a **shared 32-color base palette** (limited, cohesive) + **per-area 6-color accent ramp**
   swapped per theme. **Gore red is one fixed hue** (`VFX.md`) across all areas. Total on-screen ≤ ~48 colors.
+- **[LOCKED] The 32-color base palette (concrete hex — the single source of truth all sprites draw from):**
+  - **Ink/mono ramp (6)** — stick figures are ink on paper: `#0D0B0E` `#2A2A33` `#4A4A57` `#7A7A88` `#B8B8C4` `#F4F2EC`
+  - **Reds (4)** — **gore red = `#B31E2B` (the one fixed gore hue, LOCKED)**, `#E8433F` `#F5794F` `#7A1420`
+  - **Oranges/yellows (4):** `#F2A03D` `#FFD24A` `#C77A2A` `#FFF2B0`
+  - **Greens (4):** `#234D2C` `#3A7D44` `#6CBF5A` `#A8D98B`
+  - **Blues/cyans (5)** — sky & water: `#1B3A5C` `#2E6FB0` `#4AA3D8` `#9FD6EF` `#CFEAF7`
+  - **Purples/pinks (2):** `#6A3D8A` `#C86FA8`
+  - **Browns/earth (4):** `#3F2A17` `#6B4423` `#9C6B3F` `#C99A6A`
+  - **Warm skin/accent (3):** `#8A5A3A` `#D99A6C` `#E6B88A`
+  - **Per-area 6-color accent ramp** = 6 additional hues chosen *per area* on top of these 32 (e.g. Vallejo
+    carnival adds saturated circus magentas/teals; Marin adds filtered greens) — the base 32 stay constant so
+    characters read consistently across every area; only the environment accent ramp swaps.
+- **[LOCKED] Font:** a **single bundled bitmap pixel font** — **"chunky-arcade" all-caps display face, ~8px cap
+  height** at the 640×360 internal res, uniform-width heavy strokes (readable at 1×). One face used everywhere
+  (HUD numerals, screen text, combo popups, boss name cards); glyph set = **A–Z, 0–9, and `$ . ¢ % ! ? ▶ · / + -`**.
+  Bundled as a PNG glyph atlas (`ui_font.png`, same import settings as sprites). No secondary font in v1.
 - **Animation fps & frame budgets:** play back at **12 fps** (anime-on-2s feel, cheap). Frame budgets:
   **idle 2–4 · walk 6–8 · attack 3–6 · hurt 2 · death 4–6 · dash 3** (matches `PLAYER.md` §5/§7). **Where a
   budget is a range, the build target is its upper bound** (the lower bound is the time-boxed fallback) — the
@@ -126,6 +142,13 @@ adds/hazards · **boss HP bar + name card**. "Big version" bosses/minibosses nee
 
 ## 7. Environments (per area) — `AREAS.md`, `STAGES.md`
 Each theme: parallax backdrop layers + lane floor + set dressing + ambient actors + hazards + funnels.
+- **[LOCKED] Parallax layer spec (every area, same structure):** **3 scrolling layers behind the play lane**,
+  with fixed horizontal scroll factors relative to camera motion: **far = 0.2×** (sky/horizon band — fills the
+  top-40% HUD-sky region, `TUNING.md` §1), **mid = 0.5×** (buildings/treeline/hills), **near = 0.85×**
+  (roadside props just behind the lane); the **play lane itself = 1.0×** (locked to world, where actors live).
+  Each layer is a **horizontally-tiling strip** (seamless loop), authored at **640 px tall** (full internal
+  height) so it covers any vertical framing. **Far layer never scrolls vertically**; mid/near don't either (the
+  camera is Z-locked, §1). One 3-layer set per area theme (12), swapped at area boundaries.
 - **Area 1 (P0/P1):** suburb sky+wispy clouds, houses, **mulberry/tall trees**, sidewalk/road; ambient (fleeing civilians, mail carrier, kid+bike, jogger; dog/cat/birds; **dancing Zebra**); props (parked car, trash can, hydrant, mailbox, hedge, fence, porch, lawn sign); **hazard: cars & school buses**; **Lincoln High**, **Sandwich Bros**; **Galleria mall** interior (storefronts + cowering shoppers, atrium, skylight, kiosks/planters/benches/escalators).
 - **Area 2 (P1):** Sacramento **Victorian houses**, streetcar, lamp posts; **airport terminal + tarmac**, taxiing **planes**, ground crew, luggage carts, small planes.
 - **Area 3 (P1):** rolling **hills/farmland**, **Yolo causeway + platforms**, marsh; **Dixon** (mid-2000s: main street, water tower, feed store, storefronts); animals (**cows**, goats, chickens, crows), tractors, hay bales, fences; **hazards: ponds/puddles + cow blocking path**.
@@ -133,9 +156,9 @@ Each theme: parallax backdrop layers + lane floor + set dressing + ambient actor
 
 ---
 
-## 8. Audio — see **`AUDIO.md`** (fully specced: 23 music tracks, 86 SFX, VO plan, mix) — VO+SFX creator-produced
+## 8. Audio — see **`AUDIO.md`** (fully specced: 23 music tracks, 89 SFX, VO plan, mix) — VO+SFX creator-produced
 - **P1:** **Intro VO** (creator voice, the in-the-beginning-there-was-this script) · core SFX (punch, hit, weapon fires, explosions, zombie, whistle, trolley) .
-- **P2:** per-area **music**, ambient beds, boss themes, UI sounds. *(Full audio pass is **specced** — see `AUDIO.md`: 23 tracks, 86 SFX, VO, mix.)*
+- **P2:** per-area **music**, ambient beds, boss themes, UI sounds. *(Full audio pass is **specced** — see `AUDIO.md`: 23 tracks, 89 SFX, VO, mix.)*
 
 ---
 

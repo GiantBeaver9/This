@@ -128,6 +128,13 @@ Most decay is diegetic, but a few weapons have HUD-worthy state:
 - **Ball & Chain:** **3 uses** + the ~20% slow — **[PROPOSED]** a tiny use-pip cluster.
 - Everything else (sword wear, shotgun spine, shotgun/pistol ammo, gatling no-ammo) stays **diegetic on the
   sprite**.
+- **[LOCKED] Pistol/Revolver diegetic ammo readout (what the artist draws):** there is **no numeric counter**.
+  The read is **the ejected casing per shot + the discard on empty** — each `E`-fire **flips out a spent casing**
+  (a tiny casing sprite arcs off, `VFX.md`), and when the mag empties (8 / 6) the gun is **thrown away with a
+  visible toss** and the character snaps back to fists. So "rounds left" is felt as *how many casings have flown*
+  and the imminent discard, not a bar. The **Revolver additionally shows its cylinder** (6 chambers) — no need
+  to animate each, the discard is the definitive tell. This is the diegetic pistol asset: **in-hand → fire +
+  casing-eject → empty-discard toss.**
 
 ---
 

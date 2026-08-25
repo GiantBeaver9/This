@@ -249,6 +249,16 @@ spend on a boss **carries over.** The boss dodge is a **boss asset**.
 - **Ranged weapon:** fist combo re-drawn holding the weapon (fist-strength bludgeon) · **unique
   finisher/fire** anim · hold-idle · hold-walk. (Enumerated per weapon in `WEAPONS.md`.)
 
+### Per character Special (bespoke — one Special per character, `CHARACTERS.md` §2) — P1
+The "Special: draw→aim→fire→recover" row above is the **Tactical's sniper**. The other three each need their own
+frame set:
+| Character Special | Frames (est, upper-bound target) | Notes |
+|---|---|---|
+| **Tactical — Sniper** | draw 3 · aim 2 · fire 2 · recover 2 | + the red-dot/tracer VFX (`VFX.md` §6) |
+| **Shotgunner — Giant Shotgun** | raise 3 · **boom** 3 · cock/recover 3 | the forward-cone blast; big muzzle FX |
+| **Werewolf (Gabe) — wolf form** | **transform 5 · wolf idle 3 (loop) · wolf run 6 (loop) · auto-slash 4 · air-continue slash 3 · revert 4** | a **full bespoke wolf sub-set** (the form has its own idle/run/slash, `CHARACTERS.md` §2.3); i-frames throughout the 5–9 s window |
+| **Underdog — Vaporize + Empower** | wind-up 3 · **vaporize burst** 4 · empower-aura loop 3 (rides for 30 s) | radial burst + the lingering buff shimmer |
+
 ### Player-owned VFX (see `VFX.md`)
 Air-punch gust · dash dust · jump/landing puff · hit-impact spark · muzzle flash · spine-eject bit ·
 time-slow tint · sniper tracer/ricochet line.

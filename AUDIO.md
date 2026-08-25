@@ -61,6 +61,23 @@ Colossus, Helicopter, Monkey Boss, big Arm-Ripper, Tank, Gatling Gun Guy, Boomer
 realized version** (§3). Because they all re-orchestrate a single 4-bar motif, authoring is far cheaper than 9
 from scratch. *(Sandwich Bros is a **big-version Tier-1**, `BOSSES.md`; it reuses the **Area 1 stage loop**, not
 its own cue — so the boss-cue count is 8 sub-bosses + Phil, not counting Sandwich Bros.)*
+- **[LOCKED] Stage → loop mapping (all 13 stages covered by the 12 loops; two Area-1 stages share).**
+  | Stage | Loop used |
+  |---|---|
+  | 1 Lincoln suburbs · 2 Rocklin/Old Hwy 65 | **A1 surf-rock opener** (both suburb stages share it) |
+  | 3 Roseville Galleria (mall) | **A1 synth-punk (mall)** |
+  | 4 Sacramento | **A2 ragtime garage-rock** |
+  | 5 Airport | **A2 industrial electronic** |
+  | 6 Hills & causeway | **A3 spaghetti-western** |
+  | 7 Farm (Monkey Boss) | **A3 hoedown bluegrass** |
+  | 8 Dixon (boss rush) | **A3 western dread** |
+  | 9 Vallejo | **A4 circus-rock** |
+  | 10 Marin redwoods | **A4 psych-rock** |
+  | 11 Golden Gate | **A4 orchestral-rock** |
+  | 12 SF streets | **A4 electro-punk** |
+  | 13 Finale rooftop | **Finale approach loop** + Phil boss cue |
+  The **12 ambient beds** map 1:1 to the 12 loops the same way (Stage 2 shares the Lincoln suburb bed). No stage
+  is unscored. (Sandwich Bros, the Stage-1/2 boss, reuses the A1 opener as its fight music — no separate cue.)
 - **[LOCKED] The Finale is TWO distinct tracks, not one — no double-count.** The **"Finale rooftop (approach)"
   stage loop** (§2, the 12th stage loop) plays over the **elevator climb + rooftop reveal + Phil's monologue**
   (pre-fight); **Phil's boss cue** (the 9th boss cue, §3 — the motif *fully realized* with full orchestra +
@@ -92,7 +109,7 @@ its own cue — so the boss-cue count is 8 sub-bosses + Phil, not counting Sandw
 
 ---
 
-## 4. Core SFX list — **86 one-shots (v1)**
+## 4. Core SFX list — **89 one-shots (v1)**
 
 Grouped with concrete per-group counts. Each is a short arcade one-shot; pitch-randomized ±2 semitones at
 playback for variety without extra assets. **Counting convention (exact):**
@@ -103,24 +120,24 @@ playback for variety without extra assets. **Counting convention (exact):**
   ice/fire/lightning **(3)**" = 3 real elemental variants);
 - a trailing **(N)** on an item states its own sound count directly.
 
-Group counts below reflect this convention exactly, and the per-group sums add to the 86 total (the row math in
+Group counts below reflect this convention exactly, and the per-group sums add to the 89 total (the row math in
 the Total line is authoritative).
 
 | Group | Count | Contents |
 |---|---|---|
 | **Player melee** | 8 | punch (×2 var = 2), sweep, **finisher (heavy)**, air-hit, dash-whoosh, jump, land |
-| **Player states** | 5 | hurt/grunt, death, pickup, weapon-break puff, shield-rush scrape |
+| **Player states** | 6 | hurt/grunt, death, weapon-pickup, **heal-pickup chime** (distinct positive cue), weapon-break puff, shield-rush scrape |
 | **Impacts / juice** | 6 | hit-spark, finisher-crunch (hitstop cue), enemy stagger, knockdown thud, block/soak, screen-shake boom |
-| **Weapon fire** | 22 | sword swing+break (2), shotgun blast+cock (2), boomerang throw+return (2), pistol, revolver, grenade throw+explode (2), ball&chain launch+impact (2), whip crack, staff cast ice/fire/lightning (3), gatling barrage, boomerang-gun spin, rocket launch+blast (2), club whack, bat reflect-ping |
+| **Weapon fire** | 24 | sword swing+break (2), shotgun blast+cock (2), boomerang throw+return (2), pistol, revolver, grenade throw+explode (2), ball&chain launch+impact (2), whip crack, **whip head-rip pop**, staff cast ice/fire/lightning (3), gatling barrage, boomerang-gun spin, **boomerang-gun shot-down break**, rocket launch+blast (2), club whack, bat reflect-ping |
 | **Enemy signature** | 19 | zombie moan+grab (2), swarmer chitter, head-throw (self-decapitate), fire-blink→BOOM, snapper snap-to-sword, arm-rip, gatling contort, ninja smoke-teleport, sniper scope-in+shot (2), ground-smash overhead+shockwave (2), whistle (tamer), monkey merc chatter, **AA rock-throw**, **ninja shuriken throw**, **boomergunner gun-throw**, **Pod spawn-burst** |
 | **Meter / specials** | 7 | meter tick-up, meter **armed "ready" chime**, sniper time-slow enter, time-resume whoosh, **Werewolf transform-howl**, **Giant Shotgun boom**, **Underdog Vaporize whomp** |
 | **Phil / finale** | 3 | **pencil-draw scribble** (summon), **sharpen scrape** (vulnerable window), **pencil-laser fire** (the scripted kill) |
 | **UI** | 7 | menu move, confirm, cancel, coin pickup, **full-dime highlight**, combo-popup pips, **"BARRAGE INCOMING" alarm** |
 | **Economy / misc** | 3 | pickpocket steal, coins-doubled jingle, checkpoint chime |
 | **Hazards** | 6 | car/bus pass-by, plane jet-blast, cow moo (path-block), **SF trolley bell+rumble (2)**, tower-sway creak |
-| **Total** | **86** | 8+5+6+22+19+7+3+7+3+6 |
+| **Total** | **89** | 8+6+6+24+19+7+3+7+3+6 |
 
-- **Ambient beds (not counted in the 86 SFX):** **1 looping bed per stage-music slot = 12**, one-to-one with
+- **Ambient beds (not counted in the 89 SFX):** **1 looping bed per stage-music slot = 12**, one-to-one with
   the §2 loops: **1** birds/traffic (Lincoln suburbs) · **2** mall murmur + shopper panic (Galleria) · **3**
   old-town street tone (Sacramento downtown) · **4** tarmac hum + jet drone (Airport) · **5** marsh/wind
   (Hills & causeway) · **6** barnyard/livestock (Farm) · **7** dry deserted-town wind (Dixon) · **8** carnival
@@ -177,7 +194,7 @@ Priority = what wins when the mix gets crowded. Higher ducks lower.
   orchestrations of one shared motif + Phil's full realization) + **5 area-transition stingers** (2 s each, cut
   from the incoming loops, not in the 23).
 - **Ambient:** 12 area beds (§4, one per stage-music slot).
-- **SFX:** **86 core one-shots** (§4).
+- **SFX:** **89 core one-shots** (§4).
 - **VO:** 5 intro clips (creator voice) + Phil rooftop monologue (~30 s).
 - **Priority:** Intro VO + core SFX = **P1**; per-area music, ambient beds, boss themes, UI sounds = **P2**
   (matches `ASSET_MANIFEST.md` §8 phasing).
