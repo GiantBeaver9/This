@@ -29,9 +29,9 @@
 | Ground shadow / Z-marker | ON, 1 blob shadow per actor | reads exact Z (resolves the §3 [LATER]) |
 | Bullet/hitbox Z-tolerance | ±0.4 wu | a shot connects only within 0.4 wu depth of target |
 | **[LOCKED] Z → screen-Y projection** | **24 px of screen-Y per 1.0 wu of Z** (= the same 24 px/wu as X) | an actor at Z=0 (near) sits at the **bottom of the play band**; each +1.0 wu of Z lifts its screen-Y by 24 px, so the full 6 wu band spans **144 px** of the 216 px play band, leaving headroom for sprite height. This is the core 2.5D constant (resolves `GAMEPLAY_LOOP.md` §3 [LATER]); it stacks with depth-scaling (row above) — far actors are both higher on screen and smaller. |
-| **[LOCKED] "Z-row" width (for row-based attacks)** | **1.0 wu** | attacks that speak of "rows" (sweep hits **±1 Z-row = ±1.0 wu**, Ball & Chain Ground Zero hits its lane + both neighbor rows = **±1.0 wu each side, ±2.0 wu total**, Tank MG "one row" = a 1.0 wu Z-slice, Whip down-line "hits the whole Z-row" = the target's 1.0 wu slice full-width) — the analog Z-band is diced into 1.0 wu conceptual rows for these hitboxes. Distinct from the tighter ±0.4 wu *projectile* tolerance above. |
+| **[LOCKED] "Z-row" = 1.0 wu; per-attack Z-reach is pinned INDIVIDUALLY (they do NOT all equal one row)** | see list | The analog Z-band is diced into 1.0 wu conceptual rows only for *describing* attacks; each attack's actual Z-reach is one of these fixed half-widths, measured from the attacker's Z: **melee punch/P1/P2/normal = ±0.4 wu** (same as the projectile tolerance) · **combo sweep = ±1.0 wu** (the wide arc) · **Ball & Chain Ground Zero = ±1.5 wu** (its lane + one full row each side = 3 rows / 3.0 wu Z-span) · **Whip down-line = ±0.4 wu** (one row) but across its **full 4.0 wu X-length** · **Tank MG sweep = one 1.0 wu row at a time (±0.4 wu)** · **projectile connect tolerance = ±0.4 wu**. "±1 Z-row" as loose prose elsewhere means *the sweep's ±1.0 wu* unless a doc says otherwise. |
 | **[LOCKED] Facing** | **set by the most recent of: last horizontal MOVE, or last horizontal ATTACK arrow** (whichever happened later) | facing is **left or right only** (the Z-axis doesn't flip the sprite). `E`-fire, gun shots, Shield Rush, the whip pull, and "directly ahead" targeting all use this facing. Pressing an attack arrow left while running right **turns the character to face left** (attack direction wins for that frame and sets facing). Neutral (no input) holds the last facing. |
-| **[LOCKED] "Directly ahead" targeting cone** | a target counts as "directly ahead" if it is **on the facing side (X) AND within ±0.8 wu of the player's Z** (±1 Z-row) | used by Shield Rush (within 2.0 wu) and the gatling barrage (within 8 wu on-row) — one shared definition of "ahead". |
+| **[LOCKED] "Directly ahead" targeting cone** | a target counts as "directly ahead" if it is **on the facing side (X) AND within ±0.8 wu of the player's Z** (its own tolerance — a little wider than a punch so aiming feels forgiving; not a "Z-row") | used by Shield Rush (within 2.0 wu) and the gatling barrage (within 8 wu on-row) — one shared definition of "ahead". |
 | **Pursuer separation radius** | **1.0 wu** min center-to-center | hard-separation (`GAMEPLAY_LOOP.md` §8.2) — pursuers push apart to keep this gap, so **you never eat two overlapping hitboxes at once** |
 | **Attacker slots (melee ring)** | **max 2 enemies attack at once**; the rest hold a **standoff ring at ~2.5 wu** | the "circle and wait" behavior; others step in as a slot frees (still within the 8-pursuer cap) |
 | **Ranged standoff distance** | **each ranged enemy holds at ITS OWN pinned hold-distance** (≤ its max reach; it fires from here and backs off if the player closes inside it): **AA rock 8 wu** (max reach 10 wu, §6.3 — holds at 8 to keep margin), **Head-Thrower 7 wu**, **Sniper 12 wu** (max range = whole screen, holds far), **Arm-Ripper ≤4 wu** (must close, §1 short-range rule), **Boomergunner 6 wu** (its thrown-gun orbit is an oval 5 wu wide × 3 wu deep, §6.3) | not one global number — each ranged enemy has a single pinned hold-distance, always ≤ its firing range |
@@ -63,11 +63,11 @@ the player's fist/weapon):
 
 | Attacker / weapon | Base reach | Hitbox height (Z + vertical) | Notes |
 |---|---|---|---|
-| Player **fist / punch** | **1.2 wu** (→ **1.8** with gust) | 1 Z-row ±0.4 wu, ~1.5 wu tall | the baseline all "+0.6 gust" and weapon reaches build on |
+| Player **fist / punch** | **1.2 wu** (→ **1.8** with gust) | Z-reach **±0.4 wu**, ~1.5 wu tall | the baseline all "+0.6 gust" and weapon reaches build on |
 | Player **Sword** | **1.8 wu** (→2.4 gust) | as fist | the reach upgrade |
 | Player **Club / Bat** | **1.0 / 1.4 wu** | as fist | club short + knockback; bat swing arc |
 | Player **Whip** | up=arc **2.5 wu** / fwd=pull **3.0 wu** / down=line **4.0 wu** | line hits the whole Z-row | the long-reach crowd tool |
-| Player **sweep (hit 3)** | **1.5 wu**, wider arc | hits ±1 Z-row (catches a small clump) | the knockdown setter |
+| Player **sweep (hit 3)** | **1.5 wu**, wider arc | Z-reach **±1.0 wu** (catches a small clump) | the knockdown setter |
 | **Regular Melee** enemy | **1.0 wu** (slide-kick closes from 4 wu) | as fist | inside the player's 1.2/1.8 — the spacing edge |
 | **Snapper** (sword) | **1.7 wu** | as fist | "longer reach" pinned |
 | **Heavy** punch | **1.8 wu** (+0.8 reach, emits gust) | tall | out-reaches the player's bare fist |
@@ -530,9 +530,21 @@ of the killing hit:**
 | **Untiered combat elites** (Heavy, Monkey Tamer) | **26%** (roll on the **T3 band**) | treated as T3-strength for loot — they're tough kills, so they reward from the strongest-unlocked pool like a T3. The **Gatling Gunner is T3** already, so killing it drops a Gatling per §6.1; the **Heavy drops a T3-band weapon** (resolves `ENEMIES.md` §2.11's open drop item). |
 | **Economy enemies** (Monkey, Pickpocket) | **do NOT roll this table** | the **Monkey** drops the **Monkey Merc** stick (its only source, `ENEMIES.md` §2.2); the **Pickpocket** drops **coins** (2× what it stole, `ENEMIES.md` §2.16) — neither drops a weapon. |
 
+**[LOCKED] Within-band weapon selection (quantified — resolves "weighted toward").** Once a band's %-roll
+succeeds, pick the actual weapon this way: build the **candidate pool** = every weapon of the band's own tier
+that the current area has unlocked (§6.1), plus every weapon **one tier below** it that's unlocked. Then roll
+**70% → the band's own tier, 30% → one tier below**; **within the chosen tier, pick uniformly** among its
+unlocked candidates. If the band's own tier has **no** unlocked weapon yet (early areas), the whole roll falls
+to the next-lower unlocked tier (uniform). Example: a **T2 kill in Area 2** rolls 70% among {Whip, Staff}
+(Bat/Ball&Chain/Boomerang-Gun not yet unlocked) and 30% among the unlocked T1 pool {Boomerang, Pistol,
+Revolver, Sword}. This is the single selection rule for every band row above.
+
 *The **Rocket Launcher is a world pickup only** (not in any random pool, `WEAPONS.md` §3.8b), and the
 **Monkey Merc drops only from the Monkey stick figure** (`ENEMIES.md` §2.2) — neither is a tier drop. At
 low HP (≤25) all weapon-drop chances **double**.
+- **[LOCKED] Pod destruction drops NOTHING** — a Pod is a spawner structure, not an enemy kill: destroying it
+  rolls no weapon/coin/heal channel and gives no meter (it does count as a sniper-ricochet target for the tier
+  wipe-count, §3.1). Only the units it *emitted* roll drops on their own deaths (and Swarmers drop nothing).
 
 **Ammo sourcing & the no-reload rule (LOCKED — diegetic corpse economy):** every ranged weapon is a **body
 part** and arrives **pre-loaded with exactly the ammo in the table** — there is **no reload, no ammo pickup,

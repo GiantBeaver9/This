@@ -296,11 +296,13 @@
   summons a merc directly** (boss-specific; no monkey-stick-figure or saved-up change needed), and these
   boss-fight mercs are **OUTSIDE the 3-summons-per-level cap** (`WEAPONS.md` §3.7). You can always
   keep fielding monkeys to damage him.
-- **[LOCKED] Live-merc ceiling in this fight = 3 at once.** The dime bypass lifts the *per-level summon count*
-  cap, not the squad-size model: **at most 3 mercs are alive simultaneously** (the `WEAPONS.md` §3.7 tier table
-  only defines 1/2/3 live). Catching a dime while **3 are already alive** spawns nothing extra — it instead
-  **refreshes the squad** (re-arms all three to their current tier and resets their lifespan timers), so a
-  steady catch-rate keeps 3 rockets-tier mercs up rather than stacking a 4th.
+- **[LOCKED] Live-merc ceiling in this fight = 3 at once, all PISTOL-tier.** The dime bypass lifts the *per-level
+  summon count* cap, not the squad-size model, and **the §3.7 weapon-tier ladder is SUSPENDED here — every
+  boss-fight merc is pistol-tier regardless of squad size** (so the count→shotgun→rocket escalation does NOT
+  apply in this arena; see Merc math below). At most **3 mercs are alive simultaneously**, each **pistol-tier
+  with the pistol-tier 20 s lifespan** (`WEAPONS.md` §3.7). Catching a dime while **3 are already alive** spawns
+  nothing extra — it instead **refreshes the squad** (resets all three lifespan timers), so a steady catch-rate
+  keeps 3 pistol mercs up rather than stacking a 4th or upgrading their guns.
 - **[LOCKED] Pattern (HP 200, only your mercs damage him, `TUNING.md` §7):**
   - **Dime toss:** he lobs a **dime** in a high arc **every 4 s**, landing at a telegraphed spot — **run under
     it and catch (`F`)** to spawn a merc directly (boss-fight mercs ignore the 3-summons cap, but still cap at

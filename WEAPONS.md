@@ -165,24 +165,30 @@ Enemy-dropped; **1 per pickup** (scarce — save it for a cluster).
   speed is unaffected, `TUNING.md` §6).
 
 ### 3.4 Whip — *directional crowd melee* **[LOCKED core]**
-Each attack direction is a different tool:
-- **Up = overhead arc** — sweeps an arc (good when flanked / hitting above).
-- **Forward = pull** — snags an enemy and yanks (reposition / combo starter).
-- **Down = horizontal line** — long straight crack hitting everything in the line (spacing / crowd).
+- **[LOCKED] Input mapping — one unambiguous rule (uses the standard combo model, `PLAYER.md` §3):** the whip
+  runs the **normal P1→P2→sweep→finisher string on FORWARD/neutral attack presses**, exactly like fists, and its
+  **up-arc and down-line are the UP-arrow and DOWN-arrow directional attacks** (the whip's versions of the fist's
+  up/down attacks). There is **no separate "pull" input** — the pull IS what **P1 (the string's first forward
+  hit)** does. So:
+  - **P1** (first forward attack) = **pull-crack: 14 dmg + drags a regular enemy 3 wu toward you** (the combo
+    starter; the drag is CC, so H-weight/minibosses/bosses take the 14 but are **not** pulled, §2.6).
+  - **P2** (second forward attack) = **forward crack, 14**.
+  - **Sweep** (hit 3, the primed same-direction double-tap, `PLAYER.md` §3) = **whip sweep, 14 + the standard
+    1.2 s knockdown** — the whip **can** knock a regular down (it is a melee weapon, not a boss, so §2.6's
+    no-boss-sweep doesn't apply to regulars).
+  - **Finisher** (hit 4) = **the head-rip extraction** (below), replacing the free-melee finisher.
+  - **UP-arrow attack** = **overhead arc** (2.5 wu, flank/above); **DOWN-arrow attack** = **horizontal line**
+    (4.0 wu, hits the target's full-width Z-slice — the crowd tool). These are standalone directional attacks,
+    not part of the forward string; pressing up/down does the arc/line, pressing forward runs the string.
+  - Reach per tool = `TUNING.md` §1 whip row (up 2.5 / fwd-pull 3.0 / down-line 4.0 wu).
 - **Finisher — "the extraction":** the whip **chases an enemy, wraps its neck**, the player **rips the head
   clean off**, the **head becomes a live grenade**, and the player **auto-dashes backward** (opposite the
   grenade) to clear the blast. A self-made bomb with a built-in escape.
-- **[LOCKED] How the Whip composes with the combo string** (it's a directional melee, so the P1→P2→sweep→
-  finisher string maps to the whip's tools): **P1/P2 = the down-line crack (14/hit)**, **the sweep (hit 3) = the
-  down-line at knockdown strength (still 14, but sets the 1.2 s knockdown)** — the whip *can* knock a regular
-  down. The **forward-pull and up-arc are the whip's `E`-equivalent directional variants** (press the arrow
-  direction to use them instead of the plain string): **forward-pull drags a regular enemy 3 wu toward you**
-  (a combo starter; pull is CC, so H-weight/bosses/minibosses are immune to the drag, §2.6), **up-arc hits
-  above/flanking**. The **finisher (hit 4) is the head-rip extraction**, replacing the free-melee finisher.
 - **[LOCKED] Whip finisher on a headless target:** a target with **no head to rip** — a Head-Thrower in its 4 s
   regrow window, or a hollow-head Zombie — **cannot be head-ripped**; the finisher instead lands as a **plain
-  free-melee finisher (35)** on it (kills a downed one outright like any finisher). The head-grenade only spawns
-  when there's a real head to extract.
+  free-melee finisher dealing 35 damage** (no head-grenade). This is **damage, not a guaranteed execution** — it
+  kills only if 35 ≥ the target's remaining HP (a downed full-HP Heavy survives it). The head-grenade extraction
+  only fires when there's a real head to extract.
 - **Decay:** breaks after **11 connecting hits** (of a 10–12 range, `TUNING.md` §6; fray states like the sword).
 - **[LOCKED] pull drags the ENEMY to you** (not you to them); the **head-grenade reuses the grenade fastball
   blast (35, r 2 wu, `WEAPONS.md` §3.2)**; **finisher target priority = the nearest swept/downed enemy in

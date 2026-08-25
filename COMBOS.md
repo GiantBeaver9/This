@@ -83,7 +83,7 @@ otherwise the double-tap is a **melee pistol-whip finisher** (fist strength 10, 
 |---|---|---|---|
 | `E` + forward | **Meteor Line-Drive** | flat, fast line-drive down the lane; plows every enemy along the chain's path, knocking them down | 8 wu line · **80** each hit |
 | `E` + ↑ | **Wrecking Uppercut** | ball whips straight up; anti-air + launches a grounded enemy into a juggle | 4 wu up · **80** + knock-up |
-| `E` + ↓ | **Ground Zero** | slams the ball down at your feet for a **radial shockwave** (its lane + both neighbor Z-rows); **knocks enemies down** (so it can set up a finisher) | r 3 wu · **80** + standard 1.2 s knockdown |
+| `E` + ↓ | **Ground Zero** | slams the ball down at your feet for a **radial shockwave** — **radius 3 wu in X**, **Z-reach ±1.5 wu** (its lane + one full row each side = 3 rows, `TUNING.md` §1); **knocks enemies down** (so it can set up a finisher) | r 3 wu (X) × ±1.5 wu (Z) · **80** + standard 1.2 s knockdown |
 | `E` + back | **Full Swing (360)** | a full sweeping orbit around the Human — hits everything in melee range on all sides | r 2.5 wu ring · **80** all around |
 
 - Each `E`-launch spends **1 of 3 uses**. The **20% carry-slow** applies throughout (movement only).
