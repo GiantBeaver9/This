@@ -58,7 +58,8 @@ Each Special clears a crowd differently, balanced by **what loot survives** — 
   **auto-slashes in the facing direction** (no combo string, no aiming) at **~4 slashes/s, reach 2.0 wu**,
   every slash a **1HKO**. **No weapon use, no `E`/`Q`.** **Jump and dash ARE available** (for repositioning),
   but there are **no dedicated jump-attacks** — the auto-slash simply continues in the air. Full i-frames
-  throughout. Reverts to the current character at the end of the timer.
+  throughout. Reverts to the current character at the end of the timer. **A held weapon is suppressed during
+  the transform** (claws, not the weapon) and **returns to hand on revert** (if it hasn't expired/broken).
 
 ### 2.4 The Underdog *(the short friend — hard mode)* — **[LOCKED core]**
 - The group's **butt-of-the-jokes**, **shorter** than the rest — designed as **hard mode:** **less damage**,

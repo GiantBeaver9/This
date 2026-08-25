@@ -45,7 +45,10 @@ debut, frantic tone) → **department-store** area boss. Lead economy keeps it l
 - **Animals:** a **dog** (barks/runs), maybe a **cat** on a fence, **birds**.
 - **[LOCKED] Signature ambient — the Lincoln High Zebra:** as you leave the school, a **dancing zebra** (the
   school's Fighting-Zebras mascot) **hops around** in the background — a fun Easter-egg actor.
-- **[ITERATE]** which are pure decoration vs. reactive (flee) vs. hittable clutter.
+- **[LOCKED] Ambient actors are pure atmosphere — NON-hittable, no combat collision.** Civilians/animals
+  **flee and pass through** the play space; you **can't attack, hurt, or be blocked by them** (the dancing
+  Zebra included). Pure decoration + the scripted vignette actors (`VIGNETTES.md`). This holds for every
+  area's ambient set.
 
 ### 1.3 Trees, houses, props & funnels — **[LOCKED]**
 - **Trees:** lots of **mulberry and older, tall trees** typical of the area — **tall, mostly trunk with a

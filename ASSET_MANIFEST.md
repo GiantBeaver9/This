@@ -98,8 +98,10 @@ adds/hazards · **boss HP bar + name card**. "Big version" bosses/minibosses nee
 ## 5. UI / HUD — `UI.md` (chunky-arcade)
 - **P0:** Health bar (pixel, **damage chunk→explosion** anim, green/yellow/red) · **Special meter** (yellow/blue/green + armed pulse) · **combo popup** (`N HIT!`) · weapon-type icon.
 - **P1:** Money counter (+ full-dime highlight) · Monkey-merc cluster (icon + timer ring) · boomerang-gun bullets · ball&chain use-pips · **boss HP bar + name card** · **"BARRAGE INCOMING"** warning · Sniper **red-dot** targeting.
-- **P2 (all specced, `UI.md` §5):** Title/main-menu · **character-select** · pause · options (+rebinding) ·
-  **results/grade** (cosmetic) · area cards · game-over · button-prompt glyphs · fonts.
+- **P2 (all specced, `UI.md` §5):** Title/main-menu · **difficulty-select** (+ in-run HUD difficulty badge) ·
+  **character-select** · pause · options (+rebinding) · **results/grade** (cosmetic) · area cards · game-over ·
+  **execute-prompt** (`▶ SPECIAL` over a ≤10% boss) · **boss HP bar + name card** (+ objective-boss pip
+  readouts) · button-prompt glyphs · fonts.
 
 ---
 
@@ -132,6 +134,8 @@ Each theme: parallax backdrop layers + lane floor + set dressing + ambient actor
   Zebra-punch · mall guard→zombie→grab · Sacramento whip-pull · airport head-grenade+bat-a-plane · causeway
   sniper+dime+monkey · farm merc-shoots-boss · Dixon arm-rip · Vallejo pickpocket→ninja→2× · Marin boomergun ·
   Golden Gate stun+barrage+car-cover · SF trolley-vs-Heavy · Phil rooftop monologue.
+- **P2:** **Outro epilogue** (~15s hand-drawn voiced still-clips, `STORY.md` §3) + **scrolling credits** over
+  the finale music.
 
 ---
 

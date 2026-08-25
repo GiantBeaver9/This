@@ -150,7 +150,9 @@
     greatest-hits reprise): 100–75% → **Regulars + Swarmer pods**; 75–50% → **+ a reprise miniboss**; 50–25% →
     **+ a second reprise miniboss**; 25–0% → **+ Heavies**. **Reprise-miniboss selection:** **random from the
     threshold's pool, never repeating the last one** — 75–50% pool = {big Snapper, big Head-Thrower}; 50–25%
-    pool = {big Arm-Ripper, big Ninja}. Max **8 adds** on screen (Phil's own cap, overrides the §1 2-cap).
+    pool = {big Arm-Ripper, big Ninja}. Max **8 adds** on screen (Phil's own cap, overrides the §1 2-cap). **A
+    drawn Swarmer pod counts as its live swarmers toward the 8** (and may briefly exceed it, the standard pod
+    exception, `TUNING.md` §4) — Phil won't draw a new pod while at the cap.
   - **Sharpen window (vulnerable 3–5 s):** when dry he **stops, hunches, and sharpens** — open and bleeding.
     Deal up to the **125-HP cap**; the window **ends early if you hit the cap**, else closes at **5 s** (a fast
     player caps it in ~3 s, a slow one gets the full 5). Matches `TUNING.md` §7.
@@ -237,11 +239,15 @@
 - **[LOCKED] Objective, not HP (`TUNING.md` §7):** you don't chip a health bar — **6 reflected heads OR 4
   lobbed grenades bring it down** (a lobbed grenade counts as 1.5, so 4 finish it). Mixed reflects/lobs add up.
 - **[LOCKED] Pattern:**
+  - **Altitude:** hovers at **~5 wu up** in Phase 1 (the top band), **descending to ~3 wu** in Phase 2 — within
+    the grenade anti-air lob's ~6 wu reach (`WEAPONS.md` §3.2) and the batted-head return arc at both altitudes.
   - **Strafe:** flies **left↔right across the top band** at 8 wu/s, dipping toward whichever Z-row you're on.
   - **Head-fire:** lobs stick-figure heads (max **2 airborne**) at your position, **one every 2.5 s**, arced
     telegraph 0.5 s — **bat them back up** (reflect window 0.20 s) to score a hit, or **lob a grenade up**.
-  - **After 3 objective hits (Phase 2):** **descends lower** (easier to hit, but head-fire cadence → 1.8 s and
-    it adds a short horizontal **rotor-gust** that pushes you toward a Z-edge).
+  - **Phase-2 trigger = 3 objective *events* landed** (a reflect or a lob each count as **1 event** toward the
+    phase change — this is the event count, distinct from the **6-pip win meter** where a grenade is worth 1.5,
+    `UI.md` §3.5c). At Phase 2 it **descends to ~3 wu**, head-fire cadence → 1.8 s, and adds a short horizontal
+    **rotor-gust** pushing you toward a Z-edge.
 - **Never a miniboss** (§1). Psychologically hard, short (<2 min).
 
 ### 5.6 Gatling Gun Guy — **boss** — **[LOCKED core]**

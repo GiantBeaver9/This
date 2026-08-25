@@ -532,6 +532,8 @@ minibosses / big-version *non-boss* elites** are sniper-killable like normal ene
 |---|---|---|
 | **Checkpoint cadence** | **1 at stage start + 1 mid-stage + 1 at the boss door** | ~2–3 per ~15–18 min stage (`ENCOUNTERS.md` §0); bossless stages = start + mid |
 | Heal on checkpoint | **only a death-respawn restores full HP** (`TUNING.md` §2.2) — **reaching** a checkpoint does **NOT** heal | consistent with "no full-heal pickups"; you respawn full only after dying |
+| **Weapon/loadout after respawn** | **fists only** — a death (or pause-restart) **drops any held weapon**; you respawn empty-handed at the checkpoint | keeps death a real setback; re-loot from the re-run |
+| **Meter after respawn** | **kept** (the meter is not lost on death) | your banked special survives a respawn |
 | Money on checkpoint | resets each **stage** (LOCKED, `UI.md` §3.4) | not stored across checkpoints |
 | **Continues per run** | **3** | then game-over → title **(tunable)** |
 | Continue cost | resets to the last checkpoint; **wallet cleared**; special meter emptied | forgiving-but-not-free |

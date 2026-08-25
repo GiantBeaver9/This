@@ -350,3 +350,8 @@
   **tier-1 adds drop only that weapon** (`BOSSES.md` §1, overriding the normal drop pool for that arena).
 - **Miniboss arenas** reuse the **stage's current lane** (no bespoke arena) — big-version enemies, not
   set-piece bosses (`BOSSES.md` miniboss rule).
+- **[LOCKED] Cosmetic-only arena hazards (0 dmg, atmosphere):** **"mist (soft vision)"** (Boomergunner arena)
+  = a light fog overlay, **no mechanical effect**; **"thrown-enemy debris"** (Burly arena) = visual bits from
+  his enemy-tosses, **not a damaging hazard**. The **streetcar / bridge side-KO lines** (Colossus, GGG) only
+  affect **knocked-back enemies**, never the player, and fire whenever an enemy is shoved past the edge (no
+  cadence). Everything with a damage number is in `TUNING.md` §6.2.
