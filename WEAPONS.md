@@ -114,6 +114,11 @@ Enemy-dropped; **1 per pickup** (scarce — save it for a cluster).
     enemies)** with a **smaller blast.**
 - **[LOCKED] Self-damage is real** — your own explosion **can catch you** if you're too close. Spacing is
   the price of the payload.
+- **[LOCKED] Tap→trajectory mapping (concrete):** count the `E`-taps during the **~0.4 s wind-up** — **4
+  discrete steps**: **0 taps = full lob** (highest arc, bounces 3× → the 60 blast) · **1 tap = high arc** ·
+  **2 taps = mid/liner** · **3+ taps = flat fastball** (the 35 blast, plows the ground). It is **stepped, not
+  continuous** — each tap lowers the arc one notch, capping at fastball. The same 0→3 stepping drives the Ball
+  & Chain's two arced shapes (`WEAPONS.md` §3.3). *(This resolves the "more taps = flatter" ambiguity.)*
 - **[LOCKED] Numbers (`TUNING.md` §6):** lob blast **60 (r 3 wu)**, fastball blast **35 (r 2 wu)**; fastball
   detonates at **8 wu or after 8 enemies**; **self-damage 40**. **Knockdown from the blast = the standard
   1.2 s** (`TUNING.md` §2.6, applied to caught *regular* enemies — bosses/minibosses are immune, §2.6). The lob
@@ -224,7 +229,11 @@ Dropped by a **monkey stick figure**; you can only claim/summon it if you hold a
 - **[LOCKED] It can be shot down mid-flight** — an enemy destroying it **loses you the remaining bullets.**
 - **[LOCKED] Shot down = gone for good** — if an enemy destroys it mid-flight you **lose it and the remaining
   bullets** (no drop to re-grab); back to fists. **Stats (`TUNING.md` §6):** **10 bullets, 4/pass** (~3 passes),
-  fire cadence within a pass ~**0.15 s/shot**, **throw cooldown 1 s**, fixed orbit ~**5 wu** loop.
+  fire cadence within a pass ~**0.15 s/shot**, **throw cooldown 1 s**.
+- **[LOCKED] Orbit path:** a **horizontal oval loop ~5 wu wide × ~3 wu deep**, extending **forward from the
+  throw point** in the direction you're facing, traveled **clockwise**; it **auto-fires at any enemy inside the
+  loop** as it sweeps, then **returns to hand after one full loop (~2.5 s)**. You **aim it by where you stand
+  and which way you face** when you throw — not homing.
 
 ### 3.8b Rocket Launcher — *world-pickup heavy* **[LOCKED core]**
 - A **big-hitting explosive** weapon. **[LOCKED] Comes from a specific world PICKUP**, not from a corpse —

@@ -396,7 +396,7 @@ to fists), so ammo management is "use it or lose the drop," never a resource-hun
 | **Area 2 — Airport (Stage 5)** | + **Bat, Club** | both **gated to the airport specifically** (after their Stage-5 vignette teaches them, `STAGES.md` §1c): **Bat** = Helicopter-arena drop then corpse-drop from Stage 5 on (`WEAPONS.md` §3.7b); **Club** = world/airport pickup (`WEAPONS.md` §3.7c). Neither drops in Sacramento (Stage 4) — preserving teach→tools→test |
 | **Area 3** (hills/Dixon) | + **Ball & Chain, Grenade, Shotgun** | heavier kit as tier-2/3 enemies appear |
 | **Area 4** (Vallejo→SF) | + **Boomerang Gun, Gatling** | full roster live |
-| **World pickups (any area, placed)** | **Rocket Launcher** (`WEAPONS.md` §3.8b) — placed near Tank (Stage 9) & SF gauntlet (Stage 12) | never in a random pool |
+| **World pickups (any area, placed)** | **Rocket Launcher** — placed near Tank (Stage 9) & SF gauntlet (Stage 12). **Club** — placed pickups **one per stage from Stage 5 on** (at each stage's mid-checkpoint), the reliable heavy-melee option (`WEAPONS.md` §3.7c) | never in a random pool |
 | **Currency-only** | **Monkey Merc** — from a Monkey + a dime, Area 3 on | not a tier drop |
 
 - **The tier roll (§6) is filtered by this table:** e.g. a Snapper (T2) killed in Area 2 can drop Whip/Bat/

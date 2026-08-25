@@ -238,11 +238,14 @@
 ### 5.6 Gatling Gun Guy — **boss** — **[LOCKED core]**
 - Boss-scale version of the **Gatling Gunner** enemy (`ENEMIES.md` §2.7): heavy **machine-gun suppression**
   you must dodge while closing in.
-- **[LOCKED] Countered by the Shield Rush** (`PLAYER.md` §3) — **double-tap dodge forward** to advance
-  behind an enemy damage-sponge through the gunfire and reach him. The intended "close the gap" answer.
-- **[LOCKED] Golden Gate Bridge fight (Area 4 penultimate):** a **barrage every ~5s** with a **"BARRAGE
-  INCOMING" on-screen warning**; **hide behind the bridge's cars** or get **eviscerated** (enemies too) —
-  cover + timing here rather than the Shield Rush.
+- **[LOCKED] Two separate threats, two separate counters:**
+  - The **regular Gatling Gunner enemy** (`ENEMIES.md`) fires a **1-HP/hit stream** — that stream is what the
+    **Shield Rush** soaks (up to 40 dmg, `TUNING.md` §2.3) so you can close the gap. Shield Rush is the counter
+    to the *enemy's stream*, and to this **boss between barrages**.
+  - The **boss's `BARRAGE`** is a different move: **instant death in the open — a Shield Rush does NOT beat it**
+    (the shield soaks a chip stream, not an instant-kill barrage; a human shield can't stop it). The **only**
+    counter to the barrage is **hard cover (a parked car)** on the ~5 s "BARRAGE INCOMING" telegraph. So: **cars
+    for the barrage, Shield Rush for the between-barrage stream/fodder.** No overlap, no ambiguity.
 - **[LOCKED] Pattern (HP 260, `TUNING.md` §7):**
   - **Barrage cycle:** **~5 s** between barrages, each preceded by the **"BARRAGE INCOMING"** warning
     (2 s lead). The barrage is **instant death in the open** — you must be **behind a car** (hard cover) or
