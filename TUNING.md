@@ -456,8 +456,31 @@ bespoke bosses **and** the big-version area bosses (Sandwich Bros, big Arm-Rippe
 | Miniboss cadence | inject one every **5 min** (recurring big-versions) | |
 | Boss cadence | inject a main boss every **10 min** | at boss-scale, from the placed pool |
 | Spawn interval floor | never faster than a new pod every **4 s** | keeps it readable (`VFX.md` bullet budget) |
-| Economy/weapon rules | **campaign rules apply** (coins, dimes, monkeys, decay) | Endless is the sanctioned playtest sandbox |
+| Economy/weapon rules | **all weapons unlocked from the start** (Endless has no areas, so the area-gate §6.1 doesn't apply); **coins ON from minute 0** (the Area-1–2 coin suppression is campaign-only); dimes/monkeys/decay as normal | Endless is the sanctioned playtest sandbox |
+| Objective bosses in the pool | **excluded** — only **HP-depletion** bosses inject (Burly, Colossus, big Arm-Ripper, Boomergunner, Gatling Gun Guy, Sandwich Bros); **Tank, Helicopter (objective) and Monkey Boss (dime proxy) and Phil are NOT injected** (their weapon-gated/scripted arenas don't exist in Endless) | resolves the §8.3 Endless-boss ambiguity |
 | End condition | endless until death; score = kills × time-survived multiplier | leaderboard **(tunable)** |
+
+### 8.4 Difficulty modes — **[LOCKED]** (chosen at the title / character-select, `UI.md` §5)
+
+> Three difficulties multiply two independent knobs. **Everything else is identical** (same stages, bosses,
+> economy, drops, frame data). Difficulty is picked once per run and shown on the HUD.
+
+| Difficulty | Spawn multiplier | Enemy-damage multiplier (dmg dealt TO the player) |
+|---|---|---|
+| **Easy** | **×0.7** | **×0.5** |
+| **Normal** (default) | **×1.0** | **×1.0** |
+| **Hard** | **×2.0** | **×1.5** |
+
+- **Spawn multiplier** scales **every wave's enemy count *and* the filler-wave count** (`ENCOUNTERS.md` §0),
+  rounded to the nearest whole enemy (min 1 per listed spawn). The **8-pursuer cap still holds** — on Hard the
+  extra enemies **queue and stream in faster**, they don't all crowd on screen at once (swarms still except).
+  Boss/miniboss *counts* are unchanged (a boss is a boss); their **adds** scale with the multiplier.
+- **Enemy-damage multiplier** scales **only damage enemies deal to the player** (contact, projectiles, hazards
+  that are enemy-driven; the instant-death hazards — trolley, fall, grenade self-blast — stay lethal on all
+  difficulties). **Player→enemy damage, enemy HP, and all timings are unchanged** across difficulties.
+- **Player HP stays 100** on every difficulty; the low-HP rubber-band (§2.2) is unchanged. So Easy = fewer,
+  softer-hitting enemies; Hard = a denser crowd hitting 50% harder than Normal.
+- **Endless** runs at its own curve (§8.3); the difficulty pick still applies its two multipliers on top.
 
 ---
 

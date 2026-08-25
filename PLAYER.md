@@ -79,16 +79,26 @@ directional normals rather than a single canned combo string.
     bread-and-butter combo). *Variety* comes from mixing the standalone normals **around** the string, not from
     the string itself accepting any direction.
 - **[LOCKED] The string is `punch → punch → sweep → finisher`** (4 hits), attacking in the direction pressed.
+  - **[LOCKED] The combo is a state machine — the "primed" rule resolves what a direction press means.**
+    After **P1 → P2** connect, the string is **PRIMED**: the *next* directional presses are read as the
+    **sweep + finisher**, NOT as standalone normals. Outside a primed string (from neutral, or after the
+    window lapses) the same keys are standalone normals (up-strike launcher, down-strike, etc., §Ground/Air
+    tables). Context — primed or not — decides. This is the whole resolution: a lone `↑` from neutral is the
+    up-strike launcher; a `↑` **as hit 3 of a primed string** is the sweep.
   - **[LOCKED] The last two hits (sweep + finisher) are a SAME-DIRECTION DOUBLE-TAP** — `→→`, `←←`, `↑↑`, or
-    `↓↓` (any of the four directions). **The first tap is the SWEEP** (hit 3, **knocks the enemy DOWN**); **the
-    second tap of the same direction is the FINISHER/EXECUTE**, which lands into the now-downed body.
-  - **[LOCKED] Execute only lands on a SWEPT (knocked-down) enemy — never a random standing one.** If the
-    target is still standing when you press the second tap (you never swept it, or it's an unsweepable target),
-    that press is **just a normal directional hit** — no finisher, no execute. You **must sweep first.** (The
-    sweep→finisher double-tap is the *only* route to the finisher; there is no auto 4th hit.)
-  - The **direction of the double-tap picks the finisher's facing** (forward `→→`, back `←←`, up `↑↑` for a
-    launched/juggled target, down `↓↓` for the classic grounded execute). Weapon-specific finisher *variants*
-    are keyed to these same four double-taps (`COMBOS.md`).
+    `↓↓`. **The first tap is the SWEEP** (hit 3); it puts a **standing** enemy into a **finisher-able state**:
+    `→→ / ←← / ↓↓` **knock it DOWN** (grounded); `↑↑` **launches it UP** (airborne). **The second tap is the
+    FINISHER/EXECUTE** into that state (grounded execute, or the aerial `↑↑` Skyshot on the launched enemy).
+    "Swept" = either state.
+  - **[LOCKED] Execute only lands on a finisher-able (swept/launched) enemy — never a random standing one.**
+    If the target is still standing when you press the second tap (you never swept it, or it's unsweepable),
+    that press is **just a normal directional hit** — no finisher.
+  - **[LOCKED] Already-downed shortcut:** an enemy **already** in a downed state (e.g. from a Ball & Chain
+    Ground Zero, `COMBOS.md` §3, or still within its 1.2 s knockdown, `TUNING.md` §2.6) is finished by a
+    **single directional tap toward it** — no fresh sweep needed (it's already down). The double-tap is only
+    for the sweep-*then*-finish of a standing enemy.
+  - The **direction picks the finisher's facing/variant** (forward `→→`, back `←←`, up `↑↑` aerial, down `↓↓`
+    grounded). Weapon-specific finisher *variants* are keyed to these same four (`COMBOS.md`).
   - **Finisher = strong, FREE melee (no ammo);** weapon-fire is separate (`E`, §2 / `WEAPONS.md` §1). With a
     **gun equipped**, the finisher into a **downed enemy under 20% HP** becomes a **gun execution** (fires a
     round, cinematic) — otherwise it stays a free melee blow (`COMBOS.md` §2). Either way it **requires the

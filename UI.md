@@ -110,6 +110,7 @@ a few sprites), so they stay lightweight.
 | Screen | Contents & behavior — **[LOCKED]** |
 |---|---|
 | **Title / main menu** | game logo + the `this.l` drawing motif; menu: **Start · Character Select · Endless · Options · Quit**. Background = a slow parallax of the SF skyline. |
+| **Difficulty Select** | **Easy · Normal · Hard** (`TUNING.md` §8.4), shown before/with character select — one-line each (Easy = fewer, softer enemies; Hard = 2× the crowd, +50% enemy damage). Default **Normal**. The chosen difficulty shows as a small HUD badge in-run. |
 | **Character Select** | the **4 characters** (`CHARACTERS.md`) as portraits + name + one-line Special; left/right to pick, confirm to start. Shows each one's Special icon. |
 | **Pause** (mid-run) | dims the frame; **Resume · Restart checkpoint · Options · Quit to title**. Freezes the sim. |
 | **Options** | volume (music/SFX sliders), fullscreen/windowed, integer-scale toggle, **rebinding** (the `PLAYER.md` §2 [ITERATE] lives here), a "reduce screen-shake" accessibility toggle. |
