@@ -190,6 +190,11 @@ the player's fist/weapon):
 - **H-weight super-armor:** Gatling Gunner, Ground Smasher, and Heavy **shrug off normal-hit flinch** but still
   take damage and still **knock down to a sweep** (they are floored like anyone else by hit 3) — this is what
   makes the sweep the answer to armored *regular* units.
+- **[LOCKED — GLOBAL] Status-effect immunity.** **Bosses, minibosses, and H-weight enemies (Heavy, Ground
+  Smasher, Gatling Gunner) are IMMUNE to all crowd-control** — **freeze (staff ice), stun (staff lightning /
+  boomerang 2 s), slow, and the whip's pull** do **not** apply to them (they still take the *damage* portion).
+  Only **regular L/M-weight enemies** get frozen/stunned/slowed/pulled. This mirrors the knockdown-immunity
+  rule and prevents a frozen-boss balance break. (CC lands fully on normal enemies.)
 - **[LOCKED — GLOBAL] No boss or miniboss can ever be swept or knocked down.** The sweep→finisher route is for
   **regular enemies only** (H-weight Heavy included — it is a regular enemy, not a boss). **Every boss encounter
   (all 10: the 7 bespoke + the 3 big-versions Sandwich Bros / big Arm-Ripper / Boomergunner) and every catch-up
@@ -336,8 +341,12 @@ chance to spawn a 10 s zombie instead of killing. **Sniper special is exempt** (
 
 > **Ranged weapons bludgeon at fist-strength (10) through the combo, finisher = free melee 35** (the fist
 > baseline, §2.1). **Genuine melee weapons swing at their OWN per-hit / finisher values** (below — Sword
-> 18/45, Whip 14, Club 14, Bat 12, Sword's finisher 45, etc.); they are real swing kits, not fist re-skins.
+> 18/45, Whip 14, Club 14, Bat 12); they are real swing kits, not fist re-skins.
 > So "the finisher is 35" applies to **fists and gun-bludgeons only** — melee weapons use their row's numbers.
+> **[LOCKED] Melee-weapon finisher damage = per-hit × 2.5** (Sword 18→**45**, Club 14→**35**, Bat 12→**30**);
+> the **Whip finisher is the head-rip extraction** (`COMBOS.md` §4) — it **kills a downed enemy at any HP** (no
+> damage number, an execution), and the Ball & Chain finisher is a free melee slam (§COMBOS). Ranged weapons'
+> finisher = the free **35** melee.
 > **`E` spends ammo/durability** (fire/throw/cast). Throwables: **tap `E` during wind-up** — more taps = flatter.
 
 | Weapon | Tier | E-fire dmg | Durability / Ammo | Warm-up | E-fire behavior |

@@ -53,7 +53,10 @@
   own cadence:** **Monkey Boss** (dime cadence, §5.7) and **Phil** (his
   lead-cost draw cadence, up to **8 adds**, §5.1) — these override the 2-cap. Colossus's **torn-piece adds do
   NOT count against the 2 gate-adds** (they're the objective's byproduct). Adds **stop spawning** once the boss
-  is defeated. **This add cadence is difficulty-independent** — the `TUNING.md` §8.4 spawn multiplier scales
+  is defeated. **The 3 big-version bosses fight SOLO — NO adds:** **Sandwich Bros**, **big Arm-Ripper**, and
+  **Boomergunner boss** spawn no arena adds (their "add ports" in the `ENCOUNTERS.md` arena table are unused —
+  they're pure 1-v-1 HP-depletion fights). Only the 5 standard bosses above (+ the 2 override bosses) have
+  adds. **This add cadence is difficulty-independent** — the `TUNING.md` §8.4 spawn multiplier scales
   *stage waves*, **not** boss-arena adds (the 2-cap holds on every difficulty).
 - **[LOCKED] Weapon-gated boss arenas guarantee the weapon.** When a boss requires a specific weapon (Tank →
   grenade, Colossus → whip), the arena's **2 tier-1 adds drop ONLY that weapon** on death — so the player can

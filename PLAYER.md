@@ -99,6 +99,10 @@ directional normals rather than a single canned combo string.
     for the sweep-*then*-finish of a standing enemy.
   - **[LOCKED] Target selection when several downed enemies lie in the tapped direction:** the finisher hits
     the **NEAREST downed enemy** in that direction (within the finisher reach). One finisher = one target.
+  - **[LOCKED] `↑↑` on an H-weight enemy** (Heavy / Ground Smasher / Gatling Gunner — which **can't be
+    launched**, `TUNING.md` §2.6): the first tap **still sweeps them to the ground** (H-weight IS floored by the
+    sweep), and the second tap lands as the **grounded finisher** — `↑↑` just resolves as a grounded execute on
+    them, no aerial launch.
   - The **direction picks the finisher's facing/variant** (forward `→→`, back `←←`, up `↑↑` aerial, down `↓↓`
     grounded). Weapon-specific finisher *variants* are keyed to these same four (`COMBOS.md`).
   - **Finisher = strong, FREE melee (no ammo);** weapon-fire is separate (`E`, §2 / `WEAPONS.md` §1). With a

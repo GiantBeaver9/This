@@ -196,7 +196,11 @@ Each attack direction is a different tool:
 
 ### 3.7 Monkey Merc — *summon, costs a dime (10¢, see §3.9)* **[LOCKED core]**
 **[LOCKED] Second-half only** (debuts ~Area 3 with the monkey economy, `STAGES.md` §1c).
-Dropped by a **monkey stick figure**; you can only claim/summon it if you hold a **dime (10¢).**
+- **[LOCKED] Acquisition flow (not a weapon slot):** a **Monkey stick figure** drops a **Merc-claim token** on
+  death. **Walk over it while holding a dime** → the dime is **spent immediately** and the merc **poofs in
+  (0.5 s summon)** and fights on its own. If you have **no dime**, the token can't be claimed (it lingers ~5 s
+  then fades). The merc is **NOT a held weapon** — it doesn't occupy your weapon slot or fire on `E`; your
+  hands stay free for fists/weapons. (`TUNING.md` §6's "0.5 s summon" is this poof.)
 - **Own aggro & attacks:** fights independently with a **pistol, infinite ammo**, but a **max fire rate of
   2 shots/second** (it's "aiming").
 - **Stacking upgrades the whole squad's weapon** — more monkeys = bigger guns, shorter lives:
@@ -209,8 +213,10 @@ Dropped by a **monkey stick figure**; you can only claim/summon it if you hold a
 
   Fire rate stays **2/sec at every tier**, so **3 rocket-launcher monkeys can wipe the whole screen** in
   their short window — a high-roll payoff for saving up dimes.
-- **Per-level cap:** summon **up to 3 over a level** (resummon as they die); **once 3 have died, no more
-  monkeys this level.**
+- **[LOCKED] Per-level cap = 3 SUMMONS per level** (each costs a dime). They **stack while alive** (the table
+  above upgrades the squad's weapon by *live* count); **once you've summoned 3 total this level — whether they
+  died or expired — no more**, regardless of dimes held. (Matches `TUNING.md` §6 "3 summons/level"; supersedes
+  the older "3 deaths" wording — the cap is on *summons made*, not deaths.)
 - **[LOCKED] Re-arm:** adding a monkey **re-arms the whole squad to the new tier and resets all their timers**
   (`TUNING.md` §6 Monkey Merc row). They **cannot be healed** (they just expire on their timer).
 - **[LOCKED] No friendly fire:** the player's summoned monkeys — **including the rocket monkeys** — **never
