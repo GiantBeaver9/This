@@ -316,7 +316,8 @@ named enemy types.
 - **Player HP = 100.**
 - **[LOCKED] Enemy damage = tier × 7.5** (out of 100): **T1 = 7.5 · T2 = 15 · T3 = 22.5 · T4 = 30** (the 30 cap).
 - **Exceptions:** **Swarm** ~**1–2** (chip); **Zombie (T0)** deals **no hit damage** (grab only); **Gatling**
-  **1 HP/hit** but its fire rate leaves you **~2s to live** in the stream (cover/closing is mandatory).
+  **1 HP/hit @ 25 hits/s = 25 dmg/s** → **~4 s of continuous fire to down a 100-HP player** (LOCKED, `TUNING.md`
+  §4 row 15); cover/closing is mandatory.
 - Ties: the **Sniper** apex shot drops you to **~20 HP** (kill if already <25); **grenade self-damage** and
   **fall-off instant death** are separate one-offs.
 - **[LOCKED] Healing = random small drops.** Enemies occasionally drop a **small health pickup** (~**5%**
