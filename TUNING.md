@@ -531,7 +531,9 @@ minibosses / big-version *non-boss* elites** are sniper-killable like normal ene
 - **Spawn multiplier** scales **every wave's enemy count *and* the filler-wave count** (`ENCOUNTERS.md` §0),
   rounded to the nearest whole enemy (min 1 per listed spawn). The **8-pursuer cap still holds** — on Hard the
   extra enemies **queue and stream in faster**, they don't all crowd on screen at once (swarms still except).
-  Boss/miniboss *counts* are unchanged (a boss is a boss); their **adds** scale with the multiplier.
+  Boss/miniboss *counts* are unchanged (a boss is a boss); **boss-arena adds are ALSO unchanged** — the
+  2-add cap (`BOSSES.md` §1) holds on every difficulty (weapon-gate arenas must not break). Only **stage wave
+  fodder** scales.
 - **Enemy-damage multiplier** scales **only damage enemies deal to the player** (contact, projectiles, hazards
   that are enemy-driven; the instant-death hazards — trolley, fall, grenade self-blast — stay lethal on all
   difficulties). **Player→enemy damage, enemy HP, and all timings are unchanged** across difficulties.
@@ -549,6 +551,7 @@ minibosses / big-version *non-boss* elites** are sniper-killable like normal ene
    consistent with "each fill AMPLIFIES, doesn't bank extra shots" (`GAMEPLAY_LOOP.md` §4.3).
 3. **Untiered/TBD enemy damage** assigned an *effective tier* on the tier × 7.5 ladder (marked "-eff") so no
    damage cell is blank; the LOCKED per-enemy exceptions (Zombie 0, Swarm 1.5, Gatling 1, Sniper→20) override.
-4. **Every area-capping boss (bespoke + big-version) carries the 10% rule; only catch-up minibosses/non-boss
-   elites are sniper-killable** — the reading most
-   consistent with "specials only work on **a boss** under 10%."
+4. **No boss (all 10) is sniper-killable above 10%; only catch-up minibosses/non-boss elites are
+   sniper-killable.** The **≤10% execute itself applies only to the 5 pure HP-depletion bosses** (Burly, big
+   Arm-Ripper, Boomergunner, Gatling Gun Guy, Sandwich Bros); the 5 objective/proxy bosses (Colossus, Tank,
+   Helicopter, Monkey Boss, Phil) have **no execute** (`BOSSES.md` §1 is authoritative).

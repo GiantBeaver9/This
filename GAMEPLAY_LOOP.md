@@ -141,13 +141,14 @@ weapon itself rather than a number. (More weapons follow this same "made of the 
   the older "weapon kills" phrasing.)*
 - **Rapid kills multiply the fill.** Chaining hits quickly builds a **combo**; a **combo popup** flashes
   on screen — `1 HIT!`, `2 HIT!`, … — and hitting ~**15 hits quickly** really surges the meter.
-- **[LOCKED] Charge tiers AMPLIFY (they don't bank extra shots):** **yellow** (1 fill) → **blue** (2 fills /
-  "double fill") → **green** (max). **Each fill = +10% damage** while charged, and the **special itself
-  scales**: the sniper ricochet kills **up to 15 enemies at a single fill, doubling to 30 at a double fill.**
-- **Instant-fill pickup:** a **killed Sniper enemy drops a rifle that fills the meter instantly**
-  (`ENEMIES.md` §2.14) — a burst reward for aggressively downing him.
-- **[LATER]** Exact multiplier curve; whether blue/green **bank multiple** sniper shots vs. fire **one
-  stronger** shot; whether taking damage drains the meter or just breaks the combo.
+- **[LOCKED] Charge tiers AMPLIFY (they don't bank extra shots):** **yellow** (1 fill) → **blue** (2 fills) →
+  **green** (3 fills / max). **Each fill = +10% damage** while charged, and the **special itself scales**: the
+  sniper ricochet kills **15 (yellow) → 30 (blue) → 45 / whole screen (green)** (`TUNING.md` §2.4). Each of the
+  other 3 specials scales its own axis (`TUNING.md` §3.1).
+- **Sniper-kill pickup:** a **killed Sniper enemy drops a rifle worth +100 meter-points = one full tier fill**
+  (`ENEMIES.md` §2.14, `TUNING.md` §2.4) — not necessarily a full green bar. Overfill past green is discarded.
+- **[RESOLVED]** multiplier curve (`TUNING.md` §2.4); green = **one stronger shot**, not banked extras; taking
+  damage **breaks the combo counter but does NOT drain the meter** (`TUNING.md` §2.4).
 
 ---
 

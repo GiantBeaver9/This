@@ -201,7 +201,7 @@
 ### Stage 8 — **Dixon boss rush** + **Arm-Ripper** debut → **BOSS: big Arm-Ripper** — **[LOCKED]**
 - **Teaches (vignette):** an **Arm-Ripper rips a guy's arms off and opens fire with akimbo pistols** — rip →
   guns (`VIGNETTES.md`). The **first big wall** (`STAGES.md` §4).
-- **Structure — [LOCKED] (`AREAS.md` §3.2a):** a **boss rush = 4–5 minibosses (big-version enemies of crews
+- **Structure — [LOCKED] (`AREAS.md` §3.2a):** a **boss rush = exactly 4 minibosses (big-version enemies of crews
   you've met) → 1 big boss.** Minibosses reuse the stage lane (no bespoke arena, `BOSSES.md` miniboss rule).
 - **Pool:** **Arm-Ripper** (T2a, akimbo pistols), Snapper (T2), Regular (T1), + the 4 miniboss reprises.
 
@@ -227,7 +227,7 @@
 - **Teaches (vignette):** a **Pickpocket steals a Ninja's coins and runs**; the **Ninja teleports and kills
   him → coins double** (`VIGNETTES.md`). Ninja teleport-kill + Pickpocket 2× reward.
 - **Pool:** **Ninja** (T3a, teleport/shuriken), **Pickpocket** (untiered, steals), Regular (T1), Snapper (T2).
-- **Hazard:** roller-coaster / midway set-dressing (`AREAS.md`).
+- **Hazard:** **roller-coaster cars** run damaging on-rail passes (50 dmg + knockdown, `TUNING.md` §6.2) + midway set-dressing (`AREAS.md`).
 - **World pickup:** a **Rocket Launcher** is placed **near the Tank arena entrance** (mid-stage, just before
   the boss door) — the extra firepower for the objective fight (`WEAPONS.md` §3.8b, `TUNING.md` §6.1).
 

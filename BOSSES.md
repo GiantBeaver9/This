@@ -24,7 +24,7 @@
   have NO execute:** **Colossus** (whip-objective — HP is 6 discrete pieces, can never sit in the 0–10% band,
   §5.4), **Tank** & **Helicopter** (objective), **Monkey Boss** (proxy — a player special can't damage him at
   all), and **Phil** (scripted pencil-laser only, §5.1). Specials fired at these five simply whiff (the sniper
-  dodges as usual). **This is the authoritative scope — `TUNING.md` §7's "every area-capping boss" line is
+  dodges as usual). **This is the authoritative scope — `TUNING.md` §9.4's "every area-capping boss" line is
   corrected to this 5-of-10 set.**
 - **[LOCKED] The meter is never wasted in a boss fight.** A charge you don't spend **carries over** (usable
   on any adds, or banked for after the boss). So you can **hold it for the low-HP execution** or spend it on
@@ -45,11 +45,15 @@
   demanding fight that stays SHORT — under ~2 minutes.** Past that it reads as annoying, not hard;
   difficulty comes from **pressure and reads, not HP bloat.** **Phil (the final boss) is the exception** —
   the endgame gauntlet, allowed to be long and brutal.
-- **[LOCKED] Arena add economy (concrete, all bosses).** Boss-arena adds obey: **max 2 adds alive at once**,
-  **one respawns 3 s after an add dies or is consumed** (thrown/whipped/ripped), from the arena's add-port(s)
-  (`ENCOUNTERS.md` arena table). This covers Burly's "2 Regulars stream in", the Colossus/Helicopter/Tank
-  weapon-gate adds, and Monkey Boss's dime cadence (which is separate, §5.7). Adds **stop spawning** once the
-  boss is defeated. This is the single cadence rule — no per-boss add-rate authoring needed.
+- **[LOCKED] Arena add economy (default for the standard bosses).** Weapon-gate / fodder adds obey: **max 2
+  adds alive at once**, **one respawns 3 s after an add dies or is consumed** (thrown/whipped/ripped), from the
+  arena's add-port(s) (`ENCOUNTERS.md` arena table). This covers **Burly** (2 toss-fodder Regulars),
+  **Colossus** (2 whip-gate adds — *separate* from the torn pieces that become adds, §5.4), **Helicopter**, and
+  **Tank**. **Exceptions with their own cadence:** **Monkey Boss** (dime cadence, §5.7) and **Phil** (his
+  lead-cost draw cadence, up to **8 adds**, §5.1) — these override the 2-cap. Colossus's **torn-piece adds do
+  NOT count against the 2 gate-adds** (they're the objective's byproduct). Adds **stop spawning** once the boss
+  is defeated. **This add cadence is difficulty-independent** — the `TUNING.md` §8.4 spawn multiplier scales
+  *stage waves*, **not** boss-arena adds (the 2-cap holds on every difficulty).
 - **[LOCKED] Weapon-gated boss arenas guarantee the weapon.** When a boss requires a specific weapon (Tank →
   grenade, Colossus → whip), the arena's **2 tier-1 adds drop ONLY that weapon** on death — so the player can
   always re-arm within the 3 s respawn cadence above. Some arenas offer **two options** (Helicopter → **Bat OR Grenade**). This
@@ -74,12 +78,12 @@
 
 ---
 
-## 3. Boss UI — **[PROPOSED]** (cross-cuts `UI.md`)
+## 3. Boss UI — **[LOCKED]** (full spec in `UI.md` §3.5c)
 
-- **[PROPOSED] Boss health bar** — a big dedicated bar (top of screen, under the HUD band), named boss,
-  segmented by **phase**. This is the one time a large HP readout is warranted.
-- **[PROPOSED]** phase-change flash / name card on entry.
-- **[LATER]** exact style (chunky-arcade to match `UI.md`).
+- **[LOCKED] Boss health bar** — a big dedicated bar (top of screen, under the HUD band), named boss,
+  segmented by **phase**, chunky-arcade. **Objective/proxy bosses show a progress readout instead** (Helicopter
+  6-pip, Tank 2-pip, Colossus 6-segment, Monkey Boss HP-200, Phil HP+4-notches) — see `UI.md` §3.5c.
+- **[LOCKED]** phase-change flash + name card on entry.
 
 ---
 
@@ -307,7 +311,8 @@ Plus **[LOCKED]** the **"big version" rule** (any enemy → ~1.2× miniboss / ~2
 **10 boss encounters total = 7 bespoke** (Phil, Burly, Tank, Colossus, Helicopter, Gatling Gun Guy, Monkey
 Boss) **+ 3 big-version, no new art** (Sandwich Bros, big Arm-Ripper, Boomergunner boss).
 
-**[LOCKED, resolved]:** boss HP display = **a big named bar + name card** (`UI.md` §3, top of screen);
+**[LOCKED, resolved]:** boss HP display = **a big named bar + name card** (fully specced in `UI.md` §3.5c —
+incl. the progress readouts for objective bosses: Helicopter 6-pip, Tank 2-pip, Colossus 6-segment; top of screen);
 **miniboss pace trigger** = `TUNING.md` §8.2 (avg kill-interval < 3 s for 20 s); **minibosses are NOT
 sniper-immune** — they are big-version *elites*, sniper-killable like normal enemies (only the 10 *bosses*
 resist the sniper, `TUNING.md` §7). Per-boss patterns are pinned in §5.1–5.7 above.

@@ -91,6 +91,22 @@
   feel aimed. Renders at full saturation over the desaturated time-slow overlay (`VFX.md` §8). Clears when the
   special ends.
 
+### 3.5c Boss HP bar & name card — **[LOCKED]**
+- On a boss fight, a **big dedicated bar spans the top of the screen** (under the HUD band) with the **boss's
+  name card** on entry (chunky-arcade, same palette). This is the one time a large HP readout is warranted
+  (`BOSSES.md` §3).
+- **Segmented by phase** — the bar shows the phase thresholds (e.g. Burly 66%/33%) as notches; it flashes on a
+  phase transition.
+- **[LOCKED] Objective/proxy bosses show a PROGRESS readout, not an HP bar:**
+  - **Helicopter** → **6 pips** (reflected-head / lobbed-grenade progress, a grenade = 1.5 pips).
+  - **Tank** → **2 pips** (grenade drops).
+  - **Colossus** → **6 segments** (pieces remaining).
+  - **Monkey Boss** → a normal HP bar (200), since your mercs deplete it.
+  - **Phil** → HP bar with the **4 sharpen-threshold notches** (100/75/50/25); the bar only moves during a
+    sharpen window (`BOSSES.md` §5.1).
+- **[LOCKED] Style:** chunky pixel bar with a bold outline, boss name in the arcade font, a small boss-face
+  icon at the left cap.
+
 ### 3.6 Weapon-specific readouts — **[PROPOSED]**
 Most decay is diegetic, but a few weapons have HUD-worthy state:
 - **Boomerang Gun:** **10 bullets** (4/pass) — **[PROPOSED]** show remaining bullets only while equipped.
@@ -128,9 +144,10 @@ a few sprites), so they stay lightweight.
 | **Game over** | appears when **all continues are spent** (`TUNING.md` §8.1). Options: **Restart the current stage from its start** (fresh continue count) · **Quit to title**. *(Mid-stage deaths that still have continues left respawn at the last checkpoint without this screen.)* |
 | **Controls / tutorial prompts** | contextual button-prompt overlays during the first stage's vignette (the teaching device), not a separate screen. |
 
-- **[LOCKED] Save:** a single **auto-save at each checkpoint + area boundary** (stage reached, character
-  unlocks, Endless best). No manual save slots (arcade-style). *(This resolves the `ASSET_MANIFEST.md` §10
-  save/settings open item.)*
+- **[LOCKED] Save:** a single **auto-save at each checkpoint + area boundary** (records **furthest stage
+  reached** and **Endless best score** only). **All 4 characters are available from the start — there are no
+  character unlocks** (`CHARACTERS.md`); the save has no progression to gate. No manual save slots
+  (arcade-style). *(This resolves the `ASSET_MANIFEST.md` §10 save/settings open item.)*
 
 ---
 

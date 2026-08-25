@@ -203,8 +203,9 @@ Dixon** — a nearly-deserted mid-2000s small town run as a **boss rush** (exact
 - **[LOCKED] Boss rush:** **4 minibosses** (big-version enemies of the crew you've met) → **1 big boss** (`ENCOUNTERS.md` Stage 8).
 - **[LOCKED] Debut + big boss = Arm-Ripper.** The **Arm-Ripper** debuts here, and the **big-version
   Arm-Ripper** is **Dixon's big boss.**
-- **[ITERATE]** the exact 4–5 minibosses, Dixon's vignette (a "gauntlet" intro, or the Arm-Ripper arm-rip
-  demo), the Area 3 stage pacing.
+- **[LOCKED] The 4 minibosses** are pinned in `ENCOUNTERS.md` Stage 8 (big Snapper, big Head-Thrower, big
+  Flying Monkey, big Arm-Ripper elite) → then the **big Arm-Ripper** boss. Dixon's vignette = the Arm-Ripper
+  arm-rip demo (`VIGNETTES.md`). **[ITERATE]** only Area-3 fine pacing.
 
 ### 3.3 Area 3 asset list (→ `ASSET_MANIFEST.md`)
 Rolling-hills/farmland backdrop · **water/causeway** backdrop + **platforms** + marsh + marsh birds · **Dixon**

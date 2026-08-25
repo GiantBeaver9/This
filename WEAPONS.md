@@ -206,9 +206,12 @@ Dropped by a **monkey stick figure**; you can only claim/summon it if you hold a
 ### 3.7b Bat — *projectile reflector* **[LOCKED]** *(surfaced by the Helicopter boss)*
 - A **melee weapon that reflects projectiles** — bat incoming shots (e.g. the Helicopter's thrown heads)
   **back at the attacker.**
-- **[LOCKED] Availability:** a **full roster weapon**, in the **Area-2 drop pool onward** (`TUNING.md` §6.1) —
-  it **debuts** as the Helicopter arena's weapon-gated drop, then remains a normal T2 corpse drop thereafter.
-  It is **not** boss-arena-only.
+- **[LOCKED] Availability (no ordering conflict):** a **full roster weapon**. It enters the **corpse-drop pool
+  at the start of Stage 5** (the airport), **right after its head-of-stage vignette teaches it** — so it *can*
+  drop from Stage-5 corpses **before** you reach the Helicopter arena at the stage's end. The **Helicopter
+  arena additionally guarantees** a bat supply via its weapon-gate (so you're never without one for the boss).
+  Vignette → corpse drops → guaranteed at the boss = teach→tools→test intact. It is **not** boss-arena-only
+  (`TUNING.md` §6.1).
 - **[LOCKED] Stats (`TUNING.md` §6):** melee **12/hit**, **12 connecting hits**, **reflect window 0.20 s**.
 - **[LOCKED] What it reflects:** thrown heads, head-grenades, boomerang-gun shots, arm-ripper/pistol rounds,
   shuriken — any **telegraphed slow-to-medium projectile.** It **cannot** reflect the **gatling/barrage
@@ -266,7 +269,7 @@ Dropped by a **monkey stick figure**; you can only claim/summon it if you hold a
 |---|---|---|---|
 | **T1 common** | low-level stick figures | boomerang, pistol / revolver | early, low commitment |
 | **T2 uncommon** | mid enemies | sword, whip, ball & chain | the workhorses |
-| **T3 rare** | high/elite enemies | shotgun, staff, gatling gun | powerful, scarcer |
+| **T3 rare** | high/elite enemies | shotgun, gatling gun | powerful, scarcer |
 | **T4 special** | minibosses / specific spawns | grenade, **monkey merc** (needs a dime) | spice, situational |
 
 **[LOCKED]** the *specific* weapon within a tier is **random** (you adapt to what drops). **[LATER]** exact
