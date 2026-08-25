@@ -27,7 +27,7 @@ Each Special clears a crowd differently, balanced by **what loot survives** — 
   **drops NOTHING.** Cleanest wipe, zero loot. *(Exceptions: the **Heavy is immune to the ricochet/headshot-pick**
   — `ENEMIES.md` §2.11, `TUNING.md` §4 — and **bosses only die to it at ≤10% HP**, `BOSSES.md` §1. "Everything"
   = every sweepable/targetable enemy, not the immune Heavy or a healthy boss.)*
-- **Shotgunner** — **massive damage + knockback**, **wipes up to tier 3** (T3-and-below; the untiered Heavy/Monkey-Tamer and bosses survive), and **enemies
+- **Shotgunner** — **massive damage + knocks the whole crowd DOWN** (the special makes everything caught fall over, `TUNING.md` §3.1 — not a distance-knockback), **wipes up to tier 3** (T3-and-below; the untiered Heavy/Monkey-Tamer and bosses survive), and **enemies
   it kills still drop loot on the ground.** Less absolute, keeps the economy.
 - **Werewolf** — **5s of i-frame slash-everything**; you **still get money/drops** from the kills. Melee
   kill-all with loot, but you must physically slash in the window.
