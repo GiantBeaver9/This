@@ -5,6 +5,11 @@
 > enemy/boss rosters into a play order.
 >
 > **Legend:** **[LOCKED]** decided · **[PROPOSED]** react to it · **[ITERATE]** flesh out next · **[LATER]** parked.
+>
+> **[AUTHORITY BANNER]** This is a **design/rationale** doc. **Concrete truth lives in the authority docs:**
+> `ENCOUNTERS.md` (per-stage spawns/waves/checkpoints), `TUNING.md` §8 (checkpoints/continues/difficulty),
+> `UI.md` §5 (screens), `BOSSES.md` (bosses). Any `[ITERATE]`/`[PROPOSED]`/`[LATER]` below is a **historical
+> note** — if the item is pinned in an authority doc, THAT is the locked answer. No marker below blocks the build.
 
 ---
 

@@ -4,6 +4,11 @@
 > combo/finisher rule, and per-weapon **asset needs**. Player *animation pipeline* lives in `PLAYER.md`.
 >
 > **Legend:** **[LOCKED]** decided · **[PROPOSED]** react to it · **[LATER]** parked.
+>
+> **[AUTHORITY BANNER]** This is a **design/rationale** doc. **Concrete truth lives in the authority docs:**
+> `TUNING.md` (every number — damage, ammo, warm-up, kinematics), `COMBOS.md` (finishers), `ENCOUNTERS.md`
+> (placements). Any `[ITERATE]`/`[PROPOSED]`/`[LATER]` marker below is a **historical note** — if the item is
+> pinned in an authority doc, THAT is the locked answer. No marker below blocks the build.
 
 ---
 

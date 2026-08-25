@@ -4,6 +4,10 @@
 > every readout surfaced in `PLAYER.md`, `WEAPONS.md`, `ENEMIES.md`, `GAMEPLAY_LOOP.md`.
 >
 > **Legend:** **[LOCKED]** decided · **[PROPOSED]** react to it · **[LATER]** parked.
+>
+> **[AUTHORITY BANNER]** HUD data values come from `TUNING.md`; screens are LOCKED in §5. The `[PROPOSED]`
+> markers on HUD *art/layout* below are **cosmetic placement notes**, not open data questions — the **data**
+> each element shows is locked. No marker below blocks the build.
 
 ---
 

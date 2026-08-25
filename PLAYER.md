@@ -5,6 +5,11 @@
 > the Human *holds and swings* each weapon (the animation side).
 >
 > **Legend:** **[LOCKED]** decided · **[PROPOSED]** react to it · **[LATER]** parked.
+>
+> **[AUTHORITY BANNER]** This is a **design/rationale** doc. **Concrete truth lives in the authority docs:**
+> `TUNING.md` (every number), `ENCOUNTERS.md` (spawns + arenas), `COMBOS.md` (finishers). Any
+> `[ITERATE]`/`[PROPOSED]`/`[LATER]` marker below is a **historical note** — if the item is pinned in an
+> authority doc, THAT is the locked answer and the marker here is superseded. No marker below blocks the build.
 
 ---
 

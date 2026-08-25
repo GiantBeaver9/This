@@ -6,6 +6,12 @@
 > the **art & population** pass. We hammer these down **one act at a time.**
 >
 > **Legend:** **[LOCKED]** decided · **[PROPOSED]** react to it · **[ITERATE]** flesh out · **[LATER]** parked.
+>
+> **[AUTHORITY BANNER]** This is a **design/rationale** doc (art & population). **Concrete truth lives in the
+> authority docs:** `ENEMIES.md` §6 (enemy debuts), `STAGES.md` §4 (structure), `ENCOUNTERS.md` (per-stage
+> spawns + arenas), `TUNING.md` (numbers), `VIGNETTES.md` (vignettes). Any `[ITERATE]`/`[PROPOSED]`/`[LATER]`
+> below is a **historical note** — if the item is pinned in an authority doc, THAT is the locked answer.
+> Remaining markers are decorative art polish (signage, exact ambient sets), which don't block the build.
 
 ---
 

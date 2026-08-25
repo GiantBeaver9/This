@@ -5,6 +5,10 @@
 > explosions, meter pulse, combo popup) is owned by `UI.md` and only cross-referenced here.
 >
 > **Legend:** **[LOCKED]** decided · **[PROPOSED]** react to it · **[LATER]** parked.
+>
+> **[AUTHORITY BANNER]** VFX timing values (hitstop frames, shake presets, time-slow) are LOCKED in §8 and
+> `TUNING.md` §2.6. Any `[PROPOSED]`/`[LATER]` on a *visual treatment* below is a **look note**, not an open
+> mechanical question. No marker below blocks the build.
 
 ---
 

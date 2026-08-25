@@ -8,6 +8,11 @@
 > - **[LOCKED]** — decided, stated directly by design.
 > - **[PROPOSED]** — a concrete suggestion to react to; not final.
 > - **[LATER]** — an intentional slot we fill in a future pass.
+>
+> **[AUTHORITY BANNER]** This is the **original loop-design** doc. **Concrete truth lives in the authority
+> docs:** `TUNING.md` (numbers), `ENCOUNTERS.md` (spawns/arenas), `PLAYER.md`/`COMBOS.md` (moveset/finishers),
+> `ENEMIES.md` (roster). Any `[PROPOSED]`/`[LATER]` below is a **historical note** — if the item is pinned in an
+> authority doc, THAT is the locked answer and the marker here is superseded. No marker below blocks the build.
 
 ---
 
