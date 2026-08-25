@@ -102,7 +102,10 @@ the feel.
 - **Pistol:** **more bullets, less damage**, and **pierces up to 3 enemies**, damage **halving through
   each** — a lined-up shot can drop a whole row.
 - **Revolver:** **more damage, no pierce**, fewer bullets — the heavy single-target hitter.
-- **Headshot:** if the straight shot lines up with a head it lands as a headshot (kill/bonus on weak enemies).
+- **[LOCKED] Headshot = the buildable predicate in `TUNING.md` §4:** guns have **no manual aim** — every shot
+  flies **straight ahead on the player's Z-row at a fixed plane = head height**. A hit is a headshot iff it
+  **kills a standing regular non-boss** (airborne/downed enemies are body shots; bosses/minibosses/Heavy are
+  headshot-immune). A headshot kill is the thing that rolls the zombify tax below.
 - **[LOCKED] Zombie risk:** a headshot kill has a **~10% chance to spawn a ~10s zombie instead** (see
   `ENEMIES.md` §2.8) — the small tax on headshot-leaning play.
 - **[LOCKED] Mags & decay:** **Pistol mag = 8, Revolver mag = 6** (`TUNING.md` §6); when the mag empties the
@@ -149,8 +152,10 @@ Enemy-dropped; **1 per pickup** (scarce — save it for a cluster).
 - **Only 3 uses**, then it's gone — each swing is precious.
 - **[LOCKED] Directional `E`-launches (`COMBOS.md` §3):** forward **Meteor Line-Drive**, ↑ **Wrecking
   Uppercut**, ↓ **Ground Zero** (radial knockdown), back **Full Swing (360)**. Each spends 1 of the 3 uses.
-  The **combo finisher** (double-tap on a swept enemy) with the Ball &
-  Chain equipped is just the **free melee slam** — launching is the `E`-fire, not the finisher.
+  The **normal combo string** (when you're not launching) swings the ball as **heavy melee at 20/hit**; the
+  **combo finisher** (double-tap on a swept enemy) with the Ball &
+  Chain equipped is a **free ground-slam at 50** (= 20 × 2.5, `TUNING.md` §6) — launching is the `E`-fire and
+  the only thing that spends a use; the normal string and finisher spend none.
 - **[LOCKED]** reach is **fixed per launch shape** (`COMBOS.md` §3: Meteor 8 wu line · Uppercut 4 wu up ·
   Ground Zero r 3 wu · Full Swing r 2.5 wu ring) — **taps only flatten the arc, they do NOT change reach**.
   Launches **hit everything along the chain's path** (each hit 80). The **20% slow is movement-only** (attack
@@ -172,7 +177,9 @@ Each attack direction is a different tool:
 - **Element is set at pickup — randomly one of three: Ice, Fire, Lightning.** A given staff stays that
   one element for its whole life. The **finisher casts** the element's effect:
   - **Ice** — crowd control: **freezes** enemies, **less damage**. Lockdown tool.
-  - **Lightning** — **stun damage** + **slows** enemies. Tempo/control.
+  - **Lightning** — **12 damage + a 1 s stun, then a −40% movement slow for 2 s** after the stun ends
+    (`TUNING.md` §6). Tempo/control. **H-weight and bosses/minibosses are immune to both the stun and the
+    slow** (status-immunity, `TUNING.md` §2.6) — they take only the 12 damage.
   - **Fire** — **burns** enemies (damage over time). **Signature interaction:** burning a **grenade enemy**
     (the stick figure that pulls off its own head to throw at you) makes it **start blinking, then after
     ~2s BOOM** — a small blast that **kills the player** if caught in it. Great damage, but it turns that
@@ -188,8 +195,14 @@ Each attack direction is a different tool:
 - **Slow combo** — its attack cadence is noticeably **slower** (heavy weapon).
 - **[LOCKED] The barrage is an `E`-fire, NOT the combo finisher** (per §1's supersede rule): **press `E`** to
   unload **~0.5s of point-blank fire** into the nearest enemy ahead — a guaranteed **auto-kill/headshot** on any
-  standing non-boss (Heavy excepted, `TUNING.md` §6). The combo finisher with the gatling equipped is a plain
+  standing **regular** non-boss. The combo finisher with the gatling equipped is a plain
   free melee blow. *(Older text called this a "finisher"; read it as the `E`-barrage.)*
+- **[LOCKED] Barrage vs. armored targets = fixed 45 damage, no auto-kill.** Against **H-weight enemies (Heavy,
+  Ground Smasher, Gatling Gunner)** and **any miniboss**, one barrage deals a flat **45 damage** instead of an
+  instant kill (they have too much HP / are status-immune, `TUNING.md` §2.6). So a Heavy (220 HP) takes ~5
+  barrages; a T2 miniboss (45–80 HP) dies in 1–2. **Bosses** take **0** from the barrage above 10% HP (like every
+  other special, `TUNING.md` §3.1) — the gatling is not a boss-melt. The 10% zombify roll applies **only** to a
+  barrage that auto-kills a regular standing enemy, never to the 45-chunk case.
 - **No i-frames — the player is locked and vulnerable** through the ~0.5s barrage: the kill is paid for in
   **exposure**, so throwing it out in a crowd gets you hit.
 - **[LOCKED] Zombie risk:** an `E`-barrage that lands as a **headshot kill** has a **~10% chance to spawn a

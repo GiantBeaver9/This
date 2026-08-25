@@ -85,10 +85,10 @@
   (`WEAPONS.md` §3.9). The counter **fades in when the first coin drops in Area 3.**
 
 ### 3.5 Monkey Merc status — **[LOCKED data], [PROPOSED] display**
-- Up to **3 per level** (death-limited); stacking sets their weapon & lifespan (pistol 20s / shotgun 10s /
+- Up to **3 summons per level** (`WEAPONS.md` §3.7 — cap on summons made, not deaths); stacking sets their weapon & lifespan (pistol 20s / shotgun 10s /
   rocket 5s), all at 2 shots/sec (`WEAPONS.md` §3.7).
 - **[PROPOSED]** top-right cluster: **monkey icons ×count**, each with a **shrinking timer ring**; a spent
-  "3 have died — no more this level" state shown greyed out.
+  "3 summons used — no more this level" state shown greyed out.
 
 ### 3.5b Sniper special targeting — **[LOCKED]**
 - During the **sniper time-slow** (`TUNING.md` §3.1), a **red targeting dot** appears on each enemy the

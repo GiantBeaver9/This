@@ -74,9 +74,10 @@ otherwise the double-tap is a **melee pistol-whip finisher** (fist strength 10, 
 
 > The Ball & Chain is different: its big **launch is an `E`-fire**, not the combo finisher. You **hold a
 > direction and press `E`** (tapping `E` during the wind-up flattens the arc, like the grenade, `WEAPONS.md`
-> §3.3). This shapes the launch. **3 uses**, **80 dmg/swing**. The **combo finisher** (a double-tap on a swept
-> enemy) with the Ball & Chain equipped is just the **free melee slam** — launching costs a use, the finisher
-> does not.
+> §3.3). This shapes the launch. **3 uses**, **80 dmg/swing**. When **not** launching, the ball swings as **heavy
+> melee at 20/hit** through the normal P1→P2→sweep string; the **combo finisher** (a double-tap on a swept
+> enemy) with the Ball & Chain equipped is a **free ground-slam at 50** (= 20 × 2.5, `TUNING.md` §6) — the
+> `E`-launch costs a use, the normal string and finisher do **not**.
 
 | `E` + direction | Name | Effect | Reach / dmg |
 |---|---|---|---|

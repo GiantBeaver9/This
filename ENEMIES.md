@@ -162,8 +162,14 @@
 - **[LOCKED] Boomerang distraction (counterplay):** if the player **throws a boomerang**, the AA enemy
   **actively throws rocks at the boomerang** (~**20% accuracy** — mostly whiffs), which **distracts it**,
   opening a window to attack. Bait it with a throw.
-- **[ITERATE]** do rocks obey the short-range rule (§1) or arc in from farther; do **other airborne things**
-  (boomerang gun, thrown grenade, ninja stars) also bait it; rock damage & telegraph; throw cadence.
+- **[LOCKED] On a hit (the ~20% case): the rock knocks the boomerang out of the air.** The struck boomerang
+  **stops mid-flight and drops to the ground where it fell** (it does **not** return to hand) — the player must
+  **walk over and re-loot it** (`WEAPONS.md` §2.3). So the bait carries a real risk: a lucky rock costs you the
+  toy until you retrieve it. The **thrown Boomerang Gun** is likewise shot-downable by an AA rock while it
+  crosses the rock's line (`WEAPONS.md` §3.8 shot-down rule) — that loses its remaining bullets.
+- **[LOCKED] rocks arc in from up to 10 wu** (`TUNING.md` §1 reach table / §6.3), longer than the melee
+  short-range rule; **other slow airborne things also bait it** (thrown grenade, ninja shuriken) on the same
+  ~20% intercept. Rock damage **7.5**, arc telegraph **0.5 s**, throw cadence **2.5 s** (`TUNING.md` §4).
 
 ### 2.11 Heavy ("Bold" / Burly) — **[LOCKED core]** — **outside the tier system** — **debuts Area 4 (SF streets)**
 - A **BOLD, burly** stick figure — visibly thicker/heavier than the rest (the one place the silhouette bulks up).
@@ -347,8 +353,11 @@ table) and **`TUNING.md` §4.1** (the AI edge-case resolutions: no-fodder Arm-Ri
 Pickpocket escape, Boomergunner catch, Head-Thrower head physics, Sniper-vs-grounded, Flying-Monkey gating,
 8-cap overflow). Per-stage rosters/counts are in **`ENCOUNTERS.md`**. Read those as the resolution of any
 `[ITERATE]` left in §2 above. **Specific still-open flavor** not covered there:
-- **Snapper's sword-drop:** killing a Snapper **does NOT drop a usable sword** (the sword he snaps is bound to
-  the T1 he armed; kill *that* T1 to drop it, normal drop rules). The Snapper himself drops per the §6.1 T2 pool.
+- **Snapper's sword-drop (single model, LOCKED):** the Snapper **snaps a T1 INTO a sword and wields it
+  himself** (§2.4 — the T1 is *consumed*, it becomes the blade, no separate killable unit remains). **Killing
+  the Snapper drops that sword** for the player to grab (a normal Sword pickup), *plus* his §6.1 T2 pool roll.
+  *(Supersedes the earlier "kill the armed T1" wording — under the wield-it-himself model there is no separate
+  T1.)*
 - **Head-Thrower fire-boom AoE:** a staff-fire-lit Head-Thrower's explosion **also damages other enemies**
   within its blast (r 2 wu) — friendly fire among enemies (`WEAPONS.md` §3.5).
 

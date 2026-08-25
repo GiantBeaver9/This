@@ -187,6 +187,18 @@ the player's fist/weapon):
   so juggles/strings work; a **downed** enemy (in its 1.2 s knockdown) **takes no further normal hits** — only
   the **finisher** connects on it (a single tap toward it, §2.5). This is why Ground Zero's mass-knockdown sets
   up single-tap finishes rather than re-sweeps.
+- **[LOCKED] What the down-immunity blocks vs. doesn't.** The "no further hits while downed" rule blocks **only
+  the combo's own melee normals** (punch/punch/sweep) — it exists so juggle-spam can't chain-lock a floored
+  enemy; the **finisher** is the sanctioned way to hit a downed body. **Everything else still damages a downed
+  enemy normally:**
+  - **AoE / physics attacks** — **grenade & rocket blasts, Ball & Chain arc/slam, the gatling stream, hazards
+    (cars/trolley/fire), reflected projectiles** — all hit downed enemies for full damage (they're area/physics,
+    not the combo normal). A grenade thrown into a pile of downed enemies kills the pile.
+  - **The sniper special** ricochet **also hits downed enemies** (it targets any valid head-pick; being downed
+    doesn't exempt an enemy from the wipe).
+  - **Straight gun shots** (pistol/revolver/gatling `E`) still *travel through* and *damage* a downed enemy on
+    their plane, but as a **body shot** (no headshot/zombify — the head is off the shot plane, headshot predicate
+    §4). This is the one "gun vs downed" nuance: damage yes, headshot no.
 - **H-weight super-armor:** Gatling Gunner, Ground Smasher, and Heavy **shrug off normal-hit flinch** but still
   take damage and still **knock down to a sweep** (they are floored like anyone else by hit 3) — this is what
   makes the sweep the answer to armored *regular* units.
@@ -215,6 +227,17 @@ the player's fist/weapon):
 | **Shotgunner** | **×0.92** *(tunable — bulk)* | **×1.20** | ×1.00 | **×1.20** (shotgun ×1.35) | Giant Shotgun: wipe ≤T3, keep drops |
 | **Werewolf (Gabe)** | ×1.00 | ×1.00 | ×1.00 | ×1.00 | 5 s i-frame slash-all 1HKO, keep drops |
 | **Underdog** | **×1.00** (LOCKED: no bump) | **×0.80** | ×1.00 | ×0.80 | Vaporize radius + 30 s +20% buff |
+
+- **[LOCKED] Which multiplier applies to what:**
+  - **Punch dmg** ×  → the **fist combo** (P1/P2/sweep/finisher at fist values) **and every gun-bludgeon hit**
+    (ranged weapons swung through the combo at fist-strength 10, `TUNING.md` §6 / `PLAYER.md` §5). A bludgeon is
+    a melee hit, so it rides the **Punch** multiplier, **not** Weapon dmg. The **free-melee finisher (35)** that
+    ranged weapons use is likewise a Punch-multiplier hit.
+  - **Weapon dmg** ×  → only a **genuine melee weapon's own swing/finisher values** (Sword 18/45, Whip 14,
+    Club 14, Bat 12, Ball & Chain 20/50 & its 80 launch, Staff casts) and a fired weapon's projectile/blast
+    payload. So a Shotgunner firing the shotgun gets ×1.35, but pistol-whipping gets his ×1.20 **Punch**, not
+    weapon, bonus.
+  - **Enemy HP, status durations, and the §2.4 meter buff** are never touched by these per-character knobs.
 
 ### 3.1 Special payload numbers
 
@@ -251,7 +274,7 @@ tier; what scales is reach/knockback and duration. The Underdog's buff still ref
 | Ricochet target order | **nearest un-hit enemy head first**, then the next-nearest to the last hit, greedily, until the tier count is reached or no valid targets remain |
 | Fewer targets than cap | if the field has fewer enemies than the cap, it **hits them all and ends** (no wasted bounces; leftover count is lost, not banked) |
 | Range | **whole screen** — no per-bounce range cap (it's a screen-clear) |
-| Exemptions | **Heavy** (ricochet-immune, `TUNING.md` §4) and **bosses > 10% HP** (dodge) are the ONLY units the ricochet skips. **Every other enemy is a valid target** (they all have heads — no "head lineup" predicate; the auto-chain just picks the nearest un-hit enemy, §above). **Drops nothing** from any sniper kill. |
+| Exemptions | **Heavy** (ricochet-immune, `TUNING.md` §4) and **bosses > 10% HP** (dodge) are the ONLY units the ricochet skips. **Every other enemy is a valid target** — including **Zombies**: the sniper special is a **clean kill that destroys the Zombie outright** (it is NOT a normal headshot, so the "headshots only hollow a Zombie" rule, `ENEMIES.md` §2.8, does **not** apply — the special overrides it). No "head lineup" predicate; the auto-chain picks the nearest un-hit enemy. **Drops nothing** from any sniper kill. |
 | Zombie tax | **exempt** — sniper kills are always clean (no 10% zombify, unlike hand-guns) |
 | Cooldown | = re-earning the meter (no separate cooldown) |
 
@@ -297,8 +320,25 @@ While held: the player is **rooted**, cannot move/attack, and **takes full damag
 - **Headshot-made Zombie** expires after **10 s** regardless (releases any grab on expiry); **pod-spawned**
   Zombie dies to any finisher.
 
-**Headshot economy (LOCKED):** pistol/revolver head-lineups and the gatling `E`-barrage auto-kill have a **10%**
-chance to spawn a 10 s zombie instead of killing. **Sniper special is exempt** (always clean).
+**Headshot — the buildable predicate (LOCKED).** There is **no manual aim**: every gun (pistol, revolver,
+gatling) fires **straight ahead along the player's current Z-row, on a flat horizontal plane fixed at gun height
+= head height** (`WEAPONS.md` §3.1). A shot is a **headshot when, and only when, all of these hold at the moment
+of the killing hit:**
+1. the target is a **standing** enemy (upright, not airborne/launched and not downed/swept — its head is on the
+   fixed shot plane), **and**
+2. the target is a **regular non-boss** unit (not a boss, not a miniboss, not H-weight Heavy — those are
+   headshot-**immune**, `TUNING.md` §4 rows 15–17), **and**
+3. the shot's damage **kills** the target on that hit (a headshot that does *not* kill just deals its damage —
+   e.g. pistol 12 into a 40-HP Regular is a body-plane hit that chips, no zombify roll).
+- **Predicate result:** a qualifying headshot **kill** rolls the **10% zombify** — spawn a 10 s Zombie instead
+  of a clean kill (`ENEMIES.md` §2.8). **Airborne (launched/jump-kicking) or downed/swept** enemies are struck
+  as **body shots** — they take normal damage, **never headshot, never zombify** (the head is off the plane).
+- **Pistol pierce (12/6/3):** the headshot test is applied **per pierced target independently** — the first row
+  enemy killed can zombify while a deeper pierced kill rolls its own 10%.
+- **Gatling `E`-barrage:** its guaranteed auto-kill on a standing regular **is** a headshot (rolls 10%); its
+  45-chunk hit on H-weight/minibosses and its 0 vs bosses are **not** kills-by-headshot, so **no roll**
+  (`WEAPONS.md` §3.6).
+- **Sniper special is exempt** — its ricochet headshots **always kill cleanly**, never zombify.
 
 ### 4.1 Enemy AI edge-case resolutions — **[LOCKED]** (the "what does it do when…" table)
 
@@ -312,10 +352,11 @@ chance to spawn a 10 s zombie instead of killing. **Sniper special is exempt** (
 | **Regular Melee attack selection** | by range: **≤1.0 wu → punch** (7.5); **1–4 wu → slide-kick** (gap-closer, 7.5); **player airborne within 3 wu → jump-kick** (7.5). Picks the fitting one for the current range each attack cycle (windup 100 ms). |
 | **Monkey Tamer's melee monkeys — stats** | each summoned monkey: **HP 20, contact dmg 5, speed 6.0 wu/s, L-stagger**; **max 2 live**; **deactivate instantly on the Tamer's death** (§4 row 9). They are lighter than the economy Monkey (row 10). |
 | **Pickpocket escapes with your coins** | if it **reaches a screen edge**, the stolen coins are **lost permanently** (the risk). Killing it before it exits **drops 2× the stolen pile**. It only steals **once per life**, then flees. |
-| **Boomergunner's gun is caught mid-orbit** | catching it (walk into the returning arc) **destroys the gun for that enemy** (it must re-loot/melee) and **staggers the Boomergunner 0.55 s**; the player does **not** gain the gun (it's the enemy's body-part, shatters on catch). |
+| **Boomergunner's gun is caught mid-orbit** | catching it (walk into the returning arc) **destroys the gun for that enemy** (it must re-loot/melee) and **staggers the Boomergunner 0.55 s**; the player does **not** gain the gun (it's the enemy's body-part, shatters on catch). **This applies to the Boomergunner *boss* too:** each of its orbiting guns is **individually catchable** — catching one **destroys that loop** (the boss loses that orbit) and staggers the boss 0.55 s. So in its 2-loop phase (≤66%) the player can pick off one loop at a time; the boss re-throws a fresh loop on its normal cadence. Bosses are **status-immune** (§2.6) so the catch never *stuns* the boss beyond the 0.55 s stagger, and the guns still **cannot be kept** by the player. |
 | **Head-Thrower's thrown head** | uses **grenade fastball physics** (`WEAPONS.md` §3.2) — flat line-drive, **explodes on contact or after 8 wu**; the thrower **regrows its head in 4 s** (§4 row 5) and cannot throw again until it does. |
 | **Sniper with the player already downed/grounded** | **holds fire** (can't hit a grounded player, §4 row 7) and **re-scans**; it only fires at an airborne/jumping player (apex punish). |
 | **Flying Monkey when ≥2 grounded enemies exist** | **circles/harasses without swooping** until the grounded count drops below 2 (§4 row 8); never idles off-screen. **Max 2 Flying Monkeys airborne at once** (they're the sky-category cap, separate from the 8 grounded pursuers). |
+| **big / miniboss Flying Monkey (catch-up injection or placed miniboss)** | **[LOCKED] ignores the `<2 grounded` swoop gate — it swoops on cooldown regardless of the grounded count** (a miniboss is always a live threat, `ENCOUNTERS.md` §Dixon miniboss 3). It still respects the **3.0 s swoop cooldown** and the **max-2-airborne** sky cap; the gate override is the only difference from the fodder version. |
 | **Catch-up miniboss during a boss fight or vignette** | **suppressed** — the §8.2 catch-up trigger **never fires inside a boss arena or during a scripted vignette**; it only injects in normal stage waves. |
 | **Monkey Tamer cornered (no room to keep-away)** | he **stops fleeing and fights with a weak melee flail (5 dmg)** while still whistling — he never becomes un-attackable; cornering him is the intended kill window (his monkeys deactivate on his death, §4 row 9). |
 | **Enemy would exceed the 8-pursuer cap** | it **holds at a spawn edge** (visible, not attacking) until a slot frees — except Swarmer pods (`ENCOUNTERS.md` §0 exception). |
@@ -343,9 +384,13 @@ chance to spawn a 10 s zombie instead of killing. **Sniper special is exempt** (
 > baseline, §2.1). **Genuine melee weapons swing at their OWN per-hit / finisher values** (below — Sword
 > 18/45, Whip 14, Club 14, Bat 12); they are real swing kits, not fist re-skins.
 > So "the finisher is 35" applies to **fists and gun-bludgeons only** — melee weapons use their row's numbers.
-> **[LOCKED] Melee-weapon finisher damage = per-hit × 2.5** (Sword 18→**45**, Club 14→**35**, Bat 12→**30**);
+> **[LOCKED] Melee-weapon finisher damage = per-hit × 2.5** (Sword 18→**45**, Club 14→**35**, Bat 12→**30**,
+> **Ball & Chain 20→50**);
 > the **Whip finisher is the head-rip extraction** (`COMBOS.md` §4) — it **kills a downed enemy at any HP** (no
-> damage number, an execution), and the Ball & Chain finisher is a free melee slam (§COMBOS). Ranged weapons'
+> damage number, an execution). **Ball & Chain — normal-string melee:** when NOT `E`-launching, the ball swings
+> as **heavy melee at 20/hit** (slow cadence, `TUNING.md` §6 warm-up 0.40 s) through the P1→P2→sweep string;
+> the **combo finisher is a free ground-slam at 50** (= 20 × 2.5, spends **no** use — only the `E`-launch spends
+> a use). Ranged weapons'
 > finisher = the free **35** melee.
 > **`E` spends ammo/durability** (fire/throw/cast). Throwables: **tap `E` during wind-up** — more taps = flatter.
 
@@ -358,9 +403,9 @@ chance to spawn a 10 s zombie instead of killing. **Sniper special is exempt** (
 | **Pistol** | T1 | shot **12**, pierces 3 (**12/6/3** halving) | **mag 8**, then discarded | 0.25 s | **`E` fires any target, any HP**; the **double-tap execute on a swept target** (`COMBOS.md` §2) is the only <20%-gated path |
 | **Revolver** | T1 | shot **30**, no pierce | **mag 6**, then discarded | 0.30 s | same: `E` fires freely; only the double-tap execute on a swept target is <20%-gated |
 | **Grenade** | T4 | lob blast **60** (r 3 wu) · fastball blast **35** (r 2 wu) | **1 use** | tap-`E` wind-up | few taps = high lob (bounces 3×→boom); many taps = fastball (boom at 8 wu or after 8 enemies); **self-dmg 40** |
-| **Ball & Chain** | T2 | **80/swing** | **3 uses** | 0.40 s | tap-`E` trajectory; **carrying slows player 20%** (move only, not attack); `E`-launch shapes = `COMBOS.md` §3 |
+| **Ball & Chain** | T2 | **`E`-launch 80/swing** · **normal string 20/hit, finisher 50** | **3 uses** (launch only) | 0.40 s | tap-`E` trajectory; **carrying slows player 20%** (move only, not attack); `E`-launch shapes = `COMBOS.md` §3; the normal combo string & finisher spend **no** use |
 | **Whip** | T2 | **14/hit**; finisher = head-rip→grenade | **11 connecting hits** (of 10–12) | 0.25 s | **no E-fire** (pure melee); **arrow-melee directions**: up=arc / fwd=pull (drags enemy 3 wu) / down=line. **Finisher = the head-rip extraction** (a free-melee finisher variant, `COMBOS.md` §4; auto-dashes you back 4 wu) |
-| **Staff** | T2 | Ice: **8** +freeze 3 s · Fire: **6/s ×3 s** (18) · Lightning: **12** +stun 1 s +slow | **6 casts** then breaks | 0.35 s | element fixed at pickup; `E` casts; Fire on a Head-Thrower → walking bomb (2 s→boom) |
+| **Staff** | T2 | Ice: **8** +freeze 3 s · Fire: **6/s ×3 s** (18) · Lightning: **12** +stun 1 s +slow **−40% move for 2 s** (`WEAPONS.md` §3.5) | **6 casts** then breaks | 0.35 s | element fixed at pickup; `E` casts; Fire on a Head-Thrower → walking bomb (2 s→boom) |
 | **Gatling Gun** | T3 | **`E`-barrage 0.5 s auto-kill** of the **nearest enemy directly ahead within 8 wu on your row** | **no ammo**; overheats after **5 barrages OR 20 s cumulative equipped time** (whichever first) then discards | 0.40 s spin-up | melee bludgeon 8 (slow cadence); **no i-frames during barrage**; auto-kills **any standing non-boss it locks EXCEPT the Heavy** (Heavy takes **45/barrage** like a mini-boss — it can never be cheese-killed, `ENEMIES.md` §2.11); untiered fodder (Pickpocket, Monkey) auto-die; **bosses take 45/barrage** instead of dying |
 | **Monkey Merc** | T4 | **pistol 8/shot** · **shotgun ~18/blast** · **rocket ~40/rocket** — all **@ 2 shots/s** | **costs 1 dime**; **3 summons/level** then none | 0.5 s summon | 1=pistol/20 s · 2=shotguns/10 s · 3=rockets/5 s; adding a monkey **re-arms all to the new tier & resets timers**; **no friendly fire** (`WEAPONS.md` §3.7) |
 | **Club** | T1 | melee **14** + **6 wu knockback** | **10 hits** | 0.15 s | no E-fire; short reach, big knockback |
@@ -413,7 +458,7 @@ to fists), so ammo management is "use it or lose the drop," never a resource-hun
 |---|---|---|
 | **Area 1** (suburbs/mall) | **Sword, Boomerang** only | basic melee + the throw toy; **no guns yet** (matches "only basic melee early") |
 | **Area 2 — Sacramento (Stage 4)** | + **Pistol, Revolver, Whip, Staff** | guns + whip arrive with the Snapper/tier-2 layer |
-| **Area 2 — Airport (Stage 5)** | + **Bat, Club** | both **gated to the airport specifically** (after their Stage-5 vignette teaches them, `STAGES.md` §1c): **Bat** = Helicopter-arena drop then corpse-drop from Stage 5 on (`WEAPONS.md` §3.7b); **Club** = world/airport pickup (`WEAPONS.md` §3.7c). Neither drops in Sacramento (Stage 4) — preserving teach→tools→test |
+| **Area 2 — Airport (Stage 5)** | + **Bat, Club** | both **gated to the airport specifically** (after their Stage-5 vignette teaches them, `STAGES.md` §1c): **Bat** = corpse-drop from Stage 5 start, and also guaranteed in the Helicopter arena (`WEAPONS.md` §3.7b); **Club** = world/airport pickup (`WEAPONS.md` §3.7c). Neither drops in Sacramento (Stage 4) — preserving teach→tools→test |
 | **Area 3** (hills/Dixon) | + **Ball & Chain, Grenade, Shotgun** | heavier kit as tier-2/3 enemies appear |
 | **Area 4** (Vallejo→SF) | + **Boomerang Gun, Gatling** | full roster live |
 | **World pickups (any area, placed)** | **Rocket Launcher** — placed near Tank (Stage 9) & SF gauntlet (Stage 12). **Club** — placed pickups **one per stage from Stage 5 on** (at each stage's mid-checkpoint), the reliable heavy-melee option (`WEAPONS.md` §3.7c) | never in a random pool |
@@ -421,10 +466,15 @@ to fists), so ammo management is "use it or lose the drop," never a resource-hun
 
 - **The tier roll (§6) is filtered by this table:** e.g. a Snapper (T2) killed in Area 2 can drop Whip/Bat/
   Staff but **not** Ball & Chain (Area-3-gated) yet. In Area 3+ the full T2 pool is available.
-- **Boss-arena weapon-gate exceptions (override the area gate *inside that arena only*):** the **Helicopter**
-  arena (Area 2) drops **grenades** and **bats** despite grenades being Area-3-gated, and the **Tank** arena
-  (Area 4) drops **grenades**, and the **Colossus** arena (Area 2) drops **whips** — each supplies exactly the
-  weapon its objective needs (`BOSSES.md` §1). These are the only places a weapon appears ahead of its area gate.
+- **Boss-arena weapon-supply guarantees (the arena force-drops the objective weapon, `BOSSES.md` §1):** the
+  **Helicopter** arena (Area 2) guarantees **grenades** and **bats**; the **Tank** arena (Area 4) guarantees
+  **grenades**; the **Colossus** arena (Area 2) guarantees **whips** — each supplies exactly the weapon its
+  objective needs, regardless of the normal drop roll.
+  - Of these, **only the Helicopter arena's grenades appear *ahead of* their area gate** — grenades are
+    Area-3-gated (§6.1 table) but the Helicopter is in Area 2, so the arena overrides the gate for grenades
+    only. The Helicopter's **bats** (Area-2-gated, same stage), the Tank's **grenades** (Area 4 = already
+    past the Area-3 grenade gate), and the Colossus's **whips** (Area-2-gated, same Sacramento stage) are all
+    **already within their area gate** — the arena merely *guarantees* the drop, it doesn't jump the gate.
 - **No money in Areas 1–2 (`WEAPONS.md` §3.9):** the **12% coin roll (§6) is DISABLED in Area 1 and Area 2**;
   coins begin dropping in **Area 3** with the dime/monkey economy. (Weapon drops still happen in Areas 1–2 per
   this table.) This resolves the "first half has no money" rule that the global 12% line implied everywhere.
@@ -490,7 +540,7 @@ every **10 s** on a fixed track; **roller-coaster** (Stage 9) every **7 s** on i
 | **Burly Macho Guy** | 1 (dept store) | **300** | ≈66% (200) · ≈33% (100) | ground-spike **22.5** · **enemy-toss 40** | HP depletion | 1:45 |
 | **Colossus** | 2 (Sacramento) | **240** = **6 pieces ×40** | shed at 4 & 2 pieces (speeds up) | body swipe **22.5** | **whip off 6 stick-figure pieces**; torn pieces become T1 adds | 1:50 |
 | **Helicopter** | 2 (airport) | **objective** (not HP-depleted) | after **3 hits** it descends lower & fires faster | thrown heads **15** (max 2 on screen) | **6 reflected heads OR 4 lobbed grenades = down** (each reflect/lob = 1 objective hit; a lobbed grenade counts as **1.5** so 4 finish it); main-boss-only | 1:40 |
-| **Monkey Boss** | 3 (farm) | **200** (only your mercs damage him) | 60% · 30% (throws dimes faster) | **0** direct; his mercs (T1 pistol 7.5) | proxy war: catch dimes → your mercs shoot him down; boss mercs ignore the 3-death cap | 1:55 |
+| **Monkey Boss** | 3 (farm) | **200** (only your mercs damage him) | 60% · 30% (throws dimes faster) | **0** direct; his mercs (T1 pistol 7.5) | proxy war: catch dimes → your mercs shoot him down; boss mercs ignore the 3-summons cap | 1:55 |
 | **big Arm-Ripper** | 3 (Dixon) | **280** (boss-scale) | **66% → fires 3 shots/s (from 2); 33% → adds a rolling reposition between volleys** | pistols **7.5/shot @ 2/s** | HP depletion; caps the Dixon boss rush | 1:50 |
 | **Tank** | 4 (Vallejo) | objective (**2 grenade drops**) | **after drop 1** (MG pattern intensifies) | MG stream **1/hit**; direct hit while mounting **22.5** | **climb + drop grenade in hatch ×2**; arena adds drop only grenades | 1:50 |
 | **Boomergunner boss** | 4 (Marin) | **320** (boss-scale, 80×4) | **66% → throws a 2nd orbiting gun (2 loops at once); 33% → both loops tighten toward the player** | boomerang-gun shots **5/shot** (base — see ranged note) | HP depletion | 1:45 |
@@ -533,11 +583,11 @@ minibosses / big-version *non-boss* elites** are sniper-killable like normal ene
 | **Checkpoint cadence** | **1 at stage start + 1 mid-stage + 1 at the boss door** | ~2–3 per ~15–18 min stage (`ENCOUNTERS.md` §0); bossless stages = start + mid |
 | Heal on checkpoint | **only a death-respawn restores full HP** (`TUNING.md` §2.2) — **reaching** a checkpoint does **NOT** heal | consistent with "no full-heal pickups"; you respawn full only after dying |
 | **Weapon/loadout after respawn** | **fists only** — a death (or pause-restart) **drops any held weapon**; you respawn empty-handed at the checkpoint | keeps death a real setback; re-loot from the re-run |
-| **Meter after respawn** | **kept** (the meter is not lost on death) | your banked special survives a respawn |
+| **Meter after respawn** | **emptied** (death spends a continue, which clears the meter — below) | banked special is LOST on death; part of the continue cost |
 | Money on checkpoint | resets each **stage** (LOCKED, `UI.md` §3.4) | not stored across checkpoints |
 | **Continues per run** | **3** | then game-over → title **(tunable)** |
-| Continue cost | resets to the last checkpoint; **wallet cleared**; special meter emptied | forgiving-but-not-free |
-| Lives before a continue | 1 (death → spend a continue) | no separate life stock |
+| Continue cost (every death) | respawn at last checkpoint at **full HP**, but **wallet cleared + special meter emptied + weapon dropped (fists)** | one consistent respawn cost — full HP is the *only* thing you get back |
+| Lives before a continue | 1 (death → spend a continue) | no separate life stock; **every death = one continue spent** |
 
 ### 8.2 Catch-up miniboss trigger (concrete "too fast" metric)
 
@@ -545,7 +595,9 @@ minibosses / big-version *non-boss* elites** are sniper-killable like normal ene
 |---|---|
 | **Metric** | rolling **average kill interval** over the last 10 kills |
 | **Trigger** | average kill interval **< 3.0 s** (i.e. clearing faster than 1 kill / 3 s) **for 20 s straight** |
-| Injection | spawn **1 recurring miniboss** (big-version enemy or scaled-down boss) at the front Z-edge |
+| Injection | spawn **1 recurring miniboss** (a **big-version enemy**, generated by the §7 boss-scaling formula) at the front Z-edge |
+| **Which enemy** (LOCKED selection) | the big-version is the **big-version of a random enemy type the player has *already encountered* this run** (any non-boss type that has appeared in a wave up to this point), chosen uniformly at spawn. **Areas 1–2 fallback:** if the pool of seen types is empty or all-fodder (Zombie/Swarmer only), spawn a **big Regular Melee** — the guaranteed early-game default |
+| Stats | HP & damage from the §7 auto-generated big-version formula (2× kit); **immune to sweep/knockdown & the ≤10% execute** (it's a miniboss, §2.6), but **sniper-killable** like any non-boss elite (§8.2 note) |
 | Re-arm cooldown | **90 s** before the trigger can fire again |
 | Cap | max **1 catch-up miniboss active** at a time |
 
@@ -584,9 +636,19 @@ minibosses / big-version *non-boss* elites** are sniper-killable like normal ene
   Boss/miniboss *counts* are unchanged (a boss is a boss); **boss-arena adds are ALSO unchanged** — the
   2-add cap (`BOSSES.md` §1) holds on every difficulty (weapon-gate arenas must not break). Only **stage wave
   fodder** scales.
-- **Enemy-damage multiplier** scales **only damage enemies deal to the player** (contact, projectiles, hazards
-  that are enemy-driven; the instant-death hazards — trolley, fall, grenade self-blast — stay lethal on all
-  difficulties). **Player→enemy damage, enemy HP, and all timings are unchanged** across difficulties.
+- **Enemy-damage multiplier** scales **only the *variable* HP damage enemies deal to the player** (contact
+  punches, standard projectiles, enemy-driven variable hazards). **Player→enemy damage, enemy HP, and all
+  timings are unchanged** across difficulties.
+- **[LOCKED] Fixed / instant-death sources are EXEMPT from the multiplier** — they are lethal or set-value on
+  every difficulty, unscaled:
+  - **Instant-death hazards:** trolley/cable-car flatten, fall-off-tower (Phil), grenade self-blast (40 is a
+    fixed self-hit, not enemy damage), **Gatling Gun Guy boss barrage caught in the open**, **Head-Thrower /
+    Staff-fire head-bomb** (`fire → 2 s → BOOM = player death`). These **kill outright at ×0.5 and ×1.5 alike**.
+  - **The enemy Sniper's `→20 HP` set** is a **fixed set-to-value, not a subtraction** — it drops the player to
+    20 HP on every difficulty (never scaled to 10 on Hard or 40 on Easy). Below 20 HP it does nothing (§3.1).
+  - Rationale: these are **binary "you got caught" punishes**; multiplying them would make Easy trivialize a
+    scripted death or Hard double an already-instant one. The difficulty knob only ever moves **survivable
+    chip damage**.
 - **Player HP stays 100** on every difficulty; the low-HP rubber-band (§2.2) is unchanged. So Easy = fewer,
   softer-hitting enemies; Hard = a denser crowd hitting 50% harder than Normal.
 - **Endless** runs at its own curve (§8.3); the difficulty pick still applies its two multipliers on top.

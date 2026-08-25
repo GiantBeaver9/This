@@ -131,7 +131,7 @@
 |---|---|---|---|---|
 | Vignette | whip-pull demo (scripted) | — | — | auto |
 | 1 | 3 Regular | L, R | drip 0.9 s | clear |
-| 2 | 1 Snapper (arms a Regular) + 2 Regular | B + L | — | kill Snapper + 2 |
+| 2 | 1 Snapper (snaps a Regular into a sword he wields) + 2 Regular | B + L | — | kill Snapper + 2 |
 | **CHECKPOINT** (streetcar stop) | — | — | — | — |
 | *filler* | Regular / Snapper, 12–14 waves | L,R,B | drip 0.8 s | clear each |
 | 3 (funnel) | 4 Regular + 1 Snapper | L,R,A | drip 0.7 s | clear → boss door |

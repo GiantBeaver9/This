@@ -60,7 +60,10 @@
   *stage waves*, **not** boss-arena adds (the 2-cap holds on every difficulty).
 - **[LOCKED] Weapon-gated boss arenas guarantee the weapon.** When a boss requires a specific weapon (Tank →
   grenade, Colossus → whip), the arena's **2 tier-1 adds drop ONLY that weapon** on death — so the player can
-  always re-arm within the 3 s respawn cadence above. Some arenas offer **two options** (Helicopter → **Bat OR Grenade**). This
+  always re-arm within the 3 s respawn cadence above. The **Helicopter arena needs both tools** (reflect heads
+  with a Bat *and* lob grenades up), so its **two adds split by fixed assignment: one add always drops a Bat,
+  the other always drops a Grenade** — never a random roll, so both objective tools are guaranteed present at
+  once. This
   resolves "where does the weapon come from" for every objective boss. **[LOCKED] Intentional exception** to
   the loot-tier rule (`ENEMIES.md` §1): these arena adds drop the **required weapon regardless of its normal
   tier** (e.g. the Tank's T4 grenade off tier-1 adds).
