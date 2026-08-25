@@ -26,6 +26,11 @@
 - **Timing:** the two presses must land within **`0.35 s`** of each other; a **`0.15 s` input buffer** lets the
   second press register slightly before the sweep recovers (fighting-game leniency). Miss the window and the
   second press is a fresh normal attack.
+- **[LOCKED] Gamepad registration:** on the **right stick** (the attack stick, `PLAYER.md` §2) a "same-direction
+  double-tap" = **flick to a direction (past the `0.5` outer deadzone) → return inside the `0.25` inner deadzone
+  → flick the same direction again**, both flicks within the `0.35 s` window. The inner-deadzone return is what
+  separates the two taps (so holding a direction is one press, not a rapid repeat). Same rule for the
+  **left-stick dash double-tap** (`PLAYER.md` §2).
 - **The swept gate (LOCKED):** the finisher/execute **only resolves on a knocked-down / launched enemy**.
   **Two entry paths** (`PLAYER.md` §3, `TUNING.md` §2.6): **(a)** the **primed double-tap** sweeps a *standing*
   enemy then finishes it (the two taps ≤ **0.35 s** apart); **(b)** an enemy **already down** (e.g. from a Ball

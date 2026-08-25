@@ -56,8 +56,9 @@ Each Special clears a crowd differently, balanced by **what loot survives** — 
   way (`TUNING.md` §2.4).
 - **[LOCKED] Werewolf-form kit (during the transform):** **WASD moves** at **×1.2 speed**; the werewolf
   **auto-slashes in the facing direction** (no combo string, no aiming) at **~4 slashes/s, reach 2.0 wu**,
-  every slash a **1HKO**. **No weapon use, no `E`/`Q`, no jump-attacks** — it's a pure melee berserk. Full
-  i-frames throughout. Reverts to the current character at the end of the timer.
+  every slash a **1HKO**. **No weapon use, no `E`/`Q`.** **Jump and dash ARE available** (for repositioning),
+  but there are **no dedicated jump-attacks** — the auto-slash simply continues in the air. Full i-frames
+  throughout. Reverts to the current character at the end of the timer.
 
 ### 2.4 The Underdog *(the short friend — hard mode)* — **[LOCKED core]**
 - The group's **butt-of-the-jokes**, **shorter** than the rest — designed as **hard mode:** **less damage**,

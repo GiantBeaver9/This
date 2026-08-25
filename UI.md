@@ -92,6 +92,12 @@
   feel aimed. Renders at full saturation over the desaturated time-slow overlay (`VFX.md` §8). Clears when the
   special ends.
 
+### 3.5d Execute prompt — **[LOCKED]**
+- When an HP-depletion boss drops to **≤10% HP** (`BOSSES.md` §1), a **`▶ SPECIAL` execute prompt** flashes
+  over the boss (and the special-meter HUD pulses gold) telling the player their charged special will now
+  **execute**. Clears if the boss's HP somehow rises above 10% (it can't) or on the kill. Objective/proxy
+  bosses never show it (they have no execute).
+
 ### 3.5c Boss HP bar & name card — **[LOCKED]**
 - On a boss fight, a **big dedicated bar spans the top of the screen** (under the HUD band) with the **boss's
   name card** on entry (chunky-arcade, same palette). This is the one time a large HP readout is warranted
@@ -138,7 +144,7 @@ a few sprites), so they stay lightweight.
 | **Title / main menu** | game logo + the `this.l` drawing motif; menu: **Start · Character Select · Endless · Options · Quit**. Background = a slow parallax of the SF skyline. |
 | **Difficulty Select** | **Easy · Normal · Hard** (`TUNING.md` §8.4), shown before/with character select — one-line each (Easy = fewer, softer enemies; Hard = 2× the crowd, +50% enemy damage). Default **Normal**. The chosen difficulty shows as a small HUD badge in-run. |
 | **Character Select** | the **4 characters** (`CHARACTERS.md`) as portraits + name + one-line Special; left/right to pick, confirm to start. Shows each one's Special icon. |
-| **Pause** (mid-run) | dims the frame; **Resume · Restart checkpoint · Options · Quit to title**. Freezes the sim. |
+| **Pause** (mid-run) | dims the frame; **Resume · Restart checkpoint · Options · Quit to title**. Freezes the sim. **"Restart checkpoint" costs NO continue** (you didn't die — it just resets you to the last checkpoint at full HP). |
 | **Options** | volume (music/SFX sliders), fullscreen/windowed, integer-scale toggle, **rebinding** (the `PLAYER.md` §2 [ITERATE] lives here), a "reduce screen-shake" accessibility toggle. |
 | **Area card** (stage transition) | a 2-second card: the **next area's name** (linear, `STAGES.md`), with the incoming genre stinger (`AUDIO.md` §2). No path choice (linear). |
 | **Results / grade** (post-stage) | **cosmetic** score: enemies felled, best combo, time, a letter grade — **no gameplay effect** (`STAGES.md`). Advances on confirm. |

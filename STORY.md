@@ -37,7 +37,11 @@
   moment he's vulnerable.
 - **The end:** the finisher is **replaced by a scripted pencil-laser** — the player turns Phil's own pencil on
   him, firing a laser that ends him (`BOSSES.md` §5.1, `TUNING.md` §7). The drawing is reclaimed; the 3D world
-  is safe. Roll credits.
+  is safe.
+- **[LOCKED] Outro:** a **~15 s hand-drawn still-clip epilogue** (same style as the intro, `AUDIO.md` §5) — the
+  two friends' drawing settles back into a doodle, one last creator-voiced line — then **scrolling credits**
+  over the finale music (`AUDIO.md` §2). After credits: return to the **title screen**, with **Endless Mode**
+  now the standing replay draw (`UI.md` §5). No post-credits scene.
 
 ## 4. Tone — **[LOCKED]**
 

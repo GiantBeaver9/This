@@ -197,7 +197,8 @@ and stays minimal so the busy lower playfield never fights the UI for the player
 - **Combo / performance feedback** — lightweight combo popups so the player senses they're doing well
   (cosmetic; performance no longer changes the path — §7).
 
-**[LATER]** Damage numbers on/off, minimap need (probably none — it's a lane), pause/menu, tutorial prompts.
+**[LOCKED, resolved]** **No floating damage numbers** (health is the diegetic bar — keeps the screen clean,
+`UI.md` §1); **no minimap** (linear lane). Pause/menu + tutorial prompts are specced in `UI.md` §5.
 
 ---
 

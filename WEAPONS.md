@@ -128,6 +128,10 @@ Enemy-dropped; **1 per pickup** (scarce — save it for a cluster).
   ahead (highest arc) · **1 tap = 8 wu** · **2 taps = 10 wu** (liner) · **3+ taps = flat fastball** (travels
   until 8 wu / 8 enemies). The lob **bounces 3× at ~2 wu spacing** past its landing marker, then explodes; the
   liner bounces once; the fastball doesn't bounce. Each step's arc peak drops ~30%.
+- **[LOCKED] Anti-air lob (`↑`-held throw):** holding **`↑` (up)** while pressing `E` throws the grenade **in a
+  high vertical arc at an airborne target** (up to **~6 wu high**) — this is the shape used vs. the
+  **Helicopter** (`BOSSES.md` §5.5: "lob it up"). Direction held picks the arc's target (forward = ground lob;
+  up = anti-air); tap-count still flattens within the chosen arc. Resolves the "no upward throw exists" gap.
 
 ### 3.3 Ball & Chain — *heavy directional launcher* **[LOCKED core]**
 - **[LOCKED] How the two inputs compose:** you **hold a direction + press `E`** to pick the **launch SHAPE**
@@ -244,6 +248,10 @@ Dropped by a **monkey stick figure**; you can only claim/summon it if you hold a
   throw point** in the direction you're facing, traveled **clockwise**; it **auto-fires at any enemy inside the
   loop** as it sweeps, then **returns to hand after one full loop (~2.5 s)**. You **aim it by where you stand
   and which way you face** when you throw — not homing.
+- **[LOCKED] Shot down:** the airborne gun is a small object with **no HP — a single enemy hit destroys it**.
+  **Only enemies that fire while it crosses their line** can hit it (Arm-Ripper rounds, AA rocks, thrown heads,
+  shuriken, the Helicopter's heads); melee enemies can't reach it. Destroyed = you **lose it + the remaining
+  bullets** (§above). It's the risk of throwing it into a firing line.
 
 ### 3.8b Rocket Launcher — *world-pickup heavy* **[LOCKED core]**
 - A **big-hitting explosive** weapon. **[LOCKED] Comes from a specific world PICKUP**, not from a corpse —

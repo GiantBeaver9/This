@@ -97,6 +97,8 @@ directional normals rather than a single canned combo string.
     Ground Zero, `COMBOS.md` §3, or still within its 1.2 s knockdown, `TUNING.md` §2.6) is finished by a
     **single directional tap toward it** — no fresh sweep needed (it's already down). The double-tap is only
     for the sweep-*then*-finish of a standing enemy.
+  - **[LOCKED] Target selection when several downed enemies lie in the tapped direction:** the finisher hits
+    the **NEAREST downed enemy** in that direction (within the finisher reach). One finisher = one target.
   - The **direction picks the finisher's facing/variant** (forward `→→`, back `←←`, up `↑↑` aerial, down `↓↓`
     grounded). Weapon-specific finisher *variants* are keyed to these same four (`COMBOS.md`).
   - **Finisher = strong, FREE melee (no ammo);** weapon-fire is separate (`E`, §2 / `WEAPONS.md` §1). With a
@@ -180,8 +182,8 @@ A short cinematic beat with dedicated frames:
 
 **[LOCKED]** Against a **boss the shot is normally dodged** — the boss plays a **dodge animation** and the
 bullet misses; the special still ricochet-kills any normal enemies present in the arena. **Exception: at
-**at ≤10% boss HP** a prompt appears and the special *executes* the boss** (same rule for all characters,
-`BOSSES.md` §1). A charge you don't
+≤10% boss HP a prompt appears and the special *executes* the boss** — but only the **5 HP-depletion bosses**
+(objective/proxy bosses have no execute, `BOSSES.md` §1). A charge you don't
 spend on a boss **carries over.** The boss dodge is a **boss asset**.
 
 ---

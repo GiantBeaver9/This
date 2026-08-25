@@ -33,9 +33,11 @@
 - **Routing** follows `GAMEPLAY_LOOP.md` §8: up to **8 pursuers**, hard separation (no stacked multi-hits),
   standoff rings, Z-spread. Per-type specifics below.
 - **[LOCKED] Ability tier rule:** an enemy that uses an ability **on another enemy** can only target a unit
-  **at least one tier below it** (a tier-2 can weaponize a tier-1, never another tier-2). Enemies **loot
-  each other** the same way the player loots corpses. **Tiers span 0..N** — a tier-3 can spend **2×tier-1
-  or 1×tier-2**; **tier-0** units are the lowest fodder.
+  **at least one tier below it** (a tier-2 can weaponize a tier-1, never another tier-2). **"Enemies loot each
+  other" is a runtime system for exactly the enemies whose ability IS that** — the **Snapper** (snaps a T1 →
+  sword) and the **Arm-Ripper** (rips a T1's arms → pistols); it is **not** a generic loot-pickup behavior on
+  every enemy. **Tiers span 0..N** — a tier-3 can spend **2×tier-1 or 1×tier-2**; **tier-0** units are the
+  lowest fodder.
 - **[DATA] Attack windups (telegraph), collected as we spec:** regular melee **~100ms**, sword
   **~150–200ms**, **ground smash ~1000ms** (slight variance). Convention: **more reach/damage → longer,
   more readable windup.**

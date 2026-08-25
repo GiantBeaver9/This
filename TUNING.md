@@ -117,6 +117,12 @@ the player's fist/weapon):
 | **Tier blue (2 fills)** | +20% dmg · sniper wipes **30** | LOCKED 15→30 |
 | **Tier green (3 fills / max)** | +30% dmg · sniper wipes **45 (whole screen)** | green = one stronger shot, not banked extras (resolves §4.3 [LATER]) |
 
+> **[NOTE] The sniper's 15/30/45 kill-count tiers are primarily an ENDLESS / dense-crowd feature.** In the
+> campaign the on-screen max is ~14 (8 pursuers + 6 pod-swarmers), so **yellow (15) already full-clears** — the
+> blue/green kill-count tiers mostly matter in **Endless** (concurrent cap grows, §8.3). In campaign, the value
+> of charging past yellow is the **+10%→+30% passive damage buff** (which helps against bosses), not extra
+> sniper kills. This is intentional, not a bug: the tiers scale into the mode that needs them.
+
 ### 2.5 Player attack frame data — **[LOCKED]** (at **60 fps**; 1 frame = ~16.7 ms)
 
 > Every attack = **startup** (wind-up before the hitbox is live) → **active** (hitbox live) → **recovery**
@@ -240,7 +246,7 @@ tier; what scales is reach/knockback and duration. The Underdog's buff still ref
 | Ricochet target order | **nearest un-hit enemy head first**, then the next-nearest to the last hit, greedily, until the tier count is reached or no valid targets remain |
 | Fewer targets than cap | if the field has fewer enemies than the cap, it **hits them all and ends** (no wasted bounces; leftover count is lost, not banked) |
 | Range | **whole screen** — no per-bounce range cap (it's a screen-clear) |
-| Exemptions | **Heavy** (ricochet-immune, `TUNING.md` §4), **bosses > 10% HP** (dodge), **untiered summoner/economy** enemies count only if they have a head lineup; **drops nothing** from any sniper kill |
+| Exemptions | **Heavy** (ricochet-immune, `TUNING.md` §4) and **bosses > 10% HP** (dodge) are the ONLY units the ricochet skips. **Every other enemy is a valid target** (they all have heads — no "head lineup" predicate; the auto-chain just picks the nearest un-hit enemy, §above). **Drops nothing** from any sniper kill. |
 | Zombie tax | **exempt** — sniper kills are always clean (no 10% zombify, unlike hand-guns) |
 | Cooldown | = re-earning the meter (no separate cooldown) |
 
@@ -347,7 +353,7 @@ chance to spawn a 10 s zombie instead of killing. **Sniper special is exempt** (
 | **Staff** | T2 | Ice: **8** +freeze 3 s · Fire: **6/s ×3 s** (18) · Lightning: **12** +stun 1 s +slow | **6 casts** then breaks | 0.35 s | element fixed at pickup; `E` casts; Fire on a Head-Thrower → walking bomb (2 s→boom) |
 | **Gatling Gun** | T3 | **`E`-barrage 0.5 s auto-kill** of the **nearest enemy directly ahead within 8 wu on your row** | **no ammo**; overheats after **5 barrages OR 20 s cumulative equipped time** (whichever first) then discards | 0.40 s spin-up | melee bludgeon 8 (slow cadence); **no i-frames during barrage**; auto-kills **any standing non-boss it locks EXCEPT the Heavy** (Heavy takes **45/barrage** like a mini-boss — it can never be cheese-killed, `ENEMIES.md` §2.11); untiered fodder (Pickpocket, Monkey) auto-die; **bosses take 45/barrage** instead of dying |
 | **Monkey Merc** | T4 | **pistol 8/shot** · **shotgun ~18/blast** · **rocket ~40/rocket** — all **@ 2 shots/s** | **costs 1 dime**; **3 summons/level** then none | 0.5 s summon | 1=pistol/20 s · 2=shotguns/10 s · 3=rockets/5 s; adding a monkey **re-arms all to the new tier & resets timers**; **no friendly fire** (`WEAPONS.md` §3.7) |
-| **Club** | T1 | melee **14** + knockback | **10 hits** (resolves §3.7c [ITERATE]) | 0.15 s | no E-fire; short reach, big knockback |
+| **Club** | T1 | melee **14** + **6 wu knockback** | **10 hits** | 0.15 s | no E-fire; short reach, big knockback |
 | **Bat** | T2 | melee **12**; reflect | **12 hits**; **reflect window 0.20 s** | 0.15 s | swing-timed reflect of thrown heads/shots back at attacker (resolves §3.7b [ITERATE]) |
 | **Boomerang Gun** | T2 | **8/shot** | **10 bullets, 4/pass** (~3 passes) | 0.20 s | `E` throws on a fixed orbit auto-firing; **fists only while out**; throw cooldown 1 s; shot-down = lose remaining bullets |
 | **Rocket Launcher** | T4 | blast **70** (r 3 wu) | **3 rockets** (world pickup) | 0.50 s | `E` fires; **self-dmg 35** like grenade (resolves §3.8b [ITERATE]) |
@@ -470,14 +476,14 @@ every **10 s** on a fixed track; **roller-coaster** (Stage 9) every **7 s** on i
 
 | Boss | Area | HP | Phase thresholds | Attack dmg | Win condition / objective count | Length target |
 |---|---|---|---|---|---|---|
-| **Sandwich Bros / big Tier-1** | 1 (suburbs) | **160** (2× kit, big-version) | 50% | punch **11** | HP depletion; **solo = 1 big T1; 2P = 2 + a miniboss** | 1:15 |
+| **Sandwich Bros / big Tier-1** | 1 (suburbs) | **160** (2× kit, big-version) | **50% → adds a jump-kick + slide-kick (uses the full Regular kit, faster)** | punch **11** | HP depletion; **solo = 1 big T1** | 1:15 |
 | **Burly Macho Guy** | 1 (dept store) | **300** | ≈66% (200) · ≈33% (100) | ground-spike **22.5** · **enemy-toss 40** | HP depletion | 1:45 |
 | **Colossus** | 2 (Sacramento) | **240** = **6 pieces ×40** | shed at 4 & 2 pieces (speeds up) | body swipe **22.5** | **whip off 6 stick-figure pieces**; torn pieces become T1 adds | 1:50 |
 | **Helicopter** | 2 (airport) | **objective** (not HP-depleted) | after **3 hits** it descends lower & fires faster | thrown heads **15** (max 2 on screen) | **6 reflected heads OR 4 lobbed grenades = down** (each reflect/lob = 1 objective hit; a lobbed grenade counts as **1.5** so 4 finish it); main-boss-only | 1:40 |
 | **Monkey Boss** | 3 (farm) | **200** (only your mercs damage him) | 60% · 30% (throws dimes faster) | **0** direct; his mercs (T1 pistol 7.5) | proxy war: catch dimes → your mercs shoot him down; boss mercs ignore the 3-death cap | 1:55 |
-| **big Arm-Ripper** | 3 (Dixon) | **280** (boss-scale) | 66% · 33% | pistols **7.5/shot @ 2/s** | HP depletion; caps the Dixon boss rush | 1:50 |
+| **big Arm-Ripper** | 3 (Dixon) | **280** (boss-scale) | **66% → fires 3 shots/s (from 2); 33% → adds a rolling reposition between volleys** | pistols **7.5/shot @ 2/s** | HP depletion; caps the Dixon boss rush | 1:50 |
 | **Tank** | 4 (Vallejo) | objective (**2 grenade drops**) | **after drop 1** (MG pattern intensifies) | MG stream **1/hit**; direct hit while mounting **22.5** | **climb + drop grenade in hatch ×2**; arena adds drop only grenades | 1:50 |
-| **Boomergunner boss** | 4 (Marin) | **320** (boss-scale, 80×4) | 66% · 33% (2 guns orbiting) | boomerang-gun shots **5/shot** (base — see ranged note) | HP depletion | 1:45 |
+| **Boomergunner boss** | 4 (Marin) | **320** (boss-scale, 80×4) | **66% → throws a 2nd orbiting gun (2 loops at once); 33% → both loops tighten toward the player** | boomerang-gun shots **5/shot** (base — see ranged note) | HP depletion | 1:45 |
 | **Gatling Gun Guy** | 4 (Golden Gate) | **260** | 66% · 33% | **barrage = instant death if caught in the open** (LOCKED); melee 22.5 | HP depletion; **hide behind cars** on the **~5 s "BARRAGE INCOMING"** cycle; Shield-Rush the fodder version | 1:55 |
 | **Phil (FINAL)** | Finale | **500**, gated behind sharpen windows | 100%→75%→50%→25%→**execute** = **4 damage windows of 125 HP (25%) each** | contact **15** · summons deal their own dmg · **fall off tower = instant death** | invuln while drawing; **sharpen window 3–5 s** (ends early if the window's cap is hit) is the only opening; **per-window damage cap = 125 (25%)** → exactly one threshold per window; killed **only** by the scripted **pencil-laser finisher**, input in the window that takes his gated HP to ≤0 (the 4th on a clean run — no separate extra window) | **exempt** (~5–8 min) |
 
