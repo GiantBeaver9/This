@@ -194,7 +194,7 @@ the player's fist/weapon):
 | **Knockdown** (sweep, hit 3) | enemy down **1.2 s (72f)** | **regular enemies only — NEVER bosses or minibosses (LOCKED, global)** | the **finisher window** — the enemy is finisher-able this whole 1.2 s (then auto-gets-up, **0.3 s** getup). Two entry paths (no conflict with the 0.35 s double-tap timing): **(a)** sweep a *standing* enemy with the primed double-tap (`→→` etc., the two taps ≤ **0.35 s** apart, `COMBOS.md` §1) — the second tap finishes; **(b)** an **already-downed** enemy (from an earlier sweep still in its 1.2 s, or a Ground-Zero knockdown) is finished by a **single tap** toward it, any time inside the 1.2 s. The 0.35 s is the *double-tap* timing; the 1.2 s is how long a downed enemy stays finisher-able. |
 | **Getup** (after any knockdown) | **0.30 s (18f)** | player & enemy | **no i-frames** on either (LOCKED — no-iframe rule) |
 | **Launch / juggle hang** (up-air, up-strike, Wrecking Uppercut) | **0.50 s (30f)** airborne | L/M enemies | juggle window; H-weight can't be launched |
-| **Hitstop (freeze-frame)** | **3f** on finishers · **5f** on any kill · **0f** on normals | both actors | `VFX.md` §4; scales screen-shake |
+| **Hitstop (freeze-frame)** | **3f** on a non-killing finisher · **5f** on any kill · **0f** on normals; **when a hit is both a finisher AND a kill, the higher value wins = 5f** (kill takes precedence) | both actors | `VFX.md` §4; scales screen-shake |
 | **Player hitstun** (taking a hit) | **0.25 s (15f)** | player | from §2.2; **no i-frames after** |
 
 - **Chip/interrupt rule:** a **normal hit** (hitstun 0.18 s) can be interrupted by the player's next combo hit,
@@ -354,9 +354,14 @@ the **re-attack cooldowns** are pinned here:
 | **Swarmer** | **contact-tick** — deals its **1.5 on touch, then a 1.0 s per-Swarmer touch cooldown** (can't chain-tick faster); it has **no windup/swing**, the body IS the hitbox | 1.0 s per Swarmer |
 | **economy Monkey (flail) / Monkey-Tamer's monkeys** | melee flail **5** | windup **0.3 s**, cooldown **1.5 s** |
 | **Monkey Tamer (cornered flail)** | melee flail **5** | windup **0.3 s**, cooldown **1.5 s** (§4.1 cornered rule) |
+| **Ninja** | 22.5 melee slash (its close-range attack) | windup **0.2 s**, cooldown **1.5 s** (between teleports; the 3 s teleport cooldown is separate, §4 row 12) |
+| **Gatling Gunner** (melee inside 3 wu) | 22.5 pistol-whip/melee | windup **0.25 s**, cooldown **1.5 s** (only when the player is inside 3 wu, else it fires the stream, §4 row 15) |
+| **Boomergunner after its gun is caught/lost** | 12 melee (a bare-hand swing) | windup **0.2 s**, cooldown **1.5 s** — until it re-loots or its thrown gun returns (§4.1) |
+| **disarmed T1 → headbutt** (Arm-Ripper's stripped arm-donor) | headbutt **7.5** | windup **0.2 s**, cooldown **1.5 s** (§4 row 11) |
 - **Ranged enemies** use their §4-row throw/fire cadence directly (AA 2.5 s, Head-Thrower 3.0 s, Sniper the
   3 s-scope/2 s-down cycle, Arm-Ripper 2/s + 2 s reload after 6, Boomergunner 2.5 s orbit, Gatling Gunner 1 s
-  burst / 2.5 s). No separate cooldown needed — the row value IS the cadence.
+  burst / 2.5 s). No separate cooldown needed — the row value IS the cadence. **A ranged enemy forced into melee
+  (player inside its close-range) uses its melee row above.**
 - **[LOCKED] Attacker-slot rotation:** of the ≤8 pursuers, **max 2 hold an attack slot at once**. A slot is
   **held from windup start until the attack's recovery ends**, then **released**; the nearest ring-waiting enemy
   claims the freed slot on the next frame (there is no extra hold delay — the cooldown above keeps the same
@@ -775,7 +780,9 @@ minibosses / big-version *non-boss* elites** are sniper-killable like normal ene
 | Economy/weapon rules | **all corpse-drop weapons unlocked from the start** (Endless has no areas, so the area-gate §6.1 doesn't apply to drops); the **Rocket Launcher stays world-pickup-only** — it spawns as a **periodic placed pickup every ~2 min** (never a corpse roll, per §6.1); **coins ON from minute 0** (Area-1–2 coin suppression is campaign-only); dimes/monkeys/decay as normal | Endless is the sanctioned playtest sandbox |
 | **Backdrop / arena** | Endless runs in a **single fixed flat arena = a stylized SF-streets loop** (reuses the Area-4 SF-streets backdrop + city crowd bed, `AUDIO.md` §4) — no scrolling, camera-locked, 26.7 wu wide; matches the Endless music (the SF electro-punk layered track, `AUDIO.md` §2). **No new art** | one reused backdrop, no new asset |
 | Injectable bosses | **only ungated HP-depletion bosses: Burly, big Arm-Ripper, Boomergunner, Sandwich Bros.** **Excluded** = every boss that needs a specific weapon, terrain, or script that Endless can't guarantee: **Colossus** (needs whips), **Gatling Gun Guy** (needs car cover), **Tank / Helicopter** (objective + weapon-gated adds), **Monkey Boss** (dime proxy), **Phil** (scripted). This prevents an un-winnable injection | resolves the Endless-boss + Colossus-softlock ambiguity |
-| End condition | endless until death; score = kills × time-survived multiplier | leaderboard **(tunable)** |
+| End condition | endless until death | — |
+| **Score formula (LOCKED)** | **score = total_kills × (1 + 0.1 × minutes_survived)** — each full minute alive adds +10% to the kill tally's worth (so surviving longer at the same kill rate scores higher). Rounded to a whole number at death. **(the 0.1/min factor is tunable)** | one concrete formula, not prose |
+| **Endless HUD (LOCKED)** | in-run, the top HUD adds a **live score readout** (top-center, under the meter) and an **elapsed timer** (mm:ss); on death the **Game-Over screen shows final score + best score** (`UI.md` §5). Only Endless shows these; the campaign HUD does not | resolves the missing Endless readout |
 
 ### 8.4 Difficulty modes — **[LOCKED]** (chosen at the title / character-select, `UI.md` §5)
 

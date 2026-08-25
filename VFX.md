@@ -111,7 +111,8 @@
 Grouped: **movement** (gust, dusts, streaks, getup), **impact** (sparks, finisher flash, hit-flash,
 hitstop is code), **camera** (shake presets, time-slow overlay), **weapon FX** (§4 per weapon), **enemy FX**
 (§5 transforms, gore, hollow-head, poofs, telegraphs), **special** (§6 full set), **pickups** (weapon
-glints, coin, dime highlight). Priorities inherit each system's P0/P1.
+glints, **heal glint**, coin, dime highlight), and the **Phil pencil-laser beam** (the scripted finisher,
+`BOSSES.md` §5.1). Priorities inherit each system's P0/P1.
 
 ---
 
@@ -121,7 +122,7 @@ glints, coin, dime highlight). Priorities inherit each system's P0/P1.
 shake/hitstop (heavy on finishers/explosions, light on normals); **bullet-readability locked** (projectiles
 always render above/through VFX).
 
-**[LOCKED] Hitstop frame counts** (`TUNING.md` §2.6): **3f** on finishers · **5f** on any kill · **0f** on
+**[LOCKED] Hitstop frame counts** (`TUNING.md` §2.6): **3f** on a non-killing finisher · **5f** on any kill (a finisher that kills uses 5f — the higher value wins) · **0f** on
 normal hits.
 
 **[LOCKED] Screen-shake presets** (amplitude in px at the 640×360 internal res, `ASSET_MANIFEST.md` §0; decay

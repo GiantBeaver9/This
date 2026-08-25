@@ -30,6 +30,12 @@
   named type just tells the build which enemies define the wave's purpose; **"clear" and "kill <type>" both
   resolve to an empty field** before the scroll.
 - **Spawn sides:** `L` left, `R` right, `B` back-Z, `A` ambush (door/window/manhole per area). Default L/R.
+- **[LOCKED] Directly-placed Zombies (a wave lists a Zombie with no Pod in it):** the Zombie is **spawned
+  directly at a spawn side using the "pod-spawned profile"** — **30 HP, dies to any combo finisher, NO 10 s
+  timeout** (it persists until killed, unlike a headshot-created Zombie which self-drops at 10 s). This is the
+  same stat profile a Pod would emit; the "(pod-spawned profile)" tag on a wave just means "not a headshot-made
+  one." No Pod entity is required for a placed Zombie. (`TUNING.md` §4 Zombie: the two *organic* sources are
+  headshot-created and Pod-emitted; a hand-placed encounter Zombie is authored directly with this profile.)
 - **Cadence:** "drip 0.8 s" = one enemy every 0.8 s, so the 8-cap breathes (not all at once).
 - **The spine vs. the full stage (length reconciliation) — [LOCKED]:** the tables below are the **mandatory
   encounter spine** — the vignette, the teaching beats, the debut waves, and the boss. Each **combat stage
@@ -125,7 +131,7 @@
 | 1 | 3 Regular | L, R | drip 0.9 s | kill 3 |
 | 2 | 1 Pod (Swarmers, cap 6) + 2 Regular | B + L | pod 1/3 s | destroy Pod |
 | **CHECKPOINT** (atrium) | — | — | — | — |
-| 3 | 1 Zombie (Pod-spawned) + 3 Regular | A + L,R | drip 0.8 s | clear (first grab here) |
+| 3 | 1 Zombie (placed via ambush, pod-spawned profile — §0) + 3 Regular | A + L,R | drip 0.8 s | clear (first grab here) |
 | *filler* | Regular / Swarmer-pod / occasional Zombie, 12–16 waves | L,R,B | drip 0.8 s | clear each |
 | 4 (funnel to dept store) | 4 Regular + 1 Zombie Pod | L,R,A | drip 0.7 s | clear → boss door |
 | **BOSS** | **Burly Macho Guy** (HP 300, `TUNING.md` §7) | dept-store arena | — | defeat |

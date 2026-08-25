@@ -279,8 +279,12 @@
   - **Barrage cycle:** **~5 s** between barrages, each preceded by the **"BARRAGE INCOMING"** warning
     (2 s lead). The barrage is **instant death in the open** — you must be **behind a car** (hard cover) or
     off his firing row. Barrage lasts 1.5 s.
-  - **Between barrages:** he **repositions** one car-length and **spawns 1–2 Regular fodder** you can
-    **Shield-Rush** behind to close distance (`PLAYER.md` §3) and land your fist string (~32) or a weapon hit.
+  - **Between barrages:** he **repositions** one car-length, **spawns 1–2 Regular fodder**, and **fires the
+    suppressive 1-HP/hit chip stream** (the same stream as the enemy Gatling Gunner, `ENEMIES.md` §2.7 —
+    **1 s bursts every 2.5 s**, sweeping your row) that the **Shield Rush soaks** (up to 40, `TUNING.md` §2.3)
+    so you can close distance (`PLAYER.md` §3) and land your fist string (~32) or a weapon hit. So the
+    between-barrage window is: dodge/soak the chip stream, clear fodder, get in — before the next "BARRAGE
+    INCOMING" resets you to cover.
   - **Phase 2 (≤66%):** barrage cadence → 4 s. **Phase 3 (≤33%):** he fires **two rows** per barrage, forcing
     a specific car.
 - **Caps Area 4** (`STAGES.md` §4). Psychologically hard, short (<2 min).

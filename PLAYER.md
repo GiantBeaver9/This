@@ -55,6 +55,10 @@
   face buttons for actions). Mapping:
   - **Jump = A / ✕** (bottom face button) · **Special = Y / △** · **Dash = B / ○** *(or double-tap left stick)*
   - **Use weapon (`E`) = right trigger** · **Pick-up (`F`) = right bumper** (paired on the same side)
+  - **[LOCKED] Gamepad Shield Rush trigger = the left-stick FORWARD double-tap into a grabbable enemy** (the same
+    context rule as keyboard, §above) — **the B/○ dash button is ALWAYS a plain dash, never Shield Rush** (a
+    button press has no "toward an enemy" direction to arm the grab). So Shield Rush is stick-only on gamepad;
+    the dedicated dash button just dashes.
 - **[LOCKED] `E` vs. the finisher (reconciled):** `E` **fires/throws** the equipped weapon at any time (spends
   ammo/use); the **combo finisher (4th hit) is a *free melee* swing** — it never auto-fires the gun and costs no
   ammo (`WEAPONS.md` §1, `COMBOS.md` §1). A ranged weapon may therefore fire **outside** the combo (`E`) *and*

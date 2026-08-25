@@ -92,7 +92,13 @@ in-hand + fist-combo-holding-weapon + unique **finisher/fire** + muzzle/projecti
   **Grenade/Bomb** (bounce marker, lob/fastball trails, big/small blast) · **Whip** (arc/pull/line + head-rip→grenade) ·
   **Bat** (reflect) · **Staff** (ice/fire/lightning cast FX) · **Gatling** (0.5s barrage) · **Boomerang Gun**
   (orbit + auto-fire) · **Ball & Chain** (launch, heavy impact) · **Rocket Launcher** (world pickup).
-- **P1/P2:** **Monkey Merc** (summon poof, pistol/shotgun/rocket variants, expire) · ground **pickup sprites** for every weapon.
+- **P1/P2:** **Monkey Merc** (summon poof, pistol/shotgun/rocket variants, expire) · **Merc-claim token** ground
+  sprite (the pickup a killed Monkey drops, `WEAPONS.md` §3.7) · ground **pickup sprites** for every weapon.
+- **[LOCKED] Non-weapon ground pickups (were missing — now itemized):** **heal pickup** sprite (a distinct
+  positive-read item, e.g. a small first-aid/health mote; drop per `TUNING.md` §2.2, chime per `AUDIO.md` §4) ·
+  **coin** (1¢) and **dime** (10¢) sprites (`UI.md` §3.4) · the **Sniper's dropped rifle** — the +100-meter
+  ground pickup (a rifle icon, distinct from the enemy Sniper's held rifle; `ENEMIES.md` §2.14). All use the
+  standard 12 s ground-lifetime (`TUNING.md` §6).
 
 ---
 
@@ -116,7 +122,8 @@ adds/hazards · **boss HP bar + name card**. "Big version" bosses/minibosses nee
 - **P1 — 7 bespoke bosses (need bespoke art):** **Burly Macho Guy** (Area 1 dept store) · **Colossus** (Area 2
   Sacramento, whip) · **Helicopter** (Area 2 airport) · **Monkey Boss** (Area 3 farm) · **Tank** (Area 4
   Vallejo) · **Gatling Gun Guy** (Area 4 Golden Gate) · **Phil** (finale — top-hat zombie, pencil-draw, sharpen
-  anim, rooftop sway).
+  anim, rooftop sway, **and the scripted pencil-laser kill VFX** — the beam the player fires from the pencil in
+  the execute window, `BOSSES.md` §5.1; the game's climax needs its own drawn asset).
 - **3 big-version bosses (NO new art):** **Sandwich Bros** (big Tier-1, Area 1) · **big Arm-Ripper** (Area 3
   Dixon) · **Boomergunner boss** (Area 4 Marin — the Boomergunner enemy at boss scale, `ENEMIES.md` §2.17).
 - **Phil's bespoke art is P2** (built last), the other 6 bespoke bosses are P1.
@@ -136,7 +143,8 @@ adds/hazards · **boss HP bar + name card**. "Big version" bosses/minibosses nee
 ## 6. VFX — `VFX.md` (comedic transient gore; scaled shake/hitstop; bullets always readable)
 - **P0:** air-punch gust · dash dust · jump/land puff · hit spark · finisher flash · **red-pixel death burst** (clears) · muzzle flash.
 - **P1:** air-dash streak · sword wear/break · **spine eject** · boomerang stun · staff ice/fire/lightning · grenade trails+explosions · **head-grenade** · whip crack · ball&chain impact · **time-slow overlay** + sniper tracer/ricochet · zombie hollow-head · enemy transformations (snap/rip/contort/teleport smoke) · **screen-shake presets** · hitstop (code).
-- **P2:** monkey summon/expire · boss phase flashes · tower-sway ambient · barrage eviscerate.
+- **P2:** monkey summon/expire · boss phase flashes · tower-sway ambient · barrage eviscerate · **heal-pickup
+  glint** · **pencil-laser beam** (Phil's scripted kill, `BOSSES.md` §5.1).
 
 ---
 
@@ -146,9 +154,12 @@ Each theme: parallax backdrop layers + lane floor + set dressing + ambient actor
   with fixed horizontal scroll factors relative to camera motion: **far = 0.2×** (sky/horizon band — fills the
   top-40% HUD-sky region, `TUNING.md` §1), **mid = 0.5×** (buildings/treeline/hills), **near = 0.85×**
   (roadside props just behind the lane); the **play lane itself = 1.0×** (locked to world, where actors live).
-  Each layer is a **horizontally-tiling strip** (seamless loop), authored at **640 px tall** (full internal
-  height) so it covers any vertical framing. **Far layer never scrolls vertically**; mid/near don't either (the
-  camera is Z-locked, §1). One 3-layer set per area theme (12), swapped at area boundaries.
+  Each layer is a **horizontally-tiling strip** (seamless loop), authored at **360 px tall** (the full internal
+  render height — the canvas is 640×**360**) so it covers the whole frame. **Far layer never scrolls
+  vertically**; mid/near don't either (the camera is Z-locked, §1). **One 3-layer set per stage-theme = 12 sets**
+  (one per §2 music/backdrop theme, so the two Area-1 suburb stages share a set, matching the loop/bed sharing,
+  `AUDIO.md` §2), swapped at each theme boundary — **not** 5 (that's the area count; backdrops swap by
+  stage-theme, not by area).
 - **Area 1 (P0/P1):** suburb sky+wispy clouds, houses, **mulberry/tall trees**, sidewalk/road; ambient (fleeing civilians, mail carrier, kid+bike, jogger; dog/cat/birds; **dancing Zebra**); props (parked car, trash can, hydrant, mailbox, hedge, fence, porch, lawn sign); **hazard: cars & school buses**; **Lincoln High**, **Sandwich Bros**; **Galleria mall** interior (storefronts + cowering shoppers, atrium, skylight, kiosks/planters/benches/escalators).
 - **Area 2 (P1):** Sacramento **Victorian houses**, streetcar, lamp posts; **airport terminal + tarmac**, taxiing **planes**, ground crew, luggage carts, small planes.
 - **Area 3 (P1):** rolling **hills/farmland**, **Yolo causeway + platforms**, marsh; **Dixon** (mid-2000s: main street, water tower, feed store, storefronts); animals (**cows**, goats, chickens, crows), tractors, hay bales, fences; **hazards: ponds/puddles + cow blocking path**.
