@@ -144,18 +144,28 @@
     that's the **4th** window; under-damage earlier windows and it simply takes more (each still capped at 125).
   - **Lead pool & the dry-out clock (LOCKED costs):** each draw cycle he starts with **12 lead-points**. Per-
     summon cost: **Regular = 2 · Swarmer pod = 3 · reprise miniboss = 6 · Heavy = 4.** He keeps drawing (one
-    summon whenever he has the lead and a free add-slot, ~every 1.5 s) until he **can't afford the next
-    summon** → he runs dry and must sharpen. **Killing his adds faster empties the field, so he keeps spending
+    summon whenever he has the lead and a free add-slot, **one draw every 1.5 s**) until he **can't afford the
+    next summon** → he runs dry and must sharpen. **Killing his adds faster empties the field, so he keeps spending
     lead to refill → dries out sooner** (fewer live adds = more draws = faster to the window). This is the core
     loop lever: aggressive add-clearing shortens the invuln phase. (Killing an add gives Phil nothing back;
     it just accelerates his spend.)
-  - **Draw phase (invuln):** he sketches adds at the arena's back edge. **Summon roster by threshold** (the
-    greatest-hits reprise): 100–75% → **Regulars + Swarmer pods**; 75–50% → **+ a reprise miniboss**; 50–25% →
-    **+ a second reprise miniboss**; 25–0% → **+ Heavies**. **Reprise-miniboss selection:** **random from the
-    threshold's pool, never repeating the last one** — 75–50% pool = {big Snapper, big Head-Thrower}; 50–25%
-    pool = {big Arm-Ripper, big Ninja}. Max **8 adds** on screen (Phil's own cap, overrides the §1 2-cap). **A
-    drawn Swarmer pod counts as its live swarmers toward the 8** (and may briefly exceed it, the standard pod
-    exception, `TUNING.md` §4) — Phil won't draw a new pod while at the cap.
+  - **Draw phase (invuln):** he sketches adds at the arena's back edge. **The roster is CUMULATIVE** — each
+    threshold *adds* a summon type to everything already available, it never replaces:
+    - **100–75%** → Regulars + Swarmer pods
+    - **75–50%** → the above **+ reprise minibosses from Pool A** = {big Snapper, big Head-Thrower}
+    - **50–25%** → the above **+ reprise minibosses from Pool B** = {big Arm-Ripper, big Ninja}
+    - **25–0%** → the above **+ Heavies**
+    - **[LOCKED] 25–0% draw source:** since the roster is cumulative, in the final band Phil draws from
+      **everything** — Regulars, Swarmer pods, **both** miniboss pools (A and B), and Heavies — picking each
+      next summon by **what he can afford with his remaining lead** (cost list below), never a fixed order.
+    - **[LOCKED] Reprise-miniboss selection & concurrency:** each miniboss draw is **random from the pools
+      unlocked so far, never repeating the immediately-previous miniboss**. **Up to 2 reprise minibosses may be
+      alive at once** (that is the intent of "a second reprise miniboss" at 50–25%) — a 3rd miniboss draw is
+      refused while 2 are live, though lower-cost adds (Regulars/pods/Heavies) still fill the remaining add
+      slots up to the cap.
+    - Max **8 adds** on screen (Phil's own cap, overrides the §1 2-cap). **A drawn Swarmer pod counts as its
+      live swarmers toward the 8** (and may briefly exceed it, the standard pod exception, `TUNING.md` §4) —
+      Phil won't draw a new pod while at the cap.
   - **Sharpen window (vulnerable 3–5 s):** when dry he **stops, hunches, and sharpens** — open and bleeding.
     Deal up to the **125-HP cap**; the window **ends early if you hit the cap**, else closes at **5 s** (a fast
     player caps it in ~3 s, a slow one gets the full 5). Matches `TUNING.md` §7.

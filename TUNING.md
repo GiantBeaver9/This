@@ -28,7 +28,7 @@
 | Bullet/hitbox Z-tolerance | ±0.4 wu | a shot connects only within 0.4 wu depth of target |
 | **Pursuer separation radius** | **1.0 wu** min center-to-center | hard-separation (`GAMEPLAY_LOOP.md` §8.2) — pursuers push apart to keep this gap, so **you never eat two overlapping hitboxes at once** |
 | **Attacker slots (melee ring)** | **max 2 enemies attack at once**; the rest hold a **standoff ring at ~2.5 wu** | the "circle and wait" behavior; others step in as a slot frees (still within the 8-pursuer cap) |
-| **Ranged standoff distance** | **each ranged enemy holds at ITS OWN attack range** (§4/§6.3): **throwers/lobbers 6–8 wu** (AA, Head-Thrower), **close gunners ≤4 wu** (Arm-Ripper — must close, §1 short-range rule) | not one global number — the enemy backs off to its firing range and holds there |
+| **Ranged standoff distance** | **each ranged enemy holds at ITS OWN pinned hold-distance** (≤ its max reach; it fires from here and backs off if the player closes inside it): **AA rock 8 wu** (max reach 10 wu, §6.3 — holds at 8 to keep margin), **Head-Thrower 7 wu**, **Sniper 12 wu** (max range = whole screen, holds far), **Arm-Ripper ≤4 wu** (must close, §1 short-range rule), **Boomergunner 6 wu** (orbit radius 5) | not one global number — each ranged enemy has a single pinned hold-distance, always ≤ its firing range |
 | Boss arena width | **per-boss, 24–34 wu** (`ENCOUNTERS.md`) | **"camera-locked" = the level stops advancing** (no forward scroll to new ground); if the arena is wider than the ~26.7 wu screen the **camera pans within the arena box** (bounded, ≤ ±3.7 wu). Giant bosses reach down into the band. |
 
 ---
@@ -317,6 +317,11 @@ tier; what scales is reach/knockback and duration. The Underdog's buff still ref
 
 **Pods (shared spawner for Zombie & Swarmer):** HP **50**, destroyable; spits **1 unit every 3 s** up to a
 field cap of 6 pod-spawned units; sits at the back Z-edge of the encounter (resolves §2.8/§2.12 [ITERATE]).
+- **[LOCKED] Pod typing = fixed per instance, set at placement.** A Pod is **either a Swarmer Pod OR a Zombie
+  Pod** — it spits **only its one type** for its whole life, never a mix. The `ENCOUNTERS.md` wave table names
+  each placed Pod's type ("Swarmer pod" / "Zombie Pod"); a build reads that label as the Pod's fixed emit-type.
+  In **Endless** (§8.3) each spawned Pod is assigned a type at spawn (50/50 Swarmer/Zombie). The **6-unit field
+  cap is shared across all Pods** (total pod-spawned units on screen ≤ 6, not per-Pod).
 
 **Zombie grab resolution (LOCKED):** on contact the Zombie **grabs and holds** (deals 0 on the grab itself).
 While held: the player is **rooted**, cannot move/attack, and **takes full damage from any *other* enemy**

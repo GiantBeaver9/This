@@ -46,10 +46,12 @@
   long** (spine + filler + funnel; the vignette plays at the head, the boss arena caps the tail). The camera
   scrolls forward as waves clear (gated per §0). **Prop/funnel/cover placement follows `AREAS.md`** per theme
   (parked cars & hedges pinch the lane into fighting pockets; cars-as-cover on the Golden Gate). **Causeway
-  platforming stretches (Stages 6, 10):** a **linear run of 5–7 platforms**, each **8–12 wu** long with **3–5
-  wu gaps** (jumpable: jump distance ≈ 4 wu + air-dash 3.5 wu = ~7.5 wu reach), water between (fall = 10 HP
-  chip + respawn on last platform, §Stage 6). Exact decorative prop coordinates are level-editor polish, not a
-  gameplay value — the lane length, platform pattern, and cover *rules* here are what the build needs.
+  platforming stretches (Stages 6, 10) — [LOCKED default layout]:** a **linear run of exactly 6 platforms**,
+  each **10 wu** long with **4 wu gaps** between them (the pinned midpoints of the 5–7 / 8–12 / 3–5 design
+  ranges; **(tunable)** per stage). Gaps are jumpable: jump distance ≈ 4 wu + air-dash 3.5 wu = ~7.5 wu reach,
+  so a **4 wu gap clears on a plain jump**. Water between platforms (fall = 10 HP chip + respawn on last
+  platform, §Stage 6). Exact decorative prop coordinates are level-editor polish, not a gameplay value — but
+  the **6×10 wu platforms with 4 wu gaps is the concrete buildable default**, not a range to pick from.
 - **Checkpoints — [LOCKED] (matches `TUNING.md` §8.1):** **one at stage start** (respawn point on continue) +
   **one mid-stage** (marked below, roughly halfway through the filler block) + **one at the boss door** (retry
   the boss, not the stage). Bossless stages get start + mid only.

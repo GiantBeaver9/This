@@ -79,7 +79,10 @@
   (you can now afford a monkey).
 - **[LOCKED] Resets each stage** — spend-it-or-lose-it; monkeys stay a tactical in-stage choice, no
   meta-banking. **Wallet cap = 99¢** (the counter maxes at `$0.99`; in practice you rarely hold >1 dime before
-  spending it on a Monkey Merc).
+  spending it on a Monkey Merc). **[LOCKED] Overflow is a hard clamp — coins past 99¢ are discarded, never
+  wrapped.** So a Pickpocket kill that would pay out **2× the stolen amount** (`ENEMIES.md` §2.16) — e.g. steal
+  60¢, kill, +120¢ — **fills to 99¢ and drops the rest** (you don't lose progress, you just can't exceed the
+  cap). Any coin pickup while already at 99¢ is a no-op (the coin sprite still despawns).
 - **[LOCKED] Hidden until Area 3.** The money counter (and the whole coin/dime cluster) is **not shown in
   Areas 1–2** — coins don't drop there (`TUNING.md` §6.1), and the economy is a **second-half reveal**
   (`WEAPONS.md` §3.9). The counter **fades in when the first coin drops in Area 3.**
