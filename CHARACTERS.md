@@ -25,7 +25,7 @@ Each Special clears a crowd differently, balanced by **what loot survives** — 
 **completeness vs. loot retention:**
 - **Tactical / Sniper** — **one-shots every targetable enemy** it can lock (up to the tier cap 15/30/45), but
   **drops NOTHING.** Cleanest wipe, zero loot. *(Exceptions: the **Heavy is immune to the ricochet/headshot-pick**
-  — `ENEMIES.md` §2.11, `TUNING.md` §4 — and **bosses only die to it under 10% HP**, `BOSSES.md` §1. "Everything"
+  — `ENEMIES.md` §2.11, `TUNING.md` §4 — and **bosses only die to it at ≤10% HP**, `BOSSES.md` §1. "Everything"
   = every sweepable/targetable enemy, not the immune Heavy or a healthy boss.)*
 - **Shotgunner** — **massive damage + knockback**, **wipes up to tier 3** (T3-and-below; the untiered Heavy/Monkey-Tamer and bosses survive), and **enemies
   it kills still drop loot on the ground.** Less absolute, keeps the economy.
@@ -94,7 +94,7 @@ Each Special clears a crowd differently, balanced by **what loot survives** — 
 1. ~~Animation pipeline~~ — ✅ **Resolved (§3): FULLY BESPOKE per character** (4 complete animation sets, no
    shared skeleton).
 2. ~~Werewolf vs. bosses~~ — ✅ **Resolved:** **all** specials (Sniper, Werewolf, Shotgun, Underdog) only
-   affect a boss **under 10% HP** (execution); above that the boss negates it (`BOSSES.md` §1).
+   affect a boss **at ≤10% HP** (execution); above that the boss negates it (`BOSSES.md` §1).
 3. ~~Shotgunner = bulky friend?~~ — ✅ **Confirmed:** the Shotgunner **is** the bulky friend (§2.2), one of the 4.
 
 ---

@@ -120,7 +120,7 @@
 - **[LOCKED] The endgame** — the absolute final fight, **exempt from the <2-min rule**, meant to be
   **brutally hard.**
 - **[LOCKED, resolved]** the **low-HP special execution does *not* apply to Phil.** Every other boss dies to a
-  special once under 10% HP; Phil is the sole exception — specials never execute him, and the **scripted
+  special once at ≤10% HP; Phil is the sole exception — specials never execute him, and the **scripted
   pencil-laser finisher is the only kill** (above). This is deliberate: it forces the player to reach the final
   finisher rather than melting him with a banked meter.
 - **[LOCKED] Full fight script (authority for the finale beats; `ENCOUNTERS.md` defers here):**
