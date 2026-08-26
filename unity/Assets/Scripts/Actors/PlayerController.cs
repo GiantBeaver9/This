@@ -87,6 +87,7 @@ namespace ThisL
 
         // Movement / dash / jump
         private bool _dashing;
+        private bool _dashPushing;   // true while the dash is actually shoving an enemy → shoulder-charge anim
         private float _dashTimer, _dashCooldown, _dashDirX, _dashDirZ;
         private bool _airborne;
         private float _jumpTimer, _jumpOffset;
@@ -356,6 +357,7 @@ namespace ThisL
             float speed = Tuning.DashDistance / Tuning.DashDuration; // ~18 wu/s
             WorldX += _dashDirX * speed * dt;
             Z += _dashDirZ * speed * dt;
+            _dashPushing = false;
             DashPlow(_dashDirX, dt);
             _dashTimer -= dt;
             if (_dashTimer <= 0f) { _dashing = false; _dashCooldown = Tuning.DashCooldown; }
@@ -372,6 +374,7 @@ namespace ThisL
                 if (!a.Alive || a.Team == Team.Player) continue;
                 float dx = a.WorldX - WorldX, dz = a.Z - Z;
                 if (dx * dx + dz * dz > r2) continue;
+                _dashPushing = true;                                              // in contact → shoulder-charge
                 a.WorldX += dir * Tuning.DashKnockback * dt;                       // shove along the dash
                 a.Z += (dz >= 0f ? 1f : -1f) * Tuning.DashKnockback * 0.4f * dt;   // and nudge aside
                 if (_dashHit.Add(a))
@@ -1320,7 +1323,8 @@ namespace ThisL
             if (_phase != Phase.None) return; // attack clip already playing
             if (_airDashing) { Anim.Play("dash", false); return; }
             if (_airborne) { Anim.Play("jump", false); return; }
-            if (_dashing) { Anim.Play("dash", false); return; }
+            // Shoving an enemy → a looping shoulder-charge sprint; a clean dash → the slide.
+            if (_dashing) { if (_dashPushing) Anim.Play("charge", true); else Anim.Play("dash", false); return; }
             Anim.Play(MoveX() != 0 || MoveZ() != 0 ? "walk" : "idle", true);
         }
 

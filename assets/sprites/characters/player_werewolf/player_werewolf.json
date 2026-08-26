@@ -157,10 +157,73 @@
         ]
       },
       {
+        "name": "player_werewolf_charge_00.png",
+        "rect": [
+          65,
+          104,
+          13,
+          52
+        ]
+      },
+      {
+        "name": "player_werewolf_charge_01.png",
+        "rect": [
+          113,
+          104,
+          14,
+          52
+        ]
+      },
+      {
+        "name": "player_werewolf_charge_02.png",
+        "rect": [
+          159,
+          105,
+          17,
+          51
+        ]
+      },
+      {
+        "name": "player_werewolf_charge_03.png",
+        "rect": [
+          204,
+          108,
+          23,
+          48
+        ]
+      },
+      {
+        "name": "player_werewolf_charge_04.png",
+        "rect": [
+          249,
+          111,
+          30,
+          45
+        ]
+      },
+      {
+        "name": "player_werewolf_charge_05.png",
+        "rect": [
+          290,
+          115,
+          43,
+          41
+        ]
+      },
+      {
+        "name": "player_werewolf_charge_06.png",
+        "rect": [
+          339,
+          112,
+          41,
+          44
+        ]
+      },
+      {
         "name": "player_werewolf_dash_00.png",
         "rect": [
-          61,
-          107,
+          13,
+          159,
           22,
           49
         ]
@@ -168,8 +231,8 @@
       {
         "name": "player_werewolf_dash_01.png",
         "rect": [
-          102,
-          122,
+          54,
+          174,
           36,
           34
         ]
@@ -177,8 +240,8 @@
       {
         "name": "player_werewolf_dash_02.png",
         "rect": [
-          146,
-          140,
+          98,
+          192,
           43,
           16
         ]
@@ -186,8 +249,8 @@
       {
         "name": "player_werewolf_dash_03.png",
         "rect": [
-          193,
-          136,
+          145,
+          188,
           46,
           20
         ]
@@ -195,8 +258,8 @@
       {
         "name": "player_werewolf_dash_04.png",
         "rect": [
-          250,
-          121,
+          202,
+          173,
           28,
           35
         ]
@@ -204,8 +267,8 @@
       {
         "name": "player_werewolf_dash_05.png",
         "rect": [
-          297,
-          112,
+          249,
+          164,
           30,
           44
         ]
@@ -213,8 +276,8 @@
       {
         "name": "player_werewolf_death_00.png",
         "rect": [
-          345,
-          107,
+          297,
+          159,
           29,
           49
         ]
@@ -222,7 +285,7 @@
       {
         "name": "player_werewolf_death_01.png",
         "rect": [
-          9,
+          345,
           161,
           29,
           47
@@ -231,8 +294,8 @@
       {
         "name": "player_werewolf_death_02.png",
         "rect": [
-          53,
-          165,
+          5,
+          217,
           37,
           43
         ]
@@ -240,8 +303,8 @@
       {
         "name": "player_werewolf_death_03.png",
         "rect": [
-          100,
-          164,
+          52,
+          216,
           40,
           44
         ]
@@ -249,8 +312,8 @@
       {
         "name": "player_werewolf_death_04.png",
         "rect": [
-          146,
-          173,
+          98,
+          225,
           44,
           35
         ]
@@ -258,8 +321,8 @@
       {
         "name": "player_werewolf_death_05.png",
         "rect": [
-          192,
-          183,
+          144,
+          235,
           47,
           25
         ]
@@ -267,8 +330,8 @@
       {
         "name": "player_werewolf_death_06.png",
         "rect": [
-          240,
-          193,
+          192,
+          245,
           48,
           15
         ]
@@ -276,8 +339,8 @@
       {
         "name": "player_werewolf_hurt_00.png",
         "rect": [
-          299,
-          159,
+          251,
+          211,
           25,
           49
         ]
@@ -285,8 +348,8 @@
       {
         "name": "player_werewolf_hurt_01.png",
         "rect": [
-          348,
-          156,
+          300,
+          208,
           24,
           52
         ]
@@ -294,7 +357,7 @@
       {
         "name": "player_werewolf_hurt_02.png",
         "rect": [
-          5,
+          341,
           214,
           37,
           46
@@ -303,8 +366,8 @@
       {
         "name": "player_werewolf_hurt_03.png",
         "rect": [
-          54,
-          214,
+          6,
+          266,
           35,
           46
         ]
@@ -312,8 +375,8 @@
       {
         "name": "player_werewolf_hurt_04.png",
         "rect": [
-          106,
-          211,
+          58,
+          263,
           27,
           49
         ]
@@ -321,8 +384,8 @@
       {
         "name": "player_werewolf_hurt_05.png",
         "rect": [
-          156,
-          213,
+          108,
+          265,
           23,
           47
         ]
@@ -330,8 +393,8 @@
       {
         "name": "player_werewolf_idle_00.png",
         "rect": [
-          209,
-          208,
+          161,
+          260,
           14,
           52
         ]
@@ -339,8 +402,8 @@
       {
         "name": "player_werewolf_idle_01.png",
         "rect": [
-          257,
-          208,
+          209,
+          260,
           13,
           52
         ]
@@ -348,8 +411,8 @@
       {
         "name": "player_werewolf_idle_02.png",
         "rect": [
-          305,
-          208,
+          257,
+          260,
           13,
           52
         ]
@@ -357,8 +420,8 @@
       {
         "name": "player_werewolf_idle_03.png",
         "rect": [
-          353,
-          208,
+          305,
+          260,
           13,
           52
         ]
@@ -366,7 +429,7 @@
       {
         "name": "player_werewolf_sweep_00.png",
         "rect": [
-          9,
+          345,
           266,
           30,
           46
@@ -375,8 +438,8 @@
       {
         "name": "player_werewolf_sweep_01.png",
         "rect": [
-          57,
-          272,
+          9,
+          324,
           29,
           40
         ]
@@ -384,8 +447,8 @@
       {
         "name": "player_werewolf_sweep_02.png",
         "rect": [
-          105,
-          278,
+          57,
+          330,
           29,
           34
         ]
@@ -393,8 +456,8 @@
       {
         "name": "player_werewolf_sweep_03.png",
         "rect": [
-          152,
-          284,
+          104,
+          336,
           32,
           28
         ]
@@ -402,8 +465,8 @@
       {
         "name": "player_werewolf_sweep_04.png",
         "rect": [
-          193,
-          288,
+          145,
+          340,
           46,
           24
         ]
@@ -411,8 +474,8 @@
       {
         "name": "player_werewolf_sweep_05.png",
         "rect": [
-          252,
-          281,
+          204,
+          333,
           23,
           31
         ]
@@ -420,8 +483,8 @@
       {
         "name": "player_werewolf_sweep_06.png",
         "rect": [
-          295,
-          272,
+          247,
+          324,
           34,
           40
         ]
@@ -429,8 +492,8 @@
       {
         "name": "player_werewolf_walk_00.png",
         "rect": [
-          353,
-          260,
+          305,
+          312,
           13,
           52
         ]
@@ -438,7 +501,7 @@
       {
         "name": "player_werewolf_walk_01.png",
         "rect": [
-          11,
+          347,
           313,
           25,
           51
@@ -447,8 +510,8 @@
       {
         "name": "player_werewolf_walk_02.png",
         "rect": [
-          65,
-          312,
+          17,
+          364,
           13,
           52
         ]
@@ -456,8 +519,8 @@
       {
         "name": "player_werewolf_walk_03.png",
         "rect": [
-          107,
-          312,
+          59,
+          364,
           26,
           52
         ]
@@ -465,7 +528,7 @@
     ],
     "size": [
       384,
-      364
+      416
     ]
   },
   "ppu": 24,

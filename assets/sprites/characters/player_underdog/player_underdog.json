@@ -157,10 +157,73 @@
         ]
       },
       {
+        "name": "player_underdog_charge_00.png",
+        "rect": [
+          57,
+          101,
+          17,
+          49
+        ]
+      },
+      {
+        "name": "player_underdog_charge_01.png",
+        "rect": [
+          101,
+          102,
+          18,
+          48
+        ]
+      },
+      {
+        "name": "player_underdog_charge_02.png",
+        "rect": [
+          142,
+          103,
+          24,
+          47
+        ]
+      },
+      {
+        "name": "player_underdog_charge_03.png",
+        "rect": [
+          183,
+          107,
+          30,
+          43
+        ]
+      },
+      {
+        "name": "player_underdog_charge_04.png",
+        "rect": [
+          226,
+          110,
+          32,
+          40
+        ]
+      },
+      {
+        "name": "player_underdog_charge_05.png",
+        "rect": [
+          267,
+          111,
+          38,
+          39
+        ]
+      },
+      {
+        "name": "player_underdog_charge_06.png",
+        "rect": [
+          315,
+          107,
+          30,
+          43
+        ]
+      },
+      {
         "name": "player_underdog_dash_00.png",
         "rect": [
-          55,
-          104,
+          11,
+          154,
           21,
           46
         ]
@@ -168,8 +231,8 @@
       {
         "name": "player_underdog_dash_01.png",
         "rect": [
-          94,
-          115,
+          50,
+          165,
           31,
           35
         ]
@@ -177,8 +240,8 @@
       {
         "name": "player_underdog_dash_02.png",
         "rect": [
-          136,
-          127,
+          92,
+          177,
           35,
           23
         ]
@@ -186,8 +249,8 @@
       {
         "name": "player_underdog_dash_03.png",
         "rect": [
-          180,
-          124,
+          136,
+          174,
           36,
           26
         ]
@@ -195,8 +258,8 @@
       {
         "name": "player_underdog_dash_04.png",
         "rect": [
-          228,
-          113,
+          184,
+          163,
           28,
           37
         ]
@@ -204,8 +267,8 @@
       {
         "name": "player_underdog_dash_05.png",
         "rect": [
-          272,
-          107,
+          228,
+          157,
           27,
           43
         ]
@@ -213,8 +276,8 @@
       {
         "name": "player_underdog_death_00.png",
         "rect": [
-          317,
-          103,
+          273,
+          153,
           25,
           47
         ]
@@ -222,7 +285,7 @@
       {
         "name": "player_underdog_death_01.png",
         "rect": [
-          9,
+          317,
           155,
           25,
           45
@@ -231,8 +294,8 @@
       {
         "name": "player_underdog_death_02.png",
         "rect": [
-          48,
-          161,
+          4,
+          211,
           36,
           39
         ]
@@ -240,8 +303,8 @@
       {
         "name": "player_underdog_death_03.png",
         "rect": [
-          92,
-          158,
+          48,
+          208,
           35,
           42
         ]
@@ -249,8 +312,8 @@
       {
         "name": "player_underdog_death_04.png",
         "rect": [
-          136,
-          168,
+          92,
+          218,
           35,
           32
         ]
@@ -258,8 +321,8 @@
       {
         "name": "player_underdog_death_05.png",
         "rect": [
-          176,
-          175,
+          132,
+          225,
           44,
           25
         ]
@@ -267,8 +330,8 @@
       {
         "name": "player_underdog_death_06.png",
         "rect": [
-          220,
-          180,
+          176,
+          230,
           44,
           20
         ]
@@ -276,8 +339,8 @@
       {
         "name": "player_underdog_hurt_00.png",
         "rect": [
-          274,
-          154,
+          230,
+          204,
           23,
           46
         ]
@@ -285,8 +348,8 @@
       {
         "name": "player_underdog_hurt_01.png",
         "rect": [
-          319,
-          152,
+          275,
+          202,
           22,
           48
         ]
@@ -294,7 +357,7 @@
       {
         "name": "player_underdog_hurt_02.png",
         "rect": [
-          4,
+          312,
           208,
           35,
           42
@@ -303,8 +366,8 @@
       {
         "name": "player_underdog_hurt_03.png",
         "rect": [
-          48,
-          207,
+          4,
+          257,
           35,
           43
         ]
@@ -312,8 +375,8 @@
       {
         "name": "player_underdog_hurt_04.png",
         "rect": [
-          96,
-          206,
+          52,
+          256,
           27,
           44
         ]
@@ -321,8 +384,8 @@
       {
         "name": "player_underdog_hurt_05.png",
         "rect": [
-          143,
-          206,
+          99,
+          256,
           21,
           44
         ]
@@ -330,8 +393,8 @@
       {
         "name": "player_underdog_idle_00.png",
         "rect": [
-          189,
-          201,
+          145,
+          251,
           17,
           49
         ]
@@ -339,8 +402,8 @@
       {
         "name": "player_underdog_idle_01.png",
         "rect": [
-          233,
-          200,
+          189,
+          250,
           17,
           50
         ]
@@ -348,8 +411,8 @@
       {
         "name": "player_underdog_idle_02.png",
         "rect": [
-          277,
-          200,
+          233,
+          250,
           17,
           50
         ]
@@ -357,8 +420,8 @@
       {
         "name": "player_underdog_idle_03.png",
         "rect": [
-          321,
-          200,
+          277,
+          250,
           17,
           50
         ]
@@ -366,7 +429,7 @@
       {
         "name": "player_underdog_sweep_00.png",
         "rect": [
-          10,
+          318,
           255,
           24,
           45
@@ -375,8 +438,8 @@
       {
         "name": "player_underdog_sweep_01.png",
         "rect": [
-          53,
-          259,
+          9,
+          309,
           25,
           41
         ]
@@ -384,8 +447,8 @@
       {
         "name": "player_underdog_sweep_02.png",
         "rect": [
-          97,
-          270,
+          53,
+          320,
           26,
           30
         ]
@@ -393,8 +456,8 @@
       {
         "name": "player_underdog_sweep_03.png",
         "rect": [
-          137,
-          275,
+          93,
+          325,
           34,
           25
         ]
@@ -402,8 +465,8 @@
       {
         "name": "player_underdog_sweep_04.png",
         "rect": [
-          176,
-          282,
+          132,
+          332,
           44,
           18
         ]
@@ -411,8 +474,8 @@
       {
         "name": "player_underdog_sweep_05.png",
         "rect": [
-          229,
-          270,
+          185,
+          320,
           26,
           30
         ]
@@ -420,8 +483,8 @@
       {
         "name": "player_underdog_sweep_06.png",
         "rect": [
-          270,
-          263,
+          226,
+          313,
           32,
           37
         ]
@@ -429,8 +492,8 @@
       {
         "name": "player_underdog_walk_00.png",
         "rect": [
-          321,
-          251,
+          277,
+          301,
           17,
           49
         ]
@@ -438,7 +501,7 @@
       {
         "name": "player_underdog_walk_01.png",
         "rect": [
-          12,
+          320,
           301,
           20,
           49
@@ -447,8 +510,8 @@
       {
         "name": "player_underdog_walk_02.png",
         "rect": [
-          57,
-          300,
+          13,
+          350,
           17,
           50
         ]
@@ -456,8 +519,8 @@
       {
         "name": "player_underdog_walk_03.png",
         "rect": [
-          100,
-          300,
+          56,
+          350,
           20,
           50
         ]
@@ -465,7 +528,7 @@
     ],
     "size": [
       352,
-      350
+      400
     ]
   },
   "ppu": 24,
