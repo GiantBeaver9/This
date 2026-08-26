@@ -168,9 +168,16 @@ namespace ThisL
             float farWalkTop  = horizon;          // -0.5  buildings seat here
             float farWalkBot  = horizon - 0.7f;   // -1.2  back sidewalk lane (against the buildings)
             float nearWalkTop = nearFeet + 0.2f;  // -6.3  foreground sidewalk starts just below the near feet line
+            // GRASS VERGE: a thin ground strip seated AT the horizon (its bottom meets the far
+            // sidewalk top at -0.5) and rising up behind the prop row, so the houses read as
+            // standing ON grass instead of floating over sky. Drawn in front of the sky (-996)
+            // yet behind the houses (-994), and it rides the SAME far parallax as the prop row
+            // (0.24) so the houses stay planted on it as the player advances.
+            float grassTop = horizon + 0.7f;      // +0.2  grass horizon (sky begins above this)
             return new[]
             {
                 new BandDef { Name = "sky",      Parallax = 0.10f, Order = -996, BottomY = horizon - 1.0f, TopY = top,        Build = BuildSky },
+                new BandDef { Name = "grass",    Parallax = 0.24f, Order = -995, BottomY = horizon,        TopY = grassTop,   Build = BuildGrass },
                 new BandDef { Name = "farwalk",  Parallax = 1.00f, Order = -995, BottomY = farWalkBot,     TopY = farWalkTop, Build = BuildSidewalk },
                 new BandDef { Name = "road",     Parallax = 1.00f, Order = -988, BottomY = nearWalkTop,    TopY = farWalkBot, Build = BuildStreet },
                 new BandDef { Name = "nearwalk", Parallax = 1.00f, Order = -986, BottomY = bottom,         TopY = nearWalkTop,Build = BuildSidewalk },
@@ -694,6 +701,34 @@ namespace ThisL
             {
                 int x = (i * 37) % w, y = (i * 61) % h;
                 px[y * w + x] = Blend(px[y * w + x], p.WalkCrack, 0.22f);
+            }
+            return MakeSprite(w, h, px);
+        }
+
+        /// <summary>A thin grass verge the house row stands on: solid grass, darker toward the
+        /// bottom (a soft shadow where it meets the far sidewalk) and lighter toward the top
+        /// (blades catching light at the horizon), with a faint deterministic fleck for texture.
+        /// Seamless left↔right so it tiles under the whole prop row with no floating sky gap.</summary>
+        private static Sprite BuildGrass(in Palette p, int h)
+        {
+            const int w = 64;
+            var px = new Color32[w * h];
+            Color32 dark  = Lerp32(p.Grass, new Color32(0, 0, 0, 255), 0.28f);       // shadow at the pavement
+            Color32 light = Lerp32(p.Grass, new Color32(255, 255, 255, 255), 0.14f); // lit blades at the top
+            for (int y = 0; y < h; y++)
+            {
+                float t = h > 1 ? (float)y / (h - 1) : 0f;   // 0 bottom -> 1 top
+                Color32 c = Lerp32(dark, light, t);
+                for (int x = 0; x < w; x++) px[y * w + x] = c;
+            }
+            // Bright blade line along the very top (the grass meeting the sky).
+            for (int x = 0; x < w; x++) SetPx(px, w, h, x, h - 1, light);
+            // Faint darker fleck for grassy texture (wraps in x via % w so it stays seamless).
+            Color32 fleck = Lerp32(p.Grass, new Color32(0, 0, 0, 255), 0.20f);
+            for (int i = 0; i < (w * h) / 9; i++)
+            {
+                int x = (i * 37) % w, y = (i * 61) % h;
+                px[y * w + x] = Blend(px[y * w + x], fleck, 0.40f);
             }
             return MakeSprite(w, h, px);
         }
