@@ -22,6 +22,7 @@ namespace ThisL.EditorTools
         private static bool _foeDied;
         private static bool _combatRan;
         private static bool _weaponsFired;
+        private static bool _sawP2;
 
         public static void Run()
         {
@@ -136,6 +137,21 @@ namespace ThisL.EditorTools
                     p.CurrentWeapon = Weapon.Fists();
                 }
 
+                // Drop in P2 so the co-op paths run (2-player HUD, shared lives, and the explosive
+                // teammate friendly-fire when the next grenade detonates near both). Crash coverage.
+                if (_frames == 85 && GameFlow.Instance != null && PlayerController.All.Count < 2)
+                    GameFlow.Instance.TryJoinPlayer2(0);
+                if (PlayerController.All.Count >= 2) _sawP2 = true;
+
+                // With P2 present, lob a grenade right onto the pair to exercise teammate friendly-fire.
+                if (_frames == 95 && _sawP2 && PlayerController.Instance != null)
+                {
+                    var p = PlayerController.Instance;
+                    var g = Weapon.Create(WeaponKind.Grenade);
+                    p.CurrentWeapon = g; g.FireCooldown = 0f; g.TryFire(p);
+                    p.CurrentWeapon = Weapon.Fists();
+                }
+
                 if (PlayerController.Instance != null) _sawPlayer = true;
                 int enemies = 0;
                 foreach (var a in Actor.All)
@@ -155,7 +171,7 @@ namespace ThisL.EditorTools
             EditorApplication.update -= Tick;
             bool combatOk = _combatRan && _foeHpAfter < _foeHpBefore && _foeDied;
             bool ok = _sawBoot && _sawPlayer && _errors == 0 && combatOk;
-            Debug.Log($"SMOKE_RESULT boot={_sawBoot} player={_sawPlayer} maxEnemies={_maxEnemies} errors={_errors} frames={_frames} " +
+            Debug.Log($"SMOKE_RESULT boot={_sawBoot} player={_sawPlayer} p2={_sawP2} maxEnemies={_maxEnemies} errors={_errors} frames={_frames} " +
                       $"combatRan={_combatRan} foeHp={_foeHpBefore}->{_foeHpAfter} foeDied={_foeDied} ok={ok}");
             EditorApplication.isPlaying = false;
             EditorApplication.Exit(ok ? 0 : 2);
