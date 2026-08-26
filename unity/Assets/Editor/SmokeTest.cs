@@ -176,14 +176,16 @@ namespace ThisL.EditorTools
                 if (VignettePlayer.Instance != null && VignettePlayer.Instance.IsPlaying)
                     VignettePlayer.Instance.Skip();
 
-                // Boss instantiation sweep: spawn each boss id, confirm it built, destroy it.
+                // Boss sweep: spawn every boss and LET THEM LIVE a while so their Update/attack
+                // patterns actually run (projectile spawns, phase logic) — the crash-prone part.
+                // The first SkipToNext (frame 70+) clears them as Team.Enemy.
                 if (_cFrames >= 40 && !_cSweptBosses && PlayerController.Instance != null)
                 {
                     _cSweptBosses = true;
                     for (int i = 0; i < BossIds.Length; i++)
                     {
-                        var b = Bosses.Spawn(BossIds[i], 120f + i * 6f, 3f);
-                        if (b != null) { _cBossesOk++; Object.Destroy(b.gameObject); }
+                        var b = Bosses.Spawn(BossIds[i], 90f + i * 7f, Mathf.Clamp(1.5f + i * 0.4f, 0f, 5f));
+                        if (b != null) { _cBossesOk++; b.TakeDamage(20f, null); } // poke → phase/execute paths
                         else Debug.Log($"SMOKE_CAMPAIGN_BOSS_NULL: {BossIds[i]}");
                     }
                 }
