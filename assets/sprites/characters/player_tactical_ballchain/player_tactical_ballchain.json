@@ -1,0 +1,105 @@
+{
+  "actor": "player_tactical_ballchain",
+  "atlas": {
+    "file": "player_tactical_ballchain_atlas.png",
+    "frames": [
+      {
+        "name": "player_tactical_ballchain_idle_00.png",
+        "rect": [
+          15,
+          3,
+          23,
+          63
+        ]
+      },
+      {
+        "name": "player_tactical_ballchain_idle_01.png",
+        "rect": [
+          70,
+          2,
+          21,
+          64
+        ]
+      },
+      {
+        "name": "player_tactical_ballchain_idle_02.png",
+        "rect": [
+          125,
+          2,
+          20,
+          64
+        ]
+      },
+      {
+        "name": "player_tactical_ballchain_idle_03.png",
+        "rect": [
+          178,
+          3,
+          21,
+          63
+        ]
+      },
+      {
+        "name": "player_tactical_ballchain_swing_00.png",
+        "rect": [
+          226,
+          2,
+          33,
+          64
+        ]
+      },
+      {
+        "name": "player_tactical_ballchain_swing_01.png",
+        "rect": [
+          280,
+          2,
+          34,
+          64
+        ]
+      },
+      {
+        "name": "player_tactical_ballchain_swing_02.png",
+        "rect": [
+          334,
+          2,
+          34,
+          64
+        ]
+      },
+      {
+        "name": "player_tactical_ballchain_swing_03.png",
+        "rect": [
+          385,
+          2,
+          40,
+          64
+        ]
+      },
+      {
+        "name": "player_tactical_ballchain_swing_04.png",
+        "rect": [
+          8,
+          66,
+          38,
+          66
+        ]
+      },
+      {
+        "name": "player_tactical_ballchain_swing_05.png",
+        "rect": [
+          54,
+          66,
+          54,
+          66
+        ]
+      }
+    ],
+    "size": [
+      432,
+      132
+    ]
+  },
+  "ppu": 24,
+  "fps": 12,
+  "source": "pixellab"
+}
