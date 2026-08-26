@@ -86,9 +86,50 @@ namespace ThisL
                     GUI.Label(new Rect(bx + 2, 66, 180, 18), "DOWN", _label);
             }
 
+            DrawBossBar(w);
+
             // Game over only once EVERYONE is down and the pool is spent.
             if (!PlayerController.AnyAlive && Lives.Count <= 0)
                 GUI.Label(new Rect(w / 2f - 60, 150, 200, 30), "GAME OVER", _label);
+        }
+
+        private GUIStyle _bossName;
+
+        // Big centered boss health/objective bar while a boss is alive (BossController documents
+        // the HUD reading Hp/MaxHp + PhaseCount). Phase dividers segment the bar; a FINISH! prompt
+        // pulses once an HP-depletion boss is in execute range.
+        private void DrawBossBar(float w)
+        {
+            BossController boss = null;
+            foreach (var a in Actor.All) if (a is BossController b && b.Alive) { boss = b; break; }
+            if (boss == null) return;
+
+            _bossName ??= new GUIStyle(GUI.skin.label)
+            { fontSize = 13, fontStyle = FontStyle.Bold, alignment = TextAnchor.MiddleCenter };
+
+            float bw = 300f, bx = (w - bw) * 0.5f, by = 32f;
+            float frac = boss.MaxHp > 0f ? Mathf.Clamp01(boss.Hp / boss.MaxHp) : 0f;
+
+            GUI.color = Color.white;
+            GUI.Label(new Rect(bx, by - 17f, bw, 16f), boss.DisplayName ?? "BOSS", _bossName);
+            DrawBar(bx, by, bw, 14f, frac, new Color(0.88f, 0.22f, 0.2f), "");
+
+            // Phase dividers (even spacing — a readable "N phases" cue).
+            int phases = Mathf.Max(1, boss.PhaseCount);
+            for (int i = 1; i < phases; i++)
+            {
+                float px = bx + bw * i / phases;
+                GUI.color = new Color(0f, 0f, 0f, 0.8f);
+                GUI.DrawTexture(new Rect(px, by, 2f, 14f), Texture2D.whiteTexture);
+            }
+
+            if (boss.CanBeExecuted)
+            {
+                float pulse = 0.5f + 0.5f * Mathf.Abs(Mathf.Sin(Time.time * 6f));
+                GUI.color = new Color(1f, 0.9f, 0.3f, pulse);
+                GUI.Label(new Rect(bx, by + 15f, bw, 16f), "FINISH!  (special)", _bossName);
+            }
+            GUI.color = Color.white;
         }
 
         // Draw the hero's head (top crop of the idle sprite) as a small square life pip.
