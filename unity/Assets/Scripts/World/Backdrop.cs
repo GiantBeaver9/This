@@ -239,7 +239,7 @@ namespace ThisL
             }
 
             BuildPropRow(built);          // real house/tree sprites at the horizon
-            BuildLandmarkRow(built);      // per-area signature landmarks (tower/plane/bridge/skyline)
+            BuildLandmarkRow(built);      // per-area signature landmarks (control tower/bridge/skyline)
             _instances = built.ToArray();
         }
 
@@ -671,16 +671,18 @@ namespace ThisL
         /// area read differently at a glance — the "levels all look the same" fix.</summary>
         private static string[] LandmarksForArea(int area) => area switch
         {
-            2 => new[] { "control_tower.png", "plane.png" },      // Sacramento & Airport
-            3 => new[] { "causeway.png" },                        // Hills, Causeway & Dixon
+            2 => new[] { "control_tower.png" },                   // Airport: the single stationary tower
+            // Area 3 causeway draws its levee/dike as the theme prop row (BuildCausewayPropRow), so it
+            // needs no separate landmark; other area-3 stages use strip art (no landmark row runs).
             4 => new[] { "golden_gate.png", "skyline_tower.png" },// Vallejo → GG → SF
             _ => System.Array.Empty<string>(),
         };
 
         /// <summary>
-        /// A far, sparse row of the area's big landmark props (bridge, tower, plane, skyline),
-        /// wider-spaced and larger than the house row so each area has a recognizable skyline.
-        /// The plane rides high in the sky; the rest seat on the horizon. Own parallax layer.
+        /// A far, sparse row of the area's big landmark props (control tower, bridge, skyline),
+        /// wider-spaced and larger than the house row so each area has a recognizable skyline. All
+        /// seat on the horizon and share one far parallax layer (0.15) so they read as distant and
+        /// near-stationary — the airport's control tower barely drifts as the player runs past.
         /// </summary>
         private void BuildLandmarkRow(List<LayerInstance> built)
         {
@@ -688,11 +690,11 @@ namespace ThisL
             if (names.Length == 0) return;
             string dir = PropsDirForArea(_area);
 
-            var sprites = new List<(Sprite s, bool sky)>();
+            var sprites = new List<Sprite>();
             foreach (var n in names)
             {
                 var s = LoadProp(dir, n);
-                if (s != null) sprites.Add((s, n.Contains("plane")));  // planes fly; everything else sits
+                if (s != null) sprites.Add(s);
             }
             if (sprites.Count == 0) return;
 
@@ -702,14 +704,15 @@ namespace ThisL
             var parent = new GameObject("band_landmarks");
             parent.transform.SetParent(transform, false);
 
-            // Wide spacing so a landmark is an occasional hero element, not a repeating fence.
+            // ~One screen between landmarks so each is an occasional hero element (a single, near-
+            // stationary control tower / bridge / skyline per screen-ish) — never a repeating fence.
             float x = -rowWidth * 0.5f;
             int i = 0;
-            const float spacing = 16f;
+            float spacing = Tuning.ScreenWidthUnits;
             while (x < rowWidth * 0.5f)
             {
-                var (s, sky) = sprites[i % sprites.Count];
-                float targetTall = sky ? 2.0f : 6.5f;      // big skyline landmarks; smaller planes
+                Sprite s = sprites[i % sprites.Count];
+                float targetTall = 6.5f;                    // big skyline landmark (tower/bridge/skyline)
                 float natTall = s.rect.height / Tuning.PixelsPerUnit;
                 float scale = natTall > 0.01f ? targetTall / natTall : 1f;
 
@@ -717,10 +720,9 @@ namespace ThisL
                 go.transform.SetParent(parent.transform, false);
                 var sr = go.AddComponent<SpriteRenderer>();
                 sr.sprite = s;
-                sr.sortingOrder = sky ? -992 : -996;        // planes over the sky; skyline behind houses
-                float y = sky ? horizon + 4.5f : horizon;   // planes ride high
+                sr.sortingOrder = -995;                     // in front of the sky, behind the prop row
                 go.transform.localScale = new Vector3(scale, scale, 1f);
-                go.transform.localPosition = new Vector3(x, y, 0f);
+                go.transform.localPosition = new Vector3(x, horizon, 0f);
 
                 x += spacing;
                 i++;
