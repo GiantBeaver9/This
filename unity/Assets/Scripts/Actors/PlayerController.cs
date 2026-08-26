@@ -977,7 +977,16 @@ namespace ThisL
             }
 
             int applied = dashStagger ? 0 : dmg;
-            var hits = Combat.MeleeHitDirectional(this, dir, reach, perp, applied, dmgMult);
+            // Up/Down strikes sweep an ANGULAR ARC instead of a thin depth-strip: the uppercut fans
+            // from directly in front (0°) up to "up" (+90°); the down-strike mirrors it. They overlap
+            // the side attack by ~10° at the front so there are no dead angles (creator: fluid 8-way).
+            float arcReach = Mathf.Max(reach, Tuning.FistReach + 0.6f);
+            List<Actor> hits =
+                (_attackKind == AttackKind.Up || _attackKind == AttackKind.AirUp)
+                    ? Combat.MeleeHitArc(this, 45f, 50f, arcReach, applied, dmgMult)
+              : (_attackKind == AttackKind.Down || _attackKind == AttackKind.AirDown)
+                    ? Combat.MeleeHitArc(this, -45f, 50f, arcReach, applied, dmgMult)
+                    : Combat.MeleeHitDirectional(this, dir, reach, perp, applied, dmgMult);
 
             // Track the connections the primed string depends on.
             if (_attackKind == AttackKind.Side && _combo == 0) _p1Connected = hits.Count > 0;

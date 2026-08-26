@@ -57,6 +57,35 @@ namespace ThisL
             return _scratch;
         }
 
+        /// <summary>
+        /// An ANGULAR ARC strike. A target's bearing from the attacker is measured in the X-Z plane
+        /// with Facing baked in: 0° = directly in front, +90° = "up" (far depth), −90° = "down"
+        /// (near depth). Hits every live opponent whose bearing is within [<paramref name="centerDeg"/>
+        /// ± <paramref name="halfDeg"/>] and within <paramref name="reach"/>. Overlapping fans (set
+        /// halfDeg a few ° wide) remove the dead angles between the old thin cardinal strips, so the
+        /// 8-way attacks feel fluid. e.g. the uppercut sweeps front→up as center 45°, half 50°.
+        /// </summary>
+        public static List<Actor> MeleeHitArc(Actor attacker, float centerDeg, float halfDeg,
+                                              float reach, int dmg, float dmgMult = 1f)
+        {
+            _scratch.Clear();
+            foreach (var a in Actor.All)
+            {
+                if (a == attacker || !a.Alive || a.Team == attacker.Team) continue;
+                float dx = (a.WorldX - attacker.WorldX) * attacker.Facing; // forward-positive
+                float dz = a.Z - attacker.Z;
+                float dist = Mathf.Sqrt(dx * dx + dz * dz);
+                if (dist > reach) continue;
+                if (dx < -0.25f && dist > 0.35f) continue;                 // never reach behind (bar point-blank)
+                float ang = Mathf.Atan2(dz, dx) * Mathf.Rad2Deg;
+                if (Mathf.Abs(Mathf.DeltaAngle(centerDeg, ang)) > halfDeg) continue;
+                _scratch.Add(a);
+            }
+            int applied = Mathf.RoundToInt(dmg * dmgMult);
+            foreach (var a in _scratch) a.TakeDamage(applied, attacker);
+            return _scratch;
+        }
+
         /// <summary>Live enemies inside a forward cone: on the facing side within
         /// <paramref name="length"/> in X and <paramref name="halfWidthZ"/> in depth.</summary>
         public static List<Actor> EnemiesInFrontCone(Actor from, float length, float halfWidthZ)
