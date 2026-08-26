@@ -1140,25 +1140,37 @@ namespace ThisL
             var target = AcquireFinisherTarget();
             if (target == null) return; // whiffed (no downed body in range)
 
-            // WHIP HEAD-RIP (§3.4 / COMBOS §4): the whip finisher tears the head clean off and
-            // flings it as a LIVE grenade that detonates where it lands.
-            if (CurrentWeapon != null && CurrentWeapon.Kind == WeaponKind.Whip)
+            // WEAPON EXECUTIONS (COMBOS §4): the finisher with a signature melee weapon takes the HEAD
+            // off. Whip RIPS it into a live grenade; sword LOPS it off to tumble; ball & chain SMASHES
+            // it to pulp (no flying head); bat LAUNCHES it clean off like a home run.
+            var wk = CurrentWeapon != null ? CurrentWeapon.Kind : WeaponKind.Fists;
+            if (wk is WeaponKind.Whip or WeaponKind.Sword or WeaponKind.BallChain or WeaponKind.Bat)
             {
-                target.TakeDamage(9999f, this);   // rip = instant kill
-                float tx = target.WorldX + Facing * 4.5f;
-                var head = ArcProjectile.Spawn(Team.Player, target.WorldX, target.Z, tx, target.Z,
-                                               30f, new Color(0.95f, 0.9f, 0.8f), airTime: 0.7f);
-                head.SplashRadius = 2f;
-                head.ArcHeight = 3f;
-                head.OnLand = () => { Sfx.Play("grenade_explode"); CameraShake.Add(CameraShake.Heavy); };
-
-                Vfx.FinisherFlash(target.WorldX, target.Z);
+                target.TakeDamage(9999f, this);            // execution = instant kill
+                Vfx.DeathBurst(target.WorldX, target.Z);   // neck spray
+                switch (wk)
+                {
+                    case WeaponKind.Whip:                  // ripped off → a LIVE grenade head
+                    {
+                        var head = FlingHead(target, Facing * 4.5f, 30f, 3f);
+                        head.SplashRadius = 2f;
+                        head.OnLand = () => { Sfx.Play("grenade_explode"); CameraShake.Add(CameraShake.Heavy); };
+                        break;
+                    }
+                    case WeaponKind.Sword:                 // lopped off → tumbles a short way
+                        FlingHead(target, Facing * 2.5f, 20f, 2.2f);
+                        break;
+                    case WeaponKind.Bat:                   // HOME RUN → launched far and fast
+                        FlingHead(target, Facing * 12f, 32f, 5f);
+                        Sfx.Play("air_hit");
+                        break;
+                    case WeaponKind.BallChain:             // SMASHED → no flying head, pulp + a big shake
+                        Vfx.DeathBurst(target.WorldX + 0.2f, target.Z + 0.2f);
+                        Sfx.Play("ground_smash");
+                        break;
+                }
                 Sfx.Play("finisher_crunch");
-                CameraShake.Add(CameraShake.Heavy);
-                HitStop.Freeze(HitStop.Kill);
-                ComboHud.RegisterKill();
-                ComboJuice.Impact(target.WorldX, target.Z, Meter.Combo, heavy: true);
-                FinisherLanded?.Invoke();
+                FinisherKillJuice(target);
                 return;
             }
 
@@ -1177,6 +1189,27 @@ namespace ThisL
             if (killed) ComboHud.RegisterKill();
             ComboJuice.Impact(target.WorldX, target.Z, Meter.Combo, heavy: true);
             FinisherLanded?.Invoke();   // tutorial execute/finisher gate
+        }
+
+        /// <summary>Fling a severed head from a target: a pale arc projectile that thuds on landing.</summary>
+        private ArcProjectile FlingHead(Actor t, float dxWu, float speed, float arcHeight)
+        {
+            var head = ArcProjectile.Spawn(Team.Player, t.WorldX, t.Z + 0.3f, t.WorldX + dxWu, t.Z,
+                                           speed, new Color(0.95f, 0.9f, 0.8f), airTime: 0.7f);
+            head.ArcHeight = arcHeight;
+            head.OnLand = () => Sfx.Play("knockdown_thud");
+            return head;
+        }
+
+        /// <summary>The shared kill-finisher juice: flash, shake, freeze, combo tick, tutorial gate.</summary>
+        private void FinisherKillJuice(Actor t)
+        {
+            Vfx.FinisherFlash(t.WorldX, t.Z);
+            CameraShake.Add(CameraShake.Heavy);
+            HitStop.Freeze(HitStop.Kill);
+            ComboHud.RegisterKill();
+            ComboJuice.Impact(t.WorldX, t.Z, Meter.Combo, heavy: true);
+            FinisherLanded?.Invoke();
         }
 
         private Actor AcquireFinisherTarget()
