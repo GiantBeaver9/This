@@ -77,9 +77,13 @@ namespace ThisL
                 case HazardKind.Car:
                     CarHazard.Spawn(x, z, dir * CarSpeed, CarColors[Random.Range(0, CarColors.Length)]);
                     break;
-                case HazardKind.Guard:   // a security guard sprints across and shoulder-checks the row
-                    CrossHazard.Spawn(GuardSprite(), x, z, dir * 14f, 16f, new Vector2(2.0f, 2.0f), 0.8f, 0f);
+                case HazardKind.Guard:   // a security guard JOGS across and shoulder-checks the row
+                {
+                    var gs = GuardSprite();
+                    float sc = 2.6f / Mathf.Max(0.3f, gs.rect.height / Tuning.PixelsPerUnit); // ~person height, any sprite
+                    CrossHazard.Spawn(gs, x, z, dir * 9f, 16f, new Vector2(sc, sc), 0.8f, 0f);
                     break;
+                }
                 case HazardKind.Plane:   // a jet roars across the far tarmac row — big, fast, deadly
                     CrossHazard.Spawn(PlaneSprite(), x, z, dir * 34f, 26f, new Vector2(4.5f, 2.2f), 2.4f, 0.4f);
                     break;

@@ -210,7 +210,7 @@ namespace ThisL
                         // StageDatabase, so those play in sequence without a separate hook here.
                         // HazardDirector self-gates the car to Level 1 only (creator ruling);
                         // per-area hazards come later.
-                        if (sys != null) { sys.AddComponent<CampaignRunner>(); sys.AddComponent<HazardDirector>(); sys.AddComponent<PodDirector>(); sys.AddComponent<ObstacleDirector>(); sys.AddComponent<StageFinaleProps>(); }
+                        if (sys != null) { sys.AddComponent<CampaignRunner>(); sys.AddComponent<HazardDirector>(); sys.AddComponent<PodDirector>(); sys.AddComponent<ObstacleDirector>(); sys.AddComponent<StageFinaleProps>(); sys.AddComponent<StageBackdropZones>(); }
                     });
                 });
             });
