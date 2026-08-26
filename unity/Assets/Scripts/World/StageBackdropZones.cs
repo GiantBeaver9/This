@@ -20,27 +20,28 @@ namespace ThisL
 
         private struct Zone
         {
-            public float Frac;   // position along the lane (0..1)
-            public string File;
-            public float Tall;   // world-units tall
-            public float Z;      // depth row
+            public float Frac;      // position along the lane (0..1); with FracEnd → span start
+            public float FracEnd;   // >0 → a CLUSTER filling [Frac..FracEnd] with the buildings in folder `File`
+            public string File;     // a png name, OR (cluster) a subfolder of zones/ to fill the span from
+            public float Tall;      // world-units tall (buildings)
+            public float Z;         // depth row
             public bool Foreground;
         }
 
         private const float Far = 5.7f; // horizon row for buildings
 
-        // Per-stage landmark layout. Stage 1 (index 0): school -> intersection (crosswalk + lights) ->
-        // basketball courts -> diner, laid over the house row.
+        // Per-stage layout. Stage 1 (index 0): a full LINCOLN HIGH campus (cluster) -> intersection
+        // (crosswalk + lights) -> basketball courts -> diner, laid over the house row.
         private static Zone[] ZonesFor(int stage) => stage switch
         {
             0 => new[]
             {
-                new Zone { Frac = 0.28f, File = "school.png",           Tall = 16f, Z = Far,  Foreground = false },
-                new Zone { Frac = 0.48f, File = "crosswalk.png",        Tall = 1.2f, Z = 2.6f, Foreground = false }, // stripes on the road
-                new Zone { Frac = 0.47f, File = "traffic_light.png",    Tall = 6f,  Z = 0.6f, Foreground = true },   // near light
-                new Zone { Frac = 0.50f, File = "traffic_light.png",    Tall = 5f,  Z = Far,  Foreground = false },  // far light
-                new Zone { Frac = 0.63f, File = "basketball_court.png", Tall = 9f,  Z = Far,  Foreground = false },
-                new Zone { Frac = 0.85f, File = "diner.png",            Tall = 12f, Z = Far,  Foreground = false },
+                new Zone { Frac = 0.16f, FracEnd = 0.44f, File = "school", Tall = 15f, Z = Far, Foreground = false }, // whole campus
+                new Zone { Frac = 0.50f, File = "crosswalk.png",        Tall = 1.2f, Z = 2.6f, Foreground = false }, // stripes on the road
+                new Zone { Frac = 0.49f, File = "traffic_light.png",    Tall = 6f,  Z = 0.6f, Foreground = true },   // near light
+                new Zone { Frac = 0.52f, File = "traffic_light.png",    Tall = 5f,  Z = Far,  Foreground = false },  // far light
+                new Zone { Frac = 0.64f, File = "basketball_court.png", Tall = 9f,  Z = Far,  Foreground = false },
+                new Zone { Frac = 0.86f, File = "diner.png",            Tall = 12f, Z = Far,  Foreground = false },
             },
             _ => System.Array.Empty<Zone>(),
         };
@@ -56,7 +57,34 @@ namespace ThisL
             _lastStage = stage;
             float startX = p.WorldX;
             foreach (var z in ZonesFor(stage))
-                Place(z.File, startX + z.Frac * LaneLen, z.Tall, z.Z, z.Foreground);
+            {
+                if (z.FracEnd > z.Frac) PlaceCluster(z, startX);
+                else Place(z.File, startX + z.Frac * LaneLen, z.Tall, z.Z, z.Foreground);
+            }
+        }
+
+        /// <summary>Fill [Frac..FracEnd] with the buildings in zones/&lt;File&gt;/, edge-to-edge (varied), so the
+        /// area reads FULL — a whole campus rather than a single building (creator: "each area full enough").</summary>
+        private void PlaceCluster(Zone z, float startX)
+        {
+            var sprites = LoadFolder(z.File);
+            if (sprites.Count == 0) return;
+            float x = startX + z.Frac * LaneLen;
+            float endX = startX + z.FracEnd * LaneLen;
+            int i = 0;
+            while (x < endX)
+            {
+                var spr = sprites[i % sprites.Count];
+                float natTall = spr.rect.height / Tuning.PixelsPerUnit;
+                // vary the height a touch per building around the zone's target
+                float tall = z.Tall * (0.82f + 0.10f * (i % 3));
+                float scale = natTall > 0.01f ? tall / natTall : 1f;
+                float wWu = (spr.rect.width / Tuning.PixelsPerUnit) * scale;
+                var go = MakeProp(spr, x + wWu * 0.5f, z.Z, scale, foreground: false, isCrosswalk: false);
+                _props.Add(go);
+                x += wWu + 0.4f;   // near-touching campus row
+                i++;
+            }
         }
 
         private void OnDisable() => Clear();
@@ -71,18 +99,44 @@ namespace ThisL
         {
             var spr = LoadZone(file);
             if (spr == null) return;
-            var go = new GameObject("zone_" + file);
+            float natTall = spr.rect.height / Tuning.PixelsPerUnit;
+            float scale = natTall > 0.01f ? tallWu / natTall : 1f;
+            _props.Add(MakeProp(spr, worldX, z, scale, foreground, file.Contains("crosswalk")));
+        }
+
+        /// <summary>Spawn one world-fixed backdrop prop. Buildings sort far behind the fighters; a
+        /// crosswalk lies on the road (still behind actors); a foreground prop (traffic light) is in front.</summary>
+        private GameObject MakeProp(Sprite spr, float worldX, float z, float scale, bool foreground, bool isCrosswalk)
+        {
+            var go = new GameObject("zone_prop");
             go.transform.SetParent(transform, false);
             var sr = go.AddComponent<SpriteRenderer>();
             sr.sprite = spr;
-            float natTall = spr.rect.height / Tuning.PixelsPerUnit;
-            float scale = natTall > 0.01f ? tallWu / natTall : 1f;
             go.transform.localScale = new Vector3(scale, scale, 1f);
             Playfield.Place(go.transform, worldX, z, sr);              // world-fixed: the camera scrolls to it
-            // Buildings sit far behind the fighters; a crosswalk lies on the road (still behind actors);
-            // a traffic light is a near foreground pole (in front).
-            sr.sortingOrder = foreground ? Playfield.SortingOrder(z) + 3 : (file.Contains("crosswalk") ? -20 : -300);
-            _props.Add(go);
+            sr.sortingOrder = foreground ? Playfield.SortingOrder(z) + 3 : (isCrosswalk ? -20 : -300);
+            return go;
+        }
+
+        // Cache the buildings in a zones/<folder>/ for cluster fills.
+        private static readonly Dictionary<string, List<Sprite>> s_folderCache = new();
+        private static List<Sprite> LoadFolder(string folder)
+        {
+            if (s_folderCache.TryGetValue(folder, out var cached)) return cached;
+            var list = new List<Sprite>();
+            try
+            {
+                string dir = System.IO.Path.Combine(SpriteLibrary.AssetsRoot, "backdrops", "zones", folder);
+                if (System.IO.Directory.Exists(dir))
+                    foreach (var path in System.IO.Directory.GetFiles(dir, "*.png"))
+                    {
+                        var s = LoadZone(folder + "/" + System.IO.Path.GetFileName(path));
+                        if (s != null) list.Add(s);
+                    }
+            }
+            catch { }
+            s_folderCache[folder] = list;
+            return list;
         }
 
         private static readonly Dictionary<string, Sprite> s_cache = new();
