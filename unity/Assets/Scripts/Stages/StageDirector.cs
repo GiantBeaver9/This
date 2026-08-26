@@ -516,14 +516,16 @@ namespace ThisL
                 // distinct rooms (creator: "you basically made a 400wu area"). Collapse the block into
                 // 3–5 bigger arenas: each is a proper screen-lock room (its total drips in past the
                 // 8-on-screen cap) with real travel between, matching the JS-version feel.
-                int raw = MidpointRoundedUp(w.FillerMinWaves, w.FillerMaxWaves);
-                int count = Mathf.Clamp(Mathf.RoundToInt(raw / 3f), 3, 5); // e.g. 12 → 4 arenas
+                // Arena count SCALES WITH LANE LENGTH so an ~8x-longer stage stays paced: one filler
+                // arena per ~100 wu (~3.4 screens), leaving obstacle room between distinct screen-lock
+                // rooms rather than one giant empty walk. (Short/legacy lanes clamp back to 3.)
+                int count = Mathf.Clamp(Mathf.RoundToInt((data.LaneLengthWu - 100f) / 100f), 3, 14);
                 var pool = BuildFillerPool(data);
                 for (int i = 0; i < count; i++)
                 {
-                    // Total per arena ramps 9 → 15 across the block (NOT capped at the 8 on-screen
+                    // Total per arena ramps 7 → 12 across the block (NOT capped at the 8 on-screen
                     // limit — that cap is enforced live by the drip, so the room holds more overall).
-                    int size = count <= 1 ? 12 : Mathf.RoundToInt(Mathf.Lerp(9f, 15f, (float)i / (count - 1)));
+                    int size = count <= 1 ? 10 : Mathf.RoundToInt(Mathf.Lerp(7f, 12f, (float)i / (count - 1)));
                     var wave = Wave.Spawn($"{w.Label} #{i + 1}", 0.8f, BuildFillerBatch(data, pool, size));
                     outWaves.Add(wave);
                 }

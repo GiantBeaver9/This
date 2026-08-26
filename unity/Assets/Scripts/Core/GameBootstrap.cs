@@ -45,9 +45,10 @@ namespace ThisL
             var sr = go.AddComponent<SpriteRenderer>();
             sr.sprite = SolidSprite(new Color(0.62f, 0.62f, 0.60f)); // neutral pavement gray (the Backdrop draws the real ground over this; gray blends if it ever peeks — was a jarring dark green)
             sr.sortingOrder = -1000;
-            // Play band spans y in [-7.5, 1.5]; center it and make it very wide.
+            // Play band spans y in [-7.5, 1.5]; center it and make it VERY wide so it still covers
+            // the (now ~8x longer) lane behind the tiling backdrop.
             go.transform.position = new Vector3(0f, (-7.5f + 1.5f) / 2f, 0f);
-            go.transform.localScale = new Vector3(400f, 9f, 1f);
+            go.transform.localScale = new Vector3(4000f, 9f, 1f);
 
             // A near-edge horizon line for depth read.
             var line = new GameObject("GroundFarLine");
@@ -55,7 +56,7 @@ namespace ThisL
             lsr.sprite = SolidSprite(new Color(0.28f, 0.32f, 0.26f));
             lsr.sortingOrder = -999;
             line.transform.position = new Vector3(0f, Playfield.FeetY(Tuning.ZBandDepth), 0f);
-            line.transform.localScale = new Vector3(400f, 0.1f, 1f);
+            line.transform.localScale = new Vector3(4000f, 0.1f, 1f);
         }
 
         private static Sprite _solid;

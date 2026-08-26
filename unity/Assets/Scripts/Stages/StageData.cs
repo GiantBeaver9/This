@@ -21,10 +21,11 @@ namespace ThisL
         public string MusicClip;             // Music.PlayStage stem (assets/audio/music/stage_loops/**)
         public string AmbientClip;           // Music.PlayAmbient stem (assets/audio/music/ambient/**)
 
-        /// <summary>Combat lane length in world-units. Longer than the original 140 so the arenas
-        /// have real WALKING distance between them (creator: JS-version feel, "reach an area, lock,
-        /// then move on") and there's room to drop obstacles later. Finale overrides to ~30 (boss).</summary>
-        public float LaneLengthWu = 200f;
+        /// <summary>Combat lane length in world-units. ~8x the original 140 (creator: "stages should
+        /// be about 8x as long, so we can add obstacles"). The arena count scales with this in
+        /// StageDirector.ExpandWaves so the fights stay ~3 screens apart (obstacle room between, not
+        /// one giant empty walk). Finale overrides to ~30 (pure boss arena).</summary>
+        public float LaneLengthWu = 1200f;
 
         /// <summary>The ordered spine: vignette / spawn / checkpoint / filler-marker / boss waves.</summary>
         public readonly List<Wave> Waves = new();
