@@ -62,18 +62,23 @@ namespace ThisL
                 // Held ITEM as its pickup picture (skip fists — empty hands read as "no weapon").
                 if (p.CurrentWeapon != null && !p.CurrentWeapon.IsFists)
                 {
-                    var wtex = WeaponIcon(p.CurrentWeapon.Kind);
+                    var wp = p.CurrentWeapon;
+                    // Diegetic wear: the icon reddens as durability/ammo runs down (§ decay readout).
+                    float wear = wp.StartHits > 0 && wp.StartHits < 100000 ? Mathf.Clamp01((float)wp.HitsRemaining / wp.StartHits) : 1f;
+                    var wtex = WeaponIcon(wp.Kind);
                     if (wtex != null)
                     {
                         float ih = 20f, iw = ih * wtex.width / Mathf.Max(1, wtex.height);
                         float wx = isP2 ? (bx + 180f - iw) : cursor;   // P2: right-align under its bars
-                        GUI.color = Color.white;
+                        GUI.color = Color.Lerp(new Color(1f, 0.45f, 0.35f), Color.white, wear);
                         GUI.DrawTexture(new Rect(wx, iconY - 1f, iw, ih), wtex);
+                        GUI.color = Color.white;
+                        DrawDurabilityPips(wx, iconY + 20f, wp);
                     }
                     else // Gatling etc. with no pickup art: tiny label fallback
                     {
                         GUI.color = Color.white;
-                        GUI.Label(new Rect(isP2 ? bx + 120f : cursor, iconY + 2f, 80f, 16f), p.CurrentWeapon.Kind.ToString(), _cap);
+                        GUI.Label(new Rect(isP2 ? bx + 120f : cursor, iconY + 2f, 80f, 16f), wp.Kind.ToString(), _cap);
                     }
                 }
 
@@ -105,6 +110,21 @@ namespace ThisL
                               rr.width / tex.width, rr.height * frac / tex.height);
             GUI.color = Color.white;
             GUI.DrawTextureWithTexCoords(new Rect(x, y, size, size), tex, uv);
+        }
+
+        // A small row of ticks under the weapon icon = remaining durability/ammo (the corpse-as-
+        // ammo readout, in HUD form). Skipped for effectively-infinite weapons (boomerang).
+        private void DrawDurabilityPips(float x, float y, Weapon w)
+        {
+            if (w.StartHits <= 0 || w.StartHits >= 100000) return;
+            int max = Mathf.Min(w.StartHits, 10);
+            int lit = Mathf.Clamp(Mathf.CeilToInt(max * (float)w.HitsRemaining / w.StartHits), 0, max);
+            for (int i = 0; i < max; i++)
+            {
+                GUI.color = i < lit ? new Color(0.95f, 0.85f, 0.3f) : new Color(0.3f, 0.3f, 0.3f, 0.8f);
+                GUI.DrawTexture(new Rect(x + i * 4f, y, 3f, 3f), Texture2D.whiteTexture);
+            }
+            GUI.color = Color.white;
         }
 
         private void DrawBar(float x, float y, float w, float h, float frac, Color fill, string caption)

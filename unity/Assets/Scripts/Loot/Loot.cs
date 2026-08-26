@@ -39,6 +39,7 @@ namespace ThisL
         public float Reach;
         public int Damage;
         public int HitsRemaining;   // melee durability / ranged ammo
+        public int StartHits;       // HitsRemaining at pickup (for the diegetic wear readout)
         public float Warmup;        // seconds to ready before first use
         public bool IsRanged;       // fired via Fire()/E, not swung through the combo
         public float FireCooldown;  // between-shots gap, ticked by the owner
@@ -67,22 +68,27 @@ namespace ThisL
 
         // ---- Factories --------------------------------------------------------
         /// <summary>Build the equipped Weapon for a looted kind (extend as the roster grows).</summary>
-        public static Weapon Create(WeaponKind kind) => kind switch
+        public static Weapon Create(WeaponKind kind)
         {
-            WeaponKind.Sword => Sword(),
-            WeaponKind.Shotgun => Shotgun(),
-            WeaponKind.Boomerang => Boomerang(),
-            WeaponKind.Pistol => Pistol(),
-            WeaponKind.Revolver => Revolver(),
-            WeaponKind.Whip => Whip(),
-            WeaponKind.Staff => Staff(),
-            WeaponKind.Bat => Bat(),
-            WeaponKind.Club => Club(),
-            WeaponKind.Grenade => Grenade(),
-            WeaponKind.BallChain => BallChain(),
-            WeaponKind.Gatling => Gatling(),
-            _ => Fists(),
-        };
+            var w = kind switch
+            {
+                WeaponKind.Sword => Sword(),
+                WeaponKind.Shotgun => Shotgun(),
+                WeaponKind.Boomerang => Boomerang(),
+                WeaponKind.Pistol => Pistol(),
+                WeaponKind.Revolver => Revolver(),
+                WeaponKind.Whip => Whip(),
+                WeaponKind.Staff => Staff(),
+                WeaponKind.Bat => Bat(),
+                WeaponKind.Club => Club(),
+                WeaponKind.Grenade => Grenade(),
+                WeaponKind.BallChain => BallChain(),
+                WeaponKind.Gatling => Gatling(),
+                _ => Fists(),
+            };
+            w.StartHits = w.HitsRemaining;   // capture max for the diegetic wear readout
+            return w;
+        }
 
         public static Weapon Fists() => new()
         {
