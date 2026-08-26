@@ -616,7 +616,7 @@
         ]
       },
       {
-        "name": "player_werewolf_walk_00.png",
+        "name": "player_werewolf_transform_00.png",
         "rect": [
           209,
           416,
@@ -625,10 +625,73 @@
         ]
       },
       {
+        "name": "player_werewolf_transform_01.png",
+        "rect": [
+          256,
+          417,
+          15,
+          51
+        ]
+      },
+      {
+        "name": "player_werewolf_transform_02.png",
+        "rect": [
+          301,
+          420,
+          22,
+          48
+        ]
+      },
+      {
+        "name": "player_werewolf_transform_03.png",
+        "rect": [
+          341,
+          423,
+          38,
+          45
+        ]
+      },
+      {
+        "name": "player_werewolf_transform_04.png",
+        "rect": [
+          3,
+          476,
+          41,
+          44
+        ]
+      },
+      {
+        "name": "player_werewolf_transform_05.png",
+        "rect": [
+          51,
+          477,
+          41,
+          43
+        ]
+      },
+      {
+        "name": "player_werewolf_transform_06.png",
+        "rect": [
+          100,
+          476,
+          40,
+          44
+        ]
+      },
+      {
+        "name": "player_werewolf_walk_00.png",
+        "rect": [
+          161,
+          468,
+          13,
+          52
+        ]
+      },
+      {
         "name": "player_werewolf_walk_01.png",
         "rect": [
-          251,
-          417,
+          203,
+          469,
           25,
           51
         ]
@@ -636,8 +699,8 @@
       {
         "name": "player_werewolf_walk_02.png",
         "rect": [
-          305,
-          416,
+          257,
+          468,
           13,
           52
         ]
@@ -645,8 +708,8 @@
       {
         "name": "player_werewolf_walk_03.png",
         "rect": [
-          347,
-          416,
+          299,
+          468,
           26,
           52
         ]
@@ -654,7 +717,7 @@
     ],
     "size": [
       384,
-      468
+      520
     ]
   },
   "ppu": 24,
