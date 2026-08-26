@@ -4,10 +4,73 @@
     "file": "gabe_werewolf_atlas.png",
     "frames": [
       {
+        "name": "gabe_werewolf_attack_side_00.png",
+        "rect": [
+          12,
+          0,
+          31,
+          68
+        ]
+      },
+      {
+        "name": "gabe_werewolf_attack_side_01.png",
+        "rect": [
+          65,
+          0,
+          34,
+          68
+        ]
+      },
+      {
+        "name": "gabe_werewolf_attack_side_02.png",
+        "rect": [
+          118,
+          2,
+          38,
+          66
+        ]
+      },
+      {
+        "name": "gabe_werewolf_attack_side_03.png",
+        "rect": [
+          165,
+          6,
+          55,
+          62
+        ]
+      },
+      {
+        "name": "gabe_werewolf_attack_side_04.png",
+        "rect": [
+          222,
+          9,
+          51,
+          59
+        ]
+      },
+      {
+        "name": "gabe_werewolf_attack_side_05.png",
+        "rect": [
+          277,
+          9,
+          51,
+          59
+        ]
+      },
+      {
+        "name": "gabe_werewolf_attack_side_06.png",
+        "rect": [
+          334,
+          11,
+          47,
+          57
+        ]
+      },
+      {
         "name": "gabe_werewolf_idle_00.png",
         "rect": [
-          0,
-          1,
+          397,
+          2,
           30,
           66
         ]
@@ -15,8 +78,8 @@
       {
         "name": "gabe_werewolf_idle_01.png",
         "rect": [
-          30,
-          0,
+          12,
+          69,
           30,
           67
         ]
@@ -24,8 +87,8 @@
       {
         "name": "gabe_werewolf_idle_02.png",
         "rect": [
-          61,
-          1,
+          69,
+          70,
           27,
           66
         ]
@@ -33,16 +96,16 @@
       {
         "name": "gabe_werewolf_idle_03.png",
         "rect": [
-          90,
-          2,
+          123,
+          71,
           29,
           65
         ]
       }
     ],
     "size": [
-      240,
-      67
+      440,
+      136
     ]
   },
   "ppu": 24,
