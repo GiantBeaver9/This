@@ -216,6 +216,7 @@ namespace ThisL
             }
 
             BuildPropRow(built);          // real house/tree sprites at the horizon
+            BuildLandmarkRow(built);      // per-area signature landmarks (tower/plane/bridge/skyline)
             _instances = built.ToArray();
         }
 
@@ -312,6 +313,74 @@ namespace ThisL
                 Transform = parent.transform,
                 Parallax = 0.24f,          // far layer
                 BaseY = 0f,                // props carry their own horizon Y in localPosition
+                TileWorld = rowWidth,
+            });
+        }
+
+        /// <summary>The signature landmark sprites for an area (empty = none yet). These make each
+        /// area read differently at a glance — the "levels all look the same" fix.</summary>
+        private static string[] LandmarksForArea(int area) => area switch
+        {
+            2 => new[] { "control_tower.png", "plane.png" },      // Sacramento & Airport
+            3 => new[] { "causeway.png" },                        // Hills, Causeway & Dixon
+            4 => new[] { "golden_gate.png", "skyline_tower.png" },// Vallejo → GG → SF
+            _ => System.Array.Empty<string>(),
+        };
+
+        /// <summary>
+        /// A far, sparse row of the area's big landmark props (bridge, tower, plane, skyline),
+        /// wider-spaced and larger than the house row so each area has a recognizable skyline.
+        /// The plane rides high in the sky; the rest seat on the horizon. Own parallax layer.
+        /// </summary>
+        private void BuildLandmarkRow(List<LayerInstance> built)
+        {
+            var names = LandmarksForArea(_area);
+            if (names.Length == 0) return;
+            string dir = PropsDirForArea(_area);
+
+            var sprites = new List<(Sprite s, bool sky)>();
+            foreach (var n in names)
+            {
+                var s = LoadProp(dir, n);
+                if (s != null) sprites.Add((s, n.Contains("plane")));  // planes fly; everything else sits
+            }
+            if (sprites.Count == 0) return;
+
+            float horizon = Playfield.FeetY(Tuning.ZBandDepth);
+            float rowWidth = Tuning.ScreenWidthUnits * 3f;
+
+            var parent = new GameObject("band_landmarks");
+            parent.transform.SetParent(transform, false);
+
+            // Wide spacing so a landmark is an occasional hero element, not a repeating fence.
+            float x = -rowWidth * 0.5f;
+            int i = 0;
+            const float spacing = 16f;
+            while (x < rowWidth * 0.5f)
+            {
+                var (s, sky) = sprites[i % sprites.Count];
+                float targetTall = sky ? 2.0f : 6.5f;      // big skyline landmarks; smaller planes
+                float natTall = s.rect.height / Tuning.PixelsPerUnit;
+                float scale = natTall > 0.01f ? targetTall / natTall : 1f;
+
+                var go = new GameObject("landmark");
+                go.transform.SetParent(parent.transform, false);
+                var sr = go.AddComponent<SpriteRenderer>();
+                sr.sprite = s;
+                sr.sortingOrder = sky ? -992 : -996;        // planes over the sky; skyline behind houses
+                float y = sky ? horizon + 4.5f : horizon;   // planes ride high
+                go.transform.localScale = new Vector3(scale, scale, 1f);
+                go.transform.localPosition = new Vector3(x, y, 0f);
+
+                x += spacing;
+                i++;
+            }
+
+            built.Add(new LayerInstance
+            {
+                Transform = parent.transform,
+                Parallax = 0.15f,          // farther than the house row (0.24) → reads as distant/huge
+                BaseY = 0f,
                 TileWorld = rowWidth,
             });
         }
