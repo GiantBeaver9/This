@@ -58,7 +58,7 @@ namespace ThisL
                 _nextReshuffleAt = Time.time + Tuning.EnemyReshuffleSeconds;
             }
 
-            var player = PlayerController.Instance;
+            var player = PlayerController.Nearest(WorldX, Z);
             if (player == null || !player.Alive) { Anim.Play("idle", true); return; }
 
             Facing = player.WorldX >= WorldX ? 1 : -1;

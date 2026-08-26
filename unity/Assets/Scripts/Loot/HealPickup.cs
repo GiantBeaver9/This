@@ -19,9 +19,15 @@ namespace ThisL
         /// <summary>Roll a heal drop on a kill — likelier when the player is low.</summary>
         public static void MaybeDrop(float x, float z)
         {
-            var p = PlayerController.Instance;
-            float chance = (p != null && p.Hp <= p.MaxHp * (Tuning.LowHpThreshold / Tuning.PlayerMaxHp))
-                ? Tuning.HealDropChanceLowHp : Tuning.HealDropChance;
+            // Base the low-HP bonus on the WORST-OFF living player (co-op: help whoever's hurting).
+            float lowestFrac = 1f;
+            foreach (var pl in PlayerController.All)
+            {
+                if (pl == null || !pl.Alive || pl.MaxHp <= 0f) continue;
+                lowestFrac = Mathf.Min(lowestFrac, pl.Hp / pl.MaxHp);
+            }
+            bool low = lowestFrac <= (Tuning.LowHpThreshold / Tuning.PlayerMaxHp);
+            float chance = low ? Tuning.HealDropChanceLowHp : Tuning.HealDropChance;
             if (Random.value < chance) Spawn(x, z);
         }
 
@@ -39,9 +45,9 @@ namespace ThisL
 
         private void Update()
         {
-            var player = PlayerController.Instance;
-            if (player != null && player.Alive)
+            foreach (var player in PlayerController.All)
             {
+                if (player == null || !player.Alive) continue;
                 float dx = player.WorldX - WorldX, dz = player.Z - Z;
                 if (dx * dx + dz * dz <= GrabRadius * GrabRadius)
                 {

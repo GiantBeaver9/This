@@ -130,7 +130,7 @@ namespace ThisL
 
             UpdatePhase();
 
-            var player = PlayerController.Instance;
+            var player = PlayerController.Nearest(WorldX, Z);
             if (player != null && player.Alive)
                 Facing = player.WorldX >= WorldX ? 1 : -1;
 
@@ -275,7 +275,7 @@ namespace ThisL
         /// <summary>Deal <paramref name="dmg"/> to the player if within a radius of the boss center.</summary>
         protected void HitPlayerIfInRange(float radius, float dmg)
         {
-            var p = PlayerController.Instance;
+            var p = PlayerController.Nearest(WorldX, Z);
             if (p == null || !p.Alive) return;
             if (p.DistanceTo(this) <= radius) p.TakeDamage(dmg, this);
         }
@@ -283,7 +283,7 @@ namespace ThisL
         /// <summary>Deal <paramref name="dmg"/> to the player if on a given Z-row within an X range ahead.</summary>
         protected void HitPlayerOnRow(float rowZ, float zTol, float xRange, float dmg)
         {
-            var p = PlayerController.Instance;
+            var p = PlayerController.Nearest(WorldX, Z);
             if (p == null || !p.Alive) return;
             if (Mathf.Abs(p.Z - rowZ) > zTol) return;
             if (Mathf.Abs(p.WorldX - WorldX) > xRange) return;

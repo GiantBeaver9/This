@@ -350,7 +350,7 @@ namespace ThisL
         private void SpawnUnit(EnemyArchetype archetype, SpawnSide side)
         {
             float anchorX = GateX(Mathf.Max(0, _gateOrdinal - 1));
-            if (PlayerController.Instance != null) anchorX = PlayerController.Instance.WorldX;
+            if (PlayerController.Primary != null) anchorX = PlayerController.MidX(); // enter the shared frame
 
             float half = Tuning.ScreenWidthUnits * 0.5f + 1f;
             float x, z;

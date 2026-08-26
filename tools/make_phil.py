@@ -27,7 +27,9 @@ ROOT = os.path.dirname(HERE)
 INK = (22, 22, 26, 255)      # body silhouette
 PENCIL = (240, 205, 90, 255) # pencil shaft (the one warm accent)
 LEAD = (40, 40, 44, 255)     # pencil tips/lead
-W, H = 72, 104               # canvas per frame (Phil ~ 3.5 wu tall after trim)
+W, H = 128, 120              # WIDE symmetric canvas: the double-pencil extends freely on
+                             # both sides without clipping, and (with --no-trim) Phil's body
+                             # stays centered so it never shifts frame-to-frame.
 
 
 def _p(draw, a, b, width):
@@ -181,7 +183,7 @@ def main():
 
     out = os.path.join(ROOT, "assets", "sprites", "bosses", "phil")
     rc = subprocess.call([sys.executable, os.path.join(HERE, "frames_to_atlas.py"),
-                          frames_dir, "phil", "--outdir", out])
+                          frames_dir, "phil", "--outdir", out, "--no-trim"])
     print(f"[phil] atlas rc={rc} -> {out}")
     return rc
 

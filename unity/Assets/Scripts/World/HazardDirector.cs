@@ -25,8 +25,7 @@ namespace ThisL
 
         private void Update()
         {
-            var p = PlayerController.Instance;
-            if (p == null || !p.Alive) return;
+            if (!PlayerController.AnyAlive) return;
 
             _timer -= Time.deltaTime;
             if (_timer > 0f) return;
@@ -34,7 +33,7 @@ namespace ThisL
 
             bool fromLeft = Random.value < 0.5f;
             float edge = Tuning.ScreenWidthUnits * 0.5f + 3f;
-            float x = p.WorldX + (fromLeft ? -edge : edge);
+            float x = PlayerController.MidX() + (fromLeft ? -edge : edge); // cross the shared frame
             float vel = (fromLeft ? 1f : -1f) * CarSpeed;
             float z = Random.Range(1f, Tuning.ZBandDepth - 1f);
             CarHazard.Spawn(x, z, vel, CarColors[Random.Range(0, CarColors.Length)]);

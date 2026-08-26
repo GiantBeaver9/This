@@ -53,7 +53,7 @@ namespace ThisL
             _cooldown = Mathf.Max(0f, _cooldown - dt);
             _callTimer = Mathf.Max(0f, _callTimer - dt);
 
-            var player = PlayerController.Instance;
+            var player = PlayerController.Nearest(WorldX, Z);
             if (player == null || !player.Alive) { Anim.Play("idle", true); return; }
             Facing = player.WorldX >= WorldX ? 1 : -1;
 

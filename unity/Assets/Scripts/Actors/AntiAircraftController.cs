@@ -43,7 +43,7 @@ namespace ThisL
 
             if (_stagger > 0f) { _stagger -= dt; Anim.Play("hurt", false); Steering.Separate(this); return; }
 
-            var player = PlayerController.Instance;
+            var player = PlayerController.Nearest(WorldX, Z);
             if (player == null || !player.Alive) { Anim.Play("idle", true); return; }
 
             Facing = player.WorldX >= WorldX ? 1 : -1;

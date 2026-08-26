@@ -42,26 +42,43 @@ namespace ThisL
 
         private void LateUpdate()
         {
-            if (Target == null && PlayerController.Instance != null)
-                Target = PlayerController.Instance.transform;
-            if (Target == null) return;
+            if (Target == null && PlayerController.Primary != null)
+                Target = PlayerController.Primary.transform;
 
-            var player = PlayerController.Instance;
+            var players = PlayerController.All;
 
-            // Wall the player to the reachable view BEFORE the camera reads their X,
-            // so a gate lock (MaxX pinned to the gate) is an actual wall, not just a
-            // frozen camera. Bounds are derived from the clamp range — not the lagged
-            // camera position — so player and camera never deadlock each other.
-            if (WallPlayerToView && player != null)
+            // Wall EACH living player to the reachable view BEFORE reading their X, so a
+            // gate lock (MaxX pinned to the gate) is an actual wall for BOTH players, not
+            // just a frozen camera. Bounds come from the clamp range, not the lagged camera
+            // position, so players and camera never deadlock. (Single-player: identical to
+            // the old behavior — one player, one wall.)
+            float leftWall = MinX - HalfView + EdgeMargin;
+            float rightWall = MaxX + HalfView - EdgeMargin;
+            if (rightWall < leftWall) rightWall = leftWall;
+
+            float minPX = float.MaxValue, maxPX = float.MinValue;
+            for (int i = 0; i < players.Count; i++)
             {
-                float leftWall = MinX - HalfView + EdgeMargin;
-                float rightWall = MaxX + HalfView - EdgeMargin;
-                if (rightWall < leftWall) rightWall = leftWall;
-                player.WorldX = Mathf.Clamp(player.WorldX, leftWall, rightWall);
+                var pl = players[i];
+                if (pl == null || !pl.Alive) continue;
+                if (WallPlayerToView) pl.WorldX = Mathf.Clamp(pl.WorldX, leftWall, rightWall);
+                if (pl.WorldX < minPX) minPX = pl.WorldX;
+                if (pl.WorldX > maxPX) maxPX = pl.WorldX;
             }
 
-            float px = player != null ? player.WorldX : Target.position.x;
-            float x = Mathf.Clamp(px, MinX, MaxX);
+            // Nobody alive (all downed): hold on the primary player if present, else the
+            // last target — never snap.
+            if (minPX == float.MaxValue)
+            {
+                var pr = PlayerController.Primary;
+                if (pr != null) { minPX = maxPX = pr.WorldX; }
+                else if (Target != null) { minPX = maxPX = Target.position.x; }
+                else return;
+            }
+
+            // Follow the MIDPOINT of the living players, still clamped to the stage gate.
+            float mid = (minPX + maxPX) * 0.5f;
+            float x = Mathf.Clamp(mid, MinX, MaxX);
             var p = transform.position;
             p.x = Mathf.Lerp(p.x, x, 1f - Mathf.Exp(-FollowLerp * Time.deltaTime));
             transform.position = p;

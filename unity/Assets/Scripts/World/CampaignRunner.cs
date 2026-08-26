@@ -77,6 +77,18 @@ namespace ThisL
                 WinRun();
                 return;
             }
+
+            // AREA CLEAR bonus (creator spec): if the stage we just finished sits in a
+            // different Area than the one coming up, an area was completed — award a shared
+            // life (~4 area transitions across the 13 stages, "another life every ~2.5 stages").
+            var done = StageDatabase.Get(CurrentStage);
+            var upcoming = StageDatabase.Get(next);
+            if (done != null && upcoming != null && done.Area != upcoming.Area)
+            {
+                Lives.Award(Tuning.LivesPerAreaClear);
+                Debug.Log($"[Campaign] Area cleared ({done.Area}) — +{Tuning.LivesPerAreaClear} life (now {Lives.Count}).");
+            }
+
             // Chain straight into the next stage; StageDirector re-anchors the lane to the
             // player's current X, so the world reads as one continuous drive to SF.
             StartStage(next);

@@ -15,23 +15,36 @@ namespace ThisL
 
         private void OnGUI()
         {
-            var p = PlayerController.Instance;
-            if (p == null) return;
+            var all = PlayerController.All;
+            if (all.Count == 0) return;
 
             _label ??= new GUIStyle(GUI.skin.label) { fontSize = 16, fontStyle = FontStyle.Bold };
 
             float scale = Screen.height / 360f; // scale HUD to the 360px design height
             GUI.matrix = Matrix4x4.TRS(Vector3.zero, Quaternion.identity, new Vector3(scale, scale, 1f));
+            float w = Screen.width / scale;
 
-            // Health bar
-            DrawBar(12, 12, 180, 16, p.Hp / p.MaxHp, HealthColor(p.Hp / p.MaxHp), "HP");
+            // One HP + special block per player: P1 top-left, P2 mirrored top-right.
+            for (int i = 0; i < all.Count; i++)
+            {
+                var p = all[i];
+                if (p == null) continue;
+                bool isP2 = i >= 1;
+                float bx = isP2 ? (w - 192f) : 12f;
 
-            // Special meter (0..300, tier-coloured)
-            float frac = p.Meter.Fraction01;
-            DrawBar(12, 36, 180, 12, frac, MeterColor(p.Meter.FullTier), $"SPECIAL {(p.Meter.CanFire ? "ARMED" : "")}");
+                DrawBar(bx, 12, 180, 16, p.Hp / p.MaxHp, HealthColor(p.Hp / p.MaxHp), isP2 ? "P2" : "P1");
+                DrawBar(bx, 36, 180, 12, p.Meter.Fraction01, MeterColor(p.Meter.FullTier),
+                        $"SPECIAL {(p.Meter.CanFire ? "ARMED" : "")}");
+                if (!p.Alive)
+                    GUI.Label(new Rect(bx + 4, 52, 180, 18), "DOWN", _label);
+            }
 
-            if (!p.Alive)
-                GUI.Label(new Rect(Screen.width / scale / 2f - 60, 150, 200, 30), "YOU DIED", _label);
+            // Shared team life pool, centered top.
+            GUI.Label(new Rect(w / 2f - 60, 12, 120, 20), $"LIVES  {Mathf.Max(0, Lives.Count)}", _label);
+
+            // Game over only once EVERYONE is down and the pool is spent.
+            if (!PlayerController.AnyAlive && Lives.Count <= 0)
+                GUI.Label(new Rect(w / 2f - 60, 150, 200, 30), "GAME OVER", _label);
         }
 
         private void DrawBar(float x, float y, float w, float h, float frac, Color fill, string caption)

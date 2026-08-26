@@ -130,6 +130,15 @@ namespace ThisL
         public const int PlayerMaxHp = 100;
         public const int HealRestore = 25;               // flat +25 per pickup, no full heals
 
+        // ---- Lives (shared team pool, co-op + solo) ---------------------------
+        // Start with 3 shared lives; +1 on each AREA clear (~4 area transitions over the
+        // 13-stage campaign). A player death spends a life and respawns them; empty pool
+        // on a death that leaves nobody standing = GAME OVER (creator spec).
+        public const int StartingLives = 3;              // shared pool at run start
+        public const int LivesPerAreaClear = 1;          // awarded when an area is finished
+        public const float RespawnDelay = 1.5f;          // downed -> respawn beat
+        public const float RespawnInvuln = 2.0f;         // i-frames granted on respawn
+
         // ---- Animation --------------------------------------------------------
         public const int AnimFps = 12;                   // sprites animate at 12 fps
     }

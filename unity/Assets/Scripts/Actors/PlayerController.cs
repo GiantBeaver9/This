@@ -23,7 +23,57 @@ namespace ThisL
     /// </summary>
     public sealed class PlayerController : Actor
     {
-        public static PlayerController Instance { get; private set; }
+        // ---- Multi-player roster (local co-op) -------------------------------
+        /// <summary>Every live player, in join order (All[0] = P1). Replaces the old singleton.
+        /// Intentionally hides <see cref="Actor.All"/> within PlayerController scope; the base
+        /// list is always referenced as <c>Actor.All</c> where needed.</summary>
+        public static new readonly List<PlayerController> All = new();
+
+        /// <summary>The primary player (P1) — first in the roster. Camera/stage anchors use this.</summary>
+        public static PlayerController Primary => All.Count > 0 ? All[0] : null;
+
+        /// <summary>Back-compat alias: legacy readers of <c>Instance</c> get the primary player.</summary>
+        public static PlayerController Instance => Primary;
+
+        /// <summary>True if any player is alive (stage-clear / game-over gates read this).</summary>
+        public static bool AnyAlive
+        {
+            get { foreach (var p in All) if (p != null && p.Alive) return true; return false; }
+        }
+
+        /// <summary>Nearest ALIVE player to (worldX,z); falls back to <see cref="Primary"/> if none alive.</summary>
+        public static PlayerController Nearest(float worldX, float z)
+        {
+            PlayerController best = null;
+            float bestSq = float.MaxValue;
+            foreach (var p in All)
+            {
+                if (p == null || !p.Alive) continue;
+                float dx = p.WorldX - worldX, dz = p.Z - z;
+                float d = dx * dx + dz * dz;
+                if (d < bestSq) { bestSq = d; best = p; }
+            }
+            return best ?? Primary;
+        }
+
+        /// <summary>Midpoint X of the living players (single-player = that player's X).</summary>
+        public static float MidX()
+        {
+            float mn = float.MaxValue, mx = float.MinValue;
+            foreach (var p in All)
+            {
+                if (p == null || !p.Alive) continue;
+                if (p.WorldX < mn) mn = p.WorldX;
+                if (p.WorldX > mx) mx = p.WorldX;
+            }
+            if (mn == float.MaxValue) { var pr = Primary; return pr != null ? pr.WorldX : 0f; }
+            return (mn + mx) * 0.5f;
+        }
+
+        // ---- Per-player input source (keyboard / gamepad) --------------------
+        private IPlayerInput _input;
+        /// <summary>Inject this player's control surface (call after <see cref="Configure"/>/<see cref="Init"/>).</summary>
+        public void SetInput(IPlayerInput src) => _input = src ?? new KeyboardInput();
 
         [System.NonSerialized] public Weapon CurrentWeapon = Weapon.Fists();
         public readonly SpecialMeter Meter = new();
@@ -48,6 +98,11 @@ namespace ThisL
         private float _hitstun;
         private float _weaponReady;       // warm-up countdown before a looted weapon can fire
         private bool _wasArmed;            // edge-detect the meter arming for the chime
+
+        // Downed / respawn (shared-life system). On death we don't destroy the player;
+        // if a team life is available we respawn them after a short beat.
+        private bool _awaitingRespawn;
+        private float _respawnTimer;
 
         // Shield Rush (PLAYER.md §2, TUNING §2.3): a forward double-tap INTO a grabbable
         // enemy grabs it as a moving damage-sponge and rushes forward; otherwise the
@@ -112,7 +167,8 @@ namespace ThisL
         protected override void Awake()
         {
             base.Awake();
-            Instance = this;
+            if (!All.Contains(this)) All.Add(this);
+            _input ??= new KeyboardInput();   // P1 default; GameFlow may replace via SetInput
             Team = Team.Player;
             Hp = MaxHp = Tuning.PlayerMaxHp;
             Character ??= CharacterDef.Tactical();
@@ -139,12 +195,24 @@ namespace ThisL
         public void SetInvuln(float seconds) => _invuln = Mathf.Max(_invuln, seconds);
         public void SetDamageBuff(float mult, float seconds) { _dmgBuffMult = mult; _dmgBuffTimer = seconds; }
 
-        private void OnDestroy() { if (Instance == this) Instance = null; }
+        private void OnDestroy() { All.Remove(this); }
 
         private void Update()
         {
-            if (!Alive) return;
             float dt = Time.deltaTime;
+
+            // Downed: tick the respawn beat (the only thing a dead player does).
+            if (!Alive)
+            {
+                if (_awaitingRespawn)
+                {
+                    _respawnTimer -= dt;
+                    if (_respawnTimer <= 0f) Respawn();
+                }
+                return;
+            }
+
+            _input.Tick();   // latch this frame's analog edges before any read
             _dashCooldown = Mathf.Max(0f, _dashCooldown - dt);
             _shieldRushCooldown = Mathf.Max(0f, _shieldRushCooldown - dt);
             _dashCharges = Mathf.Min(Tuning.DashMaxCharges,
@@ -158,14 +226,18 @@ namespace ThisL
             TickComboWindows(dt);
 
             // ---- TEMP DEBUG keys (deliberate, non-gameplay keys; delete before ship) ----
-            if (KeyDown(KeyCode.I)) Meter.Award(Tuning.MeterMax);          // I = fill special once
-            if (KeyDown(KeyCode.O)) CampaignRunner.Instance?.SkipToNext(); // O = skip to next stage
-            if (KeyDown(KeyCode.K))                                        // K = toggle GOD MODE
+            // Keyboard-only + P1-only so a second player's Update doesn't double-fire them.
+            if (this == Primary)
             {
-                GodMode = !GodMode;
-                Sfx.Play(GodMode ? "armed_ready_chime" : "cancel");
+                if (Input.GetKeyDown(KeyCode.I)) Meter.Award(Tuning.MeterMax);          // I = fill special once
+                if (Input.GetKeyDown(KeyCode.O)) CampaignRunner.Instance?.SkipToNext(); // O = skip to next stage
+                if (Input.GetKeyDown(KeyCode.K))                                        // K = toggle GOD MODE
+                {
+                    GodMode = !GodMode;
+                    Sfx.Play(GodMode ? "armed_ready_chime" : "cancel");
+                }
             }
-            if (GodMode) { Hp = MaxHp; Meter.Award(Tuning.MeterMax); }     // invincible + infinite special
+            if (GodMode) { Hp = MaxHp; Meter.Award(Tuning.MeterMax); }     // invincible + infinite special (both players)
             if (Meter.CanFire && !_wasArmed) Sfx.Play("armed_ready_chime");
             _wasArmed = Meter.CanFire;
 
@@ -192,9 +264,9 @@ namespace ThisL
             UpdateAnimation();
         }
 
-        // ---- Movement (WASD, left hand) --------------------------------------
-        private static float MoveX() => (Key(KeyCode.D) ? 1 : 0) - (Key(KeyCode.A) ? 1 : 0);
-        private static float MoveZ() => (Key(KeyCode.W) ? 1 : 0) - (Key(KeyCode.S) ? 1 : 0);
+        // ---- Movement (left hand: keyboard WASD / gamepad left stick) ---------
+        private float MoveX() => _input.MoveX;
+        private float MoveZ() => _input.MoveZ;
 
         private void Move(float dt)
         {
@@ -209,7 +281,7 @@ namespace ThisL
 
             if (ix == 0 && iz == 0) return;
             Vector2 dir = new Vector2(ix, iz).normalized;
-            float speed = (Key(KeyCode.LeftAlt) ? Tuning.WalkSpeed : Tuning.RunSpeed) * Character.MoveSpeedMult;
+            float speed = (_input.WalkHeld ? Tuning.WalkSpeed : Tuning.RunSpeed) * Character.MoveSpeedMult;
             WorldX += dir.x * speed * dt;
             Z += dir.y * speed * dt;
         }
@@ -217,11 +289,11 @@ namespace ThisL
         // ---- Dash (double-tap WASD or LeftShift) -----------------------------
         private void ReadDashTaps()
         {
-            if (KeyDown(KeyCode.A)) TryTap(ref _tapA, -1, 0);
-            if (KeyDown(KeyCode.D)) TryTap(ref _tapD, 1, 0);
-            if (KeyDown(KeyCode.W)) TryTap(ref _tapW, 0, 1);
-            if (KeyDown(KeyCode.S)) TryTap(ref _tapS, 0, -1);
-            if (KeyDown(KeyCode.LeftShift)) RequestDash(HeldDashDir());
+            if (_input.MoveLeftDown) TryTap(ref _tapA, -1, 0);
+            if (_input.MoveRightDown) TryTap(ref _tapD, 1, 0);
+            if (_input.MoveUpDown) TryTap(ref _tapW, 0, 1);
+            if (_input.MoveDownDown) TryTap(ref _tapS, 0, -1);
+            if (_input.DashDown) RequestDash(HeldDashDir());
         }
 
         private void TryTap(ref float last, int dx, int dz)
@@ -417,7 +489,7 @@ namespace ThisL
             if (_shieldSoaked >= ShieldRushSoakMax) { EndShieldRush(); return; }         // (a) 40 dmg soaked
             if (Mathf.Abs(WorldX - _rushStartX) >= ShieldRushMaxDist) { EndShieldRush(); return; } // (c) max travel
             if (BlockedAhead()) { EndShieldRush(); return; }                             // (e) hit an ungrabbable body
-            bool holdingForward = _rushDirX > 0 ? Key(KeyCode.D) : Key(KeyCode.A);
+            bool holdingForward = _rushDirX > 0 ? _input.MoveX > 0.3f : _input.MoveX < -0.3f;
             if (!holdingForward && _rushTime >= ShieldRushMinCommit) { EndShieldRush(); return; } // (d) released forward
         }
 
@@ -495,14 +567,13 @@ namespace ThisL
         // ---- Input dispatch --------------------------------------------------
         private void HandleActionInput()
         {
-            if (KeyDown(KeyCode.Space)) StartJump();
-            if (KeyDown(KeyCode.E)) FireWeapon();   // E = use/fire the held item
-            if (KeyDown(KeyCode.F)) TryPickup();    // F = pick up
-            if (KeyDown(KeyCode.Q)) FireSpecial();  // Q = special
+            if (_input.JumpDown) StartJump();
+            if (_input.FireDown) FireWeapon();   // E / East = use/fire the held item
+            if (_input.PickupDown) TryPickup();  // F / North = pick up
+            if (_input.SpecialDown) FireSpecial(); // Q / right shoulder = special
 
-            // Right hand: 8-directional attacks resolved to a dominant cardinal.
-            if (KeyDown(KeyCode.LeftArrow) || KeyDown(KeyCode.RightArrow) ||
-                KeyDown(KeyCode.UpArrow) || KeyDown(KeyCode.DownArrow))
+            // Right hand: 8-directional attacks (arrows / right stick) → dominant cardinal.
+            if (_input.AttackDown)
                 PressAttack(ResolveAttackDir());
         }
 
@@ -513,8 +584,8 @@ namespace ThisL
         /// </summary>
         private AttackDir ResolveAttackDir()
         {
-            int ax = (Key(KeyCode.RightArrow) ? 1 : 0) - (Key(KeyCode.LeftArrow) ? 1 : 0);
-            int ay = (Key(KeyCode.UpArrow) ? 1 : 0) - (Key(KeyCode.DownArrow) ? 1 : 0);
+            int ax = _input.AimX > 0.5f ? 1 : _input.AimX < -0.5f ? -1 : 0;
+            int ay = _input.AimZ > 0.5f ? 1 : _input.AimZ < -0.5f ? -1 : 0;
             if (ax != 0 && Mathf.Abs(ax) >= Mathf.Abs(ay)) return ax > 0 ? AttackDir.Right : AttackDir.Left;
             if (ay > 0) return AttackDir.Up;
             if (ay < 0) return AttackDir.Down;
@@ -986,9 +1057,73 @@ namespace ThisL
             Meter.OnDamaged();
             bool dead = base.TakeDamage(amount, source);
             CameraShake.Add(CameraShake.Light);
-            if (dead) { Anim.Play("death", false, restart: true); Sfx.Play("death"); }
+            if (dead) { Anim.Play("death", false, restart: true); Sfx.Play("death"); OnDowned(); }
             else { Anim.Play("hurt", false, restart: true); Sfx.Play("hurt_grunt"); }
             return dead;
+        }
+
+        // ---- Downed / respawn (shared-life system, creator spec) -------------
+        /// <summary>
+        /// A player just went down. Spend a team life to queue a respawn; if the pool is
+        /// empty and this death leaves NOBODY standing, it's GAME OVER (back to title).
+        /// </summary>
+        private void OnDowned()
+        {
+            _shieldRushing = false; _shield = null;   // drop any live rush cleanly
+            if (Lives.TryConsume())
+            {
+                _awaitingRespawn = true;
+                _respawnTimer = Tuning.RespawnDelay;
+            }
+            else
+            {
+                _awaitingRespawn = false;
+                // Game over only if nobody is alive AND nobody is mid-respawn (a teammate who
+                // already spent a life is still coming back).
+                bool teammateReturning = false;
+                foreach (var p in All)
+                    if (p != null && p != this && p._awaitingRespawn) { teammateReturning = true; break; }
+                if (!AnyAlive && !teammateReturning) GameFlow.Instance?.TriggerGameOver();
+            }
+        }
+
+        /// <summary>Bring a downed player back: full HP, brief i-frames, next to a living teammate.</summary>
+        private void Respawn()
+        {
+            _awaitingRespawn = false;
+            Alive = true;
+            Hp = MaxHp;
+
+            // Clear combat/movement state so we come back clean.
+            _hitstun = 0f; _dashing = false; _airDashing = false; _airborne = false;
+            _jumpOffset = 0f; _shieldRushing = false; _shield = null;
+            _phase = Phase.None; ClearString();
+            _invuln = Mathf.Max(_invuln, Tuning.RespawnInvuln);
+
+            // Reposition beside a living teammate (co-op); otherwise respawn in place (solo).
+            var mate = NearestLivingTeammate();
+            if (mate != null)
+            {
+                WorldX = mate.WorldX + (mate.Facing >= 0 ? -1.5f : 1.5f);
+                Z = mate.Z;
+            }
+
+            Anim.Play("idle", true);
+            Vfx.LandPuff(WorldX, Z);
+            Sfx.Play("confirm");
+        }
+
+        private PlayerController NearestLivingTeammate()
+        {
+            PlayerController best = null; float bestSq = float.MaxValue;
+            foreach (var p in All)
+            {
+                if (p == null || p == this || !p.Alive) continue;
+                float dx = p.WorldX - WorldX, dz = p.Z - Z;
+                float d = dx * dx + dz * dz;
+                if (d < bestSq) { bestSq = d; best = p; }
+            }
+            return best;
         }
 
         // ---- Animation & projection -----------------------------------------
@@ -1067,6 +1202,7 @@ namespace ThisL
         // TEMP DEBUG overlay: the deliberate test-key legend + a GOD MODE banner.
         private void OnGUI()
         {
+            if (this != Primary) return; // draw the debug overlay once (P1)
             if (GameFlow.Instance != null && GameFlow.Instance.Current != GameFlow.State.Playing) return;
             float scale = Screen.height / 360f;
             GUI.matrix = Matrix4x4.TRS(Vector3.zero, Quaternion.identity, new Vector3(scale, scale, 1f));
@@ -1083,8 +1219,5 @@ namespace ThisL
             }
             GUI.color = Color.white;
         }
-
-        private static bool Key(KeyCode k) => Input.GetKey(k);
-        private static bool KeyDown(KeyCode k) => Input.GetKeyDown(k);
     }
 }

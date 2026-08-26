@@ -18,10 +18,13 @@ namespace ThisL
         public State Current { get; private set; } = State.Title;
 
         private CharacterDef _selected;
+        private CharacterDef _selectedP2;  // P2's pick (MVP: reuses P1's character)
         private bool _weaponPromptShown;   // one-time "press E to fire" teach on first pickup
+        private bool _gameOver;            // latched when the shared life pool empties out
         private GameObject _worldRoot;
         private CharacterDef[] _roster;
         private GUIStyle _title, _label, _btn, _special;
+        private GUIStyle _titleBig, _titleMid, _titleSmall; // stacked, left-justified gag title
 
         private void Awake()
         {
@@ -34,6 +37,8 @@ namespace ThisL
         // ---- Transitions -----------------------------------------------------
         public void GoTitle()
         {
+            CancelInvoke(nameof(GoTitle)); // cancel a pending game-over return
+            _gameOver = false;
             TeardownWorld();
             Current = State.Title;
             Music.PlayTitle();
@@ -44,8 +49,24 @@ namespace ThisL
         public void StartRun(CharacterDef def)
         {
             _selected = def;
+            _selectedP2 = null;        // MVP: P2 duplicates P1's character on join
+            _gameOver = false;
+            Lives.Reset(Tuning.StartingLives); // fresh shared life pool for the run
             BuildWorld();
             Current = State.Playing;
+        }
+
+        /// <summary>
+        /// The shared life pool emptied and the last player went down. Brief beat on the
+        /// death, then back to the title (the existing game-over path). Guarded so the many
+        /// enemies that may all land killing blows the same frame only trigger it once.
+        /// </summary>
+        public void TriggerGameOver()
+        {
+            if (_gameOver || Current != State.Playing) return;
+            _gameOver = true;
+            Sfx.Play("death");
+            Invoke(nameof(GoTitle), 2.0f);
         }
 
         // ---- World lifecycle -------------------------------------------------
@@ -63,6 +84,7 @@ namespace ThisL
             player.WorldX = 0f;
             player.Z = 2.5f;
             player.Init();
+            player.SetInput(new KeyboardInput()); // P1 = keyboard (byte-identical single-player)
 
             // First weapon pickup pops a one-time "press E to fire" teach (TutorialController
             // exposes the self-dismissing overlay; it outlives the tutorial component).
@@ -78,6 +100,7 @@ namespace ThisL
             sys.transform.SetParent(_worldRoot.transform);
             sys.AddComponent<Backdrop>();
             sys.AddComponent<Hud>();
+            sys.AddComponent<CoopJoin>();   // press START on a gamepad to drop in P2
             // NOTE: the EnemySpawner is deliberately NOT added here — it's added at the
             // end of the opening chain below, so no wave spawns during the intro
             // cinematic or the tutorial.
@@ -111,6 +134,36 @@ namespace ThisL
                     });
                 });
             });
+        }
+
+        /// <summary>
+        /// Drop a second player into the running game on gamepad <paramref name="padIndex"/>
+        /// (called by <see cref="CoopJoin"/> when START is pressed). MVP: P2 duplicates P1's
+        /// character, spawns beside them with a cool tint, and is driven by the pad. P1 keeps
+        /// the keyboard, so single-player is never disturbed. No-op if a run isn't active or
+        /// P2 already exists.
+        /// </summary>
+        public void TryJoinPlayer2(int padIndex)
+        {
+            if (Current != State.Playing || _worldRoot == null) return;
+            if (PlayerController.All.Count >= 2) return;
+
+            var p2Go = new GameObject("Player2");
+            p2Go.transform.SetParent(_worldRoot.transform);
+            p2Go.AddComponent<SpriteRenderer>();
+            p2Go.AddComponent<SpriteAnimator>();
+            var p2 = p2Go.AddComponent<PlayerController>();
+            p2.Configure(_selectedP2 ?? _selected);
+
+            var anchor = PlayerController.Primary;
+            p2.WorldX = (anchor != null ? anchor.WorldX : 0f) + 1.5f;
+            p2.Z = 2.5f;
+            p2.Init();
+            p2.SetInput(new GamepadInput(padIndex));
+            if (p2.Sr != null) p2.Sr.color = new Color(0.62f, 0.80f, 1f); // cool tint = P2 (until distinct art)
+
+            Sfx.Play("confirm");
+            Debug.Log($"[Coop] Player 2 joined on gamepad {padIndex}.");
         }
 
         private void TeardownWorld()
@@ -150,18 +203,21 @@ namespace ThisL
 
         private void TitleGUI(float w, float h)
         {
-            GUI.Label(new Rect(0, 60, w, 60), "this.l", _title);
-            GUI.Label(new Rect(0, 128, w, 24), "a spacing brawler", _label);
+            // The gag title, stacked + centered, biggest-to-smallest (it started as a
+            // hand-drawn paper game — the escalating tiers ARE the joke).
+            GUI.Label(new Rect(0, 22, w, 56), "THIS!:", _titleBig);
+            GUI.Label(new Rect(0, 80, w, 40), "The Game:", _titleMid);
+            GUI.Label(new Rect(0, 120, w, 30), "The Video Game", _titleSmall);
 
             // Difficulty picker (Hard is the baseline; Easy/Medium pare it down).
-            GUI.Label(new Rect(0, 162, w, 18), "DIFFICULTY", _label);
+            GUI.Label(new Rect(0, 166, w, 18), "DIFFICULTY", _label);
             const float bw = 92f, bg = 10f;
             float total = 3 * bw + 2 * bg, bx = (w - total) / 2f;
-            DiffButton(new Rect(bx, 182, bw, 28), Difficulty.Easy, "EASY");
-            DiffButton(new Rect(bx + bw + bg, 182, bw, 28), Difficulty.Medium, "MEDIUM");
-            DiffButton(new Rect(bx + 2 * (bw + bg), 182, bw, 28), Difficulty.Hard, "HARD");
+            DiffButton(new Rect(bx, 186, bw, 28), Difficulty.Easy, "EASY");
+            DiffButton(new Rect(bx + bw + bg, 186, bw, 28), Difficulty.Medium, "MEDIUM");
+            DiffButton(new Rect(bx + 2 * (bw + bg), 186, bw, 28), Difficulty.Hard, "HARD");
 
-            if (Button(new Rect(w / 2f - 90, 238, 180, 40), "PRESS START") ||
+            if (Button(new Rect(w / 2f - 90, 240, 180, 40), "PRESS START") ||
                 Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.Space))
             {
                 Sfx.Play("confirm");
@@ -239,6 +295,9 @@ namespace ThisL
         {
             if (_title != null) return;
             _title = new GUIStyle(GUI.skin.label) { fontSize = 42, fontStyle = FontStyle.Bold, alignment = TextAnchor.MiddleCenter };
+            _titleBig = new GUIStyle(GUI.skin.label) { fontSize = 54, fontStyle = FontStyle.Bold, alignment = TextAnchor.MiddleCenter };
+            _titleMid = new GUIStyle(GUI.skin.label) { fontSize = 34, fontStyle = FontStyle.Bold, alignment = TextAnchor.MiddleCenter };
+            _titleSmall = new GUIStyle(GUI.skin.label) { fontSize = 23, fontStyle = FontStyle.Bold, alignment = TextAnchor.MiddleCenter };
             _label = new GUIStyle(GUI.skin.label) { fontSize = 15, alignment = TextAnchor.MiddleCenter };
             _btn = new GUIStyle(GUI.skin.label) { fontSize = 15, alignment = TextAnchor.MiddleCenter };
             _special = new GUIStyle(GUI.skin.label) { fontSize = 14, fontStyle = FontStyle.Bold, alignment = TextAnchor.MiddleCenter };

@@ -130,13 +130,17 @@ namespace ThisL
 
             Explosion.Blast(OwnerTeam, WorldX, Z, BlastRadius, BlastDamage);
 
-            // Self-damage: the enemy sweep in Blast() skips the owner team, so the
-            // thrower is handled here — spacing is the price of the payload (§3.2).
-            var me = PlayerController.Instance;
-            if (SelfDamage > 0f && me != null && me.Alive && me.Team == OwnerTeam)
+            // Self-damage: the enemy sweep in Blast() skips the owner team, so any own-team
+            // player caught in the blast is handled here — spacing is the price of the
+            // payload (§3.2). Co-op: BOTH players can be caught.
+            if (SelfDamage > 0f)
             {
-                float dx = me.WorldX - WorldX, dz = me.Z - Z;
-                if (dx * dx + dz * dz <= BlastRadius * BlastRadius) me.TakeDamage(SelfDamage, null);
+                foreach (var me in PlayerController.All)
+                {
+                    if (me == null || !me.Alive || me.Team != OwnerTeam) continue;
+                    float dx = me.WorldX - WorldX, dz = me.Z - Z;
+                    if (dx * dx + dz * dz <= BlastRadius * BlastRadius) me.TakeDamage(SelfDamage, null);
+                }
             }
 
             Sfx.Play("grenade_explode");

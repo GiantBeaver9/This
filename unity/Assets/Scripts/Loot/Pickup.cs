@@ -98,11 +98,12 @@ namespace ThisL
 
         private void Update()
         {
-            // Auto-grab ONLY when the player is empty-handed (fists); while armed you
-            // press F to swap (PLAYER.md §2 single-slot rule).
-            var player = PlayerController.Instance;
-            if (player != null && player.Alive && player.CurrentWeapon != null && player.CurrentWeapon.IsFists)
+            // Auto-grab ONLY when a player is empty-handed (fists); while armed you press
+            // F to swap (PLAYER.md §2 single-slot rule). Any empty-handed player nearby grabs.
+            foreach (var player in PlayerController.All)
             {
+                if (player == null || !player.Alive) continue;
+                if (player.CurrentWeapon == null || !player.CurrentWeapon.IsFists) continue;
                 float dx = player.WorldX - WorldX, dz = player.Z - Z;
                 if (dx * dx + dz * dz <= 0.8f * 0.8f) { GrabBy(player); return; }
             }

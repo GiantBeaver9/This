@@ -27,6 +27,9 @@ def main():
     ap.add_argument("actor")
     ap.add_argument("--outdir", default=None)
     ap.add_argument("--cols", type=int, default=8)
+    ap.add_argument("--no-trim", action="store_true",
+                    help="keep each frame's full canvas (no per-frame bbox crop) so a fixed, "
+                         "symmetric canvas keeps the body anchored and long props aren't clipped")
     args = ap.parse_args()
 
     # Gather frames grouped by clip, ordered by index.
@@ -49,9 +52,10 @@ def main():
     for clip, frames in clips.items():
         for idx, path in frames:
             im = Image.open(path).convert("RGBA")
-            bbox = im.getbbox()
-            if bbox:
-                im = im.crop(bbox)
+            if not args.no_trim:
+                bbox = im.getbbox()
+                if bbox:
+                    im = im.crop(bbox)
             cw = max(cw, im.width); ch = max(ch, im.height)
             imgs.append((clip, idx, im))
 
