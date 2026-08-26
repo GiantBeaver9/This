@@ -1,0 +1,25 @@
+# Unity generated
+unity/Library/
+unity/Temp/
+unity/Obj/
+unity/Build/
+unity/Builds/
+unity/Logs/
+unity/UserSettings/
+unity/MemoryCaptures/
+unity/[Aa]ssets/AssetStoreTools*
+*.csproj
+*.sln
+*.pyc
+__pycache__/
+
+# MCP config (contains an API key) — do not commit
+.mcp.json
+
+# Local session state (agent worktrees, transcripts) + transient build artifacts
+.claude/
+/build/
+
+# Sprite pipeline backups/scratch
+*.prev
+*.concept

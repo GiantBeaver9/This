@@ -1,0 +1,1090 @@
+using System.Collections.Generic;
+using UnityEngine;
+
+namespace ThisL
+{
+    /// <summary>
+    /// The player's base kit (PLAYER.md, COMBOS.md, TUNING §2), keyboard-first:
+    /// LEFT HAND = WASD movement on the X/Z band (double-tap or LeftShift to dash;
+    /// double-tap/LeftShift again IN THE AIR = a one-per-jump air-dash; Space to
+    /// jump, E to fire a looted gun, F to pick up the nearest ground weapon);
+    /// RIGHT HAND = arrow keys for 8-DIRECTIONAL attacks that resolve to the four
+    /// verbs by DOMINANT CARDINAL (horizontal wins ties, PLAYER.md §3): any arrow
+    /// with a horizontal component is a SIDE strike (and sets facing); only a
+    /// straight Up/Down gives the up/down strike. Side presses drive the PRIMED
+    /// string — P1→P2 connect PRIMES it, the next directional press is the SWEEP
+    /// (knockdown / up-launch), then a tap toward the downed enemy is the FINISHER
+    /// (auto-acquires the closest within 5 wu and steps onto it, COMBOS.md).
+    /// Attacking WHILE AIRBORNE plays the AIR variant (side/up-launcher/down-spike,
+    /// Z stays locked); attacking DURING A GROUND DASH is a dash attack (0 damage,
+    /// weight-stagger only). With a ranged weapon equipped, a fresh horizontal press
+    /// fires it. F picks up, E uses the item, Q fires the special. All timings use the §2.5 frame
+    /// data. Combat hits build the meter; a full meter fires the sniper.
+    /// </summary>
+    public sealed class PlayerController : Actor
+    {
+        public static PlayerController Instance { get; private set; }
+
+        [System.NonSerialized] public Weapon CurrentWeapon = Weapon.Fists();
+        public readonly SpecialMeter Meter = new();
+        [System.NonSerialized] public CharacterDef Character;   // stat multipliers + special
+
+        // Special-driven buffs
+        private float _invuln;             // Werewolf transform i-frames, etc.
+        private float _dmgBuffMult = 1f;   // Underdog Vaporize +20% window
+        public static bool GodMode;        // TEMP DEBUG: K toggles invincible + infinite special
+        private float _dmgBuffTimer;
+
+        // Movement / dash / jump
+        private bool _dashing;
+        private float _dashTimer, _dashCooldown, _dashDirX, _dashDirZ;
+        private bool _airborne;
+        private float _jumpTimer, _jumpOffset;
+        private bool _airDashing;          // one X-only air-dash per airtime (TUNING §2.2)
+        private float _airDashTimer, _airDashDirX;
+        private bool _airDashUsed;
+        private readonly HashSet<Actor> _dashHit = new(); // enemies already staggered by this dash
+        private float _dashCharges = Tuning.DashMaxCharges; // 3-per-5s rate limit (anti-spam)
+        private float _hitstun;
+        private float _weaponReady;       // warm-up countdown before a looted weapon can fire
+        private bool _wasArmed;            // edge-detect the meter arming for the chime
+
+        // Shield Rush (PLAYER.md §2, TUNING §2.3): a forward double-tap INTO a grabbable
+        // enemy grabs it as a moving damage-sponge and rushes forward; otherwise the
+        // same input falls through to a normal dash (it never no-ops).
+        private bool _shieldRushing;
+        private Actor _shield;            // the grabbed enemy (held just ahead)
+        private float _shieldSoaked;      // cumulative dmg absorbed this rush (cap = ShieldRushSoakMax)
+        private float _shieldRushCooldown;
+        private float _rushStartX;        // grab point, for the max-travel cap
+        private float _rushTime;          // elapsed, for the min-commit before release cancels
+        private int _rushDirX;            // +1 / -1 travel direction
+
+        private const float ShieldRushRange = 2.0f;          // grab target ahead within 2.0 wu (§2.3)
+        private const float ShieldRushAheadZ = 0.8f;         // "directly ahead" depth window (TUNING §1)
+        private const float ShieldRushSpeed = 9.0f;          // wu/s — faster than run, closes gaps (§2.3)
+        private const float ShieldRushMaxDist = 8.0f;        // hard travel cap (§2.3 term (c))
+        private const float ShieldRushSoakMax = 40f;         // damage budget the shield eats (§2.3)
+        private const float ShieldRushShove = 1.0f;          // shove the enemy forward on release (§2.3)
+        private const float ShieldRushReleaseStagger = 0.55f; // M-stagger on release (§2.3)
+        private const float ShieldRushCooldown = 1.5f;       // starts when the rush ends (§2.3)
+        private const float ShieldRushMinCommit = 0.15f;     // ignore forward-release for this long (feel)
+
+        // Attack state machine
+        private enum Phase { None, Startup, Active, Recovery }
+        private enum AttackKind { Side, Sweep, Finisher, Up, Down, AirSide, AirUp, AirDown, Dash }
+        private enum AttackDir { Left, Right, Up, Down }
+        private Phase _phase = Phase.None;
+        private AttackKind _attackKind = AttackKind.Side;
+        private int _combo = -1;          // Side string index: 0=P1 1=P2 (sweep/finisher are their own kinds)
+        private float _phaseTimer;
+        private bool _hitResolved;
+
+        // Primed-combo state (COMBOS.md, TUNING §2.5): P1→P2 connect PRIMES the
+        // sweep; the sweep landing arms the finisher on the downed enemy.
+        private bool _primed;             // next directional press = the sweep
+        private float _primedTimer;
+        private bool _finisherReady;      // sweep connected: a tap finishes the downed target
+        private float _finisherTimer;
+        private bool _p1Connected, _p2Connected, _sweepConnected;
+        private bool _bufferedAttack;     // a press buffered during startup/active/recovery
+        private AttackDir _bufferedDir;
+
+        private const float PrimeWindow = 0.35f;    // COMBOS §1 same-direction double-tap window
+        private const float FinisherWindow = 1.2f;  // TUNING §2.6 knockdown duration
+        private const float FinisherAcquire = 5.0f; // PLAYER.md §3 finisher auto-acquire radius
+        private const float PickupRadius = 0.9f;    // F grab reach (PLAYER.md §2)
+
+        // Double-tap dash tracking (WASD)
+        private float _tapA, _tapD, _tapW, _tapS;
+        private const float DoubleTapWindow = 0.28f;
+
+        public event System.Action<int> SpecialFired; // tier
+
+        // ---- Tutorial detection hooks (read-only observers; see TutorialController) ----
+        /// <summary>Fires the frame a grounded dash starts (the dash-plow shove). Tutorial gate.</summary>
+        public event System.Action Dashed;
+        /// <summary>Fires when a finisher/execute connects on a target (ResolveFinisher). Tutorial gate.</summary>
+        public event System.Action FinisherLanded;
+        /// <summary>Fires when a weapon is equipped (e.g. a ground pickup). Lets the tutorial pop the "press E" prompt.</summary>
+        public event System.Action<WeaponKind> WeaponEquipped;
+
+        protected override void Awake()
+        {
+            base.Awake();
+            Instance = this;
+            Team = Team.Player;
+            Hp = MaxHp = Tuning.PlayerMaxHp;
+            Character ??= CharacterDef.Tactical();
+        }
+
+        /// <summary>Pick the playable character (stats + special). Call before <see cref="Init"/>.</summary>
+        public void Configure(CharacterDef def) => Character = def ?? CharacterDef.Tactical();
+
+        public void Init()
+        {
+            Character ??= CharacterDef.Tactical();
+            var set = SpriteLibrary.Load(Character.SpriteDir, Character.SpriteActor);
+            if (Anim == null) Anim = GetComponent<SpriteAnimator>();
+            Anim.Set = set;
+            Anim.Play("idle", true);
+            ScaleMult = Character.Scale;   // Bert stands short
+            Shadow.Attach(this, Shadow.MediumTier);
+        }
+
+        public float DashCharges => _dashCharges;         // for the HUD (0..DashMaxCharges)
+
+        public void Heal(int amount) => Hp = Mathf.Min(MaxHp, Hp + amount);
+
+        public void SetInvuln(float seconds) => _invuln = Mathf.Max(_invuln, seconds);
+        public void SetDamageBuff(float mult, float seconds) { _dmgBuffMult = mult; _dmgBuffTimer = seconds; }
+
+        private void OnDestroy() { if (Instance == this) Instance = null; }
+
+        private void Update()
+        {
+            if (!Alive) return;
+            float dt = Time.deltaTime;
+            _dashCooldown = Mathf.Max(0f, _dashCooldown - dt);
+            _shieldRushCooldown = Mathf.Max(0f, _shieldRushCooldown - dt);
+            _dashCharges = Mathf.Min(Tuning.DashMaxCharges,
+                _dashCharges + (Tuning.DashMaxCharges / Tuning.DashChargeWindow) * dt);
+            _hitstun = Mathf.Max(0f, _hitstun - dt);
+            _weaponReady = Mathf.Max(0f, _weaponReady - dt);
+            _invuln = Mathf.Max(0f, _invuln - dt);
+            if (_dmgBuffTimer > 0f) { _dmgBuffTimer -= dt; if (_dmgBuffTimer <= 0f) _dmgBuffMult = 1f; }
+            CurrentWeapon.Tick(dt);
+            Meter.Tick(dt);
+            TickComboWindows(dt);
+
+            // ---- TEMP DEBUG keys (deliberate, non-gameplay keys; delete before ship) ----
+            if (KeyDown(KeyCode.I)) Meter.Award(Tuning.MeterMax);          // I = fill special once
+            if (KeyDown(KeyCode.O)) CampaignRunner.Instance?.SkipToNext(); // O = skip to next stage
+            if (KeyDown(KeyCode.K))                                        // K = toggle GOD MODE
+            {
+                GodMode = !GodMode;
+                Sfx.Play(GodMode ? "armed_ready_chime" : "cancel");
+            }
+            if (GodMode) { Hp = MaxHp; Meter.Award(Tuning.MeterMax); }     // invincible + infinite special
+            if (Meter.CanFire && !_wasArmed) Sfx.Play("armed_ready_chime");
+            _wasArmed = Meter.CanFire;
+
+            ReadDashTaps();
+
+            if (_hitstun > 0f) { Anim.Play("hurt", false); return; }
+
+            // Shield Rush fully commits the player: it drives its own motion and locks
+            // out attacks/jumps/dashes/normal movement until it ends.
+            if (_shieldRushing) { TickShieldRush(dt); Anim.Play("dash", false); return; }
+
+            TickAttack(dt);
+            TickJump(dt);
+            TickDash(dt);
+            TickAirDash(dt);
+
+            // Movement is locked during a dash and during a GROUNDED attack's
+            // startup+active; air attacks keep their mid-air steering (§2.5).
+            bool groundedSwing = !_airborne && (_phase == Phase.Startup || _phase == Phase.Active);
+            bool moveLocked = _dashing || _airDashing || groundedSwing;
+            if (!moveLocked) Move(dt);
+
+            HandleActionInput();
+            UpdateAnimation();
+        }
+
+        // ---- Movement (WASD, left hand) --------------------------------------
+        private static float MoveX() => (Key(KeyCode.D) ? 1 : 0) - (Key(KeyCode.A) ? 1 : 0);
+        private static float MoveZ() => (Key(KeyCode.W) ? 1 : 0) - (Key(KeyCode.S) ? 1 : 0);
+
+        private void Move(float dt)
+        {
+            float ix = MoveX(), iz = MoveZ();
+            if (ix != 0) Facing = ix > 0 ? 1 : -1;
+
+            if (_airborne)
+            {
+                WorldX += ix * Tuning.AirSpeed * dt; // X air-control only; Z is locked
+                return;
+            }
+
+            if (ix == 0 && iz == 0) return;
+            Vector2 dir = new Vector2(ix, iz).normalized;
+            float speed = (Key(KeyCode.LeftAlt) ? Tuning.WalkSpeed : Tuning.RunSpeed) * Character.MoveSpeedMult;
+            WorldX += dir.x * speed * dt;
+            Z += dir.y * speed * dt;
+        }
+
+        // ---- Dash (double-tap WASD or LeftShift) -----------------------------
+        private void ReadDashTaps()
+        {
+            if (KeyDown(KeyCode.A)) TryTap(ref _tapA, -1, 0);
+            if (KeyDown(KeyCode.D)) TryTap(ref _tapD, 1, 0);
+            if (KeyDown(KeyCode.W)) TryTap(ref _tapW, 0, 1);
+            if (KeyDown(KeyCode.S)) TryTap(ref _tapS, 0, -1);
+            if (KeyDown(KeyCode.LeftShift)) RequestDash(HeldDashDir());
+        }
+
+        private void TryTap(ref float last, int dx, int dz)
+        {
+            if (Time.time - last < DoubleTapWindow) RequestDash(new Vector2(dx, dz));
+            last = Time.time;
+        }
+
+        private Vector2 HeldDashDir()
+        {
+            float ix = MoveX(), iz = MoveZ();
+            if (ix == 0 && iz == 0) return new Vector2(Facing, 0);
+            return new Vector2(ix, iz);
+        }
+
+        /// <summary>
+        /// Route a dash request: airborne = air-dash; grounded, a forward double-tap
+        /// INTO a grabbable enemy = Shield Rush (§2.3), otherwise a normal ground dash.
+        /// Shield Rush only INTERCEPTS a grabbable target directly ahead; every other
+        /// case (no target, H-weight/boss ahead, on cooldown) falls through to the dash,
+        /// so the input never no-ops (PLAYER.md §2 LOCKED resolution).
+        /// </summary>
+        private void RequestDash(Vector2 dir)
+        {
+            if (_airborne) { TryAirDash(dir); return; }
+            if (TryShieldRush(dir)) return; // grabbable enemy ahead -> rush intercepts the dash
+            StartDash(dir);
+        }
+
+        private void StartDash(Vector2 dir)
+        {
+            if (_dashing || _shieldRushing || _dashCooldown > 0f || _airborne || _dashCharges < 1f) return;
+            _dashCharges -= 1f; // consume a charge (3-per-5s bucket)
+            // Dominant-cardinal resolution; horizontal wins ties (TUNING §2.2).
+            if (Mathf.Abs(dir.x) >= Mathf.Abs(dir.y) && dir.x != 0) dir = new Vector2(Mathf.Sign(dir.x), 0);
+            else if (dir.y != 0) dir = new Vector2(0, Mathf.Sign(dir.y));
+            else dir = new Vector2(Facing, 0);
+
+            _dashing = true;
+            _dashTimer = Tuning.DashDuration;
+            _dashDirX = dir.x;
+            _dashDirZ = dir.y;
+            _dashHit.Clear();
+            if (dir.x != 0) Facing = dir.x > 0 ? 1 : -1;
+            CancelSwing();      // dash cancels an attack + drops the string
+            Vfx.DashDust(WorldX, Z);
+            Sfx.Play("dash_whoosh");
+            Dashed?.Invoke();   // tutorial dash-push gate
+        }
+
+        private void TickDash(float dt)
+        {
+            if (!_dashing) return;
+            float speed = Tuning.DashDistance / Tuning.DashDuration; // ~18 wu/s
+            WorldX += _dashDirX * speed * dt;
+            Z += _dashDirZ * speed * dt;
+            DashPlow(_dashDirX, dt);
+            _dashTimer -= dt;
+            if (_dashTimer <= 0f) { _dashing = false; _dashCooldown = Tuning.DashCooldown; }
+        }
+
+        /// <summary>Dashing plows through enemies: shoves anyone in contact along the dash
+        /// and knocks them down on first contact (creator ruling). No damage — pure repositioning.</summary>
+        private void DashPlow(float dirX, float dt)
+        {
+            float dir = dirX != 0f ? Mathf.Sign(dirX) : Facing;
+            float r2 = Tuning.DashPlowRadius * Tuning.DashPlowRadius;
+            foreach (var a in Actor.All)
+            {
+                if (!a.Alive || a.Team == Team.Player) continue;
+                float dx = a.WorldX - WorldX, dz = a.Z - Z;
+                if (dx * dx + dz * dz > r2) continue;
+                a.WorldX += dir * Tuning.DashKnockback * dt;                       // shove along the dash
+                a.Z += (dz >= 0f ? 1f : -1f) * Tuning.DashKnockback * 0.4f * dt;   // and nudge aside
+                if (_dashHit.Add(a))
+                {
+                    if (a is IStaggerable s) s.ApplyStagger(0.5f);
+                    Vfx.HitSpark(a.WorldX, a.Z);
+                    Sfx.Play("enemy_stagger");
+                }
+            }
+        }
+
+        // ---- Air-dash (once per airtime, X-only; Z stays locked, TUNING §2.2) -
+        private void TryAirDash(Vector2 dir)
+        {
+            if (_airDashing || _airDashUsed || !_airborne) return;
+            // X-only: a horizontal hold picks the direction, otherwise dash toward facing.
+            float dx = (Mathf.Abs(dir.x) >= Mathf.Abs(dir.y) && dir.x != 0) ? Mathf.Sign(dir.x) : Facing;
+            _airDashing = true;
+            _airDashUsed = true;
+            _airDashTimer = Tuning.AirDashDuration;
+            _airDashDirX = dx;
+            _dashHit.Clear();
+            Facing = dx > 0 ? 1 : -1;
+            CancelSwing();
+            Vfx.DashDust(WorldX, Z);
+            Sfx.Play("dash_whoosh");
+        }
+
+        private void TickAirDash(float dt)
+        {
+            if (!_airDashing) return;
+            float speed = Tuning.AirDashDistance / Tuning.AirDashDuration; // ~19.4 wu/s
+            WorldX += _airDashDirX * speed * dt;                           // X only; Z locked
+            DashPlow(_airDashDirX, dt);
+            _airDashTimer -= dt;
+            if (_airDashTimer <= 0f) _airDashing = false;
+        }
+
+        // ---- Shield Rush (forward double-tap into a grabbable enemy, §2.3) ----
+
+        /// <summary>
+        /// If a forward (horizontal) double-tap points at a grabbable enemy directly
+        /// ahead within 2.0 wu and the move is off cooldown, grab it and start the rush.
+        /// Returns true if it intercepted; false to fall through to a normal dash.
+        /// </summary>
+        private bool TryShieldRush(Vector2 dir)
+        {
+            if (_shieldRushing || _dashing || _shieldRushCooldown > 0f) return false;
+            // Only a horizontal double-tap can aim "ahead" (a pure W/S tap has no facing lane).
+            int dx = (Mathf.Abs(dir.x) >= Mathf.Abs(dir.y) && dir.x != 0) ? (int)Mathf.Sign(dir.x) : 0;
+            if (dx == 0) return false;
+            var target = AcquireShieldTarget(dx);
+            if (target == null) return false;   // nothing grabbable ahead -> caller dashes
+            BeginShieldRush(target, dx);
+            return true;
+        }
+
+        /// <summary>Nearest grabbable enemy directly ahead in <paramref name="dx"/> within 2.0 wu.</summary>
+        private Actor AcquireShieldTarget(int dx)
+        {
+            Actor best = null;
+            float bestAhead = float.MaxValue;
+            foreach (var a in Actor.All)
+            {
+                if (!IsGrabbable(a)) continue;
+                float ahead = (a.WorldX - WorldX) * dx;                 // >0 = in front along the tap
+                if (ahead <= 0.1f || ahead > ShieldRushRange) continue;
+                if (Mathf.Abs(a.Z - Z) > ShieldRushAheadZ) continue;    // "directly ahead" depth window
+                if (ahead < bestAhead) { bestAhead = ahead; best = a; }
+            }
+            return best;
+        }
+
+        /// <summary>
+        /// Grabbable = a regular enemy of L/M weight. H-weight (Heavy, Ground Smasher,
+        /// Gatling Gunner) resolve to a plain dash (§2.3 tier limit). Bosses/minibosses
+        /// use their own controllers (not <see cref="EnemyController"/>) so they're
+        /// excluded here automatically.
+        /// TODO: when a distinct miniboss controller lands, exclude it explicitly too.
+        /// </summary>
+        private static bool IsGrabbable(Actor a)
+        {
+            if (a is not EnemyController ec || !ec.Alive || ec.Team == Team.Player) return false;
+            if (ec.Def != null && ec.Def.Weight == StaggerWeight.H) return false; // H-weight not grabbable
+            return true;
+        }
+
+        private void BeginShieldRush(Actor target, int dx)
+        {
+            CancelSwing();                 // a rush cancels any live swing + the string
+            _shieldRushing = true;
+            _shield = target;
+            _shieldSoaked = 0f;
+            _rushDirX = dx;
+            _rushStartX = WorldX;
+            _rushTime = 0f;
+            Facing = dx > 0 ? 1 : -1;
+            _dashHit.Clear();
+            Vfx.DashDust(WorldX, Z);
+            Sfx.Play("dash_whoosh");
+            Sfx.Play("enemy_stagger");     // the grab
+            if (_shield is IStaggerable s) s.ApplyStagger(ShieldRushMaxDist); // held/limp for the ride (refreshed on release)
+        }
+
+        private void TickShieldRush(float dt)
+        {
+            _rushTime += dt;
+
+            // Drive forward; carry the shield just ahead of the body, pinned to our depth.
+            float step = ShieldRushSpeed * dt;
+            WorldX += _rushDirX * step;
+            if (_shield != null && _shield.Alive)
+            {
+                _shield.WorldX = WorldX + _rushDirX * Tuning.FistReach;
+                _shield.Z = Z;
+                ShieldPlow(dt);            // shove OTHER enemies the shield rams into
+            }
+
+            // --- termination, at the first of (§2.3) ---
+            if (_shield == null || !_shield.Alive) { EndShieldRush(); return; }         // (b) shield died
+            if (_shieldSoaked >= ShieldRushSoakMax) { EndShieldRush(); return; }         // (a) 40 dmg soaked
+            if (Mathf.Abs(WorldX - _rushStartX) >= ShieldRushMaxDist) { EndShieldRush(); return; } // (c) max travel
+            if (BlockedAhead()) { EndShieldRush(); return; }                             // (e) hit an ungrabbable body
+            bool holdingForward = _rushDirX > 0 ? Key(KeyCode.D) : Key(KeyCode.A);
+            if (!holdingForward && _rushTime >= ShieldRushMinCommit) { EndShieldRush(); return; } // (d) released forward
+        }
+
+        /// <summary>The shield body shoves other grabbable enemies aside as it plows through.</summary>
+        private void ShieldPlow(float dt)
+        {
+            float r2 = Tuning.DashPlowRadius * Tuning.DashPlowRadius;
+            foreach (var a in Actor.All)
+            {
+                if (a == _shield || !a.Alive || a.Team == Team.Player) continue;
+                float ddx = a.WorldX - _shield.WorldX, ddz = a.Z - _shield.Z;
+                if (ddx * ddx + ddz * ddz > r2) continue;
+                a.WorldX += _rushDirX * Tuning.DashKnockback * dt;
+                a.Z += (ddz >= 0f ? 1f : -1f) * Tuning.DashKnockback * 0.4f * dt;
+                if (_dashHit.Add(a) && a is IStaggerable s) { s.ApplyStagger(0.5f); Vfx.HitSpark(a.WorldX, a.Z); }
+            }
+        }
+
+        /// <summary>An ungrabbable enemy body (H-weight/boss) blocking directly ahead of the shield.</summary>
+        private bool BlockedAhead()
+        {
+            if (_shield == null) return false;
+            foreach (var a in Actor.All)
+            {
+                if (a == _shield || a == this || !a.Alive || a.Team == Team.Player) continue;
+                if (IsGrabbable(a)) continue;              // grabbable enemies get plowed, not blocked
+                float ahead = (a.WorldX - _shield.WorldX) * _rushDirX;
+                if (ahead > 0f && ahead < 0.7f && Mathf.Abs(a.Z - Z) <= ShieldRushAheadZ) return true;
+            }
+            return false;
+        }
+
+        private void EndShieldRush()
+        {
+            if (!_shieldRushing) return;
+            _shieldRushing = false;
+            _shieldRushCooldown = ShieldRushCooldown;   // cooldown starts on end (§2.3)
+            if (_shield != null && _shield.Alive)
+            {
+                _shield.WorldX += _rushDirX * ShieldRushShove;            // shove forward 1.0 wu
+                if (_shield is IStaggerable s) s.ApplyStagger(ShieldRushReleaseStagger); // released staggered 0.55s
+                Vfx.HitSpark(_shield.WorldX, _shield.Z);
+                Sfx.Play("enemy_stagger");
+            }
+            _shield = null;
+            Vfx.LandPuff(WorldX, Z);
+        }
+
+        // ---- Jump (Space) ----------------------------------------------------
+        private void TickJump(float dt)
+        {
+            if (!_airborne) return;
+            _jumpTimer += dt;
+            float t = Mathf.Clamp01(_jumpTimer / Tuning.JumpDuration);
+            _jumpOffset = Tuning.JumpHeight * 4f * t * (1f - t); // parabola 0 -> peak -> 0
+            if (_jumpTimer >= Tuning.JumpDuration)
+            {
+                _airborne = false; _jumpOffset = 0f; _airDashing = false;
+                Vfx.LandPuff(WorldX, Z);
+                Sfx.Play("land");
+            }
+        }
+
+        private void StartJump()
+        {
+            if (_airborne || _dashing) return;
+            _airborne = true;
+            _jumpTimer = 0f;
+            _airDashUsed = false;   // refresh the one air-dash for this airtime
+            CancelSwing();
+            Vfx.JumpPuff(WorldX, Z);
+            Sfx.Play("jump");
+        }
+
+        // ---- Input dispatch --------------------------------------------------
+        private void HandleActionInput()
+        {
+            if (KeyDown(KeyCode.Space)) StartJump();
+            if (KeyDown(KeyCode.E)) FireWeapon();   // E = use/fire the held item
+            if (KeyDown(KeyCode.F)) TryPickup();    // F = pick up
+            if (KeyDown(KeyCode.Q)) FireSpecial();  // Q = special
+
+            // Right hand: 8-directional attacks resolved to a dominant cardinal.
+            if (KeyDown(KeyCode.LeftArrow) || KeyDown(KeyCode.RightArrow) ||
+                KeyDown(KeyCode.UpArrow) || KeyDown(KeyCode.DownArrow))
+                PressAttack(ResolveAttackDir());
+        }
+
+        /// <summary>
+        /// Resolve the currently-held arrow keys to ONE cardinal verb: any horizontal
+        /// component wins (so ↖/↗/↙/↘ are all SIDE), only a pure ↑/↓ gives up/down
+        /// (PLAYER.md §3 dominant-cardinal). Facing is set by the horizontal half.
+        /// </summary>
+        private AttackDir ResolveAttackDir()
+        {
+            int ax = (Key(KeyCode.RightArrow) ? 1 : 0) - (Key(KeyCode.LeftArrow) ? 1 : 0);
+            int ay = (Key(KeyCode.UpArrow) ? 1 : 0) - (Key(KeyCode.DownArrow) ? 1 : 0);
+            if (ax != 0 && Mathf.Abs(ax) >= Mathf.Abs(ay)) return ax > 0 ? AttackDir.Right : AttackDir.Left;
+            if (ay > 0) return AttackDir.Up;
+            if (ay < 0) return AttackDir.Down;
+            return Facing > 0 ? AttackDir.Right : AttackDir.Left; // released same frame: fall back to facing
+        }
+
+        // ---- Attacks: top-level press routing --------------------------------
+        private void PressAttack(AttackDir d)
+        {
+            if (_hitstun > 0f) return;
+            if (_airborne) { AirPress(d); return; }
+            if (_dashing) { StartDashAttack(d); return; } // dash attack (0 dmg, stagger)
+
+            if (_phase != Phase.None) { _bufferedAttack = true; _bufferedDir = d; return; }
+            GroundPress(d);
+        }
+
+        /// <summary>Grounded, idle: resolve a press against the primed state machine.</summary>
+        private void GroundPress(AttackDir d)
+        {
+            if (d == AttackDir.Left) Facing = -1;
+            else if (d == AttackDir.Right) Facing = 1;
+            bool horizontal = d == AttackDir.Left || d == AttackDir.Right;
+
+            // 1) Sweep already landed -> this tap executes the downed target.
+            if (_finisherReady) { StartFinisher(d); return; }
+            // 2) String primed by P1→P2 -> this press is the sweep.
+            if (_primed) { StartSweep(d); return; }
+            // 3) Fresh input: a horizontal press fires an equipped gun, else opens
+            //    the melee string with P1; a pure up/down is a standalone normal.
+            if (horizontal)
+            {
+                if (CurrentWeapon.Kind == WeaponKind.Shotgun || CurrentWeapon.Kind == WeaponKind.Boomerang)
+                { FireWeapon(); return; }
+                StartSide(0);
+            }
+            else StartStrike(d == AttackDir.Up ? AttackKind.Up : AttackKind.Down);
+        }
+
+        /// <summary>Airborne press -> the matching air variant (Z stays locked).</summary>
+        private void AirPress(AttackDir d)
+        {
+            if (_phase != Phase.None) return;
+            if (d == AttackDir.Left) Facing = -1;
+            else if (d == AttackDir.Right) Facing = 1;
+
+            AttackKind k = d == AttackDir.Up ? AttackKind.AirUp
+                         : d == AttackDir.Down ? AttackKind.AirDown
+                         : AttackKind.AirSide;
+            _attackKind = k;
+            _combo = -1;
+            _hitResolved = false;
+            _bufferedAttack = false;
+            _phase = Phase.Startup;
+            _phaseTimer = PhaseStartup();
+            string clip = k == AttackKind.AirUp ? "air_up" : k == AttackKind.AirDown ? "air_down" : "air_side";
+            Anim.Play(clip, false, restart: true);
+            Sfx.Play("swing_whoosh"); // swing sound (miss = just this)
+        }
+
+        private void StartDashAttack(AttackDir d)
+        {
+            if (_phase != Phase.None) return;
+            if (d == AttackDir.Left) Facing = -1;
+            else if (d == AttackDir.Right) Facing = 1;
+            _attackKind = AttackKind.Dash;
+            _combo = -1;
+            _hitResolved = false;
+            _bufferedAttack = false;
+            _phase = Phase.Startup;
+            _phaseTimer = PhaseStartup();
+            // Reuse the directional swing clips (no bespoke dash-attack clips yet, PLAYER.md §7).
+            string clip = d == AttackDir.Up ? "attack_up" : d == AttackDir.Down ? "attack_down" : "attack_side";
+            Anim.Play(clip, false, restart: true);
+            Sfx.Play("dash_whoosh");
+        }
+
+        private void StartSide(int index)
+        {
+            _attackKind = AttackKind.Side;
+            _combo = Mathf.Clamp(index, 0, 1);
+            if (_combo == 0) { _p1Connected = _p2Connected = _sweepConnected = false; }
+            _phase = Phase.Startup;
+            _phaseTimer = PhaseStartup();
+            _hitResolved = false;
+            _bufferedAttack = false;
+            Anim.Play("attack_side", false, restart: true);
+            Sfx.Play("swing_whoosh");
+        }
+
+        private void StartSweep(AttackDir d)
+        {
+            _primed = false;
+            if (d == AttackDir.Left) Facing = -1;
+            else if (d == AttackDir.Right) Facing = 1;
+            _bufferedDir = d;               // remembered for the up-launch vs. knockdown variant
+            _attackKind = AttackKind.Sweep;
+            _combo = 2;
+            _phase = Phase.Startup;
+            _phaseTimer = PhaseStartup();
+            _hitResolved = false;
+            _bufferedAttack = false;
+            Anim.Play("attack_side", false, restart: true);
+            Sfx.Play("swing_whoosh");
+        }
+
+        private void StartFinisher(AttackDir d)
+        {
+            _finisherReady = false;
+            if (d == AttackDir.Left) Facing = -1;
+            else if (d == AttackDir.Right) Facing = 1;
+            _attackKind = AttackKind.Finisher;
+            _combo = 3;
+            _phase = Phase.Startup;
+            _phaseTimer = PhaseStartup();
+            _hitResolved = false;
+            _bufferedAttack = false;
+            Anim.Play("attack_side", false, restart: true);
+            Sfx.Play("swing_whoosh");
+        }
+
+        private void StartStrike(AttackKind kind) // standalone up/down normal (not part of the string)
+        {
+            _attackKind = kind;
+            _combo = -1;
+            _phase = Phase.Startup;
+            _phaseTimer = PhaseStartup();
+            _hitResolved = false;
+            _bufferedAttack = false;
+            Anim.Play(kind == AttackKind.Up ? "attack_up" : "attack_down", false, restart: true);
+            Sfx.Play("swing_whoosh");
+        }
+
+        /// <summary>End the current swing (phase only); leaves the primed/finisher flags intact.</summary>
+        private void EndSwing() { _phase = Phase.None; }
+
+        /// <summary>Drop the whole combo string state (dash/jump/hurt cancels, or a lapse).</summary>
+        private void ClearString()
+        {
+            _primed = false; _finisherReady = false; _bufferedAttack = false;
+            _combo = -1; _p1Connected = _p2Connected = _sweepConnected = false;
+        }
+
+        /// <summary>Cancel a live swing AND drop the string (used by dash/jump/hurt).</summary>
+        private void CancelSwing() { EndSwing(); ClearString(); }
+
+        private void TickComboWindows(float dt)
+        {
+            if (_primed) { _primedTimer -= dt; if (_primedTimer <= 0f) { _primed = false; if (_phase == Phase.None) ClearString(); } }
+            if (_finisherReady) { _finisherTimer -= dt; if (_finisherTimer <= 0f) { _finisherReady = false; if (_phase == Phase.None) ClearString(); } }
+        }
+
+        private void TickAttack(float dt)
+        {
+            if (_phase == Phase.None) return;
+            _phaseTimer -= dt;
+
+            if (_phase == Phase.Active && !_hitResolved)
+            {
+                if (_attackKind == AttackKind.Finisher) ResolveFinisher();
+                else ResolveSwing();
+                _hitResolved = true;
+            }
+
+            if (_phaseTimer > 0f) return;
+
+            switch (_phase)
+            {
+                case Phase.Startup:
+                    _phase = Phase.Active;
+                    _phaseTimer = PhaseActive();
+                    break;
+                case Phase.Active:
+                    _phase = Phase.Recovery;
+                    _phaseTimer = PhaseRecovery();
+                    break;
+                case Phase.Recovery:
+                    EndOfRecovery();
+                    break;
+            }
+        }
+
+        /// <summary>Resolve string progression + any buffered follow-up at recovery's end.</summary>
+        private void EndOfRecovery()
+        {
+            switch (_attackKind)
+            {
+                case AttackKind.Side when _combo == 0: // after P1
+                    EndSwing();
+                    if (_bufferedAttack && IsHorizontal(_bufferedDir)) { _bufferedAttack = false; StartSide(1); }
+                    else { ClearString(); DispatchBuffer(); }
+                    break;
+
+                case AttackKind.Side: // after P2 -> PRIME the sweep if both punches connected
+                    EndSwing();
+                    if (_p1Connected && _p2Connected) { _primed = true; _primedTimer = PrimeWindow; }
+                    else ClearString();
+                    DispatchBuffer();
+                    break;
+
+                case AttackKind.Sweep: // arm the finisher if the sweep floored someone
+                    EndSwing();
+                    if (_sweepConnected) { _finisherReady = true; _finisherTimer = FinisherWindow; }
+                    else ClearString();
+                    DispatchBuffer();
+                    break;
+
+                case AttackKind.Finisher:
+                    CancelSwing();
+                    DispatchBuffer();
+                    break;
+
+                default: // standalone normals (up/down), air variants, dash attack
+                    EndSwing();
+                    DispatchBuffer();
+                    break;
+            }
+        }
+
+        private void DispatchBuffer()
+        {
+            if (!_bufferedAttack) return;
+            var d = _bufferedDir;
+            _bufferedAttack = false;
+            if (_airborne) AirPress(d);
+            else if (_dashing) StartDashAttack(d);
+            else GroundPress(d);
+        }
+
+        // ---- Hit resolution --------------------------------------------------
+        private void ResolveSwing()
+        {
+            bool isFist = CurrentWeapon.IsFists;
+            bool dashStagger = _attackKind == AttackKind.Dash;
+            float dmgMult = Meter.DamageMultiplier * _dmgBuffMult;
+            float reach, perp;
+            int dmg;
+            Vector2 dir = new(Facing, 0f);   // default: horizontal, facing side
+            float fistReach = Tuning.FistReach + Tuning.GustBonus;
+
+            switch (_attackKind)
+            {
+                case AttackKind.Side:
+                    reach = CurrentWeapon.Reach + (isFist ? Tuning.GustBonus : 0f);
+                    if (isFist) { dmg = ComboDamage(_combo); dmgMult *= Character.PunchDmgMult; }
+                    else { dmg = CurrentWeapon.Damage; dmgMult *= Character.WeaponDmgMult; }
+                    perp = Tuning.SideArcZTolerance;  // a decent depth arc so hits land
+                    break;
+                case AttackKind.Sweep:
+                    reach = Mathf.Max(CurrentWeapon.Reach + (isFist ? Tuning.GustBonus : 0f), Tuning.SweepReach);
+                    if (isFist) { dmg = Tuning.DmgSweep; dmgMult *= Character.PunchDmgMult; }
+                    else { dmg = CurrentWeapon.Damage; dmgMult *= Character.WeaponDmgMult; }
+                    perp = Tuning.SweepZTolerance; // the ONE wider crowd move
+                    break;
+                case AttackKind.Up:       // strike into the FAR depth row
+                    dir = new Vector2(0f, 1f); reach = Tuning.StrikeZReach; perp = Tuning.StrikePerpX;
+                    dmg = Tuning.DmgUpStrike; dmgMult *= Character.PunchDmgMult;
+                    break;
+                case AttackKind.Down:     // strike into the NEAR depth row
+                    dir = new Vector2(0f, -1f); reach = Tuning.StrikeZReach; perp = Tuning.StrikePerpX;
+                    dmg = Tuning.DmgDownStrike; dmgMult *= Character.PunchDmgMult;
+                    break;
+                case AttackKind.AirSide:
+                    reach = fistReach; dmg = Tuning.DmgAirSide; perp = Tuning.SideArcZTolerance;
+                    dmgMult *= Character.PunchDmgMult;
+                    break;
+                case AttackKind.AirUp:
+                    dir = new Vector2(0f, 1f); reach = Tuning.StrikeZReach; perp = Tuning.StrikePerpX;
+                    dmg = Tuning.DmgAirSide; dmgMult *= Character.PunchDmgMult;
+                    break;
+                case AttackKind.AirDown:
+                    dir = new Vector2(0f, -1f); reach = Tuning.StrikeZReach; perp = Tuning.StrikePerpX;
+                    dmg = 12; dmgMult *= Character.PunchDmgMult; // §2.1 air down / spike
+                    break;
+                case AttackKind.Dash:
+                    reach = fistReach; dmg = Tuning.DmgDashAttack; perp = Tuning.PlayerHitZTolerance; // 0
+                    dmgMult *= Character.PunchDmgMult;
+                    break;
+                default:
+                    return;
+            }
+
+            int applied = dashStagger ? 0 : dmg;
+            var hits = Combat.MeleeHitDirectional(this, dir, reach, perp, applied, dmgMult);
+
+            // Track the connections the primed string depends on.
+            if (_attackKind == AttackKind.Side && _combo == 0) _p1Connected = hits.Count > 0;
+            else if (_attackKind == AttackKind.Side && _combo == 1) _p2Connected = hits.Count > 0;
+            else if (_attackKind == AttackKind.Sweep) _sweepConnected = hits.Count > 0;
+
+            if (hits.Count == 0) return;
+
+            // Dash attacks are a positioning tool, not damage: they don't build meter.
+            if (!dashStagger) Meter.RegisterHit(isFist, Character.MeterFillMult);
+            if (isFist) Vfx.Gust(WorldX + Facing * reach, Z, Facing); // the air reach-extender (PLAYER.md §1)
+            foreach (var a in hits) Vfx.HitSpark(a.WorldX, a.Z);
+            // Impact sound — plays ONLY on a connect (miss = just the swing whoosh).
+            Sfx.Play(_attackKind switch
+            {
+                AttackKind.Sweep => "sweep_hit",
+                AttackKind.AirSide or AttackKind.AirUp or AttackKind.AirDown => "air_hit",
+                AttackKind.Side => (_combo == 1 ? "punch_2" : "punch_1"),
+                _ => "punch_1", // up/down strikes
+            });
+
+            // --- JUICE: escalating feedback + hit-stop (scale by attack & combo) ---
+            int killCount = 0;
+            foreach (var a in hits) if (!a.Alive) { killCount++; ComboHud.RegisterKill(); }
+            bool heavyHit = _attackKind == AttackKind.Sweep;
+            ComboJuice.Impact(WorldX + Facing * reach, Z, Meter.Combo, heavyHit); // combo-scaled shake + sparks
+            if (!dashStagger)
+            {
+                float freeze = _attackKind == AttackKind.Sweep ? HitStop.Sweep
+                             : (_attackKind == AttackKind.Side && _combo == 1) ? HitStop.Normal
+                             : HitStop.Jab;
+                if (killCount > 0) freeze = Mathf.Max(freeze, HitStop.Kill); // kill takes precedence (§2.6)
+                HitStop.Freeze(freeze);
+            }
+
+            // Reaction states (TUNING §2.6). Weight isn't readable here, so dash uses a
+            // mid L/M value and the H-weight "floors the player" case is a TODO.
+            if (dashStagger)
+            {
+                foreach (var a in hits) if (a is IStaggerable s) s.ApplyStagger(0.5f);
+                // TODO: H-weight/boss should FLOOR the player (0.70s down, non-invuln) instead —
+                //       needs a readable enemy weight; wire when EnemyController exposes it.
+            }
+            else if (_attackKind == AttackKind.Sweep)
+            {
+                foreach (var a in hits) if (a is IStaggerable s) s.ApplyStagger(1.2f); // knockdown / up-launch
+            }
+            else if (_attackKind == AttackKind.Up || _attackKind == AttackKind.AirUp || _attackKind == AttackKind.AirDown)
+            {
+                foreach (var a in hits) if (a is IStaggerable s) s.ApplyStagger(0.5f); // launch / spike
+            }
+
+            // Only the melee string (P1/P2/sweep) spends a weapon's durability.
+            if (!isFist && (_attackKind == AttackKind.Side || _attackKind == AttackKind.Sweep) && CurrentWeapon.Spend())
+            {
+                Sfx.Play("weapon_break_puff");
+                CurrentWeapon = Weapon.Fists();
+            }
+        }
+
+        /// <summary>
+        /// The finisher (hit 4): auto-acquire the closest enemy in the tapped
+        /// direction within 5 wu, step onto it, and land a free-melee 35 (COMBOS §1,
+        /// PLAYER.md §3). One finisher = one target. Free melee = no ammo/durability.
+        /// </summary>
+        private void ResolveFinisher()
+        {
+            var target = AcquireFinisherTarget();
+            if (target == null) return; // whiffed (no downed body in range)
+
+            WorldX = target.WorldX - Facing * Tuning.FistReach; // step onto the target
+            Z = target.Z;
+
+            float mult = Meter.DamageMultiplier * _dmgBuffMult * Character.PunchDmgMult;
+            bool killed = target.TakeDamage(Mathf.RoundToInt(Tuning.DmgFinisher * mult), this);
+            Meter.RegisterHit(true, Character.MeterFillMult);
+
+            Vfx.FinisherFlash(target.WorldX, target.Z);
+            Sfx.Play("finisher_crunch");
+            CameraShake.Add(CameraShake.Heavy);
+            // JUICE: freeze-frame — 5f on a kill, 3f on a non-killing finisher (§2.6).
+            HitStop.Freeze(killed ? HitStop.Kill : HitStop.Finisher);
+            if (killed) ComboHud.RegisterKill();
+            ComboJuice.Impact(target.WorldX, target.Z, Meter.Combo, heavy: true);
+            FinisherLanded?.Invoke();   // tutorial execute/finisher gate
+        }
+
+        private Actor AcquireFinisherTarget()
+        {
+            Actor best = null;
+            float bestDx = float.MaxValue;
+            foreach (var a in Actor.All)
+            {
+                if (a == this || !a.Alive || a.Team == Team) continue;
+                float dx = (a.WorldX - WorldX) * Facing; // >0 = in front
+                if (dx < -0.5f || dx > FinisherAcquire) continue;
+                if (Mathf.Abs(a.Z - Z) > Tuning.SweepZTolerance + 0.5f) continue;
+                float d = Mathf.Abs(dx);
+                if (d < bestDx) { bestDx = d; best = a; }
+            }
+            return best;
+        }
+
+        // ---- Special (Q) — payload is per-character ---------------------------
+        /// <summary>
+        /// Tutorial hook: while true, the player's own Q press is ignored so the paused
+        /// "unleash your special" showcase can control exactly when it fires (after it has
+        /// restored Time.timeScale to 1). Always cleared by the tutorial before it force-fires.
+        /// </summary>
+        [System.NonSerialized] public bool SpecialLocked;
+
+        /// <summary>Tutorial hook: fire the special on command (bypasses <see cref="SpecialLocked"/>).
+        /// Call only after Time.timeScale is back to 1f so the special's payload runs normally.</summary>
+        public void FireSpecialNow()
+        {
+            bool wasLocked = SpecialLocked;
+            SpecialLocked = false;
+            FireSpecial();
+            SpecialLocked = wasLocked;
+        }
+
+        private void FireSpecial()
+        {
+            if (SpecialLocked) return;   // tutorial pause owns the trigger this moment
+            if (!Meter.CanFire) return;
+            int tier = Meter.Fire();
+            if (tier == 0) return;
+            CameraShake.Add(CameraShake.Heavy);
+            Character.Special?.Fire(this, tier);
+            SpecialFired?.Invoke(tier);
+            // JUICE: a big cast freeze. Guarded in HitStop — this is a NO-OP if the cast
+            // just started the sniper slow-mo (timeScale already 0.28), so no conflict.
+            HitStop.Freeze(HitStop.Special);
+        }
+
+        // ---- Weapons ---------------------------------------------------------
+        public void Equip(WeaponKind kind)
+        {
+            CurrentWeapon = Weapon.Create(kind); // full roster (WEAPONS.md); single-slot swap
+            _weaponReady = CurrentWeapon.Warmup;
+            WeaponEquipped?.Invoke(kind);   // lets the tutorial pop the "press E to fire" prompt
+        }
+
+        /// <summary>Fire a ranged weapon (E or a fresh horizontal attack arrow). Melee weapons ignore this.</summary>
+        private void FireWeapon()
+        {
+            if (_airborne || _dashing || _hitstun > 0f || _weaponReady > 0f) return;
+            if (CurrentWeapon.TryFire(this)) Anim.Play("attack_side", false, restart: true);
+        }
+
+        /// <summary>
+        /// F = pick up the nearest ground weapon (PLAYER.md §2; grabbing while armed
+        /// destroys the current weapon, which <see cref="Equip"/> already does). Prefers
+        /// the weapons owner's <c>Pickup.NearestWithin</c>/<c>GrabBy</c> API once it lands;
+        /// until then scans the live pickups for the nearest within ~0.9 wu.
+        /// </summary>
+        private void TryPickup()
+        {
+            var best = Pickup.NearestWithin(WorldX, Z, PickupRadius);
+            if (best != null) best.GrabBy(this);
+        }
+
+        // ---- Damage ----------------------------------------------------------
+        public override bool TakeDamage(float amount, Actor source)
+        {
+            if (!Alive) return false;
+            if (GodMode) return false;   // TEMP DEBUG: K toggles invincibility
+
+            // Shield Rush soak (§2.3): every hit that would strike the player-behind-shield
+            // instead lands on the shield body (100% of the damage) and counts toward the
+            // 40-dmg budget. The rush ends when the budget is spent or the shield dies.
+            if (_shieldRushing && _shield != null && _shield.Alive)
+            {
+                _shieldSoaked += amount;
+                _shield.TakeDamage(amount, source);        // shielded enemy takes the hit
+                Vfx.HitSpark(_shield.WorldX, _shield.Z);
+                Sfx.Play("enemy_stagger");
+                if (_shieldSoaked >= ShieldRushSoakMax || !_shield.Alive) EndShieldRush();
+                return false;                               // ...the player takes none
+            }
+
+            if (_invuln > 0f) return false; // i-frames (Werewolf transform, etc.)
+            _hitstun = Tuning.HitstunDuration;
+            CancelSwing();          // a hit breaks the swing + the combo string
+            Meter.OnDamaged();
+            bool dead = base.TakeDamage(amount, source);
+            CameraShake.Add(CameraShake.Light);
+            if (dead) { Anim.Play("death", false, restart: true); Sfx.Play("death"); }
+            else { Anim.Play("hurt", false, restart: true); Sfx.Play("hurt_grunt"); }
+            return dead;
+        }
+
+        // ---- Animation & projection -----------------------------------------
+        private void UpdateAnimation()
+        {
+            if (_phase != Phase.None) return; // attack clip already playing
+            if (_airDashing) { Anim.Play("dash", false); return; }
+            if (_airborne) { Anim.Play("jump", false); return; }
+            if (_dashing) { Anim.Play("dash", false); return; }
+            Anim.Play(MoveX() != 0 || MoveZ() != 0 ? "walk" : "idle", true);
+        }
+
+        protected override void LateUpdate()
+        {
+            base.LateUpdate();
+            if (_jumpOffset != 0f)
+            {
+                var p = transform.position;
+                p.y += _jumpOffset;
+                transform.position = p;
+            }
+        }
+
+        // ---- Frame-data lookups (TUNING §2.5) --------------------------------
+        private static float F => Tuning.FrameSeconds;
+        private float WeaponFrameTax => CurrentWeapon.IsFists ? 0f : 2 * F;
+
+        private float PhaseStartup() => Tuning.AttackFrameMult * (_attackKind switch
+        {
+            AttackKind.Side => SideStartup(_combo),
+            AttackKind.Sweep => Tuning.SweepStartup + WeaponFrameTax,
+            AttackKind.Finisher => Tuning.FinisherStartup,   // free melee: no weapon tax
+            AttackKind.Up or AttackKind.Down => 6 * F,
+            AttackKind.AirSide => 5 * F,
+            AttackKind.AirUp => 6 * F,
+            AttackKind.AirDown => 7 * F,
+            AttackKind.Dash => 5 * F,
+            _ => 6 * F,
+        });
+
+        private float PhaseActive() => _attackKind switch
+        {
+            AttackKind.Side => SideActive(_combo),
+            AttackKind.Sweep => Tuning.SweepActive,
+            AttackKind.Finisher => Tuning.FinisherActive,
+            AttackKind.Up or AttackKind.Down => 4 * F,
+            AttackKind.AirSide => 4 * F,
+            AttackKind.AirUp => 5 * F,
+            AttackKind.AirDown => 5 * F,
+            AttackKind.Dash => 6 * F,          // the lunge
+            _ => 4 * F,
+        };
+
+        private float PhaseRecovery() => Tuning.AttackFrameMult * (_attackKind switch
+        {
+            AttackKind.Side => SideRecovery(_combo),
+            AttackKind.Sweep => Tuning.SweepRecovery + WeaponFrameTax,
+            AttackKind.Finisher => Tuning.FinisherRecovery,
+            AttackKind.Up or AttackKind.Down => 12 * F,
+            AttackKind.AirSide => 10 * F,
+            AttackKind.AirUp => 12 * F,
+            AttackKind.AirDown => 8 * F,        // landing lag
+            AttackKind.Dash => 10 * F,
+            _ => 12 * F,
+        });
+
+        private float SideStartup(int c) => (c == 0 ? Tuning.Punch1Startup : Tuning.Punch2Startup) + WeaponFrameTax;
+        private float SideActive(int c) => c == 0 ? Tuning.Punch1Active : Tuning.Punch2Active;
+        private float SideRecovery(int c) => (c == 0 ? Tuning.Punch1Recovery : Tuning.Punch2Recovery) + WeaponFrameTax;
+
+        private int ComboDamage(int c) => c == 0 ? Tuning.DmgPunch1 : Tuning.DmgPunch2;
+
+        private static bool IsHorizontal(AttackDir d) => d == AttackDir.Left || d == AttackDir.Right;
+
+        // ---- Input helpers ---------------------------------------------------
+        // TEMP DEBUG overlay: the deliberate test-key legend + a GOD MODE banner.
+        private void OnGUI()
+        {
+            if (GameFlow.Instance != null && GameFlow.Instance.Current != GameFlow.State.Playing) return;
+            float scale = Screen.height / 360f;
+            GUI.matrix = Matrix4x4.TRS(Vector3.zero, Quaternion.identity, new Vector3(scale, scale, 1f));
+            float w = Screen.width / scale;
+
+            GUI.color = new Color(1f, 1f, 1f, 0.32f);
+            GUI.Label(new Rect(6, 342, 360, 16), "DEBUG   I: fill special    O: skip stage    K: god mode");
+
+            if (GodMode)
+            {
+                GUI.color = new Color(1f, 0.85f, 0.2f, 0.92f);
+                var s = new GUIStyle(GUI.skin.label) { fontStyle = FontStyle.Bold, alignment = TextAnchor.MiddleCenter };
+                GUI.Label(new Rect(0, 4, w, 20), "◆ GOD MODE ◆", s);
+            }
+            GUI.color = Color.white;
+        }
+
+        private static bool Key(KeyCode k) => Input.GetKey(k);
+        private static bool KeyDown(KeyCode k) => Input.GetKeyDown(k);
+    }
+}

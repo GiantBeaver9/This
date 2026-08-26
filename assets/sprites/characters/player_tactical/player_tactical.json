@@ -4,527 +4,471 @@
     "file": "player_tactical_atlas.png",
     "frames": [
       {
-        "name": "player_tactical_idle_00.png",
-        "rect": [
-          0,
-          0,
-          54,
-          65
-        ]
-      },
-      {
-        "name": "player_tactical_idle_01.png",
-        "rect": [
-          54,
-          0,
-          54,
-          65
-        ]
-      },
-      {
-        "name": "player_tactical_idle_02.png",
-        "rect": [
-          108,
-          0,
-          54,
-          65
-        ]
-      },
-      {
-        "name": "player_tactical_idle_03.png",
-        "rect": [
-          162,
-          0,
-          54,
-          65
-        ]
-      },
-      {
-        "name": "player_tactical_walk_00.png",
-        "rect": [
-          216,
-          0,
-          54,
-          65
-        ]
-      },
-      {
-        "name": "player_tactical_walk_01.png",
-        "rect": [
-          270,
-          0,
-          54,
-          65
-        ]
-      },
-      {
-        "name": "player_tactical_walk_02.png",
-        "rect": [
-          324,
-          0,
-          54,
-          65
-        ]
-      },
-      {
-        "name": "player_tactical_walk_03.png",
-        "rect": [
-          378,
-          0,
-          54,
-          65
-        ]
-      },
-      {
-        "name": "player_tactical_walk_04.png",
-        "rect": [
-          0,
-          65,
-          54,
-          65
-        ]
-      },
-      {
-        "name": "player_tactical_walk_05.png",
-        "rect": [
-          54,
-          65,
-          54,
-          65
-        ]
-      },
-      {
-        "name": "player_tactical_walk_06.png",
-        "rect": [
-          108,
-          65,
-          54,
-          65
-        ]
-      },
-      {
-        "name": "player_tactical_walk_07.png",
-        "rect": [
-          162,
-          65,
-          54,
-          65
-        ]
-      },
-      {
-        "name": "player_tactical_dash_00.png",
-        "rect": [
-          216,
-          65,
-          54,
-          65
-        ]
-      },
-      {
-        "name": "player_tactical_dash_01.png",
-        "rect": [
-          270,
-          65,
-          54,
-          65
-        ]
-      },
-      {
-        "name": "player_tactical_dash_02.png",
-        "rect": [
-          324,
-          65,
-          54,
-          65
-        ]
-      },
-      {
-        "name": "player_tactical_jump_00.png",
-        "rect": [
-          378,
-          65,
-          54,
-          65
-        ]
-      },
-      {
-        "name": "player_tactical_jump_01.png",
-        "rect": [
-          0,
-          130,
-          54,
-          65
-        ]
-      },
-      {
-        "name": "player_tactical_jump_02.png",
-        "rect": [
-          54,
-          130,
-          54,
-          65
-        ]
-      },
-      {
-        "name": "player_tactical_land_00.png",
-        "rect": [
-          108,
-          130,
-          54,
-          65
-        ]
-      },
-      {
-        "name": "player_tactical_land_01.png",
-        "rect": [
-          162,
-          130,
-          54,
-          65
-        ]
-      },
-      {
-        "name": "player_tactical_attack_side_00.png",
-        "rect": [
-          216,
-          130,
-          54,
-          65
-        ]
-      },
-      {
-        "name": "player_tactical_attack_side_01.png",
-        "rect": [
-          270,
-          130,
-          54,
-          65
-        ]
-      },
-      {
-        "name": "player_tactical_attack_side_02.png",
-        "rect": [
-          324,
-          130,
-          54,
-          65
-        ]
-      },
-      {
-        "name": "player_tactical_attack_side_03.png",
-        "rect": [
-          378,
-          130,
-          54,
-          65
-        ]
-      },
-      {
-        "name": "player_tactical_attack_side_04.png",
-        "rect": [
-          0,
-          195,
-          54,
-          65
-        ]
-      },
-      {
-        "name": "player_tactical_attack_up_00.png",
-        "rect": [
-          54,
-          195,
-          54,
-          65
-        ]
-      },
-      {
-        "name": "player_tactical_attack_up_01.png",
-        "rect": [
-          108,
-          195,
-          54,
-          65
-        ]
-      },
-      {
-        "name": "player_tactical_attack_up_02.png",
-        "rect": [
-          162,
-          195,
-          54,
-          65
-        ]
-      },
-      {
-        "name": "player_tactical_attack_up_03.png",
-        "rect": [
-          216,
-          195,
-          54,
-          65
-        ]
-      },
-      {
         "name": "player_tactical_attack_down_00.png",
         "rect": [
-          270,
-          195,
-          54,
-          65
+          15,
+          8,
+          26,
+          47
         ]
       },
       {
         "name": "player_tactical_attack_down_01.png",
         "rect": [
-          324,
-          195,
-          54,
-          65
+          72,
+          7,
+          27,
+          48
         ]
       },
       {
         "name": "player_tactical_attack_down_02.png",
         "rect": [
-          378,
-          195,
-          54,
-          65
+          127,
+          7,
+          31,
+          48
         ]
       },
       {
         "name": "player_tactical_attack_down_03.png",
         "rect": [
+          183,
+          11,
+          32,
+          44
+        ]
+      },
+      {
+        "name": "player_tactical_attack_down_04.png",
+        "rect": [
+          240,
+          9,
+          33,
+          46
+        ]
+      },
+      {
+        "name": "player_tactical_attack_down_05.png",
+        "rect": [
+          302,
+          6,
+          22,
+          49
+        ]
+      },
+      {
+        "name": "player_tactical_attack_down_06.png",
+        "rect": [
+          360,
+          8,
+          21,
+          47
+        ]
+      },
+      {
+        "name": "player_tactical_attack_side_00.png",
+        "rect": [
+          414,
           0,
-          260,
-          54,
-          65
+          27,
+          55
         ]
       },
       {
-        "name": "player_tactical_air_side_00.png",
+        "name": "player_tactical_attack_side_01.png",
         "rect": [
-          54,
-          260,
-          54,
-          65
+          11,
+          55,
+          34,
+          55
         ]
       },
       {
-        "name": "player_tactical_air_side_01.png",
+        "name": "player_tactical_attack_side_02.png",
         "rect": [
-          108,
-          260,
-          54,
-          65
+          70,
+          58,
+          31,
+          52
         ]
       },
       {
-        "name": "player_tactical_air_side_02.png",
+        "name": "player_tactical_attack_up_00.png",
         "rect": [
-          162,
-          260,
-          54,
-          65
+          129,
+          71,
+          26,
+          39
         ]
       },
       {
-        "name": "player_tactical_hurt_00.png",
+        "name": "player_tactical_attack_up_01.png",
         "rect": [
-          216,
-          260,
-          54,
-          65
+          188,
+          64,
+          23,
+          46
         ]
       },
       {
-        "name": "player_tactical_hurt_01.png",
+        "name": "player_tactical_attack_up_02.png",
         "rect": [
-          270,
-          260,
+          239,
+          60,
+          34,
+          50
+        ]
+      },
+      {
+        "name": "player_tactical_attack_up_03.png",
+        "rect": [
+          304,
+          59,
+          19,
+          51
+        ]
+      },
+      {
+        "name": "player_tactical_attack_up_04.png",
+        "rect": [
+          360,
+          60,
+          20,
+          50
+        ]
+      },
+      {
+        "name": "player_tactical_attack_up_05.png",
+        "rect": [
+          415,
+          60,
+          24,
+          50
+        ]
+      },
+      {
+        "name": "player_tactical_attack_up_06.png",
+        "rect": [
+          12,
+          118,
+          33,
+          47
+        ]
+      },
+      {
+        "name": "player_tactical_dash_00.png",
+        "rect": [
+          75,
+          116,
+          20,
+          49
+        ]
+      },
+      {
+        "name": "player_tactical_dash_01.png",
+        "rect": [
+          116,
+          130,
+          53,
+          35
+        ]
+      },
+      {
+        "name": "player_tactical_dash_02.png",
+        "rect": [
+          171,
+          139,
+          57,
+          26
+        ]
+      },
+      {
+        "name": "player_tactical_dash_03.png",
+        "rect": [
+          229,
+          136,
           54,
-          65
+          29
+        ]
+      },
+      {
+        "name": "player_tactical_dash_04.png",
+        "rect": [
+          299,
+          128,
+          28,
+          37
+        ]
+      },
+      {
+        "name": "player_tactical_dash_05.png",
+        "rect": [
+          356,
+          120,
+          29,
+          45
         ]
       },
       {
         "name": "player_tactical_death_00.png",
         "rect": [
-          324,
-          260,
-          54,
-          65
+          414,
+          117,
+          27,
+          48
         ]
       },
       {
         "name": "player_tactical_death_01.png",
         "rect": [
-          378,
-          260,
-          54,
-          65
+          15,
+          173,
+          27,
+          47
         ]
       },
       {
         "name": "player_tactical_death_02.png",
         "rect": [
-          0,
-          325,
-          54,
-          65
+          67,
+          178,
+          37,
+          42
         ]
       },
       {
         "name": "player_tactical_death_03.png",
         "rect": [
-          54,
-          325,
-          54,
-          65
+          123,
+          177,
+          38,
+          43
         ]
       },
       {
         "name": "player_tactical_death_04.png",
         "rect": [
-          108,
-          325,
-          54,
-          65
+          180,
+          185,
+          39,
+          35
         ]
       },
       {
         "name": "player_tactical_death_05.png",
         "rect": [
-          162,
-          325,
-          54,
-          65
+          234,
+          196,
+          45,
+          24
+        ]
+      },
+      {
+        "name": "player_tactical_death_06.png",
+        "rect": [
+          289,
+          206,
+          48,
+          14
+        ]
+      },
+      {
+        "name": "player_tactical_hurt_00.png",
+        "rect": [
+          352,
+          173,
+          37,
+          47
+        ]
+      },
+      {
+        "name": "player_tactical_hurt_01.png",
+        "rect": [
+          408,
+          171,
+          38,
+          49
+        ]
+      },
+      {
+        "name": "player_tactical_hurt_02.png",
+        "rect": [
+          11,
+          232,
+          35,
+          43
+        ]
+      },
+      {
+        "name": "player_tactical_hurt_03.png",
+        "rect": [
+          68,
+          231,
+          34,
+          44
+        ]
+      },
+      {
+        "name": "player_tactical_hurt_04.png",
+        "rect": [
+          124,
+          229,
+          37,
+          46
+        ]
+      },
+      {
+        "name": "player_tactical_hurt_05.png",
+        "rect": [
+          181,
+          230,
+          36,
+          45
+        ]
+      },
+      {
+        "name": "player_tactical_idle_00.png",
+        "rect": [
+          246,
+          224,
+          20,
+          51
+        ]
+      },
+      {
+        "name": "player_tactical_idle_01.png",
+        "rect": [
+          304,
+          223,
+          19,
+          52
+        ]
+      },
+      {
+        "name": "player_tactical_idle_02.png",
+        "rect": [
+          360,
+          222,
+          20,
+          53
+        ]
+      },
+      {
+        "name": "player_tactical_idle_03.png",
+        "rect": [
+          417,
+          223,
+          20,
+          52
+        ]
+      },
+      {
+        "name": "player_tactical_sweep_00.png",
+        "rect": [
+          14,
+          281,
+          28,
+          49
+        ]
+      },
+      {
+        "name": "player_tactical_sweep_01.png",
+        "rect": [
+          72,
+          290,
+          27,
+          40
+        ]
+      },
+      {
+        "name": "player_tactical_sweep_02.png",
+        "rect": [
+          128,
+          297,
+          28,
+          33
+        ]
+      },
+      {
+        "name": "player_tactical_sweep_03.png",
+        "rect": [
+          183,
+          302,
+          32,
+          28
+        ]
+      },
+      {
+        "name": "player_tactical_sweep_04.png",
+        "rect": [
+          232,
+          307,
+          48,
+          23
+        ]
+      },
+      {
+        "name": "player_tactical_sweep_05.png",
+        "rect": [
+          302,
+          299,
+          22,
+          31
+        ]
+      },
+      {
+        "name": "player_tactical_sweep_06.png",
+        "rect": [
+          352,
+          292,
+          36,
+          38
+        ]
+      },
+      {
+        "name": "player_tactical_walk_00.png",
+        "rect": [
+          419,
+          279,
+          17,
+          51
+        ]
+      },
+      {
+        "name": "player_tactical_walk_01.png",
+        "rect": [
+          16,
+          334,
+          24,
+          51
+        ]
+      },
+      {
+        "name": "player_tactical_walk_02.png",
+        "rect": [
+          76,
+          334,
+          18,
+          51
+        ]
+      },
+      {
+        "name": "player_tactical_walk_03.png",
+        "rect": [
+          129,
+          334,
+          26,
+          51
         ]
       }
     ],
     "size": [
-      512,
-      512
+      456,
+      385
     ]
   },
-  "clips": {
-    "air_side": {
-      "atlas_range": [
-        33,
-        36
-      ],
-      "direction": "side",
-      "fps": 12,
-      "frame_count": 3,
-      "loop": false
-    },
-    "attack_down": {
-      "atlas_range": [
-        29,
-        33
-      ],
-      "direction": "side",
-      "fps": 12,
-      "frame_count": 4,
-      "loop": false
-    },
-    "attack_side": {
-      "atlas_range": [
-        20,
-        25
-      ],
-      "direction": "side",
-      "fps": 12,
-      "frame_count": 5,
-      "loop": false
-    },
-    "attack_up": {
-      "atlas_range": [
-        25,
-        29
-      ],
-      "direction": "side",
-      "fps": 12,
-      "frame_count": 4,
-      "loop": false
-    },
-    "dash": {
-      "atlas_range": [
-        12,
-        15
-      ],
-      "direction": "side",
-      "fps": 12,
-      "frame_count": 3,
-      "loop": false
-    },
-    "death": {
-      "atlas_range": [
-        38,
-        44
-      ],
-      "direction": "side",
-      "fps": 12,
-      "frame_count": 6,
-      "loop": false
-    },
-    "hurt": {
-      "atlas_range": [
-        36,
-        38
-      ],
-      "direction": "side",
-      "fps": 12,
-      "frame_count": 2,
-      "loop": false
-    },
-    "idle": {
-      "atlas_range": [
-        0,
-        4
-      ],
-      "direction": "side",
-      "fps": 12,
-      "frame_count": 4,
-      "loop": false
-    },
-    "jump": {
-      "atlas_range": [
-        15,
-        18
-      ],
-      "direction": "side",
-      "fps": 12,
-      "frame_count": 3,
-      "loop": false
-    },
-    "land": {
-      "atlas_range": [
-        18,
-        20
-      ],
-      "direction": "side",
-      "fps": 12,
-      "frame_count": 2,
-      "loop": false
-    },
-    "walk": {
-      "atlas_range": [
-        4,
-        12
-      ],
-      "direction": "side",
-      "fps": 12,
-      "frame_count": 8,
-      "loop": false
-    }
-  },
-  "fps": 12,
-  "import": {
-    "compression": "None",
-    "filter": "Point",
-    "type": "Sprite2D"
-  },
-  "kind": "player",
-  "placeholder": true,
   "ppu": 24,
-  "tier": "P0"
+  "fps": 12,
+  "source": "pixellab"
 }

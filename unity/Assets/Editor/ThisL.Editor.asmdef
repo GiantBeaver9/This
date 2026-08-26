@@ -1,0 +1,8 @@
+{
+    "name": "ThisL.Editor",
+    "rootNamespace": "ThisL.EditorTools",
+    "references": ["ThisL.Runtime"],
+    "includePlatforms": ["Editor"],
+    "excludePlatforms": [],
+    "autoReferenced": true
+}
