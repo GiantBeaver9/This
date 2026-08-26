@@ -63,6 +63,39 @@ namespace ThisL
             return _bar;
         }
 
+        /// <summary>A short bright streak between two ground points (X-Z → screen via Playfield),
+        /// fading over ~0.12s real-time — the sniper's visible bullet ricochet from foe to foe.</summary>
+        private sealed class Tracer : MonoBehaviour
+        {
+            public static void Spawn(float x1, float z1, float x2, float z2, Color col)
+                => new GameObject("fx_tracer").AddComponent<Tracer>().Init(x1, z1, x2, z2, col);
+
+            private SpriteRenderer _sr; private Color _col; private float _life = 0.12f; private const float Max = 0.12f;
+
+            private Tracer Init(float x1, float z1, float x2, float z2, Color col)
+            {
+                float y1 = Playfield.FeetY(z1) + 0.9f, y2 = Playfield.FeetY(z2) + 0.9f; // ~chest height
+                Vector2 a = new(x1, y1), b = new(x2, y2), mid = (a + b) * 0.5f;
+                float len = Vector2.Distance(a, b);
+                float ang = Mathf.Atan2(b.y - a.y, b.x - a.x) * Mathf.Rad2Deg;
+                _sr = gameObject.AddComponent<SpriteRenderer>();
+                _sr.sprite = BarSprite();
+                _sr.color = _col = col;
+                _sr.sortingOrder = 600;
+                transform.position = new Vector3(mid.x, mid.y, 0f);
+                transform.rotation = Quaternion.Euler(0f, 0f, ang);
+                transform.localScale = new Vector3(len / (18f / 24f), 1.4f, 1f); // stretch the 18px bar to span the gap
+                return this;
+            }
+
+            private void Update()
+            {
+                _life -= Time.unscaledDeltaTime;
+                if (_sr != null) { var c = _col; c.a = Mathf.Clamp01(_life / Max); _sr.color = c; }
+                if (_life <= 0f) Destroy(gameObject);
+            }
+        }
+
         // ---- The shared wind-up runner --------------------------------------------
 
         private sealed class WindupSeq : MonoBehaviour
@@ -109,6 +142,7 @@ namespace ThisL
                 {
                     var t = NearestEnemyTo(x, z);
                     if (t == null) break;
+                    Tracer.Spawn(x, z, t.WorldX, t.Z, new Color(1f, 0.95f, 0.6f)); // the bullet's visible ricochet streak
                     Vfx.FinisherFlash(t.WorldX, t.Z);
                     Sfx.Play("hit_spark");
                     if (t is ISpecialKillable k) k.KillBySpecial(_from); else t.TakeDamage(9999f, _from);

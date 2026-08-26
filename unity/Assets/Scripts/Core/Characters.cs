@@ -106,6 +106,15 @@ namespace ThisL
                     e.TakeDamage(45f, p);                                // massive damage, keeps drops
                     hit++;
                 }
+                // Visible SPREAD: a fan of pellets across the cone width so it reads as a giant shotgun
+                // blast (the cone above is the reliable damage/knockback; these sell the spread).
+                for (int i = 0; i < 9; i++)
+                {
+                    float dz = Mathf.Lerp(-1.6f, 1.6f, i / 8f);
+                    Projectile.Spawn(Team.Player, p.WorldX + p.Facing * 0.7f,
+                                     Mathf.Clamp(p.Z + dz, 0f, Tuning.ZBandDepth), p.Facing, 24f, 6,
+                                     new Color(1f, 0.85f, 0.4f));
+                }
                 Debug.Log($"[Special] Giant Shotgun tier {tier}: {hit} blasted back + floored 3.6s.");
             });
         }
