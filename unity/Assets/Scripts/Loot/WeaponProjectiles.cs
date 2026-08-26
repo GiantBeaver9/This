@@ -159,6 +159,84 @@ namespace ThisL
         }
     }
 
+    /// <summary>
+    /// A boomerang (WEAPONS.md §3): flies out along X to its range, then curves BACK to the
+    /// thrower's current position. It stuns each enemy it passes (once). MISS → it returns to
+    /// hand and you keep throwing (infinite); HIT → you lose it (OnFirstHit), the classic
+    /// "bounces away" rule. Spins for readability.
+    /// </summary>
+    public sealed class BoomerangProjectile : MonoBehaviour
+    {
+        public Team OwnerTeam;
+        public PlayerController Thrower;
+        public float WorldX, Z, StartX, Dir = 1f;
+        public float Range = 8f, Speed = 16f, StunSeconds = 2f;
+        public System.Action OnFirstHit;
+
+        private bool _returning, _hitAnything;
+        private float _life = 6f, _spin;
+        private SpriteRenderer _sr;
+        private readonly HashSet<Actor> _hit = new();
+        private const float HitRadiusX = 0.5f;
+
+        public static BoomerangProjectile Spawn(Team team, float x, float z, float dirX, PlayerController thrower)
+        {
+            var go = new GameObject("boomerang");
+            var b = go.AddComponent<BoomerangProjectile>();
+            b.OwnerTeam = team; b.Thrower = thrower;
+            b.WorldX = x; b.StartX = x; b.Z = z;
+            b.Dir = Mathf.Sign(dirX == 0 ? 1 : dirX);
+            b._sr = go.AddComponent<SpriteRenderer>();
+            b._sr.sprite = WeaponProjectileArt.Dot();
+            b._sr.color = new Color(0.8f, 1f, 0.4f);
+            return b;
+        }
+
+        private void Update()
+        {
+            float dt = Time.deltaTime;
+            _life -= dt;
+            if (_life <= 0f) { Destroy(gameObject); return; }
+
+            if (!_returning)
+            {
+                WorldX += Dir * Speed * dt;
+                if (Mathf.Abs(WorldX - StartX) >= Range) _returning = true;
+            }
+            else
+            {
+                // Home back to the thrower's live position; caught when it arrives.
+                float tx = Thrower != null && Thrower.Alive ? Thrower.WorldX : StartX;
+                float tz = Thrower != null && Thrower.Alive ? Thrower.Z : Z;
+                float ex = tx - WorldX, ez = tz - Z;
+                float d = Mathf.Sqrt(ex * ex + ez * ez);
+                if (d < 0.6f) { Destroy(gameObject); return; }   // caught
+                WorldX += ex / d * Speed * dt;
+                Z += ez / d * Speed * dt;
+            }
+
+            foreach (var a in Actor.All)
+            {
+                if (a == null || !a.Alive || a.Team == OwnerTeam || _hit.Contains(a)) continue;
+                if (Mathf.Abs(a.WorldX - WorldX) > HitRadiusX) continue;
+                if (!Playfield.WithinZ(a.Z, Z, Tuning.HitboxZTolerance)) continue;
+                _hit.Add(a);
+                if (a is IStaggerable s) s.ApplyStagger(StunSeconds);
+                Vfx.HitSpark(a.WorldX, a.Z);
+                if (!_hitAnything) { _hitAnything = true; OnFirstHit?.Invoke(); }
+            }
+        }
+
+        private void LateUpdate()
+        {
+            Playfield.Place(transform, WorldX, Z, _sr);
+            _spin += 720f * Time.deltaTime;
+            transform.rotation = Quaternion.Euler(0, 0, _spin);
+            transform.position += Vector3.up * 1.0f;
+            if (_sr != null) _sr.sortingOrder = 900;
+        }
+    }
+
     /// <summary>Radial area damage used by explosive weapons (grenade, and reusable by rockets).</summary>
     public static class Explosion
     {

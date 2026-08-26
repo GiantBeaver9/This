@@ -245,12 +245,11 @@ namespace ThisL
 
         public static bool ThrowBoomerang(PlayerController p, Weapon w)
         {
-            var proj = Projectile.Spawn(Team.Player, p.WorldX + p.Facing * 0.6f, p.Z, p.Facing, 18f, 0f,
-                                        new Color(0.8f, 1f, 0.4f));
-            proj.StunSeconds = 2f;
-            proj.Life = 8f / 18f;                                    // 8 wu out then returns (§6.3)
-            proj.OnConnect = () => p.CurrentWeapon = Weapon.Fists(); // lost the moment it connects
-            w.FireCooldown = proj.Life + 0.1f;                       // re-throw after a miss returns
+            var b = BoomerangProjectile.Spawn(Team.Player, p.WorldX + p.Facing * 0.6f, p.Z, p.Facing, p);
+            b.StunSeconds = 2f;
+            b.Range = 8f;                                           // 8 wu out then curves home (§6.3)
+            b.OnFirstHit = () => p.CurrentWeapon = Weapon.Fists();  // HIT → it bounces away, you lose it
+            w.FireCooldown = 1.2f;                                  // round-trip lockout; MISS returns to hand
             Sfx.Play("boomerang_throw");
             return true;
         }
