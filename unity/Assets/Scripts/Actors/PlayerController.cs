@@ -97,6 +97,7 @@ namespace ThisL
         private float _dashCharges = Tuning.DashMaxCharges; // 3-per-5s rate limit (anti-spam)
         private float _hitstun;
         private float _weaponReady;       // warm-up countdown before a looted weapon can fire
+        private float _fireLock;          // brief root-in-place after firing a ranged weapon (anti-spam)
         private bool _wasArmed;            // edge-detect the meter arming for the chime
 
         // Downed / respawn (shared-life system). On death we don't destroy the player;
@@ -219,6 +220,7 @@ namespace ThisL
                 _dashCharges + (Tuning.DashMaxCharges / Tuning.DashChargeWindow) * dt);
             _hitstun = Mathf.Max(0f, _hitstun - dt);
             _weaponReady = Mathf.Max(0f, _weaponReady - dt);
+            _fireLock = Mathf.Max(0f, _fireLock - dt);
             _invuln = Mathf.Max(0f, _invuln - dt);
             if (_dmgBuffTimer > 0f) { _dmgBuffTimer -= dt; if (_dmgBuffTimer <= 0f) _dmgBuffMult = 1f; }
             CurrentWeapon.Tick(dt);
@@ -272,6 +274,7 @@ namespace ThisL
         {
             float ix = MoveX(), iz = MoveZ();
             if (ix != 0) Facing = ix > 0 ? 1 : -1;
+            if (_fireLock > 0f) return;   // ROOTED while firing a ranged weapon — a 0.2s commitment so you can't run-and-gun spam (creator ruling)
 
             if (_airborne)
             {
@@ -630,8 +633,9 @@ namespace ThisL
             //    the melee string with P1; a pure up/down is a standalone normal.
             if (horizontal)
             {
-                if (CurrentWeapon.Kind == WeaponKind.Shotgun || CurrentWeapon.Kind == WeaponKind.Boomerang)
-                { FireWeapon(); return; }
+                // Guns fire on E ONLY; an arrow press always PUNCHES (creator: guns don't
+                // touch melee). Boomerang (a thrown weapon) still throws on the arrow.
+                if (CurrentWeapon.Kind == WeaponKind.Boomerang) { FireWeapon(); return; }
                 StartSide(0);
             }
             else StartStrike(d == AttackDir.Up ? AttackKind.Up : AttackKind.Down);
@@ -830,7 +834,9 @@ namespace ThisL
         // ---- Hit resolution --------------------------------------------------
         private void ResolveSwing()
         {
-            bool isFist = CurrentWeapon.IsFists;
+            // A gun/ranged weapon (reach ~0) melees as a plain FIST punch — it never shrinks
+            // your attack or whiffs; it only FIRES on E (creator: "guns shouldn't do anything to melee").
+            bool isFist = CurrentWeapon.IsFists || CurrentWeapon.Reach <= 0.05f;
             bool dashStagger = _attackKind == AttackKind.Dash;
             float dmgMult = Meter.DamageMultiplier * _dmgBuffMult;
             float reach, perp;
@@ -1028,8 +1034,12 @@ namespace ThisL
         /// <summary>Fire a ranged weapon (E or a fresh horizontal attack arrow). Melee weapons ignore this.</summary>
         private void FireWeapon()
         {
-            if (_airborne || _dashing || _hitstun > 0f || _weaponReady > 0f) return;
-            if (CurrentWeapon.TryFire(this)) Anim.Play("attack_side", false, restart: true);
+            if (_airborne || _dashing || _hitstun > 0f || _weaponReady > 0f || _fireLock > 0f) return;
+            if (CurrentWeapon.TryFire(this))
+            {
+                Anim.Play("attack_side", false, restart: true);
+                _fireLock = 0.2f;   // root in place for 0.2s — firing is a deliberate, non-spammable commitment
+            }
         }
 
         /// <summary>

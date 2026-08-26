@@ -192,6 +192,8 @@ namespace ThisL
                         // + gates + act-end bosses (via Bosses.Spawn) — from Lincoln to Phil. Each
                         // stage's per-stage vignette/teaching beat is authored as its opening wave in
                         // StageDatabase, so those play in sequence without a separate hook here.
+                        // HazardDirector self-gates the car to Level 1 only (creator ruling);
+                        // per-area hazards come later.
                         if (sys != null) { sys.AddComponent<CampaignRunner>(); sys.AddComponent<HazardDirector>(); }
                     });
                 });
@@ -401,10 +403,23 @@ namespace ThisL
                 GUI.color = Color.white;
                 GUI.Label(new Rect(r.x, r.y + 8, r.width, 24), c.DisplayName, _label);
 
-                // Portrait art if present (assets/portraits/<id>.png); else the stat block.
-                var portrait = PortraitLibrary.Get(c.Id);
-                if (portrait != null)
-                    GUI.DrawTexture(new Rect(r.x + 6, r.y + 30, r.width - 12, 92), portrait, ScaleMode.ScaleToFit);
+                // In-game hero SPRITE (idle frame) — NOT the anime portrait (creator: looks off).
+                var set = SpriteLibrary.Load(c.SpriteDir, c.SpriteActor);
+                var sp = set != null ? (set.FirstOf("idle") ?? set.First) : null;
+                if (sp != null && sp.texture != null)
+                {
+                    var tex = sp.texture; var rr = sp.rect;
+                    bool bert = c.SpriteActor == "player_underdog";   // barely-visible forehead gag
+                    float frac = bert ? 0.30f : 1f;
+                    var uv = new Rect(rr.x / tex.width, (rr.y + rr.height * (1f - frac)) / tex.height,
+                                      rr.width / tex.width, rr.height * frac / tex.height);
+                    float aspect = rr.width / (rr.height * frac);
+                    float dh = bert ? 34f : 92f, dw = dh * aspect;
+                    if (dw > r.width - 12) { dw = r.width - 12; dh = dw / aspect; }
+                    float top = r.y + 30f, boxH = 92f;
+                    float dy = bert ? top + boxH - dh : top + (boxH - dh);
+                    GUI.DrawTextureWithTexCoords(new Rect(r.x + 6f + ((r.width - 12f) - dw) / 2f, dy, dw, dh), tex, uv);
+                }
                 else
                     GUI.Label(new Rect(r.x + 10, r.y + 34, r.width - 20, 76),
                         $"Spd x{c.MoveSpeedMult:0.00}\nFist x{c.PunchDmgMult:0.00}\nMeter x{c.MeterFillMult:0.00}\nWpn x{c.WeaponDmgMult:0.00}");

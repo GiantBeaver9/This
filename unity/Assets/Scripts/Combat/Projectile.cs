@@ -64,6 +64,7 @@ namespace ThisL
         private void LateUpdate()
         {
             Playfield.Place(transform, WorldX, Z, _sr);
+            transform.position += Vector3.up * 1.0f;   // bullets at mid-body height, not feet
             if (_sr != null) _sr.sortingOrder = 900; // projectiles always on top (see them coming)
             var p = transform.position;
             p.y += MuzzleHeight * Playfield.DepthScale(Z);

@@ -56,13 +56,34 @@ namespace ThisL
                 {
                     _aiming = false;
                     if (Sr != null) Sr.color = Color.white;
-                    _fireTimer = Def.FireInterval;
+                    _fireTimer = Def.FireInterval * 1.8f;   // shoot LESS often (creator ruling)
                     Vfx.MuzzleFlash(WorldX + Facing * 0.6f, Z, Facing);
                     Sfx.Play("pistol");
                     Projectile.Spawn(Team.Enemy, WorldX + Facing * 0.6f, Z, Facing,
                                      Def.ProjectileSpeed, Def.Damage * DifficultySettings.EnemyDamageMult,
                                      new Color(1f, 0.85f, 0.3f));
                 }
+                return;
+            }
+
+            // If the player gets CLOSE, commit to MELEE instead of fleeing forever
+            // (creator: ranged enemies were elusive fuckers — up close they must swing).
+            float adx = Mathf.Abs(player.WorldX - WorldX);
+            const float MeleeRange = 1.4f;
+            if (adx <= MeleeRange)
+            {
+                Z += Mathf.Clamp(player.Z - Z, -speed * dt, speed * dt);   // square up, don't back off
+                Steering.Separate(this);
+                if (Sr != null) Sr.color = Color.white;
+                if (_fireTimer <= 0f && Mathf.Abs(player.Z - Z) < 1.1f)
+                {
+                    _fireTimer = 1.0f;   // melee swing cooldown
+                    Anim.Play("attack_side", false, restart: true);
+                    Sfx.Play("punch_1");
+                    Vfx.HitSpark(player.WorldX, player.Z);
+                    player.TakeDamage(Def.Damage * DifficultySettings.EnemyDamageMult, this);
+                }
+                else Anim.Play("walk", true);
                 return;
             }
 

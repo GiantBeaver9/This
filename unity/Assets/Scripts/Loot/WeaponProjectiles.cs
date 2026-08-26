@@ -67,7 +67,7 @@ namespace ThisL
             }
         }
 
-        private void LateUpdate() { Playfield.Place(transform, WorldX, Z, _sr); if (_sr != null) _sr.sortingOrder = 900; } // projectiles on top
+        private void LateUpdate() { Playfield.Place(transform, WorldX, Z, _sr); transform.position += Vector3.up * 1.0f; if (_sr != null) _sr.sortingOrder = 900; } // bullets at mid-body (not feet), on top
     }
 
     /// <summary>
