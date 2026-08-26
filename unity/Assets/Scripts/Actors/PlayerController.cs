@@ -1280,6 +1280,7 @@ namespace ThisL
 
         // ---- Weapon skin (the "swing a dead stick figure" art) ---------------
         private WeaponKind _overlayKind = WeaponKind.Fists;
+        private float _overlayScale = 1f;   // shrink the (96px-canvas) weapon art to match the 68px base
 
         /// <summary>Point the animator at this hero's per-weapon idle/swing atlas when one exists
         /// (assets/sprites/characters/&lt;hero&gt;_&lt;weapon&gt;); clear it for fists / un-arted weapons.
@@ -1291,12 +1292,26 @@ namespace ThisL
             _overlayKind = kind;
             if (Anim == null || Character == null) return;
 
-            if (kind == WeaponKind.Fists) { Anim.Overlay = null; return; }
+            if (kind == WeaponKind.Fists) { Anim.Overlay = null; _overlayScale = 1f; return; }
             string wname = kind.ToString().ToLowerInvariant();
             string dir = $"sprites/characters/{Character.SpriteActor}_{wname}";
             string actor = $"{Character.SpriteActor}_{wname}";
             Anim.Overlay = SpriteLibrary.HasAtlas(dir, actor) ? SpriteLibrary.Load(dir, actor) : null;
+
+            // The weapon art was drawn on a 96px canvas vs the 68px base, so its frames are ~1.25x
+            // taller — without correction you become a giant when armed. Scale the sprite down by
+            // base-idle-height / overlay-idle-height so the character stays base-sized (weapon still
+            // extends past the body). Feet stay grounded (bottom-centre pivot).
+            _overlayScale = Anim.Overlay != null
+                ? SafeRatio(ClipHeight(Anim.Set, "idle"), ClipHeight(Anim.Overlay, "idle"))
+                : 1f;
         }
+
+        private static float ClipHeight(SpriteLibrary.ActorSprites set, string clip)
+            => set != null && set.Clips != null && set.Clips.TryGetValue(clip, out var f) && f != null && f.Length > 0
+               ? f[0].rect.height : 0f;
+        private static float SafeRatio(float baseH, float overlayH)
+            => baseH > 1f && overlayH > 1f ? Mathf.Clamp(baseH / overlayH, 0.4f, 1f) : 1f;
 
         // ---- Animation & projection -----------------------------------------
         private void UpdateAnimation()
@@ -1318,6 +1333,8 @@ namespace ThisL
                 p.y += _jumpOffset;
                 transform.position = p;
             }
+            // Shrink the oversized weapon-hold art back to the base character's size (feet grounded).
+            if (_overlayScale != 1f) transform.localScale *= _overlayScale;
         }
 
         // ---- Frame-data lookups (TUNING §2.5) --------------------------------
