@@ -99,6 +99,7 @@ namespace ThisL
         private float _hitstun;
         private float _weaponReady;       // warm-up countdown before a looted weapon can fire
         private float _fireLock;          // brief root-in-place after firing a ranged weapon (anti-spam)
+        private float _aimTimer;          // >0 = winding up an aimed shot (pistol); the shot leaves at 0
         private bool _wasArmed;            // edge-detect the meter arming for the chime
 
         // Downed / respawn (shared-life system). On death we don't destroy the player;
@@ -222,6 +223,23 @@ namespace ThisL
             _hitstun = Mathf.Max(0f, _hitstun - dt);
             _weaponReady = Mathf.Max(0f, _weaponReady - dt);
             _fireLock = Mathf.Max(0f, _fireLock - dt);
+
+            // Aimed-shot wind-up (pistol §3.1): the trigger starts a brief aim; the shot leaves when
+            // the timer runs out (more precise than a snap shot). A hit mid-aim cancels it.
+            if (_aimTimer > 0f)
+            {
+                if (_hitstun > 0f || !Alive) { _aimTimer = 0f; }
+                else
+                {
+                    _aimTimer -= dt;
+                    if (_aimTimer <= 0f)
+                    {
+                        _aimTimer = 0f;
+                        if (CurrentWeapon.IsRanged && CurrentWeapon.FireImpl != null && CurrentWeapon.FireCooldown <= 0f)
+                            CurrentWeapon.FireImpl(this);   // release the aimed shot (fires, spends ammo, sets cd)
+                    }
+                }
+            }
             _invuln = Mathf.Max(0f, _invuln - dt);
             if (_dmgBuffTimer > 0f) { _dmgBuffTimer -= dt; if (_dmgBuffTimer <= 0f) _dmgBuffMult = 1f; }
             CurrentWeapon.Tick(dt);
@@ -1216,6 +1234,20 @@ namespace ThisL
         private void FireWeapon()
         {
             if (_airborne || _dashing || _hitstun > 0f || _weaponReady > 0f || _fireLock > 0f) return;
+            if (_aimTimer > 0f) return;   // already winding up an aimed shot
+
+            // Aimed weapons (pistol) commit to a brief AIM before the shot leaves — a deliberate,
+            // precise shot rather than a snap fire. The Update loop releases it when _aimTimer hits 0.
+            if (CurrentWeapon.IsRanged && CurrentWeapon.AimTime > 0f &&
+                CurrentWeapon.FireCooldown <= 0f && CurrentWeapon.FireImpl != null)
+            {
+                _aimTimer = CurrentWeapon.AimTime;
+                _fireLock = CurrentWeapon.AimTime + 0.12f;   // rooted through the aim + a short recover
+                Anim.Play("attack_side", false, restart: true); // aim pose (placeholder until a bespoke aim clip)
+                Sfx.Play("swing_whoosh");                        // soft aim tell
+                return;
+            }
+
             if (CurrentWeapon.TryFire(this))
             {
                 Anim.Play("attack_side", false, restart: true);

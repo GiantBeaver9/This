@@ -43,6 +43,7 @@ namespace ThisL
         public float Warmup;        // seconds to ready before first use
         public bool IsRanged;       // fired via Fire()/E, not swung through the combo
         public float FireCooldown;  // between-shots gap, ticked by the owner
+        public float AimTime;       // aim wind-up before the shot leaves (0 = instant). Pistol aims ~0.2s.
 
         /// <summary>Element a Staff is locked to (Ice/Fire/Lightning); ignored by other kinds.</summary>
         public StaffElement Element;
@@ -187,6 +188,7 @@ namespace ThisL
             {
                 Kind = WeaponKind.Pistol, Reach = 0f, Damage = 12,
                 HitsRemaining = 8, Warmup = 0.25f, IsRanged = true,
+                AimTime = 0.2f,          // aim then shoot (§3.1 precise) — creator will tune damage
             };
             w.FireImpl = p => WeaponFx.FirePistol(p, w);
             return w;

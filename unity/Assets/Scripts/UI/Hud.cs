@@ -111,7 +111,7 @@ namespace ThisL
             float frac = boss.MaxHp > 0f ? Mathf.Clamp01(boss.Hp / boss.MaxHp) : 0f;
 
             GUI.color = Color.white;
-            GUI.Label(new Rect(bx, by - 17f, bw, 16f), boss.DisplayName ?? "BOSS", _bossName);
+            // Creator: bosses have NO name — just the HP bar. (DisplayName intentionally not drawn.)
             DrawBar(bx, by, bw, 14f, frac, new Color(0.88f, 0.22f, 0.2f), "");
 
             // Phase dividers (even spacing — a readable "N phases" cue).
