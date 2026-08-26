@@ -285,7 +285,8 @@ namespace ThisL
         {
             GrenadeProjectile.Spawn(Team.Player, p.WorldX + p.Facing * 0.6f, p.Z, p.Facing,
                                     20f, 8f / 20f,             // 20 wu/s, detonate at 8 wu (§6.3)
-                                    2f, w.Damage, 40f);        // r 2 wu, blast 35, self-dmg 40
+                                    2f, w.Damage, 40f,         // r 2 wu, blast 35, self-dmg 40
+                                    owner: p);                 // thrower: excluded from blast, pays self-dmg
             Sfx.Play("grenade_throw");
             w.FireCooldown = 0.5f;
             if (w.Spend()) p.CurrentWeapon = Weapon.Fists();   // 1 use -> gone

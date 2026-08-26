@@ -30,6 +30,7 @@ namespace ThisL
             h._sr = go.AddComponent<SpriteRenderer>();
             h._sr.sprite = CarSprite();
             h._sr.color = _usingRealCar ? Color.white : color; // don't tint the real pixel-art car
+            h._sr.flipX = speed > 0f;                           // art faces -X; flip when driving right so it never looks reversed
             Sfx.Play("car_horn");
             return h;
         }

@@ -78,6 +78,7 @@ namespace ThisL
     public sealed class GrenadeProjectile : MonoBehaviour
     {
         public Team OwnerTeam;
+        public PlayerController Owner;   // the thrower (for self-damage vs teammate friendly-fire split)
         public float WorldX, Z, VelX, Life;
         public float BlastRadius, BlastDamage, SelfDamage;
 
@@ -87,11 +88,13 @@ namespace ThisL
 
         public static GrenadeProjectile Spawn(Team ownerTeam, float x, float z, float dirX,
                                               float speed, float life,
-                                              float blastRadius, float blastDamage, float selfDamage)
+                                              float blastRadius, float blastDamage, float selfDamage,
+                                              PlayerController owner = null)
         {
             var go = new GameObject("grenade");
             var g = go.AddComponent<GrenadeProjectile>();
             g.OwnerTeam = ownerTeam;
+            g.Owner = owner;
             g.WorldX = x; g.Z = z;
             g.VelX = Mathf.Sign(dirX) * speed;
             g.Life = life;
@@ -128,19 +131,18 @@ namespace ThisL
             if (_spent) return;
             _spent = true;
 
-            Explosion.Blast(OwnerTeam, WorldX, Z, BlastRadius, BlastDamage);
+            // Explosives are the SOLE co-op friendly-fire exception (creator ruling): a player's
+            // blast damages TEAMMATES like enemies. The thrower is excluded here and instead pays
+            // the (steeper) self-damage below — spacing is the price of the payload (§3.2).
+            bool playerOwned = OwnerTeam == Team.Player;
+            Explosion.Blast(OwnerTeam, WorldX, Z, BlastRadius, BlastDamage,
+                            friendlyFire: playerOwned, except: Owner);
 
-            // Self-damage: the enemy sweep in Blast() skips the owner team, so any own-team
-            // player caught in the blast is handled here — spacing is the price of the
-            // payload (§3.2). Co-op: BOTH players can be caught.
-            if (SelfDamage > 0f)
+            // Self-damage: the thrower alone, at the steeper self rate.
+            if (SelfDamage > 0f && Owner != null && Owner.Alive)
             {
-                foreach (var me in PlayerController.All)
-                {
-                    if (me == null || !me.Alive || me.Team != OwnerTeam) continue;
-                    float dx = me.WorldX - WorldX, dz = me.Z - Z;
-                    if (dx * dx + dz * dz <= BlastRadius * BlastRadius) me.TakeDamage(SelfDamage, null);
-                }
+                float dx = Owner.WorldX - WorldX, dz = Owner.Z - Z;
+                if (dx * dx + dz * dz <= BlastRadius * BlastRadius) Owner.TakeDamage(SelfDamage, null);
             }
 
             Sfx.Play("grenade_explode");
@@ -157,15 +159,22 @@ namespace ThisL
     /// <summary>Radial area damage used by explosive weapons (grenade, and reusable by rockets).</summary>
     public static class Explosion
     {
-        /// <summary>Damage every live actor NOT on <paramref name="owner"/>'s team within the radius.</summary>
-        public static void Blast(Team owner, float x, float z, float radius, float damage)
+        /// <summary>
+        /// Damage every live actor within the radius. By default same-team actors are spared
+        /// (enemies never friendly-fire each other). Pass <paramref name="friendlyFire"/> to also
+        /// hit own-team actors (player explosives — the sole co-op friendly-fire exception), and
+        /// <paramref name="except"/> to spare one actor (the thrower, who takes self-damage instead).
+        /// </summary>
+        public static void Blast(Team owner, float x, float z, float radius, float damage,
+                                 bool friendlyFire = false, Actor except = null)
         {
             float r2 = radius * radius;
             // Snapshot: TakeDamage can mutate Actor.All (deaths), so iterate a copy.
             var actors = new List<Actor>(Actor.All);
             foreach (var a in actors)
             {
-                if (a == null || !a.Alive || a.Team == owner) continue;
+                if (a == null || !a.Alive || a == except) continue;
+                if (a.Team == owner && !friendlyFire) continue;
                 float dx = a.WorldX - x, dz = a.Z - z;
                 if (dx * dx + dz * dz <= r2) a.TakeDamage(damage, null);
             }
