@@ -71,8 +71,8 @@ namespace ThisL
             {
                 // Lincoln: parked cars line BOTH curbs (near + far row), the road stays open down the
                 // middle. Stagger the far car so the two sides don't sit perfectly abreast.
-                Obstacle.Spawn(CarSprite(), x,        0.7f,                       1.5f, 0.5f, new Vector2(3.0f, 1.4f));
-                Obstacle.Spawn(CarSprite(), x + 8f,   Tuning.ZBandDepth - 0.7f,   1.5f, 0.5f, new Vector2(3.0f, 1.4f));
+                SpawnCar(x,      0.7f);
+                SpawnCar(x + 8f, Tuning.ZBandDepth - 0.7f);
                 return;
             }
             float z = Random.Range(1.2f, Tuning.ZBandDepth - 1.2f);   // leave a lane open on either side
@@ -80,26 +80,51 @@ namespace ThisL
             else            Obstacle.Spawn(CrateSprite(), x, z, 0.7f, 0.6f, new Vector2(1.8f, 1.8f)); // generic crates
         }
 
-        // ---- Placeholder sprites (real prop art can replace these later) ----------
-        private static Sprite _car, _kiosk, _crate;
+        /// <summary>Drop one random parked car, normalised to ~4.4 wu wide regardless of source size.</summary>
+        private static void SpawnCar(float x, float z)
+        {
+            var spr = CarSprite();
+            float natW = spr.rect.width / 30f;                // cars load at 30 ppu
+            float sc = natW > 0.1f ? 4.4f / natW : 1.6f;
+            Obstacle.Spawn(spr, x, z, 1.6f, 0.5f, new Vector2(sc, sc));
+        }
 
+        // ---- Placeholder sprites (real prop art can replace these later) ----------
+        private static Sprite _kiosk, _crate;
+        private static Sprite[] _cars;
+
+        /// <summary>A RANDOM parked-car type — variety along the curb (creator: "gen a few more types
+        /// of cars"). Loads every car_*.png (+ the original car.png) once; falls back to a crate.</summary>
         private static Sprite CarSprite()
         {
-            if (_car != null) return _car;
+            if (_cars == null)
+            {
+                var list = new System.Collections.Generic.List<Sprite>();
+                foreach (var f in new[] { "car.png", "car_sedan.png", "car_van.png", "car_pickup.png" })
+                {
+                    var s = LoadCar(f);
+                    if (s != null) list.Add(s);
+                }
+                if (list.Count == 0) list.Add(CrateSprite());
+                _cars = list.ToArray();
+            }
+            return _cars[Random.Range(0, _cars.Length)];
+        }
+
+        private static Sprite LoadCar(string file)
+        {
             try
             {
-                string path = System.IO.Path.Combine(SpriteLibrary.AssetsRoot, "sprites", "props", "car.png");
+                string path = System.IO.Path.Combine(SpriteLibrary.AssetsRoot, "sprites", "props", file);
                 if (System.IO.File.Exists(path))
                 {
                     var t = new Texture2D(2, 2, TextureFormat.RGBA32, false) { filterMode = FilterMode.Point };
                     t.LoadImage(System.IO.File.ReadAllBytes(path)); t.Apply();
-                    _car = Sprite.Create(t, new Rect(0, 0, t.width, t.height), new Vector2(0.5f, 0.12f), 30f);
-                    return _car;
+                    return Sprite.Create(t, new Rect(0, 0, t.width, t.height), new Vector2(0.5f, 0.12f), 30f);
                 }
             }
             catch { }
-            _car = CrateSprite(); // fallback
-            return _car;
+            return null;
         }
 
         private static Sprite KioskSprite()

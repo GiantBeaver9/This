@@ -33,7 +33,8 @@ namespace ThisL
             if (p.WorldX >= endX - 120f)   // once you're approaching the finale
             {
                 Place("railroad_crossing.png",   endX - 58f, 3.6f, foreground: true);  // cross this first
-                Place("sandwich_bros_store.png", endX - 6f,  8.4f, foreground: false);  // then the store
+                // The store is HUGE (~3x) so the finale reads as its parking lot — you fight at its base.
+                Place("sandwich_bros_store.png", endX - 8f,  25f,  foreground: false);  // then the big store
                 _placed = true;
             }
         }
