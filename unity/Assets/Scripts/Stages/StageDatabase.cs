@@ -69,14 +69,16 @@ namespace ThisL
                     MusicClip = "a1_surfrock_opener",
                     AmbientClip = "lincoln_birds_traffic",
                     NewestArchetype = EnemyArchetype.Regular,
-                    BossId = "sandwich_bros",
-                    BossMusicClip = null, // no dedicated cue — stays on the stage loop
+                    BossId = null,        // Sandwich Bros is the STORE (backdrop) — no boss; you fight in front of it
+                    BossMusicClip = null,
                 };
                 st.Waves.Add(Wave.Spawn("Wave 1", 0.9f, E(EnemyArchetype.Regular, 3, SpawnSide.L)));
                 st.Waves.Add(Wave.Checkpoint("CHECKPOINT (mid)"));
                 st.Waves.Add(Wave.Filler("Filler (Regulars)", 10, 12));
-                st.Waves.Add(Wave.Spawn("Wave 2 (funnel to restaurant)", 0.8f, E(EnemyArchetype.Regular, 4, SpawnSide.B)));
-                st.Waves.Add(Wave.Boss("BOSS: Sandwich Bros"));
+                // Finale: the brawl in FRONT OF the Sandwich Bros store (railroad crossing leads in;
+                // StageFinaleProps drops the store + crossing here). No boss character.
+                st.Waves.Add(Wave.Spawn("Finale — in front of Sandwich Bros", 0.7f,
+                    E(EnemyArchetype.Regular, 5, SpawnSide.L), E(EnemyArchetype.Regular, 4, SpawnSide.R)));
                 s.Add(st);
             }
 
