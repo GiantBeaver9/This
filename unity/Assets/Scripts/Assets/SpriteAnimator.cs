@@ -76,7 +76,10 @@ namespace ThisL
             fromOverlay = false;
             if (Overlay != null && clip != null)
             {
+                // idle/walk keep the weapon in hand (so the player never has to check the HUD to
+                // recall what they're holding); any attack/sweep uses the weapon swing.
                 string oclip = clip == "idle" ? "idle"
+                             : clip == "walk" ? (Overlay.Clips.ContainsKey("walk") ? "walk" : "idle")
                              : (clip.Contains("attack") || clip == "sweep" || clip == "dash") ? "swing"
                              : null;
                 if (oclip != null && Overlay.Clips.TryGetValue(oclip, out var of) && of != null && of.Length > 0)
