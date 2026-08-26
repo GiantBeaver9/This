@@ -427,10 +427,73 @@
         ]
       },
       {
+        "name": "player_shotgunner_punch_down_00.png",
+        "rect": [
+          429,
+          298,
+          11,
+          56
+        ]
+      },
+      {
+        "name": "player_shotgunner_punch_down_01.png",
+        "rect": [
+          22,
+          358,
+          14,
+          55
+        ]
+      },
+      {
+        "name": "player_shotgunner_punch_down_02.png",
+        "rect": [
+          77,
+          359,
+          20,
+          54
+        ]
+      },
+      {
+        "name": "player_shotgunner_punch_down_03.png",
+        "rect": [
+          123,
+          372,
+          44,
+          41
+        ]
+      },
+      {
+        "name": "player_shotgunner_punch_down_04.png",
+        "rect": [
+          183,
+          376,
+          39,
+          37
+        ]
+      },
+      {
+        "name": "player_shotgunner_punch_down_05.png",
+        "rect": [
+          237,
+          374,
+          48,
+          39
+        ]
+      },
+      {
+        "name": "player_shotgunner_punch_down_06.png",
+        "rect": [
+          292,
+          374,
+          53,
+          39
+        ]
+      },
+      {
         "name": "player_shotgunner_stomp_00.png",
         "rect": [
-          424,
-          301,
+          366,
+          360,
           21,
           53
         ]
@@ -438,7 +501,7 @@
       {
         "name": "player_shotgunner_stomp_01.png",
         "rect": [
-          17,
+          423,
           359,
           24,
           54
@@ -447,8 +510,8 @@
       {
         "name": "player_shotgunner_stomp_02.png",
         "rect": [
-          71,
-          354,
+          13,
+          413,
           32,
           59
         ]
@@ -456,8 +519,8 @@
       {
         "name": "player_shotgunner_stomp_03.png",
         "rect": [
-          127,
-          354,
+          69,
+          413,
           35,
           59
         ]
@@ -465,8 +528,8 @@
       {
         "name": "player_shotgunner_stomp_04.png",
         "rect": [
-          185,
-          358,
+          127,
+          417,
           36,
           55
         ]
@@ -474,8 +537,8 @@
       {
         "name": "player_shotgunner_stomp_05.png",
         "rect": [
-          242,
-          365,
+          184,
+          424,
           37,
           48
         ]
@@ -483,8 +546,8 @@
       {
         "name": "player_shotgunner_stomp_06.png",
         "rect": [
-          305,
-          357,
+          247,
+          416,
           27,
           56
         ]
@@ -492,8 +555,8 @@
       {
         "name": "player_shotgunner_sweep_00.png",
         "rect": [
-          360,
-          362,
+          302,
+          421,
           34,
           51
         ]
@@ -501,8 +564,8 @@
       {
         "name": "player_shotgunner_sweep_01.png",
         "rect": [
-          418,
-          370,
+          360,
+          429,
           34,
           43
         ]
@@ -510,7 +573,7 @@
       {
         "name": "player_shotgunner_sweep_02.png",
         "rect": [
-          12,
+          418,
           434,
           33,
           38
@@ -519,8 +582,8 @@
       {
         "name": "player_shotgunner_sweep_03.png",
         "rect": [
-          73,
-          446,
+          15,
+          505,
           27,
           26
         ]
@@ -528,8 +591,8 @@
       {
         "name": "player_shotgunner_sweep_04.png",
         "rect": [
-          118,
-          452,
+          60,
+          511,
           53,
           20
         ]
@@ -537,8 +600,8 @@
       {
         "name": "player_shotgunner_sweep_05.png",
         "rect": [
-          191,
-          440,
+          133,
+          499,
           24,
           32
         ]
@@ -546,8 +609,8 @@
       {
         "name": "player_shotgunner_sweep_06.png",
         "rect": [
-          243,
-          430,
+          185,
+          489,
           35,
           42
         ]
@@ -555,8 +618,8 @@
       {
         "name": "player_shotgunner_walk_00.png",
         "rect": [
-          312,
-          416,
+          254,
+          475,
           14,
           56
         ]
@@ -564,8 +627,8 @@
       {
         "name": "player_shotgunner_walk_01.png",
         "rect": [
-          359,
-          416,
+          301,
+          475,
           36,
           56
         ]
@@ -573,8 +636,8 @@
       {
         "name": "player_shotgunner_walk_02.png",
         "rect": [
-          427,
-          415,
+          369,
+          474,
           15,
           57
         ]
@@ -582,7 +645,7 @@
       {
         "name": "player_shotgunner_walk_03.png",
         "rect": [
-          11,
+          417,
           474,
           36,
           57

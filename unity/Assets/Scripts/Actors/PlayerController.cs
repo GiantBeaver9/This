@@ -683,8 +683,8 @@ namespace ThisL
             _phase = Phase.Startup;
             _phaseTimer = PhaseStartup();
             // Reuse the directional swing clips (no bespoke dash-attack clips yet, PLAYER.md §7).
-            // Down uses the forward punch, not the floor-swing roundhouse (see StartStrike).
-            string clip = d == AttackDir.Up ? "attack_up" : "attack_side";
+            // Down = the crouch-and-punch-down clip; side = the jab (see StartStrike).
+            string clip = d == AttackDir.Up ? "attack_up" : d == AttackDir.Down ? "punch_down" : "attack_side";
             Anim.Play(clip, false, restart: true);
             Sfx.Play("dash_whoosh");
         }
@@ -741,10 +741,10 @@ namespace ThisL
             _phaseTimer = PhaseStartup();
             _hitResolved = false;
             _bufferedAttack = false;
-            // Up = the uppercut (reads as a rising strike). Down aims at the NEAR sidewalk lane,
-            // so it's a straight punch angled forward — NOT the old "attack_down" roundhouse, which
-            // read as swinging at the floor beneath you (creator: "makes no sense to attack below").
-            Anim.Play(kind == AttackKind.Up ? "attack_up" : "attack_side", false, restart: true);
+            // Up = the uppercut (rising strike). Down = the bespoke "punch_down": the hero crouches
+            // and drives a fist down at an enemy in the near lane — so it reads as hitting someone
+            // BELOW/in front, not the old roundhouse that swung at the empty floor.
+            Anim.Play(kind == AttackKind.Up ? "attack_up" : "punch_down", false, restart: true);
             Sfx.Play("swing_whoosh");
         }
 

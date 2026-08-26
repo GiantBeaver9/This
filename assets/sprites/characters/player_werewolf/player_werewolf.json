@@ -427,10 +427,73 @@
         ]
       },
       {
+        "name": "player_werewolf_punch_down_00.png",
+        "rect": [
+          353,
+          260,
+          13,
+          52
+        ]
+      },
+      {
+        "name": "player_werewolf_punch_down_01.png",
+        "rect": [
+          16,
+          313,
+          16,
+          51
+        ]
+      },
+      {
+        "name": "player_werewolf_punch_down_02.png",
+        "rect": [
+          63,
+          316,
+          18,
+          48
+        ]
+      },
+      {
+        "name": "player_werewolf_punch_down_03.png",
+        "rect": [
+          107,
+          324,
+          25,
+          40
+        ]
+      },
+      {
+        "name": "player_werewolf_punch_down_04.png",
+        "rect": [
+          153,
+          330,
+          30,
+          34
+        ]
+      },
+      {
+        "name": "player_werewolf_punch_down_05.png",
+        "rect": [
+          200,
+          334,
+          31,
+          30
+        ]
+      },
+      {
+        "name": "player_werewolf_punch_down_06.png",
+        "rect": [
+          249,
+          328,
+          30,
+          36
+        ]
+      },
+      {
         "name": "player_werewolf_stomp_00.png",
         "rect": [
-          350,
-          265,
+          302,
+          317,
           19,
           47
         ]
@@ -438,7 +501,7 @@
       {
         "name": "player_werewolf_stomp_01.png",
         "rect": [
-          15,
+          351,
           318,
           17,
           46
@@ -447,8 +510,8 @@
       {
         "name": "player_werewolf_stomp_02.png",
         "rect": [
-          61,
-          316,
+          13,
+          368,
           21,
           48
         ]
@@ -456,8 +519,8 @@
       {
         "name": "player_werewolf_stomp_03.png",
         "rect": [
-          107,
-          315,
+          59,
+          367,
           26,
           49
         ]
@@ -465,8 +528,8 @@
       {
         "name": "player_werewolf_stomp_04.png",
         "rect": [
-          154,
-          316,
+          106,
+          368,
           27,
           48
         ]
@@ -474,8 +537,8 @@
       {
         "name": "player_werewolf_stomp_05.png",
         "rect": [
-          202,
-          316,
+          154,
+          368,
           27,
           48
         ]
@@ -483,8 +546,8 @@
       {
         "name": "player_werewolf_stomp_06.png",
         "rect": [
-          252,
-          316,
+          204,
+          368,
           24,
           48
         ]
@@ -492,8 +555,8 @@
       {
         "name": "player_werewolf_sweep_00.png",
         "rect": [
-          297,
-          318,
+          249,
+          370,
           30,
           46
         ]
@@ -501,8 +564,8 @@
       {
         "name": "player_werewolf_sweep_01.png",
         "rect": [
-          345,
-          324,
+          297,
+          376,
           29,
           40
         ]
@@ -510,7 +573,7 @@
       {
         "name": "player_werewolf_sweep_02.png",
         "rect": [
-          9,
+          345,
           382,
           29,
           34
@@ -519,8 +582,8 @@
       {
         "name": "player_werewolf_sweep_03.png",
         "rect": [
-          56,
-          388,
+          8,
+          440,
           32,
           28
         ]
@@ -528,8 +591,8 @@
       {
         "name": "player_werewolf_sweep_04.png",
         "rect": [
-          97,
-          392,
+          49,
+          444,
           46,
           24
         ]
@@ -537,8 +600,8 @@
       {
         "name": "player_werewolf_sweep_05.png",
         "rect": [
-          156,
-          385,
+          108,
+          437,
           23,
           31
         ]
@@ -546,8 +609,8 @@
       {
         "name": "player_werewolf_sweep_06.png",
         "rect": [
-          199,
-          376,
+          151,
+          428,
           34,
           40
         ]
@@ -555,8 +618,8 @@
       {
         "name": "player_werewolf_walk_00.png",
         "rect": [
-          257,
-          364,
+          209,
+          416,
           13,
           52
         ]
@@ -564,8 +627,8 @@
       {
         "name": "player_werewolf_walk_01.png",
         "rect": [
-          299,
-          365,
+          251,
+          417,
           25,
           51
         ]
@@ -573,8 +636,8 @@
       {
         "name": "player_werewolf_walk_02.png",
         "rect": [
-          353,
-          364,
+          305,
+          416,
           13,
           52
         ]
@@ -582,7 +645,7 @@
       {
         "name": "player_werewolf_walk_03.png",
         "rect": [
-          11,
+          347,
           416,
           26,
           52

@@ -427,10 +427,73 @@
         ]
       },
       {
+        "name": "player_tactical_punch_down_00.png",
+        "rect": [
+          418,
+          279,
+          18,
+          51
+        ]
+      },
+      {
+        "name": "player_tactical_punch_down_01.png",
+        "rect": [
+          21,
+          334,
+          15,
+          51
+        ]
+      },
+      {
+        "name": "player_tactical_punch_down_02.png",
+        "rect": [
+          74,
+          337,
+          22,
+          48
+        ]
+      },
+      {
+        "name": "player_tactical_punch_down_03.png",
+        "rect": [
+          128,
+          346,
+          29,
+          39
+        ]
+      },
+      {
+        "name": "player_tactical_punch_down_04.png",
+        "rect": [
+          184,
+          350,
+          31,
+          35
+        ]
+      },
+      {
+        "name": "player_tactical_punch_down_05.png",
+        "rect": [
+          237,
+          350,
+          39,
+          35
+        ]
+      },
+      {
+        "name": "player_tactical_punch_down_06.png",
+        "rect": [
+          293,
+          351,
+          41,
+          34
+        ]
+      },
+      {
         "name": "player_tactical_stomp_00.png",
         "rect": [
-          417,
-          283,
+          360,
+          338,
           21,
           47
         ]
@@ -438,7 +501,7 @@
       {
         "name": "player_tactical_stomp_01.png",
         "rect": [
-          18,
+          417,
           338,
           20,
           47
@@ -447,8 +510,8 @@
       {
         "name": "player_tactical_stomp_02.png",
         "rect": [
-          73,
-          339,
+          16,
+          394,
           24,
           46
         ]
@@ -456,8 +519,8 @@
       {
         "name": "player_tactical_stomp_03.png",
         "rect": [
-          125,
-          346,
+          68,
+          401,
           35,
           39
         ]
@@ -465,8 +528,8 @@
       {
         "name": "player_tactical_stomp_04.png",
         "rect": [
-          187,
-          336,
+          130,
+          391,
           24,
           49
         ]
@@ -474,8 +537,8 @@
       {
         "name": "player_tactical_stomp_05.png",
         "rect": [
-          245,
-          334,
+          188,
+          389,
           22,
           51
         ]
@@ -483,8 +546,8 @@
       {
         "name": "player_tactical_stomp_06.png",
         "rect": [
-          303,
-          335,
+          246,
+          390,
           21,
           50
         ]
@@ -492,8 +555,8 @@
       {
         "name": "player_tactical_sweep_00.png",
         "rect": [
-          356,
-          336,
+          299,
+          391,
           28,
           49
         ]
@@ -501,8 +564,8 @@
       {
         "name": "player_tactical_sweep_01.png",
         "rect": [
-          414,
-          345,
+          357,
+          400,
           27,
           40
         ]
@@ -510,7 +573,7 @@
       {
         "name": "player_tactical_sweep_02.png",
         "rect": [
-          14,
+          413,
           407,
           28,
           33
@@ -519,8 +582,8 @@
       {
         "name": "player_tactical_sweep_03.png",
         "rect": [
-          69,
-          412,
+          12,
+          467,
           32,
           28
         ]
@@ -528,8 +591,8 @@
       {
         "name": "player_tactical_sweep_04.png",
         "rect": [
-          118,
-          417,
+          61,
+          472,
           48,
           23
         ]
@@ -537,8 +600,8 @@
       {
         "name": "player_tactical_sweep_05.png",
         "rect": [
-          188,
-          409,
+          131,
+          464,
           22,
           31
         ]
@@ -546,8 +609,8 @@
       {
         "name": "player_tactical_sweep_06.png",
         "rect": [
-          238,
-          402,
+          181,
+          457,
           36,
           38
         ]
@@ -555,8 +618,8 @@
       {
         "name": "player_tactical_walk_00.png",
         "rect": [
-          305,
-          389,
+          248,
+          444,
           17,
           51
         ]
@@ -564,8 +627,8 @@
       {
         "name": "player_tactical_walk_01.png",
         "rect": [
-          358,
-          389,
+          301,
+          444,
           24,
           51
         ]
@@ -573,8 +636,8 @@
       {
         "name": "player_tactical_walk_02.png",
         "rect": [
-          418,
-          389,
+          361,
+          444,
           18,
           51
         ]
@@ -582,7 +645,7 @@
       {
         "name": "player_tactical_walk_03.png",
         "rect": [
-          15,
+          414,
           444,
           26,
           51
