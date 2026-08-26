@@ -256,8 +256,9 @@ namespace ThisL
 
         /// <summary>Theme stems that IGNORE their strip art and render the procedural street instead
         /// (the strips read badly for these). Stage 1/2 (area1_suburb) use the real "two sidewalks +
-        /// road" street; add more stems here to roll the procedural street out further.</summary>
-        private static readonly HashSet<string> s_forceProcedural = new() { "area1_suburb" };
+        /// road" street; the MALL (area1_mall) does too so its store prop row (BuildMallStoreRow) sits
+        /// on the real street + grass verge. Add more stems here to roll the procedural street out further.</summary>
+        private static readonly HashSet<string> s_forceProcedural = new() { "area1_suburb", "area1_mall" };
 
         private bool BuildStripBands(List<LayerInstance> built)
         {
@@ -374,6 +375,10 @@ namespace ThisL
         /// </summary>
         private void BuildPropRow(List<LayerInstance> built)
         {
+            // MALL theme: a continuous strip of two-story storefronts instead of the suburb houses.
+            // Falls through to the house row if the store art is absent (graceful until it lands).
+            if (IsMallTheme() && BuildMallStoreRow(built)) return;
+
             string dir = PropsDirForArea(_area);
             Sprite house = LoadProp(dir, "house.png");
             Sprite tree = LoadProp(dir, "tree.png");
@@ -424,6 +429,85 @@ namespace ThisL
                 BaseY = 0f,                // props carry their own horizon Y in localPosition
                 TileWorld = rowWidth,
             });
+        }
+
+        // ---- Mall storefronts (theme "area1_mall") ---------------------------------
+
+        /// <summary>True when the live theme stem is the mall (Stage 3), which swaps the suburb house
+        /// prop row for a row of two-story storefronts.</summary>
+        private static bool IsMallTheme() =>
+            !string.IsNullOrEmpty(s_themeStem) && s_themeStem.Trim().ToLowerInvariant() == "area1_mall";
+
+        /// <summary>Load the mall storefront sprites (assets/backdrops/area1_mall_props/store_*.png),
+        /// name-sorted for a stable order. Empty list when the folder/art is absent.</summary>
+        private static List<Sprite> LoadMallStores()
+        {
+            var stores = new List<Sprite>();
+            string dir = System.IO.Path.Combine(SpriteLibrary.AssetsRoot, "backdrops", "area1_mall_props");
+            if (!System.IO.Directory.Exists(dir)) return stores;
+            var files = System.IO.Directory.GetFiles(dir, "store_*.png");
+            System.Array.Sort(files);
+            foreach (var f in files)
+            {
+                var s = LoadProp(dir, System.IO.Path.GetFileName(f));
+                if (s != null) stores.Add(s);
+            }
+            return stores;
+        }
+
+        /// <summary>
+        /// MALL prop row: a near-continuous strip of two-story storefront sprites seated on the
+        /// horizon, taller than the suburb houses (~4.5 wu) so both shop floors clear the sidewalk,
+        /// and near-touching so the mall reads as one continuous storefront run. NOT flipped (unlike
+        /// the houses) so the signage always reads left-to-right. Rides the same far parallax (0.24)
+        /// and whole-tile wrap as the house row. Returns false — the house row then runs instead —
+        /// when no store art is present, so the mall degrades gracefully until the art lands.
+        /// </summary>
+        private bool BuildMallStoreRow(List<LayerInstance> built)
+        {
+            var stores = LoadMallStores();
+            if (stores.Count == 0) return false;
+
+            float horizon = Playfield.FeetY(Tuning.ZBandDepth);
+            float rowWidth = Tuning.ScreenWidthUnits * 3f;     // 3 screens so recentring always covers the view
+
+            var parent = new GameObject("band_mall_stores");
+            parent.transform.SetParent(transform, false);
+
+            float x = -rowWidth * 0.5f;
+            int i = 0;
+            while (x < rowWidth * 0.5f)
+            {
+                Sprite s = stores[i % stores.Count];
+
+                // Two floors already live in the sprite, so we just seat it on the horizon and
+                // size it tall enough that both floors sit clearly above the far sidewalk.
+                float targetTall = 4.5f;
+                float natTall = s.rect.height / Tuning.PixelsPerUnit;
+                float scale = natTall > 0.01f ? targetTall / natTall : 1f;
+                float wWu = (s.rect.width / Tuning.PixelsPerUnit) * scale;
+
+                var go = new GameObject("store");
+                go.transform.SetParent(parent.transform, false);
+                var sr = go.AddComponent<SpriteRenderer>();
+                sr.sprite = s;
+                sr.sortingOrder = -994;                        // same depth as the house prop row
+                go.transform.localScale = new Vector3(scale, scale, 1f);  // never flipped: signage stays readable
+                go.transform.localPosition = new Vector3(x + wWu * 0.5f, horizon, 0f);
+
+                float gap = 0.06f;                             // near-touching: a continuous storefront strip
+                x += wWu + gap;
+                i++;
+            }
+
+            built.Add(new LayerInstance
+            {
+                Transform = parent.transform,
+                Parallax = 0.24f,          // far layer, same as the house row
+                BaseY = 0f,                // stores carry their own horizon Y in localPosition
+                TileWorld = rowWidth,
+            });
+            return true;
         }
 
         /// <summary>The signature landmark sprites for an area (empty = none yet). These make each
