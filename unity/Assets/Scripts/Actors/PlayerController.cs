@@ -239,6 +239,13 @@ namespace ThisL
                     GodMode = !GodMode;
                     Sfx.Play(GodMode ? "armed_ready_chime" : "cancel");
                 }
+                if (Input.GetKeyDown(KeyCode.J))                                        // J = cycle weapon (debug)
+                {
+                    var kinds = (WeaponKind[])System.Enum.GetValues(typeof(WeaponKind));
+                    int next = (System.Array.IndexOf(kinds, CurrentWeapon.Kind) + 1) % kinds.Length;
+                    Equip(kinds[next]);                                                 // fresh full-durability weapon
+                    Sfx.Play("armed_ready_chime");
+                }
             }
             if (GodMode) { Hp = MaxHp; Meter.Award(Tuning.MeterMax); }     // invincible + infinite special (both players)
             if (Meter.CanFire && !_wasArmed) Sfx.Play("armed_ready_chime");
