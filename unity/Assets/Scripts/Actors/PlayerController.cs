@@ -1109,6 +1109,18 @@ namespace ThisL
             }
         }
 
+        /// <summary>
+        /// Co-op mercy hook (called on each stage clear): bring back a player who has been
+        /// sitting DOWNED because the shared life pool was empty when they fell. A teammate
+        /// who kept the run alive gets their partner back for the next stage. No-op for a
+        /// living player or one already queued to respawn (their beat is still ticking).
+        /// </summary>
+        public void ReviveIfDownedOut()
+        {
+            if (Alive || _awaitingRespawn) return;
+            Respawn();
+        }
+
         /// <summary>Bring a downed player back: full HP, brief i-frames, next to a living teammate.</summary>
         private void Respawn()
         {

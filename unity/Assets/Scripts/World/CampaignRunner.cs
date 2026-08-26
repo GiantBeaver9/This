@@ -36,6 +36,7 @@ namespace ThisL
         {
             _director = gameObject.AddComponent<StageDirector>();
             _director.OnStageComplete += HandleStageComplete;
+            gameObject.AddComponent<StageMarkers>();   // visible progression (barricade + GO + banners)
             StartStage(0);
         }
 
@@ -88,6 +89,12 @@ namespace ThisL
                 Lives.Award(Tuning.LivesPerAreaClear);
                 Debug.Log($"[Campaign] Area cleared ({done.Area}) — +{Tuning.LivesPerAreaClear} life (now {Lives.Count}).");
             }
+
+            // Co-op mercy: a partner who ran the life pool dry and has been sitting downed
+            // rejoins the run at the stage boundary (revive-on-stage-clear). Solo runs already
+            // ended in GAME OVER when the last player fell, so this only matters in co-op.
+            foreach (var p in PlayerController.All)
+                if (p != null) p.ReviveIfDownedOut();
 
             // Chain straight into the next stage; StageDirector re-anchors the lane to the
             // player's current X, so the world reads as one continuous drive to SF.
