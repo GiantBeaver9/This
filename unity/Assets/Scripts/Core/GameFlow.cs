@@ -27,7 +27,9 @@ namespace ThisL
         private InputKind _p2Input = InputKind.Controller1;
 
         private CharacterDef _selected;
-        private CharacterDef _selectedP2;  // P2's pick (MVP: reuses P1's character)
+        private CharacterDef _selectedP2;  // P2's pick (null → P2 reuses P1's character)
+        private bool _selectingP2;         // true while the char-select screen is on P2's pick (2P)
+        private CharacterDef _p1Pick;      // P1's stored pick while P2 chooses (2P)
         private bool _weaponPromptShown;   // one-time "press E to fire" teach on first pickup
         private bool _gameOver;            // latched when the shared life pool empties out
         private bool _endlessPending;      // character-select is feeding an Endless run, not the campaign
@@ -71,15 +73,17 @@ namespace ThisL
         public void GoCharacterSelect(bool endless)
         {
             _endlessPending = endless;
+            _selectingP2 = false;   // always start on P1's pick
+            _p1Pick = null;
             Current = State.CharacterSelect;
         }
 
         public void GoHowToPlay() => Current = State.HowToPlay;
 
-        public void StartRun(CharacterDef def)
+        public void StartRun(CharacterDef def, CharacterDef p2 = null)
         {
             _selected = def;
-            _selectedP2 = null;        // MVP: P2 duplicates P1's character on join
+            _selectedP2 = p2;          // null → P2 duplicates P1's character (single player / not chosen)
             _gameOver = false;
             Lives.Reset(Tuning.StartingLives); // fresh shared life pool for the run
             BuildWorld();
@@ -92,10 +96,10 @@ namespace ThisL
         /// endless mode (full-roster refill + scaling waves) instead of the linear <see cref="CampaignRunner"/>.
         /// Skips the intro vignette + tutorial chain: Endless drops you straight into the fight.
         /// </summary>
-        public void StartEndlessRun(CharacterDef def)
+        public void StartEndlessRun(CharacterDef def, CharacterDef p2 = null)
         {
             _selected = def;
-            _selectedP2 = null;
+            _selectedP2 = p2;
             _gameOver = false;
             Lives.Reset(Tuning.StartingLives);
             BuildEndlessWorld();
@@ -457,7 +461,8 @@ namespace ThisL
 
         private void CharacterSelectGUI(float w, float h)
         {
-            GUI.Label(new Rect(0, 20, w, 40), _endlessPending ? "ENDLESS — CHOOSE YOUR FIGHTER" : "CHOOSE YOUR FIGHTER", _title);
+            string who = _playerCount == 2 ? (_selectingP2 ? "PLAYER 2 — " : "PLAYER 1 — ") : "";
+            GUI.Label(new Rect(0, 20, w, 40), who + (_endlessPending ? "ENDLESS — CHOOSE YOUR FIGHTER" : "CHOOSE YOUR FIGHTER"), _title);
 
             // Difficulty picker lives here now (feeds both Campaign and Endless). Hard is the
             // baseline; Easy/Medium pare it down.
@@ -509,12 +514,30 @@ namespace ThisL
                     Input.GetKeyDown(KeyCode.Alpha1 + i))
                 {
                     Sfx.Play("confirm");
-                    if (_endlessPending) StartEndlessRun(c); else StartRun(c);
+                    // 2P: P1 picks first, then the screen re-arms for P2's own pick, THEN the run starts.
+                    if (_playerCount == 2 && !_selectingP2)
+                    {
+                        _p1Pick = c;
+                        _selectingP2 = true;
+                        return;
+                    }
+                    CharacterDef p1 = _selectingP2 ? _p1Pick : c;
+                    CharacterDef p2 = _selectingP2 ? c : null;
+                    if (_endlessPending) StartEndlessRun(p1, p2); else StartRun(p1, p2);
                     return;
                 }
             }
-            GUI.Label(new Rect(0, h - 30, w, 24), "click SELECT or press 1-4  ·  Esc to go back", _label);
-            if (Input.GetKeyDown(KeyCode.Escape)) { Sfx.Play("cancel"); GoMenu(); }
+            string hint = _playerCount == 2 && !_selectingP2
+                ? "P1: click SELECT or press 1-4  ·  Esc to go back"
+                : "click SELECT or press 1-4  ·  Esc to go back";
+            GUI.Label(new Rect(0, h - 30, w, 24), hint, _label);
+            // Esc backs P2 out to P1's pick first, then out of the screen.
+            if (Input.GetKeyDown(KeyCode.Escape))
+            {
+                Sfx.Play("cancel");
+                if (_selectingP2) { _selectingP2 = false; _p1Pick = null; }
+                else GoMenu();
+            }
         }
 
         private void HowToPlayGUI(float w, float h)
