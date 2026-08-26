@@ -245,6 +245,13 @@ namespace ThisL
                 Projectile.Spawn(Team.Player, p.WorldX + p.Facing * 0.6f,
                                  Mathf.Clamp(p.Z + dz, 0f, Tuning.ZBandDepth),
                                  p.Facing, 16f, w.Damage, col);
+            // KNOCKBACK (§2.2): point-blank pellets shove the front rank back and stagger them —
+            // the shotgun's crowd-control signature on top of the pellet damage.
+            foreach (var a in Combat.EnemiesInFrontCone(p, 5f, 1.2f))
+            {
+                if (a is EnemyController ec) ec.WorldX += p.Facing * 1.0f;
+                if (a is IStaggerable s) s.ApplyStagger(0.5f);
+            }
             Vfx.MuzzleFlash(p.WorldX + p.Facing * 0.9f, p.Z, p.Facing);
             Sfx.Play("shotgun_blast");
             CameraShake.Add(CameraShake.Light);

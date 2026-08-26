@@ -1082,6 +1082,19 @@ namespace ThisL
                 }
             }
 
+            // CLUB KNOCKBACK (§3.7c): the club's whole signature over fists — a heavy shove that
+            // knocks the struck enemy back a step (fists leave them planted).
+            if (CurrentWeapon.Kind == WeaponKind.Club &&
+                (_attackKind == AttackKind.Side || _attackKind == AttackKind.Sweep))
+            {
+                foreach (var a in hits)
+                {
+                    if (a is not EnemyController ec) continue;
+                    ec.WorldX += Facing * 1.2f;                    // shove away from you
+                    if (a is IStaggerable s) s.ApplyStagger(0.4f);
+                }
+            }
+
             // Only the melee string (P1/P2/sweep) spends a MELEE weapon's durability. Ranged hybrids
             // (Ball & Chain, Staff) swing as free melee — their HitsRemaining is E-fire charges (launches
             // / casts), spent in WeaponFx, NOT by an arrow swing. Guarding on !IsRanged stops a couple of
