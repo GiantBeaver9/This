@@ -117,7 +117,7 @@ namespace ThisL
                 else if (_state != State.Dead)
                     Sr.color = _burnTimer > 0f
                         ? Color.Lerp(new Color(1f, 0.5f, 0.12f), Color.white, Mathf.PingPong(Time.time * 12f, 1f))
-                        : (_zombie && !_zombieSkin) ? ZombieTint : Color.white;
+                        : Color.white;   // zombies keep their normal colors — the hollow middle is the tell
             }
 
             switch (_state)
@@ -226,16 +226,14 @@ namespace ThisL
             }
         }
 
-        private static readonly Color ZombieTint = new(0.55f, 0.9f, 0.5f);
+        // Cache of hollowed sprite sets, keyed by the source set (built once per enemy type).
+        private static readonly System.Collections.Generic.Dictionary<SpriteLibrary.ActorSprites, SpriteLibrary.ActorSprites> s_hollowCache = new();
 
         /// <summary>
-        /// A gun headshot KILL rolled zombify (§3.1): don't die — rise again as a slower green
-        /// HOSTILE. It keeps hunting the player (still Team.Enemy), so headshotting is a real
-        /// risk/reward, and it drops no loot when finally put down. Can't re-zombify.
+        /// A gun headshot KILL rolled zombify (§3.1): don't die — rise again as a slower HOSTILE.
+        /// It keeps hunting the player (still Team.Enemy), so headshotting is a real risk/reward,
+        /// and it drops no loot when finally put down. Can't re-zombify.
         /// </summary>
-        private static SpriteLibrary.ActorSprites s_zombieSet;
-        private static bool s_zombieTried;
-        private bool _zombieSkin;
 
         public void Zombify()
         {
@@ -245,14 +243,10 @@ namespace ThisL
             _state = State.Pursue;
             Hp = MaxHp = Mathf.Max(1f, MaxHp * 0.6f);   // comes back on its last legs
 
-            // Swap in the dedicated zombie skin if the art exists (show, don't green-tint).
-            if (!s_zombieTried)
-            {
-                s_zombieTried = true;
-                s_zombieSet = SpriteLibrary.Load("sprites/enemies/enemy_zombie", "enemy_zombie");
-            }
-            if (s_zombieSet != null && Anim != null) { Anim.Set = s_zombieSet; _zombieSkin = true; }
-            if (Sr != null) Sr.color = _zombieSkin ? Color.white : ZombieTint;
+            // Zombie look (creator): KEEP the normal stick-figure sprite AND colors — just hollow the
+            // MIDDLE (torso) out so you can see straight through them. No skin swap, no green tint.
+            if (Anim != null && Anim.Set != null) Anim.Set = HollowSet(Anim.Set);
+            if (Sr != null) Sr.color = Color.white;
 
             Anim.Play("hurt", false, restart: true);     // a lurch back to its feet
             Vfx.DeathBurst(WorldX, Z);                    // gory reanimation puff
@@ -268,6 +262,62 @@ namespace ThisL
             if (Random.value > chance) return false;
             Zombify();
             return true;
+        }
+
+        // ---- Zombie "hollow middle" sprite ----------------------------------------
+
+        /// <summary>Return a copy of <paramref name="src"/> whose every frame has its MIDDLE punched
+        /// transparent — the zombie tell (creator: "the entire middle is empty and see through, no
+        /// color change"). Built once per source set and cached; new frames re-use one hollowed sprite
+        /// per source sprite so repeated zombies of a type share the work.</summary>
+        private static SpriteLibrary.ActorSprites HollowSet(SpriteLibrary.ActorSprites src)
+        {
+            if (src == null) return null;
+            if (s_hollowCache.TryGetValue(src, out var cached)) return cached;
+
+            var outSet = new SpriteLibrary.ActorSprites { Actor = src.Actor, ReverseAttacks = src.ReverseAttacks };
+            var perSprite = new System.Collections.Generic.Dictionary<Sprite, Sprite>();
+            foreach (var kv in src.Clips)
+            {
+                var srcFrames = kv.Value;
+                if (srcFrames == null) continue;
+                var frames = new Sprite[srcFrames.Length];
+                for (int i = 0; i < srcFrames.Length; i++)
+                {
+                    var s = srcFrames[i];
+                    if (s == null) { frames[i] = null; continue; }
+                    if (!perSprite.TryGetValue(s, out var hs)) { hs = HollowSprite(s); perSprite[s] = hs; }
+                    frames[i] = hs;
+                }
+                outSet.Clips[kv.Key] = frames;
+            }
+            s_hollowCache[src] = outSet;
+            return outSet;
+        }
+
+        /// <summary>Copy one sprite's pixels and clear the central torso box to transparent.</summary>
+        private static Sprite HollowSprite(Sprite s)
+        {
+            try
+            {
+                var tex = s.texture;
+                var r = s.textureRect;
+                int rw = Mathf.RoundToInt(r.width), rh = Mathf.RoundToInt(r.height);
+                if (rw <= 2 || rh <= 2) return s;
+                var px = tex.GetPixels(Mathf.RoundToInt(r.x), Mathf.RoundToInt(r.y), rw, rh);
+                // Hollow the middle: central ~44% of the width, torso band ~34%..68% of the height.
+                int x0 = Mathf.RoundToInt(rw * 0.28f), x1 = Mathf.RoundToInt(rw * 0.72f);
+                int y0 = Mathf.RoundToInt(rh * 0.34f), y1 = Mathf.RoundToInt(rh * 0.68f);
+                var clear = new Color(0, 0, 0, 0);
+                for (int y = y0; y < y1; y++)
+                    for (int x = x0; x < x1; x++)
+                        px[y * rw + x] = clear;
+                var ntex = new Texture2D(rw, rh, TextureFormat.RGBA32, false) { filterMode = FilterMode.Point };
+                ntex.SetPixels(px); ntex.Apply();
+                var pivot = new Vector2(rw > 0 ? s.pivot.x / rw : 0.5f, rh > 0 ? s.pivot.y / rh : 0f);
+                return Sprite.Create(ntex, new Rect(0, 0, rw, rh), pivot, s.pixelsPerUnit);
+            }
+            catch { return s; } // atlas not readable → leave the frame intact rather than crash
         }
 
         private void Backoff(Actor player, float targetZ, float dt)
