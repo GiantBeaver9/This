@@ -62,8 +62,16 @@ namespace ThisL
             if (inst != null) inst.ApplyArea(s_area);
         }
 
+        /// <summary>Full theme stem (e.g. "area2_airport") of the current stage — drives the real
+        /// per-stage backdrop STRIP art when present; falls back to the procedural bands otherwise.</summary>
+        private static string s_themeStem;
+
         /// <summary>Map a StageData.BackdropTheme stem ("area2_airport", "area1_mall", …) to its area and apply it.</summary>
-        public static void SetTheme(string themeStem) => SetArea(AreaFromTheme(themeStem));
+        public static void SetTheme(string themeStem)
+        {
+            s_themeStem = themeStem;
+            SetArea(AreaFromTheme(themeStem));
+        }
 
         /// <summary>Parse the area index out of a theme stem; defaults to Area 1.</summary>
         public static int AreaFromTheme(string themeStem)
@@ -177,9 +185,18 @@ namespace ThisL
             for (int i = transform.childCount - 1; i >= 0; i--)
                 Destroy(transform.GetChild(i).gameObject);
 
+            var built = new List<LayerInstance>();
+
+            // Real per-stage backdrop STRIP art takes over the whole backdrop when it exists;
+            // otherwise fall back to the procedural bands + props (unchanged).
+            if (BuildStripBands(built))
+            {
+                _instances = built.ToArray();
+                return;
+            }
+
             Palette palette = PaletteFor(_area);
             BandDef[] defs = MakeBandDefs();
-            var built = new List<LayerInstance>(defs.Length);
 
             foreach (var def in defs)
             {
@@ -218,6 +235,87 @@ namespace ThisL
             BuildPropRow(built);          // real house/tree sprites at the horizon
             BuildLandmarkRow(built);      // per-area signature landmarks (tower/plane/bridge/skyline)
             _instances = built.ToArray();
+        }
+
+        // ---- Real per-stage backdrop STRIP art (assets/backdrops/<stem>/<stem>_{far,mid,near,lane}.png) ----
+
+        /// <summary>
+        /// Build the four seam-tiling parallax strips for the current theme stem, if that art exists.
+        /// far/mid/near are full-screen (512×360 = 15 wu tall @24 PPU) centred on the camera at their
+        /// parallax (.2/.5/.85); lane (512×96) is the foreground road at parallax 1.0 seated on the
+        /// ground. Returns false (→ procedural fallback) when the stem has no strip set.
+        /// </summary>
+        /// <summary>Kill-switch: set false (e.g. from a debug key) to fall back to the procedural
+        /// bands if the real strip placement needs a visual pass. Default on.</summary>
+        public static bool EnableStripArt = true;
+
+        private bool BuildStripBands(List<LayerInstance> built)
+        {
+            if (!EnableStripArt) return false;
+            string stem = s_themeStem;
+            if (string.IsNullOrEmpty(stem)) return false;
+            string dir = System.IO.Path.Combine(SpriteLibrary.AssetsRoot, "backdrops", stem);
+            if (!System.IO.File.Exists(System.IO.Path.Combine(dir, stem + "_far.png"))) return false;
+
+            // far/mid/near fill the 15 wu view centred at y=0; lane is the low road strip (~4 wu).
+            // Ordering far<mid<near<lane so the road overlays the foreground detail (creator can
+            // nudge the lane/near vertical offset in the visual pass — see the strip-wiring memo).
+            AddStrip(built, dir, stem, "far",  0.20f, -996, 0f,    15f);
+            AddStrip(built, dir, stem, "mid",  0.50f, -994, 0f,    15f);
+            AddStrip(built, dir, stem, "near", 0.85f, -992, 0f,    15f);
+            AddStrip(built, dir, stem, "lane", 1.00f, -990, -5.5f, 4f);
+            return built.Count > 0;
+        }
+
+        private void AddStrip(List<LayerInstance> built, string dir, string stem, string layer,
+                              float parallax, int order, float baseY, float heightWu)
+        {
+            var sprite = LoadStripSprite(System.IO.Path.Combine(dir, $"{stem}_{layer}.png"));
+            if (sprite == null) return;
+
+            var go = new GameObject("strip_" + layer);
+            go.transform.SetParent(transform, false);
+            var sr = go.AddComponent<SpriteRenderer>();
+            sr.sprite = sprite;
+            sr.sortingOrder = order;
+            sr.drawMode = SpriteDrawMode.Tiled;          // seamless horizontal tiling
+            sr.tileMode = SpriteTileMode.Continuous;
+
+            float tileWorld = sprite.rect.width / Tuning.PixelsPerUnit;
+            float sizeX = Tuning.ScreenWidthUnits * 3f + tileWorld * 4f;  // over-cover so edges never uncover
+            sr.size = new Vector2(sizeX, heightWu);
+
+            built.Add(new LayerInstance
+            {
+                Transform = go.transform,
+                Parallax = parallax,
+                BaseY = baseY,
+                TileWorld = tileWorld,
+            });
+        }
+
+        // Cache strip sprites by path; textures wrap (Repeat) for seamless horizontal tiling.
+        private static readonly Dictionary<string, Sprite> s_stripCache = new();
+        private static Sprite LoadStripSprite(string path)
+        {
+            if (s_stripCache.TryGetValue(path, out var cached)) return cached;
+            Sprite s = null;
+            try
+            {
+                if (System.IO.File.Exists(path))
+                {
+                    var tex = new Texture2D(2, 2, TextureFormat.RGBA32, false)
+                    { filterMode = FilterMode.Point, wrapMode = TextureWrapMode.Repeat };
+                    tex.LoadImage(System.IO.File.ReadAllBytes(path));
+                    tex.wrapMode = TextureWrapMode.Repeat;
+                    tex.Apply();
+                    s = Sprite.Create(tex, new Rect(0, 0, tex.width, tex.height),
+                        new Vector2(0.5f, 0.5f), Tuning.PixelsPerUnit, 0, SpriteMeshType.FullRect);
+                }
+            }
+            catch { s = null; }
+            s_stripCache[path] = s;
+            return s;
         }
 
         // ---- Real environment props (house/tree/… sprites) -------------------------
