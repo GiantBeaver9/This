@@ -47,7 +47,7 @@ namespace ThisL
         // ---- Instance --------------------------------------------------------------------------
         private readonly int _index;             // 0 or 1
         private readonly int _joy;               // 1 or 2 (joyNum + KeyCode block)
-        private readonly string _ax, _ay, _arx, _ary, _alt, _art; // cached axis names
+        private readonly string _ax, _ay, _arx, _ary, _alt, _art, _adx, _ady; // cached axis names (incl. D-pad)
         private readonly KeyCode _btnBase;       // KeyCode.Joystick{joy}Button0
 
         // Latched edges (computed in Tick from analog state).
@@ -69,6 +69,8 @@ namespace ThisL
             _ary = "Joy" + _joy + "RY";
             _alt = "Joy" + _joy + "LT";
             _art = "Joy" + _joy + "RT";
+            _adx = "Joy" + _joy + "DX";   // D-pad horizontal (also moves)
+            _ady = "Joy" + _joy + "DY";   // D-pad vertical (also moves)
             _btnBase = (KeyCode)((int)KeyCode.Joystick1Button0 + _index * 20);
             if (claim) _claimed.Add(_index);
         }
@@ -87,19 +89,25 @@ namespace ThisL
         }
 
         // ---- Held axes -------------------------------------------------------------------------
-        public float MoveX => Live ? Dead(Axis(_ax)) : 0f;
-        public float MoveZ => Live ? Dead(Axis(_ay)) : 0f;
+        // Movement reads the LEFT STICK or the D-PAD (creator: "the left stick or d-pad should move").
+        public float MoveX => Live ? StickOrDpad(Dead(Axis(_ax)), Axis(_adx)) : 0f;
+        public float MoveZ => Live ? StickOrDpad(Dead(Axis(_ay)), Axis(_ady)) : 0f;
         public float AimX  => Live ? Dead(Axis(_arx)) : 0f;
         public float AimZ  => Live ? Dead(Axis(_ary)) : 0f;
 
-        // Walk = left trigger held (or LB as a fallback for pads without working trigger axes).
-        public bool WalkHeld => Live && (Axis(_alt) > TriggerPress || Btn(BtnWalkAlt));
+        // Stick wins when pushed; otherwise fall back to the (digital) D-pad axis.
+        private static float StickOrDpad(float stick, float dpad) => Mathf.Abs(stick) > 0.01f ? stick : dpad;
+
+        // Walk = left trigger held. (LB is now the SPECIAL button, see SpecialDown.)
+        public bool WalkHeld => Live && Axis(_alt) > TriggerPress;
 
         // ---- Edge-triggered buttons ("pressed this frame") ------------------------------------
         public bool JumpDown    => Live && BtnDown(BtnJump);
         public bool DashDown    => Live && BtnDown(BtnDash);
         public bool PickupDown  => Live && BtnDown(BtnPickup);
-        public bool SpecialDown => Live && BtnDown(BtnSpecial);
+        // Special = Y (button 3) OR the LEFT BUMPER (button 4) — creator: the pad "had no way to do
+        // special (recommend bumper)". LB was the walk fallback; walk is now the left trigger only.
+        public bool SpecialDown => Live && (BtnDown(BtnSpecial) || BtnDown(BtnWalkAlt));
 
         // Fire = right trigger crossing its threshold this frame (latched in Tick), OR a fresh X press.
         public bool FireDown => _fireDown || (Live && BtnDown(BtnFireAlt));
@@ -127,9 +135,9 @@ namespace ThisL
             _aimActive = Mathf.Sqrt(rx * rx + ry * ry) >= AttackThreshold;
             _attackDown = _aimActive && !_prevAimActive;
 
-            // Left-stick directional edges for the double-tap dash.
-            float lx = Dead(Axis(_ax));
-            float lz = Dead(Axis(_ay));
+            // Left-stick OR D-pad directional edges for the double-tap dash.
+            float lx = StickOrDpad(Dead(Axis(_ax)), Axis(_adx));
+            float lz = StickOrDpad(Dead(Axis(_ay)), Axis(_ady));
             bool l = lx <= -MoveEdge, r = lx >= MoveEdge;
             bool u = lz >= MoveEdge, d = lz <= -MoveEdge;
             _leftDown = l && !_left; _rightDown = r && !_right;
