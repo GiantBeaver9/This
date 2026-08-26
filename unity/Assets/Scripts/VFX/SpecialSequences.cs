@@ -161,6 +161,21 @@ namespace ThisL
         {
             private PlayerController _p; private float _dur, _t; private float _baseScale;
             private float _slashTimer;
+            private SpriteLibrary.ActorSprites _humanSet;   // restored on fade-back
+
+            /// <summary>The gabe_werewolf hero-style set, loaded once and cached across transforms.
+            /// Null if the art isn't in the tree yet (Load falls back to a placeholder set, so we
+            /// gate on HasAtlas and skip the swap entirely when the real art is absent).</summary>
+            private static SpriteLibrary.ActorSprites _werewolfSet;
+            private static bool _werewolfTried;
+            private static SpriteLibrary.ActorSprites WerewolfSet()
+            {
+                if (_werewolfTried) return _werewolfSet;
+                _werewolfTried = true;
+                if (SpriteLibrary.HasAtlas("sprites/characters/gabe_werewolf", "gabe_werewolf"))
+                    _werewolfSet = SpriteLibrary.Load("sprites/characters/gabe_werewolf", "gabe_werewolf");
+                return _werewolfSet;
+            }
 
             public void Begin(PlayerController p, float dur)
             {
@@ -169,6 +184,17 @@ namespace ThisL
                 p.ScaleMult = _baseScale * 1.25f;        // hunched, bigger
                 p.SetInvuln(dur + 1.0f);                  // i-frames through the whole window + fade
                 SpecialFx.Glow(p, new Color(1f, 0.8f, 0.3f), dur); // sustained power glow
+
+                // Actually TURN HIM INTO A WEREWOLF: swap the active sprite set for the wolf art,
+                // remembering the human set to restore on fade-back. Guarded — if the art failed to
+                // load we keep the human sprite (scale-up + glow only, the old behavior).
+                var wolf = WerewolfSet();
+                if (wolf != null && p.Anim != null)
+                {
+                    _humanSet = p.Anim.Set;
+                    p.Anim.Set = wolf;
+                    p.Anim.Play("idle", true, restart: true); // show the wolf immediately
+                }
                 StartCoroutine(Run());
             }
 
@@ -197,6 +223,8 @@ namespace ThisL
                     yield return null;
                 }
                 if (_p != null) _p.ScaleMult = _baseScale;
+                // Turn back into a human: restore the saved set (only if we swapped it in).
+                if (_p != null && _humanSet != null && _p.Anim != null) _p.Anim.Set = _humanSet;
                 Destroy(gameObject);
             }
         }
