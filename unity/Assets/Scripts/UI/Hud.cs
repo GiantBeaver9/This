@@ -11,7 +11,9 @@ namespace ThisL
     /// </summary>
     public sealed class Hud : MonoBehaviour
     {
-        private GUIStyle _label;
+        private GUIStyle _label;   // big (game over)
+        private GUIStyle _cap;     // small bar caption
+        private GUIStyle _info;    // small info line (lives / weapon)
 
         private void OnGUI()
         {
@@ -19,6 +21,8 @@ namespace ThisL
             if (all.Count == 0) return;
 
             _label ??= new GUIStyle(GUI.skin.label) { fontSize = 16, fontStyle = FontStyle.Bold };
+            _cap   ??= new GUIStyle(GUI.skin.label) { fontSize = 10, fontStyle = FontStyle.Bold };
+            _info  ??= new GUIStyle(GUI.skin.label) { fontSize = 12, fontStyle = FontStyle.Bold };
 
             float scale = Screen.height / 360f; // scale HUD to the 360px design height
             GUI.matrix = Matrix4x4.TRS(Vector3.zero, Quaternion.identity, new Vector3(scale, scale, 1f));
@@ -33,14 +37,16 @@ namespace ThisL
                 float bx = isP2 ? (w - 192f) : 12f;
 
                 DrawBar(bx, 12, 180, 16, p.Hp / p.MaxHp, HealthColor(p.Hp / p.MaxHp), isP2 ? "P2" : "P1");
-                DrawBar(bx, 36, 180, 12, p.Meter.Fraction01, MeterColor(p.Meter.FullTier),
-                        $"SPECIAL {(p.Meter.CanFire ? "ARMED" : "")}");
-                if (!p.Alive)
-                    GUI.Label(new Rect(bx + 4, 52, 180, 18), "DOWN", _label);
-            }
+                DrawBar(bx, 32, 180, 11, p.Meter.Fraction01, MeterColor(p.Meter.FullTier),
+                        p.Meter.CanFire ? "SPECIAL — ARMED" : "SPECIAL");
 
-            // Shared team life pool, centered top.
-            GUI.Label(new Rect(w / 2f - 60, 12, 120, 20), $"LIVES  {Mathf.Max(0, Lives.Count)}", _label);
+                // Info line UNDER the counters: LIVES (shared, under P1 only) + the currently-held item.
+                string wpn = p.CurrentWeapon == null || p.CurrentWeapon.IsFists ? "FISTS" : p.CurrentWeapon.Kind.ToString();
+                string livesTag = isP2 ? "" : $"LIVES {Mathf.Max(0, Lives.Count)}    ";
+                GUI.Label(new Rect(bx + 2, 46, 190, 16), $"{livesTag}ITEM: {wpn}", _info);
+                if (!p.Alive)
+                    GUI.Label(new Rect(bx + 2, 60, 180, 18), "DOWN", _label);
+            }
 
             // Game over only once EVERYONE is down and the pool is spent.
             if (!PlayerController.AnyAlive && Lives.Count <= 0)
@@ -57,7 +63,7 @@ namespace ThisL
             GUI.color = fill;
             GUI.DrawTexture(new Rect(x, y, w * frac, h), Texture2D.whiteTexture);
             GUI.color = Color.white;
-            GUI.Label(new Rect(x + 4, y - 1, w, h + 2), caption);
+            GUI.Label(new Rect(x + 4, y - 2, w, h + 3), caption, _cap);
         }
 
         private static Color HealthColor(float f) =>

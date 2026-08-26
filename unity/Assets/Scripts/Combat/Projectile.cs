@@ -27,6 +27,8 @@ namespace ThisL
             var p = go.AddComponent<Projectile>();
             p.OwnerTeam = ownerTeam;
             p.WorldX = x; p.Z = z;
+            // Enemy bullets fly ~0.6x speed (creator ruling — fairness/dodgeability). Player shots unchanged.
+            if (ownerTeam == Team.Enemy) speed *= 0.6f;
             p.VelX = Mathf.Sign(dirX) * speed;
             p.Damage = damage;
             p._sr = go.AddComponent<SpriteRenderer>();
@@ -62,6 +64,7 @@ namespace ThisL
         private void LateUpdate()
         {
             Playfield.Place(transform, WorldX, Z, _sr);
+            if (_sr != null) _sr.sortingOrder = 900; // projectiles always on top (see them coming)
             var p = transform.position;
             p.y += MuzzleHeight * Playfield.DepthScale(Z);
             transform.position = p;

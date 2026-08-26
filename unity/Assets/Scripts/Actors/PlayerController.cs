@@ -543,8 +543,20 @@ namespace ThisL
         {
             if (!_airborne) return;
             _jumpTimer += dt;
-            float t = Mathf.Clamp01(_jumpTimer / Tuning.JumpDuration);
-            _jumpOffset = Tuning.JumpHeight * 4f * t * (1f - t); // parabola 0 -> peak -> 0
+            // ASYMMETRIC arc (creator: "come down 2x as fast as jumping up"). Peak at 2/3 of
+            // the airtime so the fall (final 1/3) is half the rise duration = 2x faster down.
+            float T = Tuning.JumpDuration;
+            float tp = T * (2f / 3f);
+            if (_jumpTimer <= tp)
+            {
+                float u = _jumpTimer / tp;                    // 0..1 rising
+                _jumpOffset = Tuning.JumpHeight * (1f - (1f - u) * (1f - u));   // ease up to the peak
+            }
+            else
+            {
+                float d = Mathf.Clamp01((_jumpTimer - tp) / (T - tp));          // 0..1 falling (2x faster)
+                _jumpOffset = Tuning.JumpHeight * (1f - d * d);                 // accelerate down
+            }
             if (_jumpTimer >= Tuning.JumpDuration)
             {
                 _airborne = false; _jumpOffset = 0f; _airDashing = false;
@@ -703,7 +715,7 @@ namespace ThisL
             _phaseTimer = PhaseStartup();
             _hitResolved = false;
             _bufferedAttack = false;
-            Anim.Play("attack_side", false, restart: true);
+            Anim.Play("attack_down", false, restart: true); // downward STOMP read (creator ruling)
             Sfx.Play("swing_whoosh");
         }
 

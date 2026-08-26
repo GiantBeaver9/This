@@ -43,7 +43,7 @@ namespace ThisL
             // Dark ground filling the bottom play band, plus a lighter near-edge line.
             var go = new GameObject("Ground");
             var sr = go.AddComponent<SpriteRenderer>();
-            sr.sprite = SolidSprite(new Color(0.20f, 0.22f, 0.18f));
+            sr.sprite = SolidSprite(new Color(0.62f, 0.62f, 0.60f)); // neutral pavement gray (the Backdrop draws the real ground over this; gray blends if it ever peeks — was a jarring dark green)
             sr.sortingOrder = -1000;
             // Play band spans y in [-7.5, 1.5]; center it and make it very wide.
             go.transform.position = new Vector3(0f, (-7.5f + 1.5f) / 2f, 0f);

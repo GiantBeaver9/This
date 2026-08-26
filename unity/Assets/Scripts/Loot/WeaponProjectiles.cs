@@ -67,7 +67,7 @@ namespace ThisL
             }
         }
 
-        private void LateUpdate() => Playfield.Place(transform, WorldX, Z, _sr);
+        private void LateUpdate() { Playfield.Place(transform, WorldX, Z, _sr); if (_sr != null) _sr.sortingOrder = 900; } // projectiles on top
     }
 
     /// <summary>
@@ -150,7 +150,7 @@ namespace ThisL
 
         private void LateUpdate()
         {
-            if (!_spent) Playfield.Place(transform, WorldX, Z, _sr);
+            if (!_spent) { Playfield.Place(transform, WorldX, Z, _sr); if (_sr != null) _sr.sortingOrder = 900; } // grenade on top too
         }
     }
 

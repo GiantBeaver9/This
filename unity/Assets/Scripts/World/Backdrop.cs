@@ -199,9 +199,10 @@ namespace ThisL
                 sr.tileMode = SpriteTileMode.Continuous;
 
                 float tileWorld = sprite.rect.width / Tuning.PixelsPerUnit;
-                // Two screens + a couple of tiles of margin: with per-frame whole-tile
-                // re-centring the band never uncovers an edge.
-                float sizeX = Tuning.ScreenWidthUnits * 2f + tileWorld * 2f;
+                // Generous over-cover (3 screens + 4 tiles): with per-frame whole-tile
+                // re-centring the band can never uncover a screen edge (that gap was
+                // revealing GameBootstrap's dark ground fill on the right).
+                float sizeX = Tuning.ScreenWidthUnits * 3f + tileWorld * 4f;
                 sr.size = new Vector2(sizeX, heightWu);
 
                 float baseY = (def.TopY + def.BottomY) * 0.5f;
@@ -280,14 +281,16 @@ namespace ThisL
             int i = 0;
             while (x < rowWidth * 0.5f)
             {
-                bool useTree = (i % 3 == 2) && tree != null;
+                bool useTree = (i % 4 == 3) && tree != null;   // trees are the occasional break
                 Sprite s = useTree ? tree : (house ?? tree);
                 if (s == null) break;
 
-                float targetTall = useTree ? 3.3f : 4.1f;      // wu tall on screen
+                // Small + DENSE like the reference: houses ~2.2 wu tall, near-touching, so the
+                // suburb reads as a tight tiled row (not big, sparse, floating).
+                float targetTall = useTree ? 2.7f : 2.2f;
                 float natTall = s.rect.height / Tuning.PixelsPerUnit;
                 float scale = natTall > 0.01f ? targetTall / natTall : 1f;
-                scale *= 1f + ((i % 4) - 1.5f) * 0.05f;         // ±% size variation, deterministic
+                scale *= 1f + ((i % 4) - 1.5f) * 0.04f;         // subtle size variation
                 float wWu = (s.rect.width / Tuning.PixelsPerUnit) * scale;
 
                 var go = new GameObject(useTree ? "tree" : "house");
@@ -299,7 +302,7 @@ namespace ThisL
                 go.transform.localScale = new Vector3(flip ? -scale : scale, scale, 1f);
                 go.transform.localPosition = new Vector3(x + wWu * 0.5f, horizon, 0f);
 
-                float gap = useTree ? 1.1f : 0.5f;
+                float gap = useTree ? 0.5f : 0.12f;   // houses near-touching (dense suburb row)
                 x += wWu + gap;
                 i++;
             }

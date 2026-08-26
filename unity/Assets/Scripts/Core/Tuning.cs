@@ -121,9 +121,12 @@ namespace ThisL
         public const float SweepActive = 4 * FrameSeconds;
         public const float SweepRecovery = 14 * FrameSeconds;
         // Finisher (hit 4): 6 / 4 / 16
-        public const float FinisherStartup = 6 * FrameSeconds;
-        public const float FinisherActive = 4 * FrameSeconds;
-        public const float FinisherRecovery = 16 * FrameSeconds;
+        // The STOMP finisher is a deliberate COMMITMENT: a real wind-up + a long, VULNERABLE
+        // recovery (no i-frames) so you can't button-mash executions in a crowd — you have to
+        // create space first (creator ruling). ~0.85s total at 60fps × AttackFrameMult.
+        public const float FinisherStartup = 9 * FrameSeconds;
+        public const float FinisherActive = 5 * FrameSeconds;
+        public const float FinisherRecovery = 30 * FrameSeconds;
         public const float InputBuffer = 9 * FrameSeconds; // ~0.15s buffer
 
         // ---- Player -----------------------------------------------------------

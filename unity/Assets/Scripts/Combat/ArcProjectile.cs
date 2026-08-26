@@ -74,7 +74,7 @@ namespace ThisL
             var pos = transform.position;
             pos.y += ArcHeight * 4f * u * (1f - u); // 0 -> peak -> 0 parabola
             transform.position = pos;
-            if (_sr != null) _sr.sortingOrder = Playfield.SortingOrder(z) + 2; // above ground clutter
+            if (_sr != null) _sr.sortingOrder = 900; // ALL projectiles render on top (creator: you must see them coming, even if depth says otherwise)
         }
 
         private static Sprite _blob;

@@ -27,12 +27,12 @@ namespace ThisL
 
         private static ComboHud _instance;
 
-        // ---- combo popup state ----------------------------------------------
-        private int _lastCombo;
-        private int _shownCombo;
-        private float _pop;         // 0..1 punch that decays (scale kick on each hit)
-        private float _hold;        // seconds the current popup stays fully visible
-        private float _fade;        // 0..1 fade-out progress once the streak ends
+        // ---- per-player combo popup state (0 = P1 left/warm, 1 = P2 right/blue) ----
+        private readonly int[] _lastCombo = new int[2];
+        private readonly int[] _shownCombo = new int[2];
+        private readonly float[] _pop = new float[2];
+        private readonly float[] _hold = new float[2];
+        private readonly float[] _fade = new float[2];
 
         private const float HoldTime = 0.9f;
         private const float FadeTime = 0.35f;
@@ -59,27 +59,25 @@ namespace ThisL
         private void Update()
         {
             float dt = Time.unscaledDeltaTime;
-            var p = PlayerController.Instance;
-            int combo = p != null ? p.Meter.Combo : 0;
-
-            if (combo > _lastCombo && combo >= 2)
+            var all = PlayerController.All;
+            for (int i = 0; i < 2; i++)
             {
-                _shownCombo = combo;
-                _pop = 1f;
-                _hold = HoldTime;
-                _fade = 0f;
-            }
-            else if (combo == 0 && _lastCombo > 0)
-            {
-                // streak ended — let the last popup fade out.
-                _hold = 0f;
-            }
-            _lastCombo = combo;
+                int combo = (i < all.Count && all[i] != null) ? all[i].Meter.Combo : 0;
+                if (combo > _lastCombo[i] && combo >= 2)
+                {
+                    _shownCombo[i] = combo; _pop[i] = 1f; _hold[i] = HoldTime; _fade[i] = 0f;
+                }
+                else if (combo == 0 && _lastCombo[i] > 0)
+                {
+                    _hold[i] = 0f; // streak ended — fade out
+                }
+                _lastCombo[i] = combo;
 
-            _pop = Mathf.Max(0f, _pop - dt * 6f);
-            if (_hold > 0f) _hold -= dt;
-            else if (_shownCombo >= 2) _fade = Mathf.Min(1f, _fade + dt / FadeTime);
-            if (_fade >= 1f) _shownCombo = 0;
+                _pop[i] = Mathf.Max(0f, _pop[i] - dt * 6f);
+                if (_hold[i] > 0f) _hold[i] -= dt;
+                else if (_shownCombo[i] >= 2) _fade[i] = Mathf.Min(1f, _fade[i] + dt / FadeTime);
+                if (_fade[i] >= 1f) _shownCombo[i] = 0;
+            }
 
             if (_flash > 0f) _flash = Mathf.Max(0f, _flash - dt * 1.6f);
         }
@@ -94,39 +92,49 @@ namespace ThisL
                 var prev = GUI.color;
                 GUI.color = new Color(1f, 1f, 1f, 0.35f * _flash);
                 GUI.DrawTexture(new Rect(0, 0, Screen.width, Screen.height), Texture2D.whiteTexture);
-                GUI.color = new Color(1f, 0.95f, 0.5f, _flash);
-                DrawCentered($"{_flashMilestone} DOWN!", Screen.height * 0.24f, Mathf.RoundToInt(34 * s));
+                // Keep the screen-flash JUICE but no words (creator: "just the combos, no
+                // 'execute'/'down' text") — the combo "N HIT!" popup below is the only text.
                 GUI.color = prev;
             }
 
-            if (_shownCombo < 2) return;
+            // Per-player combo popups — P1 LEFT (warm/yellow), P2 RIGHT (blue), kept
+            // visually separate (creator ruling). Each escalates size with its streak.
+            for (int i = 0; i < 2; i++)
+            {
+                if (_shownCombo[i] < 2) continue;
+                int combo = _shownCombo[i];
+                int baseSize = combo >= 15 ? 40 : combo >= 10 ? 32 : combo >= 5 ? 26 : 22;
+                float kick = 1f + _pop[i] * 0.6f;             // scale punch on each fresh hit
+                int size = Mathf.RoundToInt(baseSize * s * kick);
+                bool p1 = i == 0;
+                Color col = p1
+                    ? (combo >= 15 ? new Color(1f, 0.45f, 0.2f)   : combo >= 10 ? new Color(1f, 0.55f, 0.15f)
+                      : combo >= 5  ? new Color(1f, 0.85f, 0.25f) : new Color(0.98f, 0.9f, 0.6f))   // P1 warm
+                    : (combo >= 15 ? new Color(0.3f, 0.5f, 1f)    : combo >= 10 ? new Color(0.35f, 0.62f, 1f)
+                      : combo >= 5  ? new Color(0.45f, 0.72f, 1f) : new Color(0.7f, 0.85f, 1f));    // P2 blue
+                col.a = 1f - _fade[i];
+                float y = Screen.height * 0.30f;
 
-            // Escalate size + colour with the streak (mirrors the meter tiers).
-            int combo = _shownCombo;
-            int baseSize = combo >= 15 ? 40 : combo >= 10 ? 32 : combo >= 5 ? 26 : 22;
-            float kick = 1f + _pop * 0.6f;             // scale punch on each fresh hit
-            int size = Mathf.RoundToInt(baseSize * s * kick);
-            Color col = combo >= 15 ? new Color(1f, 0.45f, 0.2f)   // fiery orange
-                      : combo >= 10 ? new Color(1f, 0.55f, 0.15f)  // orange
-                      : combo >= 5  ? new Color(1f, 0.85f, 0.25f)  // gold
-                      :               new Color(0.95f, 0.95f, 0.95f); // white
-            col.a = 1f - _fade;
-
-            var prevC = GUI.color;
-            // drop shadow for legibility over the busy field
-            GUI.color = new Color(0f, 0f, 0f, col.a * 0.7f);
-            DrawCentered($"{combo} HIT!", Screen.height * 0.30f + 2f, size);
-            GUI.color = col;
-            DrawCentered($"{combo} HIT!", Screen.height * 0.30f, size);
-            GUI.color = prevC;
+                var prevC = GUI.color;
+                GUI.color = new Color(0f, 0f, 0f, col.a * 0.7f);   // drop shadow
+                DrawSide($"{combo} HIT!", y + 2f, size, p1);
+                GUI.color = col;
+                DrawSide($"{combo} HIT!", y, size, p1);
+                GUI.color = prevC;
+            }
         }
 
-        private void DrawCentered(string text, float y, int fontSize)
+        // P1 = left half (left-aligned), P2 = right half (right-aligned).
+        private void DrawSide(string text, float y, int fontSize, bool left)
         {
-            _style ??= new GUIStyle(GUI.skin.label) { alignment = TextAnchor.MiddleCenter, fontStyle = FontStyle.Bold };
+            _style ??= new GUIStyle(GUI.skin.label) { fontStyle = FontStyle.Bold };
             _style.fontSize = fontSize;
+            _style.alignment = left ? TextAnchor.MiddleLeft : TextAnchor.MiddleRight;
             _style.normal.textColor = GUI.color;
-            GUI.Label(new Rect(0, y, Screen.width, fontSize + 8), text, _style);
+            const float pad = 30f;
+            var r = left ? new Rect(pad, y, Screen.width * 0.5f - pad, fontSize + 10)
+                         : new Rect(Screen.width * 0.5f, y, Screen.width * 0.5f - pad, fontSize + 10);
+            GUI.Label(r, text, _style);
         }
 
         private void OnDisable() { if (_instance == this) _instance = null; }

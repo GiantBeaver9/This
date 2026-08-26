@@ -52,7 +52,11 @@ namespace ThisL
                     var tex = new Texture2D(2, 2, TextureFormat.RGBA32, false) { filterMode = FilterMode.Point };
                     tex.LoadImage(System.IO.File.ReadAllBytes(path));
                     tex.Apply();
-                    s = Sprite.Create(tex, new Rect(0, 0, tex.width, tex.height), new Vector2(0.5f, 0f), Tuning.PixelsPerUnit);
+                    // Normalize every ground pickup to ~1 wu tall (the raw stick-weapon PNGs are
+                    // ~2-4 wu at base ppu — as big as a fighter). ppu = height / targetHeightWu.
+                    const float targetHeightWu = 1.0f;
+                    float ppu = Mathf.Max(1f, tex.height / targetHeightWu);
+                    s = Sprite.Create(tex, new Rect(0, 0, tex.width, tex.height), new Vector2(0.5f, 0f), ppu);
                 }
             }
             catch { s = null; }
