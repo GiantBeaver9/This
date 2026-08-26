@@ -1045,6 +1045,28 @@ namespace ThisL
             var target = AcquireFinisherTarget();
             if (target == null) return; // whiffed (no downed body in range)
 
+            // WHIP HEAD-RIP (§3.4 / COMBOS §4): the whip finisher tears the head clean off and
+            // flings it as a LIVE grenade that detonates where it lands.
+            if (CurrentWeapon != null && CurrentWeapon.Kind == WeaponKind.Whip)
+            {
+                target.TakeDamage(9999f, this);   // rip = instant kill
+                float tx = target.WorldX + Facing * 4.5f;
+                var head = ArcProjectile.Spawn(Team.Player, target.WorldX, target.Z, tx, target.Z,
+                                               30f, new Color(0.95f, 0.9f, 0.8f), airTime: 0.7f);
+                head.SplashRadius = 2f;
+                head.ArcHeight = 3f;
+                head.OnLand = () => { Sfx.Play("grenade_explode"); CameraShake.Add(CameraShake.Heavy); };
+
+                Vfx.FinisherFlash(target.WorldX, target.Z);
+                Sfx.Play("finisher_crunch");
+                CameraShake.Add(CameraShake.Heavy);
+                HitStop.Freeze(HitStop.Kill);
+                ComboHud.RegisterKill();
+                ComboJuice.Impact(target.WorldX, target.Z, Meter.Combo, heavy: true);
+                FinisherLanded?.Invoke();
+                return;
+            }
+
             WorldX = target.WorldX - Facing * Tuning.FistReach; // step onto the target
             Z = target.Z;
 
