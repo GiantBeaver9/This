@@ -4,11 +4,18 @@ using UnityEngine;
 namespace ThisL
 {
     /// <summary>Time-based special payloads that can't happen in one frame:
-    /// the sniper's one-at-a-time slow-mo ricochet, and the werewolf transform
-    /// that holds for the timer then fades back to human. Each runs on its own
-    /// spawned GameObject so a static special can "start" it.</summary>
+    /// the shared 0.45s WIND-UP (a slow-mo charge every special leads with), the
+    /// sniper's one-at-a-time slow-mo ricochet, and the werewolf transform that
+    /// holds for the timer then fades back to human. Each runs on its own spawned
+    /// GameObject so a static special can "start" it.</summary>
     public static class SpecialSequences
     {
+        /// <summary>The shared special WIND-UP (creator: "all of them need the 0.45 slow-down"): time
+        /// slows to a crawl, a blackish blur spins up at the hands + a charge glow, then after ~0.45s
+        /// real-time it restores normal speed and runs <paramref name="payload"/> (the actual effect).</summary>
+        public static void Windup(PlayerController p, System.Action payload, float seconds = 0.45f) =>
+            new GameObject("fx_special_windup").AddComponent<WindupSeq>().Begin(p, payload, seconds);
+
         public static void SniperRicochet(Actor from, int maxKills) =>
             new GameObject("fx_sniper_seq").AddComponent<SniperSeq>().Begin(from, maxKills);
 
@@ -27,6 +34,65 @@ namespace ThisL
             return best;
         }
 
+        // ---- Shared wind-up visual (the "blackish blur" spin) ----------------------
+
+        /// <summary>A dark bar pinned at the hands that the caller spins fast → a "blackish blur"
+        /// spin-up. Parented to the player so it tracks them during the wind-up.</summary>
+        private static GameObject MakeSpinBlur(Actor from)
+        {
+            if (from == null) return null;
+            var go = new GameObject("fx_special_spin");
+            if (from.transform != null) { go.transform.SetParent(from.transform, false); go.transform.localPosition = new Vector3(0.4f, 0.9f, 0f); }
+            var sr = go.AddComponent<SpriteRenderer>();
+            sr.sprite = BarSprite();
+            sr.color = new Color(0.05f, 0.05f, 0.08f, 0.9f);   // blackish
+            sr.sortingOrder = 500;                              // in front of the fighters
+            go.transform.localScale = new Vector3(1.4f, 1.4f, 1f);
+            return go;
+        }
+
+        private static Sprite _bar;
+        private static Sprite BarSprite()
+        {
+            if (_bar != null) return _bar;
+            var tex = new Texture2D(18, 3, TextureFormat.RGBA32, false) { filterMode = FilterMode.Point };
+            var px = new Color32[18 * 3];
+            for (int i = 0; i < px.Length; i++) px[i] = new Color32(255, 255, 255, 255);
+            tex.SetPixels32(px); tex.Apply();
+            _bar = Sprite.Create(tex, new Rect(0, 0, 18, 3), new Vector2(0.5f, 0.5f), 24f);
+            return _bar;
+        }
+
+        // ---- The shared wind-up runner --------------------------------------------
+
+        private sealed class WindupSeq : MonoBehaviour
+        {
+            private PlayerController _p; private System.Action _payload; private float _sec;
+            public void Begin(PlayerController p, System.Action payload, float sec)
+            { _p = p; _payload = payload; _sec = sec; StartCoroutine(Run()); }
+
+            private IEnumerator Run()
+            {
+                Time.timeScale = 0.4f;                     // the slow-down beat (real-time waits below)
+                Sfx.Play("sniper_timeslow_enter");         // shared slow-mo whoosh
+                var blur = MakeSpinBlur(_p);
+                if (_p != null) SpecialFx.Glow(_p, new Color(1f, 0.95f, 0.6f), _sec);
+                float t = 0f;
+                while (t < _sec)
+                {
+                    t += Time.unscaledDeltaTime;
+                    if (blur != null) blur.transform.Rotate(0f, 0f, -1500f * Time.unscaledDeltaTime);
+                    yield return null;
+                }
+                if (blur != null) Destroy(blur);
+                Time.timeScale = 1f;                       // restore before the payload runs its own timing
+                _payload?.Invoke();
+                Destroy(gameObject);
+            }
+        }
+
+        // ---- Sniper ricochet (payload; the wind-up is the shared Windup above) -----
+
         /// <summary>The sniper special: time slows, and the shot caroms enemy-to-enemy,
         /// one-shot-killing each with a beat between (drops nothing).</summary>
         private sealed class SniperSeq : MonoBehaviour
@@ -36,21 +102,7 @@ namespace ThisL
 
             private IEnumerator Run()
             {
-                // WIND-UP (creator): Adam pulls the sniper and it SPINS UP as a blackish blur, THEN
-                // fires. The blur is a dark bar rotating fast enough to read as a smear (not a real spin).
-                var blur = MakeSpinBlur(_from);
-                float wind = 0.45f, wt = 0f;
-                while (wt < wind)
-                {
-                    wt += Time.unscaledDeltaTime;
-                    if (blur != null) blur.transform.Rotate(0f, 0f, -1500f * Time.unscaledDeltaTime);
-                    yield return null;
-                }
-                if (blur != null) Destroy(blur);
-                Sfx.Play("sniper_shot");                // the shot leaves at the end of the wind-up
-
                 Time.timeScale = 0.28f;                 // time slows (real-time waits below)
-                Sfx.Play("sniper_timeslow_enter");
                 float x = _from != null ? _from.WorldX : 0f, z = _from != null ? _from.Z : 3f;
                 int kills = 0;
                 while (kills < _max)
@@ -66,33 +118,6 @@ namespace ThisL
                 Sfx.Play("time_resume_whoosh");
                 Time.timeScale = 1f;
                 Destroy(gameObject);
-            }
-
-            /// <summary>A dark bar pinned at the hands that the caller spins fast → a "blackish blur"
-            /// spin-up for the sniper. Parented to the player so it tracks them during the wind-up.</summary>
-            private static GameObject MakeSpinBlur(Actor from)
-            {
-                if (from == null) return null;
-                var go = new GameObject("fx_sniper_spin");
-                if (from.transform != null) { go.transform.SetParent(from.transform, false); go.transform.localPosition = new Vector3(0.4f, 0.9f, 0f); }
-                var sr = go.AddComponent<SpriteRenderer>();
-                sr.sprite = BarSprite();
-                sr.color = new Color(0.05f, 0.05f, 0.08f, 0.9f);   // blackish
-                sr.sortingOrder = 500;                              // in front of the fighters
-                go.transform.localScale = new Vector3(1.4f, 1.4f, 1f);
-                return go;
-            }
-
-            private static Sprite _bar;
-            private static Sprite BarSprite()
-            {
-                if (_bar != null) return _bar;
-                var tex = new Texture2D(18, 3, TextureFormat.RGBA32, false) { filterMode = FilterMode.Point };
-                var px = new Color32[18 * 3];
-                for (int i = 0; i < px.Length; i++) px[i] = new Color32(255, 255, 255, 255);
-                tex.SetPixels32(px); tex.Apply();
-                _bar = Sprite.Create(tex, new Rect(0, 0, 18, 3), new Vector2(0.5f, 0.5f), 24f);
-                return _bar;
             }
         }
 
