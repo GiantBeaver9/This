@@ -1059,8 +1059,12 @@ namespace ThisL
                 foreach (var a in hits) if (a is IStaggerable s) s.ApplyStagger(0.5f); // spike (down) stays
             }
 
-            // Only the melee string (P1/P2/sweep) spends a weapon's durability.
-            if (!isFist && (_attackKind == AttackKind.Side || _attackKind == AttackKind.Sweep) && CurrentWeapon.Spend())
+            // Only the melee string (P1/P2/sweep) spends a MELEE weapon's durability. Ranged hybrids
+            // (Ball & Chain, Staff) swing as free melee — their HitsRemaining is E-fire charges (launches
+            // / casts), spent in WeaponFx, NOT by an arrow swing. Guarding on !IsRanged stops a couple of
+            // normal swings from silently burning all 3 Ball & Chain launches (§3.3: "string spends none").
+            if (!isFist && !CurrentWeapon.IsRanged &&
+                (_attackKind == AttackKind.Side || _attackKind == AttackKind.Sweep) && CurrentWeapon.Spend())
             {
                 Sfx.Play("weapon_break_puff");
                 CurrentWeapon = Weapon.Fists();
