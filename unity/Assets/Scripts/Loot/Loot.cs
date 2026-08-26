@@ -415,13 +415,22 @@ namespace ThisL
             return best;
         }
 
-        /// <summary>Gatling: a ~0.5 s barrage into the nearest enemy ahead — a flat 45-dmg shot
-        /// on your row within 8 wu (§3.6). No ammo; overheats after 5 barrages.</summary>
+        /// <summary>Gatling (§3.6): a ~0.5 s barrage that LOCKS the nearest enemy ahead within 8 wu
+        /// (any lane) and shreds it — a standing regular is auto-killed; H-weight/armored takes a flat
+        /// 45. ~10% zombify on the kill. No ammo; overheats after 5 barrages.</summary>
         public static bool FireGatling(PlayerController p, Weapon w)
         {
-            Projectile.Spawn(Team.Player, p.WorldX + p.Facing * 0.6f, p.Z, p.Facing,
-                             50f, w.Damage, new Color(1f, 0.6f, 0.2f))  // 45 to the nearest ahead
-                      .ZombifyChance = 0.10f;                            // ~10% zombify on a headshot kill (§3.6)
+            var target = NearestEnemyAhead(p, 8f);             // auto-acquire nearest ahead (§3.6)
+            if (target != null)
+            {
+                var ec = target as EnemyController;
+                bool armored = ec != null && ec.Def != null && ec.Def.Weight == StaggerWeight.H;
+                float dmg = armored ? 45f : 9999f;             // flat 45 on heavies; auto-kill a standing regular
+                if (ec == null || !ec.TryZombifyOnLethal(dmg, 0.10f)) // ~10% zombify on the kill
+                    target.TakeDamage(dmg, p);
+                Vfx.HitSpark(target.WorldX, target.Z);
+                Vfx.MuzzleFlash(target.WorldX - p.Facing * 0.4f, target.Z, p.Facing); // tracer end on the target
+            }
             Vfx.MuzzleFlash(p.WorldX + p.Facing * 0.9f, p.Z, p.Facing);
             Sfx.Play("gatling_barrage");
             CameraShake.Add(CameraShake.Medium);
