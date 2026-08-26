@@ -1325,6 +1325,55 @@ namespace ThisL
         private static float SafeRatio(float baseH, float overlayH)
             => baseH > 1f && overlayH > 1f ? Mathf.Clamp(baseH / overlayH, 0.4f, 1f) : 1f;
 
+        // ---- Held-weapon sprite (drawn in the hand; keeps the base character on-model) --------
+        // Pixellab drifts the character when it redraws a full "hold" pose, so instead the base
+        // sprite is left untouched and the weapon's own sprite is pinned to the hand. Tune the
+        // offset/scale here to line it up with the hand.
+        private const float HeldFwd = 0.45f, HeldUp = 1.0f, HeldScale = 0.7f;
+        private SpriteRenderer _heldWeaponSr;
+        private static readonly Dictionary<WeaponKind, Sprite> _heldSprites = new();
+
+        private void UpdateHeldWeapon()
+        {
+            var kind = CurrentWeapon?.Kind ?? WeaponKind.Fists;
+            Sprite spr = (Alive && kind != WeaponKind.Fists) ? HeldWeaponSprite(kind) : null;
+            if (spr == null) { if (_heldWeaponSr != null) _heldWeaponSr.enabled = false; return; }
+
+            if (_heldWeaponSr == null)
+            {
+                var go = new GameObject("HeldWeapon");
+                go.transform.SetParent(transform, false);
+                _heldWeaponSr = go.AddComponent<SpriteRenderer>();
+            }
+            _heldWeaponSr.enabled = true;
+            _heldWeaponSr.sprite = spr;
+            _heldWeaponSr.flipX = Facing < 0;
+            _heldWeaponSr.transform.localPosition = new Vector3(Facing * HeldFwd, HeldUp, 0f);
+            _heldWeaponSr.transform.localScale = new Vector3(HeldScale, HeldScale, 1f);
+            if (Sr != null) _heldWeaponSr.sortingOrder = Sr.sortingOrder + 1;   // in front of the body
+        }
+
+        private static Sprite HeldWeaponSprite(WeaponKind kind)
+        {
+            if (_heldSprites.TryGetValue(kind, out var cached)) return cached;
+            Sprite s = null;
+            try
+            {
+                string name = kind.ToString().ToLowerInvariant();
+                string path = System.IO.Path.Combine(SpriteLibrary.AssetsRoot, "sprites", "weapons", name, name + "_pickup.png");
+                if (System.IO.File.Exists(path))
+                {
+                    var t = new Texture2D(2, 2, TextureFormat.RGBA32, false) { filterMode = FilterMode.Point };
+                    t.LoadImage(System.IO.File.ReadAllBytes(path));
+                    t.Apply();
+                    s = Sprite.Create(t, new Rect(0, 0, t.width, t.height), new Vector2(0.5f, 0.5f), Tuning.PixelsPerUnit);
+                }
+            }
+            catch { s = null; }
+            _heldSprites[kind] = s;   // cache null too (skip the disk hit next frame)
+            return s;
+        }
+
         // ---- Animation & projection -----------------------------------------
         private void UpdateAnimation()
         {
@@ -1348,6 +1397,8 @@ namespace ThisL
             }
             // Shrink the oversized weapon-hold art back to the base character's size (feet grounded).
             if (_overlayScale != 1f) transform.localScale *= _overlayScale;
+
+            UpdateHeldWeapon();   // draw the held weapon's sprite pinned to the hand
         }
 
         // ---- Frame-data lookups (TUNING §2.5) --------------------------------
