@@ -21,6 +21,7 @@ namespace ThisL.EditorTools
         private static float _foeHpAfter = -1f;
         private static bool _foeDied;
         private static bool _combatRan;
+        private static bool _weaponsFired;
 
         public static void Run()
         {
@@ -115,6 +116,25 @@ namespace ThisL.EditorTools
                 // Equip a sword so the weapon-skin overlay (idle/swing) path runs (any NRE → error).
                 if (_frames == 75 && PlayerController.Instance != null)
                     PlayerController.Instance.CurrentWeapon = Weapon.Create(WeaponKind.Sword);
+
+                // Fire EVERY ranged weapon once so all FireImpl paths run at least once (pistol/
+                // revolver/gatling zombify, staff status bolt, grenade blast, boomerang, ball&chain
+                // launch, shotgun). Projectiles then connect with the live crowd over later frames,
+                // exercising zombify/staff-status/walking-bomb/reflect on-hit. Any NRE → errors++.
+                if (_frames == 80 && !_weaponsFired && PlayerController.Instance != null)
+                {
+                    _weaponsFired = true;
+                    var p = PlayerController.Instance;
+                    foreach (WeaponKind k in System.Enum.GetValues(typeof(WeaponKind)))
+                    {
+                        if (k == WeaponKind.Fists) continue;
+                        var w = Weapon.Create(k);
+                        p.CurrentWeapon = w;
+                        w.FireCooldown = 0f;
+                        w.TryFire(p);   // no-op for pure-melee kinds; fires the ranged ones
+                    }
+                    p.CurrentWeapon = Weapon.Fists();
+                }
 
                 if (PlayerController.Instance != null) _sawPlayer = true;
                 int enemies = 0;
