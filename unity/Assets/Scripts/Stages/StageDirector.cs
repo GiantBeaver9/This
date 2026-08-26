@@ -261,12 +261,16 @@ namespace ThisL
         private void BeginBossWave(Wave wave)
         {
             if (!string.IsNullOrEmpty(_data.BossMusicClip)) Music.PlayBoss(_data.BossMusicClip);
-            // Boss arena caps the tail (ENCOUNTERS.md §0): lock camera to the arena head.
-            float bossX = _originX + Mathf.Max(0f, _data.LaneLengthWu - 10f);
-            SetCameraBounds(_originX, bossX);
+            // Boss arena sits ONE SHORT WALK past the last cleared gate — NOT at the raw lane
+            // tail. The lane was lengthened ~8× (StageData.LaneLengthWu), so the old
+            // `LaneLengthWu - 10` pinned the arena hundreds of wu past where the player actually
+            // ends up (the last spawn gate), leaving the boss spawned far off-screen and the
+            // fight never starting. Anchor to the last gate / player end instead (ENCOUNTERS.md §0).
+            float arenaX = BossArenaX();
+            SetCameraBounds(_originX, arenaX);
 
-            Debug.Log($"[StageDirector] {wave.Label} — SpawnBoss(\"{_data.BossId}\").");
-            _boss = SpawnBoss(_data.BossId);
+            Debug.Log($"[StageDirector] {wave.Label} — SpawnBoss(\"{_data.BossId}\") @ arena {arenaX:0.0}.");
+            _boss = SpawnBoss(_data.BossId, arenaX);
             _state = DirectorState.Boss;
 
             // Placeholder returned nothing: resolve the gate now so stage-complete still chains.
@@ -299,13 +303,37 @@ namespace ThisL
         /// null there, which the director treats as an instantly-cleared gate so the
         /// campaign still chains end-to-end (STAGES.md deliverable §3).
         /// </summary>
-        public Actor SpawnBoss(string bossId)
+        public Actor SpawnBoss(string bossId) => SpawnBoss(bossId, BossArenaX());
+
+        /// <summary>Spawn the boss for the given arena-lock X (see <see cref="BossArenaX"/>).
+        /// Places it on the right of the locked view — visibly in front of the player as they
+        /// walk into the room, and inside the wall the camera lock puts up (CameraRig.EdgeMargin),
+        /// so it is always reachable — rather than at the raw far end of the (now very long) lane.</summary>
+        public Actor SpawnBoss(string bossId, float arenaX)
         {
             if (string.IsNullOrEmpty(bossId)) return null;
-            // Place the boss at the arena head (the tail of the lane the player just cleared).
-            float x = _originX + Mathf.Max(6f, _data.LaneLengthWu - 6f);
+            // ~8 wu ahead of the lock: inside the ~13.3 wu half-view (Tuning.ScreenWidthUnits/2),
+            // so the boss reads as "standing on the right side of the room", not at the edge.
+            float x = arenaX + Tuning.ScreenWidthUnits * 0.30f;
             float z = Tuning.ZBandDepth * 0.5f;
             return Bosses.Spawn(bossId, x, z);
+        }
+
+        /// <summary>
+        /// Camera-lock X for the boss room: one screen-width past the last cleared gate (the
+        /// player's actual end position), clamped so it never runs past the authored lane tail.
+        /// For a stage with no spawn gates before the boss (pure boss arena, e.g. the finale),
+        /// it sits one screen ahead of the lane head. This replaces the old raw `LaneLengthWu - 10`
+        /// anchor, which — after the lane was lengthened ~8× — dumped the boss far off-screen.
+        /// </summary>
+        private float BossArenaX()
+        {
+            // When the boss wave begins, _gateOrdinal == the number of spawn gates already
+            // consumed, so GateX(_gateOrdinal - 1) is the LAST spawn gate the player cleared.
+            float lastGateX = _gateOrdinal > 0 ? GateX(_gateOrdinal - 1) : _originX + 8f;
+            float arenaX = lastGateX + Tuning.ScreenWidthUnits; // one screen: a distinct room, short walk
+            float laneTail = _originX + Mathf.Max(8f, _data.LaneLengthWu - 10f);
+            return Mathf.Min(arenaX, laneTail);
         }
 
         // ---- Endless Mode (STAGES.md §7b) ---------------------------------------
