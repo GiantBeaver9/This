@@ -29,24 +29,36 @@ namespace ThisL
         private void Update()
         {
             if (!PlayerController.AnyAlive || _busy) return;
-            // LEVEL 1 ONLY for now (creator ruling — per-area hazards come later).
-            if (CampaignRunner.Instance == null || CampaignRunner.Instance.CurrentStage != 0) return;
+            if (CampaignRunner.Instance == null) return;
+            var kind = KindForStage(CampaignRunner.Instance.CurrentStage);
+            if (kind == HazardKind.None) return;   // per-level nuisance (creator decides which per level)
 
             _timer -= Time.deltaTime;
             if (_timer > 0f) return;
             _timer = Random.Range(MinInterval, MaxInterval);
-            StartCoroutine(WarnThenCar());
+            StartCoroutine(WarnThenHazard(kind));
         }
 
-        private System.Collections.IEnumerator WarnThenCar()
+        /// <summary>Which nuisance haunts which stage (creator: "we decide on hazards per level").</summary>
+        private enum HazardKind { None, Car, Guard, Plane }
+        private static HazardKind KindForStage(int stage) => stage switch
+        {
+            0 => HazardKind.Car,     // Lincoln High + suburb — cars barrel through
+            1 => HazardKind.Guard,   // Rocklin — security guards charge in
+            4 => HazardKind.Plane,   // Sacramento Airport — planes scream across the tarmac
+            _ => HazardKind.None,    // the rest: TBD per level
+        };
+
+        private System.Collections.IEnumerator WarnThenHazard(HazardKind kind)
         {
             _busy = true;
             bool fromLeft = Random.value < 0.5f;
-            float z = Random.Range(1f, Tuning.ZBandDepth - 1f);
+            // Planes scream across a FAR row (over the tarmac); cars/guards use a random near-ish row.
+            float z = kind == HazardKind.Plane ? Tuning.ZBandDepth - 0.5f : Random.Range(1f, Tuning.ZBandDepth - 1f);
 
-            // TELEGRAPH: a blinking warning marker at the incoming edge on the car's row + horn,
+            // TELEGRAPH: a blinking warning arrow at the incoming edge on the hazard's row + a cue,
             // so the player always sees it coming.
-            Sfx.Play("car_horn");
+            Sfx.Play(kind == HazardKind.Plane ? "jet_pass" : kind == HazardKind.Guard ? "guard_whistle" : "car_horn");
             var warn = MakeWarn(fromLeft, z);
             float t = WarnSeconds;
             while (t > 0f)
@@ -59,8 +71,19 @@ namespace ThisL
 
             float edge = Tuning.ScreenWidthUnits * 0.5f + 3f;
             float x = PlayerController.MidX() + (fromLeft ? -edge : edge);
-            float vel = (fromLeft ? 1f : -1f) * CarSpeed;
-            CarHazard.Spawn(x, z, vel, CarColors[Random.Range(0, CarColors.Length)]);
+            float dir = fromLeft ? 1f : -1f;
+            switch (kind)
+            {
+                case HazardKind.Car:
+                    CarHazard.Spawn(x, z, dir * CarSpeed, CarColors[Random.Range(0, CarColors.Length)]);
+                    break;
+                case HazardKind.Guard:   // a security guard sprints across and shoulder-checks the row
+                    CrossHazard.Spawn(GuardSprite(), x, z, dir * 14f, 16f, new Vector2(2.0f, 2.0f), 0.8f, 0f);
+                    break;
+                case HazardKind.Plane:   // a jet roars across the far tarmac row — big, fast, deadly
+                    CrossHazard.Spawn(PlaneSprite(), x, z, dir * 34f, 26f, new Vector2(4.5f, 2.2f), 2.4f, 0.4f);
+                    break;
+            }
             _busy = false;
         }
 
@@ -98,6 +121,74 @@ namespace ThisL
             tex.SetPixels32(px); tex.Apply();
             _warn = Sprite.Create(tex, new Rect(0, 0, W, H), new Vector2(0.5f, 0.5f), Tuning.PixelsPerUnit);
             return _warn;
+        }
+
+        // ---- Plane / guard hazard sprites (real art in assets/sprites/props/ wins; else procedural) --
+        private static Sprite _plane, _guard;
+        private static Sprite PlaneSprite() => _plane ??= (LoadProp("plane.png") ?? MakePlane());
+        private static Sprite GuardSprite() => _guard ??= (LoadProp("guard.png") ?? MakeGuard());
+
+        private static Sprite LoadProp(string file)
+        {
+            try
+            {
+                string path = System.IO.Path.Combine(SpriteLibrary.AssetsRoot, "sprites", "props", file);
+                if (System.IO.File.Exists(path))
+                {
+                    var t = new Texture2D(2, 2, TextureFormat.RGBA32, false) { filterMode = FilterMode.Point };
+                    t.LoadImage(System.IO.File.ReadAllBytes(path)); t.Apply();
+                    return Sprite.Create(t, new Rect(0, 0, t.width, t.height), new Vector2(0.5f, 0.12f), Tuning.PixelsPerUnit);
+                }
+            }
+            catch { }
+            return null;
+        }
+
+        private static Sprite MakePlane()
+        {
+            const int W = 52, H = 20;
+            var px = new Color32[W * H];
+            Color32 body = new(220, 224, 230, 255), stripe = new(200, 40, 40, 255),
+                    win = new(40, 60, 90, 255), wing = new(180, 184, 192, 255);
+            void Set(int x, int y, Color32 c) { if (x >= 0 && x < W && y >= 0 && y < H) px[y * W + x] = c; }
+            for (int x = 2; x <= 47; x++)                       // fuselage, tapered nose (left) + tail (right)
+            {
+                int half = 3;
+                if (x < 8) half = 3 - (8 - x) / 2;
+                if (x > 42) half = 3 - (x - 42) / 2;
+                for (int y = 10 - half; y <= 10 + half; y++) Set(x, y, body);
+            }
+            for (int x = 8; x <= 44; x++) Set(x, 10, stripe);   // red stripe
+            for (int x = 10; x <= 40; x += 3) Set(x, 12, win);  // window row
+            Set(5, 11, win); Set(6, 11, win);                   // cockpit
+            for (int i = 0; i < 14; i++) Set(24 + i, 7 - i / 2, wing); // swept wing
+            for (int y = 12; y <= 18; y++) for (int x = 44; x <= 47 + (y - 12) / 2; x++) Set(x, y, stripe); // tail fin
+            var tex = new Texture2D(W, H, TextureFormat.RGBA32, false) { filterMode = FilterMode.Point };
+            tex.SetPixels32(px); tex.Apply();
+            return Sprite.Create(tex, new Rect(0, 0, W, H), new Vector2(0.5f, 0.15f), Tuning.PixelsPerUnit);
+        }
+
+        private static Sprite MakeGuard()
+        {
+            const int W = 16, H = 28;
+            var px = new Color32[W * H];
+            Color32 navy = new(35, 50, 95, 255), skin = new(224, 180, 150, 255),
+                    cap = new(20, 28, 55, 255), belt = new(230, 200, 60, 255), leg = new(30, 34, 48, 255);
+            void Set(int x, int y, Color32 c) { if (x >= 0 && x < W && y >= 0 && y < H && c.a != 0) px[y * W + x] = c; }
+            for (int y = 0; y < H; y++)
+                for (int x = 0; x < W; x++)
+                {
+                    Color32 c = new(0, 0, 0, 0);
+                    if (y < 4 && x >= 4 && x <= 11) c = leg;                    // legs
+                    else if (y >= 4 && y < 19 && x >= 3 && x <= 12) c = navy;   // torso
+                    else if (y >= 19 && y < 25 && x >= 5 && x <= 10) c = skin;  // head
+                    else if (y >= 24 && y < 27 && x >= 4 && x <= 11) c = cap;   // cap
+                    if (y == 11 && x >= 3 && x <= 12) c = belt;                 // belt
+                    Set(x, y, c);
+                }
+            var tex = new Texture2D(W, H, TextureFormat.RGBA32, false) { filterMode = FilterMode.Point };
+            tex.SetPixels32(px); tex.Apply();
+            return Sprite.Create(tex, new Rect(0, 0, W, H), new Vector2(0.5f, 0.05f), Tuning.PixelsPerUnit);
         }
     }
 }
