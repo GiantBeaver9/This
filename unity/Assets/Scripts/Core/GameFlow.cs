@@ -519,39 +519,65 @@ namespace ThisL
 
         private void HowToPlayGUI(float w, float h)
         {
-            GUI.Label(new Rect(0, 20, w, 34), "HOW TO PLAY", _title);
+            GUI.Label(new Rect(0, 14, w, 32), "HOW TO PLAY", _title);
 
-            // Two-column control list: key cap on the left, what it does on the right.
-            (string key, string desc)[] rows =
+            // The single most-missed thing: you AIM ATTACKS with the arrows / right stick, not
+            // the face buttons. Call it out up top before the table.
+            GUI.color = new Color(0.95f, 0.82f, 0.45f);
+            GUI.Label(new Rect(0, 48, w, 18),
+                "Attacks aim with the ARROW KEYS / RIGHT STICK — not a face button!", _label);
+            GUI.color = Color.white;
+
+            // Three-column control table: what it does · keyboard binding · controller binding.
+            // Kept in sync with KeyboardInput.cs and GamepadInput.cs (twin-stick scheme).
+            (string action, string keyboard, string pad)[] rows =
             {
-                ("WASD", "Move"),
-                ("Arrow Keys", "Attack — directional (8 ways; up/down strike into depth)"),
-                ("Q", "Special — when the meter's full"),
-                ("E", "Use ranged weapon / fire item"),
-                ("F", "Pick up / swap weapon"),
-                ("Double-tap dir / LeftShift", "Dash"),
-                ("Dash into an enemy", "Bullet-shield dash — grab it as a shield and plow forward"),
-                ("Start (2nd USB pad)", "Player 2 drops in"),
+                ("Move",              "WASD",              "Left stick"),
+                ("Attack (8-way)",    "Arrow keys",        "Right stick"),
+                ("Jump",              "Space",             "A"),
+                ("Dash",              "Shift / dbl-tap",   "B"),
+                ("Special (meter)",   "Q",                 "Y"),
+                ("Fire weapon",       "E",                 "Right trigger"),
+                ("Pick up / swap",    "F",                 "Right bumper"),
+                ("Walk (slow)",       "Left Alt",          "Left trigger"),
             };
 
-            float y = 70f, rowH = 26f;
-            float keyX = w * 0.10f, keyW = w * 0.34f;
-            float descX = w * 0.46f, descW = w * 0.44f;
-            foreach (var (key, desc) in rows)
+            float colA = w * 0.08f, colK = w * 0.40f, colP = w * 0.66f;
+            float actW = w * 0.30f, kbW = w * 0.24f, padW = w * 0.30f;
+
+            // Column headers.
+            GUI.Label(new Rect(colA, 74, actW, 16), "ACTION", _hint);
+            GUI.Label(new Rect(colK, 74, kbW, 16), "KEYBOARD", _hint);
+            GUI.Label(new Rect(colP, 74, padW, 16), "CONTROLLER", _hint);
+
+            float y = 94f, rowH = 22f;
+            foreach (var (action, keyboard, pad) in rows)
             {
-                GUI.Label(new Rect(keyX, y, keyW, rowH), key, _keyCap);
-                GUI.Label(new Rect(descX, y, descW, rowH), desc, _keyDesc);
+                GUI.Label(new Rect(colA, y, actW, rowH), action, _keyDesc);
+                GUI.Label(new Rect(colK, y, kbW, rowH), keyboard, _keyCap);
+                GUI.Label(new Rect(colP, y, padW, rowH), pad, _keyCap);
                 y += rowH;
             }
 
-            const float bw = 160f, bh = 34f;
-            var back = new Rect((w - bw) / 2f, h - 54, bw, bh);
+            // A couple of extras that don't fit the strict two-binding grid.
+            y += 6f;
+            GUI.Label(new Rect(colA, y, w * 0.86f, 16),
+                "Dash into an enemy's shot to grab it as a bullet-shield and plow forward.", _hint);
+            y += 16f;
+            GUI.Label(new Rect(colA, y, w * 0.86f, 16),
+                "Player 2 drops in any time: press Start on a 2nd USB pad (also pauses).", _hint);
+            y += 16f;
+            GUI.Label(new Rect(colA, y, w * 0.86f, 16),
+                "Pick Keyboard / Controller 1 / Controller 2 per player on the Setup screen.", _hint);
+
+            const float bw = 160f, bh = 30f;
+            var back = new Rect((w - bw) / 2f, h - 44, bw, bh);
             if (Button(back, "BACK") || Input.GetKeyDown(KeyCode.Escape))
             {
                 Sfx.Play("cancel");
                 GoMenu();
             }
-            GUI.Label(new Rect(0, h - 16, w, 14), "Esc or BACK to return to the menu", _hint);
+            GUI.Label(new Rect(0, h - 13, w, 12), "Esc or BACK to return to the menu", _hint);
         }
 
         private bool Button(Rect r, string label)
