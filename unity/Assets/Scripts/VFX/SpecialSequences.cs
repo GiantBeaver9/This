@@ -36,6 +36,19 @@ namespace ThisL
 
             private IEnumerator Run()
             {
+                // WIND-UP (creator): Adam pulls the sniper and it SPINS UP as a blackish blur, THEN
+                // fires. The blur is a dark bar rotating fast enough to read as a smear (not a real spin).
+                var blur = MakeSpinBlur(_from);
+                float wind = 0.45f, wt = 0f;
+                while (wt < wind)
+                {
+                    wt += Time.unscaledDeltaTime;
+                    if (blur != null) blur.transform.Rotate(0f, 0f, -1500f * Time.unscaledDeltaTime);
+                    yield return null;
+                }
+                if (blur != null) Destroy(blur);
+                Sfx.Play("sniper_shot");                // the shot leaves at the end of the wind-up
+
                 Time.timeScale = 0.28f;                 // time slows (real-time waits below)
                 Sfx.Play("sniper_timeslow_enter");
                 float x = _from != null ? _from.WorldX : 0f, z = _from != null ? _from.Z : 3f;
@@ -53,6 +66,33 @@ namespace ThisL
                 Sfx.Play("time_resume_whoosh");
                 Time.timeScale = 1f;
                 Destroy(gameObject);
+            }
+
+            /// <summary>A dark bar pinned at the hands that the caller spins fast → a "blackish blur"
+            /// spin-up for the sniper. Parented to the player so it tracks them during the wind-up.</summary>
+            private static GameObject MakeSpinBlur(Actor from)
+            {
+                if (from == null) return null;
+                var go = new GameObject("fx_sniper_spin");
+                if (from.transform != null) { go.transform.SetParent(from.transform, false); go.transform.localPosition = new Vector3(0.4f, 0.9f, 0f); }
+                var sr = go.AddComponent<SpriteRenderer>();
+                sr.sprite = BarSprite();
+                sr.color = new Color(0.05f, 0.05f, 0.08f, 0.9f);   // blackish
+                sr.sortingOrder = 500;                              // in front of the fighters
+                go.transform.localScale = new Vector3(1.4f, 1.4f, 1f);
+                return go;
+            }
+
+            private static Sprite _bar;
+            private static Sprite BarSprite()
+            {
+                if (_bar != null) return _bar;
+                var tex = new Texture2D(18, 3, TextureFormat.RGBA32, false) { filterMode = FilterMode.Point };
+                var px = new Color32[18 * 3];
+                for (int i = 0; i < px.Length; i++) px[i] = new Color32(255, 255, 255, 255);
+                tex.SetPixels32(px); tex.Apply();
+                _bar = Sprite.Create(tex, new Rect(0, 0, 18, 3), new Vector2(0.5f, 0.5f), 24f);
+                return _bar;
             }
         }
 

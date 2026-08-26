@@ -73,10 +73,9 @@ namespace ThisL
         public string Name => "Sniper";
         public void Fire(PlayerController p, int tier)
         {
-            Sfx.Play("sniper_scope_in");
-            Sfx.Play("sniper_shot");
+            Sfx.Play("sniper_scope_in");                    // pull-out; the shot fires after the wind-up
             p.Anim?.Play("special", false, restart: true); // the gun-spin+fire art slots in here
-            // Time slows and the shot caroms enemy-to-enemy, one kill at a time.
+            // Wind-up (spin blur) -> shot -> time slows and the shot caroms enemy-to-enemy, one at a time.
             SpecialSequences.SniperRicochet(p, SpecialMeter.SniperKills(tier));
             Debug.Log($"[Special] Sniper tier {tier}: slow-mo ricochet up to {SpecialMeter.SniperKills(tier)}.");
         }
