@@ -308,14 +308,45 @@ namespace ThisL
         /// at 8 wu (§3.2). Blast 35 (r 2 wu) to enemies; 40 self-damage if you're too close.</summary>
         public static bool ThrowGrenade(PlayerController p, Weapon w)
         {
-            GrenadeProjectile.Spawn(Team.Player, p.WorldX + p.Facing * 0.6f, p.Z, p.Facing,
-                                    20f, 8f / 20f,             // 20 wu/s, detonate at 8 wu (§6.3)
-                                    2f, w.Damage, 40f,         // r 2 wu, blast 35, self-dmg 40
-                                    owner: p);                 // thrower: excluded from blast, pays self-dmg
+            if (p.HoldingUp)
+            {
+                // Anti-air LOB (§3.2): a high arc that drops onto a target ahead (an air enemy,
+                // else a spot ~6 wu forward) and splashes on landing — reaches what the flat
+                // fastball flies under.
+                float tx = p.WorldX + p.Facing * 6f, tz = p.Z;
+                var foe = NearestEnemyAhead(p, 9f);
+                if (foe != null) { tx = foe.WorldX; tz = foe.Z; }
+                var lob = ArcProjectile.Spawn(Team.Player, p.WorldX + p.Facing * 0.4f, p.Z,
+                                              tx, tz, w.Damage, new Color(0.5f, 0.8f, 0.4f), airTime: 0.85f);
+                lob.SplashRadius = 2f;
+                lob.ArcHeight = 4.0f;
+                lob.OnLand = () => { Sfx.Play("grenade_explode"); CameraShake.Add(CameraShake.Medium); };
+            }
+            else
+            {
+                GrenadeProjectile.Spawn(Team.Player, p.WorldX + p.Facing * 0.6f, p.Z, p.Facing,
+                                        20f, 8f / 20f,             // 20 wu/s, detonate at 8 wu (§6.3)
+                                        2f, w.Damage, 40f,         // r 2 wu, blast 35, self-dmg 40
+                                        owner: p);                 // thrower: excluded from blast, pays self-dmg
+            }
             Sfx.Play("grenade_throw");
             w.FireCooldown = 0.5f;
             if (w.Spend()) p.CurrentWeapon = Weapon.Fists();   // 1 use -> gone
             return true;
+        }
+
+        /// <summary>Nearest live enemy ahead of the player within <paramref name="range"/> wu (any depth).</summary>
+        private static Actor NearestEnemyAhead(PlayerController p, float range)
+        {
+            Actor best = null; float bestDx = range;
+            foreach (var a in Actor.All)
+            {
+                if (a == null || !a.Alive || a.Team != Team.Enemy) continue;
+                float dx = (a.WorldX - p.WorldX) * p.Facing;   // >0 = in front
+                if (dx <= 0f || dx > bestDx) continue;
+                bestDx = dx; best = a;
+            }
+            return best;
         }
 
         /// <summary>Gatling: a ~0.5 s barrage into the nearest enemy ahead — a flat 45-dmg shot

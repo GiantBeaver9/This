@@ -270,6 +270,9 @@ namespace ThisL
         private float MoveX() => _input.MoveX;
         private float MoveZ() => _input.MoveZ;
 
+        /// <summary>Holding UP (into the far row) — used by the grenade's anti-air lob (§3.2).</summary>
+        public bool HoldingUp => _input != null && _input.MoveZ > 0.4f;
+
         private void Move(float dt)
         {
             float ix = MoveX(), iz = MoveZ();
