@@ -108,7 +108,7 @@ namespace ThisL
                 else if (_state != State.Dead)
                     Sr.color = _burnTimer > 0f
                         ? Color.Lerp(new Color(1f, 0.5f, 0.12f), Color.white, Mathf.PingPong(Time.time * 12f, 1f))
-                        : _zombie ? ZombieTint : Color.white;
+                        : (_zombie && !_zombieSkin) ? ZombieTint : Color.white;
             }
 
             switch (_state)
@@ -224,6 +224,10 @@ namespace ThisL
         /// HOSTILE. It keeps hunting the player (still Team.Enemy), so headshotting is a real
         /// risk/reward, and it drops no loot when finally put down. Can't re-zombify.
         /// </summary>
+        private static SpriteLibrary.ActorSprites s_zombieSet;
+        private static bool s_zombieTried;
+        private bool _zombieSkin;
+
         public void Zombify()
         {
             if (_zombie || _state == State.Dead) return;
@@ -231,7 +235,16 @@ namespace ThisL
             ReleaseSlot();
             _state = State.Pursue;
             Hp = MaxHp = Mathf.Max(1f, MaxHp * 0.6f);   // comes back on its last legs
-            if (Sr != null) Sr.color = ZombieTint;
+
+            // Swap in the dedicated zombie skin if the art exists (show, don't green-tint).
+            if (!s_zombieTried)
+            {
+                s_zombieTried = true;
+                s_zombieSet = SpriteLibrary.Load("sprites/enemies/enemy_zombie", "enemy_zombie");
+            }
+            if (s_zombieSet != null && Anim != null) { Anim.Set = s_zombieSet; _zombieSkin = true; }
+            if (Sr != null) Sr.color = _zombieSkin ? Color.white : ZombieTint;
+
             Anim.Play("hurt", false, restart: true);     // a lurch back to its feet
             Vfx.DeathBurst(WorldX, Z);                    // gory reanimation puff
             Sfx.Play("pod_spawn_burst");
