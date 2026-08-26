@@ -109,6 +109,11 @@ namespace ThisL.EditorTools
                     }
                 }
 
+                // Uppercut LAUNCH: pop an enemy so the arc/gravity/land-knockdown cycle runs.
+                if (_frames == 66 && PlayerController.Instance != null)
+                    foreach (var a in Actor.All)
+                        if (a is EnemyController le && le.Alive) { le.Launch(14f, 3f); break; }
+
                 // Exercise every area's backdrop so a malformed/missing real prop sprite
                 // (assets/backdrops/areaN_props/*.png) surfaces as a logged exception.
                 if (_frames == 70)

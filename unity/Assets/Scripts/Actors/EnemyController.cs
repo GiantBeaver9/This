@@ -38,6 +38,12 @@ namespace ThisL
         private float _slowTimer;
         private bool _ignited;         // once set on fire, dying pops a walking-bomb blast
 
+        // Uppercut LAUNCH (ports the JS 'up' attack launch:true): pop up, arc under gravity, crash
+        // down knocked-down. A satisfying juggle — the creator liked this from the JS build.
+        private bool _launched;
+        private float _airOffset, _launchVy, _launchVx;
+        private const float LaunchGravity = 50f;   // wu/s^2
+
         public void Init(EnemyDef def)
         {
             Def = def;
@@ -58,6 +64,9 @@ namespace ThisL
             float dt = Time.deltaTime;
             _cooldown = Mathf.Max(0f, _cooldown - dt);
             _slowTimer = Mathf.Max(0f, _slowTimer - dt);
+
+            // Launched by an uppercut: arc through the air (no AI), then crash down knocked-down.
+            if (_launched) { TickLaunch(dt); return; }
 
             // Ice: frozen solid — no AI, icy tint, until it thaws.
             if (_freezeTimer > 0f)
@@ -282,6 +291,53 @@ namespace ThisL
             else Anim.Play("idle", true);
         }
 
+        /// <summary>
+        /// Uppercut launch (ports JS 'up' launch:true): pop the enemy into the air with an upward
+        /// velocity + a little backward drift; it arcs under gravity and crashes down knocked-down.
+        /// Heavy (H-weight) enemies resist — they just take a short stagger instead of flying.
+        /// </summary>
+        public void Launch(float upVel, float backVel)
+        {
+            if (_state == State.Dead) return;
+            if (Def != null && Def.Weight == StaggerWeight.H) { ApplyStagger(0.4f); return; }
+            ReleaseSlot();
+            _launched = true;
+            _launchVy = upVel;
+            _launchVx = backVel;
+            _airOffset = 0.01f;
+            _state = State.Pursue;        // cleared to normal once it lands (via ApplyStagger)
+            Anim.Play("hurt", false, restart: true);
+            Vfx.HitSpark(WorldX, Z);
+            Sfx.Play("air_hit");
+        }
+
+        private void TickLaunch(float dt)
+        {
+            _launchVy -= LaunchGravity * dt;
+            _airOffset += _launchVy * dt;
+            WorldX += _launchVx * dt;
+            _launchVx = Mathf.MoveTowards(_launchVx, 0f, 8f * dt);   // drag out the backward drift
+            if (_airOffset <= 0f)
+            {
+                _airOffset = 0f;
+                _launched = false;
+                Vfx.DeathBurst(WorldX, Z);         // dust puff on impact
+                Sfx.Play("knockdown_thud");
+                ApplyStagger(1.1f);                 // lands knocked down — a juggle/execute window
+            }
+        }
+
+        protected override void LateUpdate()
+        {
+            base.LateUpdate();                       // Playfield.Place sets the ground position
+            if (_airOffset > 0f)
+            {
+                var p = transform.position;
+                p.y += _airOffset;                   // lift the sprite by its air height
+                transform.position = p;
+            }
+        }
+
         /// <summary>Soft hard-separation: push apart from other enemies within 1.0 wu.</summary>
         private void Separate()
         {
@@ -342,6 +398,7 @@ namespace ThisL
         protected override void OnDeath(Actor source)
         {
             ReleaseSlot();
+            _launched = false; _airOffset = 0f;   // don't leave a corpse hanging mid-launch
             _state = State.Dead;
             EnemySpawner.NotifyKill();
             Anim.Play("death", false, restart: true);

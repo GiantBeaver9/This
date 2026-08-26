@@ -1022,9 +1022,18 @@ namespace ThisL
             {
                 foreach (var a in hits) if (a is IStaggerable s) s.ApplyStagger(1.2f); // knockdown / up-launch
             }
-            else if (_attackKind == AttackKind.Up || _attackKind == AttackKind.AirUp || _attackKind == AttackKind.AirDown)
+            else if (_attackKind == AttackKind.Up || _attackKind == AttackKind.AirUp)
             {
-                foreach (var a in hits) if (a is IStaggerable s) s.ApplyStagger(0.5f); // launch / spike
+                // UPPERCUT LAUNCH (creator liked this from the JS build): pop enemies into the air.
+                foreach (var a in hits)
+                {
+                    if (a is EnemyController ec) ec.Launch(14f, Facing * 3f);
+                    else if (a is IStaggerable s) s.ApplyStagger(0.5f);   // bosses etc. just stagger
+                }
+            }
+            else if (_attackKind == AttackKind.AirDown)
+            {
+                foreach (var a in hits) if (a is IStaggerable s) s.ApplyStagger(0.5f); // spike (down) stays
             }
 
             // Only the melee string (P1/P2/sweep) spends a weapon's durability.
