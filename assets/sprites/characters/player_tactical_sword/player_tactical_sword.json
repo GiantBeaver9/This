@@ -7,7 +7,7 @@
         "name": "player_tactical_sword_idle_00.png",
         "rect": [
           8,
-          1,
+          2,
           18,
           51
         ]
@@ -16,7 +16,7 @@
         "name": "player_tactical_sword_idle_01.png",
         "rect": [
           35,
-          0,
+          1,
           35,
           52
         ]
@@ -25,7 +25,7 @@
         "name": "player_tactical_sword_swing_00.png",
         "rect": [
           78,
-          1,
+          2,
           18,
           51
         ]
@@ -34,7 +34,7 @@
         "name": "player_tactical_sword_swing_01.png",
         "rect": [
           105,
-          0,
+          1,
           35,
           52
         ]
@@ -43,7 +43,7 @@
         "name": "player_tactical_sword_swing_02.png",
         "rect": [
           141,
-          1,
+          2,
           33,
           51
         ]
@@ -52,7 +52,7 @@
         "name": "player_tactical_sword_swing_03.png",
         "rect": [
           178,
-          4,
+          5,
           29,
           48
         ]
@@ -61,7 +61,7 @@
         "name": "player_tactical_sword_swing_04.png",
         "rect": [
           213,
-          3,
+          4,
           28,
           49
         ]
@@ -70,7 +70,7 @@
         "name": "player_tactical_sword_swing_05.png",
         "rect": [
           248,
-          3,
+          4,
           28,
           49
         ]
@@ -79,15 +79,78 @@
         "name": "player_tactical_sword_swing_06.png",
         "rect": [
           4,
-          54,
+          56,
           27,
           50
+        ]
+      },
+      {
+        "name": "player_tactical_sword_walk_00.png",
+        "rect": [
+          43,
+          55,
+          18,
+          51
+        ]
+      },
+      {
+        "name": "player_tactical_sword_walk_01.png",
+        "rect": [
+          78,
+          53,
+          18,
+          53
+        ]
+      },
+      {
+        "name": "player_tactical_sword_walk_02.png",
+        "rect": [
+          110,
+          53,
+          25,
+          53
+        ]
+      },
+      {
+        "name": "player_tactical_sword_walk_03.png",
+        "rect": [
+          146,
+          56,
+          23,
+          50
+        ]
+      },
+      {
+        "name": "player_tactical_sword_walk_04.png",
+        "rect": [
+          183,
+          55,
+          18,
+          51
+        ]
+      },
+      {
+        "name": "player_tactical_sword_walk_05.png",
+        "rect": [
+          218,
+          53,
+          19,
+          53
+        ]
+      },
+      {
+        "name": "player_tactical_sword_walk_06.png",
+        "rect": [
+          249,
+          54,
+          26,
+          52
         ]
       }
     ],
     "size": [
       280,
-      104
+      106
     ]
   },
   "ppu": 24,

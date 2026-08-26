@@ -1426,6 +1426,11 @@ namespace ThisL
 
         private void UpdateHeldWeapon()
         {
+            // If a bespoke weapon OVERLAY is active (the hero drawn holding the black stick-figure
+            // fragment), it already shows the weapon — don't ALSO pin the pickup sprite (double weapon).
+            // The pinned sprite is the fallback for weapons/heroes that have no overlay art yet.
+            if (Anim != null && Anim.Overlay != null) { if (_heldWeaponSr != null) _heldWeaponSr.enabled = false; return; }
+
             var kind = CurrentWeapon?.Kind ?? WeaponKind.Fists;
             Sprite spr = (Alive && kind != WeaponKind.Fists) ? HeldWeaponSprite(kind) : null;
             if (spr == null) { if (_heldWeaponSr != null) _heldWeaponSr.enabled = false; return; }
