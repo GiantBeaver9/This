@@ -88,6 +88,9 @@ namespace ThisL
         private SpriteRenderer _sr;
         private bool _spent;
         private const float ContactRadiusX = 0.5f;
+        // The fastball PLOWS (§3.2): it knocks each enemy in its path down (once) and keeps going,
+        // detonating at the end of its throw rather than popping on the first body it touches.
+        private readonly HashSet<Actor> _plowed = new();
 
         public static GrenadeProjectile Spawn(Team ownerTeam, float x, float z, float dirX,
                                               float speed, float life,
@@ -122,11 +125,15 @@ namespace ThisL
                 if (!a.Alive || a.Team == OwnerTeam) continue;
                 if (Mathf.Abs(a.WorldX - WorldX) > ContactRadiusX) continue;
                 if (!Playfield.WithinZ(a.Z, Z, Tuning.HitboxZTolerance)) continue;
-                Detonate();
-                return;
+                // Plow THROUGH: knock each enemy down once and keep flying (don't detonate on contact).
+                if (_plowed.Add(a))
+                {
+                    a.TakeDamage(8f, Owner);
+                    if (a is IStaggerable s) s.ApplyStagger(0.8f);   // knockdown in the path
+                }
             }
 
-            if (Life <= 0f) Detonate();
+            if (Life <= 0f) Detonate();   // blast at the end of the throw
         }
 
         private void Detonate()
