@@ -226,8 +226,8 @@ namespace ThisL
             }
         }
 
-        // Cache of hollowed sprite sets, keyed by the source set (built once per enemy type).
-        private static readonly System.Collections.Generic.Dictionary<SpriteLibrary.ActorSprites, SpriteLibrary.ActorSprites> s_hollowCache = new();
+        // The shared doodle-stick-figure zombie set (built once, reused by every zombie).
+        private static SpriteLibrary.ActorSprites s_zombieDoodle;
 
         /// <summary>
         /// A gun headshot KILL rolled zombify (§3.1): don't die — rise again as a slower HOSTILE.
@@ -243,9 +243,9 @@ namespace ThisL
             _state = State.Pursue;
             Hp = MaxHp = Mathf.Max(1f, MaxHp * 0.6f);   // comes back on its last legs
 
-            // Zombie look (creator): KEEP the normal stick-figure sprite AND colors — just hollow the
-            // MIDDLE (torso) out so you can see straight through them. No skin swap, no green tint.
-            if (Anim != null && Anim.Set != null) Anim.Set = HollowSet(Anim.Set);
+            // Zombie look (creator): a plain doodle STICK FIGURE like Phil — a hollow ring head + thin
+            // stick body/arms/legs (see-through) — but WITHOUT Phil's top hat or pencil.
+            if (Anim != null) Anim.Set = ZombieDoodleSet();
             if (Sr != null) Sr.color = Color.white;
 
             Anim.Play("hurt", false, restart: true);     // a lurch back to its feet
@@ -264,60 +264,64 @@ namespace ThisL
             return true;
         }
 
-        // ---- Zombie "hollow middle" sprite ----------------------------------------
+        // ---- Zombie "doodle stick figure" sprite (like Phil, minus hat + pencil) --
 
-        /// <summary>Return a copy of <paramref name="src"/> whose every frame has its MIDDLE punched
-        /// transparent — the zombie tell (creator: "the entire middle is empty and see through, no
-        /// color change"). Built once per source set and cached; new frames re-use one hollowed sprite
-        /// per source sprite so repeated zombies of a type share the work.</summary>
-        private static SpriteLibrary.ActorSprites HollowSet(SpriteLibrary.ActorSprites src)
+        /// <summary>The shared zombie look: a hand-drawn STICK FIGURE — a hollow ring head and thin
+        /// stick body/arms/legs (see-through), in Phil's black doodle style but with NO top hat and NO
+        /// pencil. Built once (idle + a 2-frame shamble walk); all other clips fall back to idle.</summary>
+        private static SpriteLibrary.ActorSprites ZombieDoodleSet()
         {
-            if (src == null) return null;
-            if (s_hollowCache.TryGetValue(src, out var cached)) return cached;
-
-            var outSet = new SpriteLibrary.ActorSprites { Actor = src.Actor, ReverseAttacks = src.ReverseAttacks };
-            var perSprite = new System.Collections.Generic.Dictionary<Sprite, Sprite>();
-            foreach (var kv in src.Clips)
-            {
-                var srcFrames = kv.Value;
-                if (srcFrames == null) continue;
-                var frames = new Sprite[srcFrames.Length];
-                for (int i = 0; i < srcFrames.Length; i++)
-                {
-                    var s = srcFrames[i];
-                    if (s == null) { frames[i] = null; continue; }
-                    if (!perSprite.TryGetValue(s, out var hs)) { hs = HollowSprite(s); perSprite[s] = hs; }
-                    frames[i] = hs;
-                }
-                outSet.Clips[kv.Key] = frames;
-            }
-            s_hollowCache[src] = outSet;
-            return outSet;
+            if (s_zombieDoodle != null) return s_zombieDoodle;
+            var set = new SpriteLibrary.ActorSprites { Actor = "zombie_doodle", ReverseAttacks = false };
+            var f0 = DoodleFrame(0);
+            var f1 = DoodleFrame(1);
+            set.Clips["idle"] = new[] { f0 };
+            set.Clips["walk"] = new[] { f0, f1 };   // subtle leg shift → a shamble
+            set.Clips["hurt"] = new[] { f0 };
+            s_zombieDoodle = set;
+            return s_zombieDoodle;
         }
 
-        /// <summary>Copy one sprite's pixels and clear the central torso box to transparent.</summary>
-        private static Sprite HollowSprite(Sprite s)
+        /// <summary>Draw one black doodle stick figure frame (bottom-centre pivot). frame 1 shifts the
+        /// legs for the walk shamble.</summary>
+        private static Sprite DoodleFrame(int frame)
         {
-            try
-            {
-                var tex = s.texture;
-                var r = s.textureRect;
-                int rw = Mathf.RoundToInt(r.width), rh = Mathf.RoundToInt(r.height);
-                if (rw <= 2 || rh <= 2) return s;
-                var px = tex.GetPixels(Mathf.RoundToInt(r.x), Mathf.RoundToInt(r.y), rw, rh);
-                // Hollow the middle: central ~44% of the width, torso band ~34%..68% of the height.
-                int x0 = Mathf.RoundToInt(rw * 0.28f), x1 = Mathf.RoundToInt(rw * 0.72f);
-                int y0 = Mathf.RoundToInt(rh * 0.34f), y1 = Mathf.RoundToInt(rh * 0.68f);
-                var clear = new Color(0, 0, 0, 0);
-                for (int y = y0; y < y1; y++)
-                    for (int x = x0; x < x1; x++)
-                        px[y * rw + x] = clear;
-                var ntex = new Texture2D(rw, rh, TextureFormat.RGBA32, false) { filterMode = FilterMode.Point };
-                ntex.SetPixels(px); ntex.Apply();
-                var pivot = new Vector2(rw > 0 ? s.pivot.x / rw : 0.5f, rh > 0 ? s.pivot.y / rh : 0f);
-                return Sprite.Create(ntex, new Rect(0, 0, rw, rh), pivot, s.pixelsPerUnit);
+            const int W = 30, H = 64;
+            var px = new Color32[W * H];                 // transparent
+            var ink = new Color32(24, 24, 28, 255);
+            void Dot(int x, int y) { if (x >= 0 && x < W && y >= 0 && y < H) px[y * W + x] = ink; }
+            void Line(int x0, int y0, int x1, int y1)
+            {   // 2px-thick Bresenham
+                int dx = Mathf.Abs(x1 - x0), dy = -Mathf.Abs(y1 - y0);
+                int sx = x0 < x1 ? 1 : -1, sy = y0 < y1 ? 1 : -1, err = dx + dy;
+                while (true)
+                {
+                    Dot(x0, y0); Dot(x0 + 1, y0); Dot(x0, y0 + 1);
+                    if (x0 == x1 && y0 == y1) break;
+                    int e2 = 2 * err;
+                    if (e2 >= dy) { err += dy; x0 += sx; }
+                    if (e2 <= dx) { err += dx; y0 += sy; }
+                }
             }
-            catch { return s; } // atlas not readable → leave the frame intact rather than crash
+
+            int cx = 14;
+            // Head: a HOLLOW ring (outline only → see-through).
+            int hcx = cx, hcy = 50, r = 7;
+            for (int a = 0; a < 360; a += 6)
+            {
+                float rad = a * Mathf.Deg2Rad;
+                int x = hcx + Mathf.RoundToInt(Mathf.Cos(rad) * r);
+                int y = hcy + Mathf.RoundToInt(Mathf.Sin(rad) * r);
+                Dot(x, y); Dot(x + 1, y);
+            }
+            Line(cx, 42, cx, 18);                        // spine
+            Line(cx, 40, cx - 8, 31); Line(cx, 40, cx + 8, 31); // arms
+            if (frame == 0) { Line(cx, 18, cx - 7, 2); Line(cx, 18, cx + 7, 2); }   // stance
+            else            { Line(cx, 18, cx - 3, 2); Line(cx, 18, cx + 9, 3); }   // mid-shamble stride
+
+            var tex = new Texture2D(W, H, TextureFormat.RGBA32, false) { filterMode = FilterMode.Point };
+            tex.SetPixels32(px); tex.Apply();
+            return Sprite.Create(tex, new Rect(0, 0, W, H), new Vector2(0.5f, 0.03f), Tuning.PixelsPerUnit);
         }
 
         private void Backoff(Actor player, float targetZ, float dt)
