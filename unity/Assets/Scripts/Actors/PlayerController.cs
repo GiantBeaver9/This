@@ -683,7 +683,8 @@ namespace ThisL
             _phase = Phase.Startup;
             _phaseTimer = PhaseStartup();
             // Reuse the directional swing clips (no bespoke dash-attack clips yet, PLAYER.md §7).
-            string clip = d == AttackDir.Up ? "attack_up" : d == AttackDir.Down ? "attack_down" : "attack_side";
+            // Down uses the forward punch, not the floor-swing roundhouse (see StartStrike).
+            string clip = d == AttackDir.Up ? "attack_up" : "attack_side";
             Anim.Play(clip, false, restart: true);
             Sfx.Play("dash_whoosh");
         }
@@ -740,7 +741,10 @@ namespace ThisL
             _phaseTimer = PhaseStartup();
             _hitResolved = false;
             _bufferedAttack = false;
-            Anim.Play(kind == AttackKind.Up ? "attack_up" : "attack_down", false, restart: true);
+            // Up = the uppercut (reads as a rising strike). Down aims at the NEAR sidewalk lane,
+            // so it's a straight punch angled forward — NOT the old "attack_down" roundhouse, which
+            // read as swinging at the floor beneath you (creator: "makes no sense to attack below").
+            Anim.Play(kind == AttackKind.Up ? "attack_up" : "attack_side", false, restart: true);
             Sfx.Play("swing_whoosh");
         }
 
@@ -1327,9 +1331,12 @@ namespace ThisL
 
         // ---- Held-weapon sprite (drawn in the hand; keeps the base character on-model) --------
         // Pixellab drifts the character when it redraws a full "hold" pose, so instead the base
-        // sprite is left untouched and the weapon's own sprite is pinned to the hand. Tune the
-        // offset/scale here to line it up with the hand.
-        private const float HeldFwd = 0.45f, HeldUp = 1.0f, HeldScale = 0.7f;
+        // sprite is left untouched and the weapon's own sprite is pinned to the hand. The pickup PNGs
+        // are big "on-the-ground" art, so we DON'T scale by a fixed factor (that made a full-body
+        // sword) — we normalise every weapon to the same small world height and drop it at the hand.
+        private const float HeldTargetH = 0.85f;   // world-units tall the weapon renders, regardless of PNG size
+        private const float HeldFwd     = 0.30f;   // hand offset forward of the body centre
+        private const float HeldUp      = 0.55f;   // hand height (grip sits here; blade rises above)
         private SpriteRenderer _heldWeaponSr;
         private static readonly Dictionary<WeaponKind, Sprite> _heldSprites = new();
 
@@ -1348,8 +1355,11 @@ namespace ThisL
             _heldWeaponSr.enabled = true;
             _heldWeaponSr.sprite = spr;
             _heldWeaponSr.flipX = Facing < 0;
+            // Normalise: whatever the pickup PNG's pixel size, render it HeldTargetH world-units tall.
+            float natH = spr.rect.height / Tuning.PixelsPerUnit;
+            float sc = natH > 0.05f ? HeldTargetH / natH : 0.4f;
             _heldWeaponSr.transform.localPosition = new Vector3(Facing * HeldFwd, HeldUp, 0f);
-            _heldWeaponSr.transform.localScale = new Vector3(HeldScale, HeldScale, 1f);
+            _heldWeaponSr.transform.localScale = new Vector3(sc, sc, 1f);
             if (Sr != null) _heldWeaponSr.sortingOrder = Sr.sortingOrder + 1;   // in front of the body
         }
 
@@ -1366,7 +1376,9 @@ namespace ThisL
                     var t = new Texture2D(2, 2, TextureFormat.RGBA32, false) { filterMode = FilterMode.Point };
                     t.LoadImage(System.IO.File.ReadAllBytes(path));
                     t.Apply();
-                    s = Sprite.Create(t, new Rect(0, 0, t.width, t.height), new Vector2(0.5f, 0.5f), Tuning.PixelsPerUnit);
+                    // Pivot at the grip end (bottom-centre) so the handle sits at the hand and the
+                    // blade/barrel rises above it, instead of the whole sprite centring on the wrist.
+                    s = Sprite.Create(t, new Rect(0, 0, t.width, t.height), new Vector2(0.5f, 0.15f), Tuning.PixelsPerUnit);
                 }
             }
             catch { s = null; }
