@@ -6,71 +6,62 @@
       {
         "name": "gabe_werewolf_attack_side_00.png",
         "rect": [
-          12,
-          0,
-          31,
-          68
+          7,
+          2,
+          41,
+          65
         ]
       },
       {
         "name": "gabe_werewolf_attack_side_01.png",
         "rect": [
-          65,
-          0,
-          34,
-          68
+          62,
+          1,
+          43,
+          66
         ]
       },
       {
         "name": "gabe_werewolf_attack_side_02.png",
         "rect": [
           118,
-          2,
-          38,
+          1,
+          44,
           66
         ]
       },
       {
         "name": "gabe_werewolf_attack_side_03.png",
         "rect": [
-          165,
-          6,
-          55,
-          62
+          171,
+          1,
+          49,
+          66
         ]
       },
       {
         "name": "gabe_werewolf_attack_side_04.png",
         "rect": [
-          222,
-          9,
-          51,
-          59
+          229,
+          0,
+          46,
+          67
         ]
       },
       {
         "name": "gabe_werewolf_attack_side_05.png",
         "rect": [
-          277,
-          9,
-          51,
-          59
-        ]
-      },
-      {
-        "name": "gabe_werewolf_attack_side_06.png",
-        "rect": [
-          334,
-          11,
-          47,
-          57
+          280,
+          0,
+          56,
+          67
         ]
       },
       {
         "name": "gabe_werewolf_idle_00.png",
         "rect": [
-          397,
-          2,
+          349,
+          1,
           30,
           66
         ]
@@ -78,8 +69,8 @@
       {
         "name": "gabe_werewolf_idle_01.png",
         "rect": [
-          12,
-          69,
+          405,
+          0,
           30,
           67
         ]
@@ -87,8 +78,8 @@
       {
         "name": "gabe_werewolf_idle_02.png",
         "rect": [
-          69,
-          70,
+          14,
+          68,
           27,
           66
         ]
@@ -96,16 +87,88 @@
       {
         "name": "gabe_werewolf_idle_03.png",
         "rect": [
-          123,
-          71,
+          69,
+          69,
           29,
           65
+        ]
+      },
+      {
+        "name": "gabe_werewolf_walk_00.png",
+        "rect": [
+          121,
+          69,
+          37,
+          65
+        ]
+      },
+      {
+        "name": "gabe_werewolf_walk_01.png",
+        "rect": [
+          174,
+          69,
+          43,
+          65
+        ]
+      },
+      {
+        "name": "gabe_werewolf_walk_02.png",
+        "rect": [
+          230,
+          68,
+          43,
+          66
+        ]
+      },
+      {
+        "name": "gabe_werewolf_walk_03.png",
+        "rect": [
+          290,
+          72,
+          36,
+          62
+        ]
+      },
+      {
+        "name": "gabe_werewolf_walk_04.png",
+        "rect": [
+          346,
+          71,
+          36,
+          63
+        ]
+      },
+      {
+        "name": "gabe_werewolf_walk_05.png",
+        "rect": [
+          399,
+          70,
+          42,
+          64
+        ]
+      },
+      {
+        "name": "gabe_werewolf_walk_06.png",
+        "rect": [
+          4,
+          135,
+          47,
+          66
+        ]
+      },
+      {
+        "name": "gabe_werewolf_walk_07.png",
+        "rect": [
+          66,
+          137,
+          36,
+          64
         ]
       }
     ],
     "size": [
-      440,
-      136
+      448,
+      201
     ]
   },
   "ppu": 24,
