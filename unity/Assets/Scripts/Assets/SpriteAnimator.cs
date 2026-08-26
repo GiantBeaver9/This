@@ -11,6 +11,15 @@ namespace ThisL
     public sealed class SpriteAnimator : MonoBehaviour
     {
         [System.NonSerialized] public SpriteLibrary.ActorSprites Set;
+
+        /// <summary>
+        /// Optional weapon skin (the "swing a dead stick figure" art): a partial set that only
+        /// carries <c>idle</c> (holding the weapon) and <c>swing</c> (attacking with it). When set,
+        /// the player's idle uses the overlay idle and any attack/sweep uses the overlay swing;
+        /// everything else (walk/hurt/death/…) falls through to <see cref="Set"/>. Null = no weapon.
+        /// </summary>
+        [System.NonSerialized] public SpriteLibrary.ActorSprites Overlay;
+
         public int Fps = Tuning.AnimFps;
 
         private SpriteRenderer _sr;
@@ -40,20 +49,45 @@ namespace ThisL
         public void Play(string clip, bool loop, bool restart = false)
         {
             if (!restart && loop && _clip == clip && !_finished) return;
-            if (Set == null || !Set.Clips.TryGetValue(clip, out var frames) || frames == null || frames.Length == 0)
+
+            var frames = ResolveFrames(clip, out bool fromOverlay);
+            if (frames == null || frames.Length == 0)
             {
                 // Fall back to idle/first so we always show something.
                 frames = Set?.FirstOf(clip) != null ? new[] { Set.FirstOf(clip) }
                        : Set?.First != null ? new[] { Set.First } : null;
                 if (frames == null) return;
+                fromOverlay = false;
             }
             _clip = clip;
-            bool reverse = ReverseAttackClips && (Set == null || Set.ReverseAttacks);
+            // Base placeholder attacks are authored reversed; bespoke weapon swing art is not.
+            bool reverse = !fromOverlay && ReverseAttackClips && (Set == null || Set.ReverseAttacks);
             _frames = (reverse && clip != null && clip.Contains("attack")) ? Reversed(frames) : frames;
             _loop = loop;
             _t = 0f;
             _finished = false;
             _sr.sprite = _frames[0];
+        }
+
+        /// <summary>Pick the frames for a clip, preferring the weapon <see cref="Overlay"/> (idle→idle,
+        /// any attack/sweep→swing) and falling back to the base <see cref="Set"/>.</summary>
+        private Sprite[] ResolveFrames(string clip, out bool fromOverlay)
+        {
+            fromOverlay = false;
+            if (Overlay != null && clip != null)
+            {
+                string oclip = clip == "idle" ? "idle"
+                             : (clip.Contains("attack") || clip == "sweep" || clip == "dash") ? "swing"
+                             : null;
+                if (oclip != null && Overlay.Clips.TryGetValue(oclip, out var of) && of != null && of.Length > 0)
+                {
+                    fromOverlay = true;
+                    return of;
+                }
+            }
+            if (Set != null && Set.Clips.TryGetValue(clip, out var frames) && frames != null && frames.Length > 0)
+                return frames;
+            return null;
         }
 
         private static Sprite[] Reversed(Sprite[] src)

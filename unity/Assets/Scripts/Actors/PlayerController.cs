@@ -1269,9 +1269,30 @@ namespace ThisL
             return best;
         }
 
+        // ---- Weapon skin (the "swing a dead stick figure" art) ---------------
+        private WeaponKind _overlayKind = WeaponKind.Fists;
+
+        /// <summary>Point the animator at this hero's per-weapon idle/swing atlas when one exists
+        /// (assets/sprites/characters/&lt;hero&gt;_&lt;weapon&gt;); clear it for fists / un-arted weapons.
+        /// Reactive to any equip/discard path since it keys off the current weapon each frame.</summary>
+        private void RefreshWeaponOverlay()
+        {
+            var kind = CurrentWeapon?.Kind ?? WeaponKind.Fists;
+            if (kind == _overlayKind) return;
+            _overlayKind = kind;
+            if (Anim == null || Character == null) return;
+
+            if (kind == WeaponKind.Fists) { Anim.Overlay = null; return; }
+            string wname = kind.ToString().ToLowerInvariant();
+            string dir = $"sprites/characters/{Character.SpriteActor}_{wname}";
+            string actor = $"{Character.SpriteActor}_{wname}";
+            Anim.Overlay = SpriteLibrary.HasAtlas(dir, actor) ? SpriteLibrary.Load(dir, actor) : null;
+        }
+
         // ---- Animation & projection -----------------------------------------
         private void UpdateAnimation()
         {
+            RefreshWeaponOverlay();
             if (_phase != Phase.None) return; // attack clip already playing
             if (_airDashing) { Anim.Play("dash", false); return; }
             if (_airborne) { Anim.Play("jump", false); return; }

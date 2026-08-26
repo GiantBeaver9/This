@@ -112,6 +112,10 @@ namespace ThisL.EditorTools
                 if (_frames == 70)
                     for (int a = 1; a <= 4; a++) Backdrop.SetArea(a);
 
+                // Equip a sword so the weapon-skin overlay (idle/swing) path runs (any NRE → error).
+                if (_frames == 75 && PlayerController.Instance != null)
+                    PlayerController.Instance.CurrentWeapon = Weapon.Create(WeaponKind.Sword);
+
                 if (PlayerController.Instance != null) _sawPlayer = true;
                 int enemies = 0;
                 foreach (var a in Actor.All)

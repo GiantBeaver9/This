@@ -1,0 +1,105 @@
+{
+  "actor": "player_werewolf_sword",
+  "atlas": {
+    "file": "player_werewolf_sword_atlas.png",
+    "frames": [
+      {
+        "name": "player_werewolf_sword_idle_00.png",
+        "rect": [
+          16,
+          1,
+          18,
+          65
+        ]
+      },
+      {
+        "name": "player_werewolf_sword_idle_01.png",
+        "rect": [
+          55,
+          0,
+          42,
+          66
+        ]
+      },
+      {
+        "name": "player_werewolf_sword_idle_02.png",
+        "rect": [
+          119,
+          0,
+          16,
+          66
+        ]
+      },
+      {
+        "name": "player_werewolf_sword_idle_03.png",
+        "rect": [
+          170,
+          0,
+          17,
+          66
+        ]
+      },
+      {
+        "name": "player_werewolf_sword_swing_00.png",
+        "rect": [
+          212,
+          5,
+          34,
+          61
+        ]
+      },
+      {
+        "name": "player_werewolf_sword_swing_01.png",
+        "rect": [
+          263,
+          5,
+          35,
+          61
+        ]
+      },
+      {
+        "name": "player_werewolf_sword_swing_02.png",
+        "rect": [
+          314,
+          5,
+          34,
+          61
+        ]
+      },
+      {
+        "name": "player_werewolf_sword_swing_03.png",
+        "rect": [
+          362,
+          4,
+          41,
+          62
+        ]
+      },
+      {
+        "name": "player_werewolf_sword_swing_04.png",
+        "rect": [
+          6,
+          67,
+          39,
+          65
+        ]
+      },
+      {
+        "name": "player_werewolf_sword_swing_05.png",
+        "rect": [
+          51,
+          70,
+          51,
+          62
+        ]
+      }
+    ],
+    "size": [
+      408,
+      132
+    ]
+  },
+  "ppu": 24,
+  "fps": 12,
+  "source": "pixellab"
+}
