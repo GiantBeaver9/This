@@ -100,11 +100,17 @@ namespace ThisL
             if (_cars == null)
             {
                 var list = new System.Collections.Generic.List<Sprite>();
-                foreach (var f in new[] { "car.png", "car_sedan.png", "car_van.png", "car_pickup.png" })
+                try
                 {
-                    var s = LoadCar(f);
-                    if (s != null) list.Add(s);
+                    string dir = System.IO.Path.Combine(SpriteLibrary.AssetsRoot, "sprites", "props");
+                    if (System.IO.Directory.Exists(dir))
+                        foreach (var path in System.IO.Directory.GetFiles(dir, "car*.png")) // every car type
+                        {
+                            var s = LoadCar(System.IO.Path.GetFileName(path));
+                            if (s != null) list.Add(s);
+                        }
                 }
+                catch { }
                 if (list.Count == 0) list.Add(CrateSprite());
                 _cars = list.ToArray();
             }
