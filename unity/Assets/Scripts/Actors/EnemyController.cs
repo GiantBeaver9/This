@@ -29,6 +29,7 @@ namespace ThisL
         private bool _killedBySpecial;
         private float _zBias;          // this pursuer's preferred depth offset (Z-spread)
         private bool _relentless;      // swarmers rush without standoff/backoff
+        private bool _zombie;          // rose again from a gun headshot (§3.1) — a slower green HOSTILE
 
         public void Init(EnemyDef def)
         {
@@ -72,7 +73,7 @@ namespace ThisL
                     float t = Mathf.PingPong(Time.time * 9f, 1f);
                     Sr.color = Color.Lerp(new Color(1f, 0.85f, 0.35f), new Color(1f, 0.25f, 0.2f), t);
                 }
-                else if (_state != State.Dead) Sr.color = Color.white;
+                else if (_state != State.Dead) Sr.color = _zombie ? ZombieTint : Color.white;
             }
 
             switch (_state)
@@ -153,7 +154,38 @@ namespace ThisL
             MoveTo(desiredX, targetZ, EffSpeed, dt);
         }
 
-        private float EffSpeed => Def.Speed * Tuning.EnemySpeedMult;
+        private float EffSpeed => Def.Speed * Tuning.EnemySpeedMult * (_zombie ? 0.6f : 1f); // zombies shamble
+
+        private static readonly Color ZombieTint = new(0.55f, 0.9f, 0.5f);
+
+        /// <summary>
+        /// A gun headshot KILL rolled zombify (§3.1): don't die — rise again as a slower green
+        /// HOSTILE. It keeps hunting the player (still Team.Enemy), so headshotting is a real
+        /// risk/reward, and it drops no loot when finally put down. Can't re-zombify.
+        /// </summary>
+        public void Zombify()
+        {
+            if (_zombie || _state == State.Dead) return;
+            _zombie = true;
+            ReleaseSlot();
+            _state = State.Pursue;
+            Hp = MaxHp = Mathf.Max(1f, MaxHp * 0.6f);   // comes back on its last legs
+            if (Sr != null) Sr.color = ZombieTint;
+            Anim.Play("hurt", false, restart: true);     // a lurch back to its feet
+            Vfx.DeathBurst(WorldX, Z);                    // gory reanimation puff
+            Sfx.Play("pod_spawn_burst");
+        }
+
+        /// <summary>Roll zombify against a would-be-lethal gun hit. Returns true if it rose again
+        /// (the shot is "spent" on the head — the caller should NOT also apply the killing damage).</summary>
+        public bool TryZombifyOnLethal(float incomingDamage, float chance)
+        {
+            if (_zombie || _state == State.Dead || !Alive) return false;
+            if (Hp > incomingDamage) return false;        // only a KILLING shot can zombify
+            if (Random.value > chance) return false;
+            Zombify();
+            return true;
+        }
 
         private void Backoff(Actor player, float targetZ, float dt)
         {
@@ -242,7 +274,7 @@ namespace ThisL
             Vfx.DeathBurst(WorldX, Z);
             Sfx.Play("knockdown_thud");
 
-            if (!_killedBySpecial)
+            if (!_killedBySpecial && !_zombie)   // a re-killed zombie already gave its loot the first time
             {
                 if (Def.Loot != LootTier.None)
                 {

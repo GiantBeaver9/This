@@ -17,6 +17,7 @@ namespace ThisL
         public float Damage;            // current pass damage (halves per pierce)
         public float Falloff = 0.5f;    // multiplier applied after each connect
         public int HitsLeft = 3;
+        public float ZombifyChance;     // >0 on gun rounds: a lethal hit may raise a zombie (§3.1)
 
         private SpriteRenderer _sr;
         private readonly HashSet<Actor> _spent = new();
@@ -60,7 +61,9 @@ namespace ThisL
 
             foreach (var a in _frameHits)
             {
-                a.TakeDamage(Damage, null);
+                // Gun headshot zombify (§3.1): a killing round may raise the target instead of dropping it.
+                if (!(ZombifyChance > 0f && a is EnemyController ec && ec.TryZombifyOnLethal(Damage, ZombifyChance)))
+                    a.TakeDamage(Damage, null);
                 _spent.Add(a);
                 Damage *= Falloff;
                 if (--HitsLeft <= 0) { Destroy(gameObject); return; }

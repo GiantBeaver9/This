@@ -15,6 +15,7 @@ namespace ThisL
         public float WorldX, Z, VelX, Damage;
         public float Life = 3f;
         public float StunSeconds;              // >0 => stagger instead of damage (boomerang)
+        public float ZombifyChance;            // >0 on gun rounds: a lethal hit may raise a zombie (§3.1)
         public System.Action OnConnect;        // fired when it hits a target
         private SpriteRenderer _sr;
 
@@ -50,7 +51,8 @@ namespace ThisL
                 if (Mathf.Abs(a.WorldX - WorldX) > HitRadiusX) continue;
                 if (!Playfield.WithinZ(a.Z, Z, Tuning.HitboxZTolerance)) continue;
                 if (StunSeconds > 0f) { if (a is IStaggerable s) s.ApplyStagger(StunSeconds); }
-                else a.TakeDamage(Damage, null);
+                else if (!(ZombifyChance > 0f && a is EnemyController ec && ec.TryZombifyOnLethal(Damage, ZombifyChance)))
+                    a.TakeDamage(Damage, null);
                 OnConnect?.Invoke();
                 Destroy(gameObject);
                 return;

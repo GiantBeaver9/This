@@ -257,7 +257,8 @@ namespace ThisL
         public static bool FirePistol(PlayerController p, Weapon w)
         {
             PierceShot.Spawn(Team.Player, p.WorldX + p.Facing * 0.6f, p.Z, p.Facing,
-                             40f, w.Damage, 3, 0.5f, new Color(1f, 0.95f, 0.5f)); // 40 wu/s, 12 wu range (§6.3)
+                             40f, w.Damage, 3, 0.5f, new Color(1f, 0.95f, 0.5f))  // 40 wu/s, 12 wu range (§6.3)
+                      .ZombifyChance = 0.10f;                                     // ~10% zombify on a headshot kill (§3.1)
             Vfx.MuzzleFlash(p.WorldX + p.Facing * 0.9f, p.Z, p.Facing);
             Sfx.Play("pistol");
             CameraShake.Add(CameraShake.Light);
@@ -270,7 +271,8 @@ namespace ThisL
         public static bool FireRevolver(PlayerController p, Weapon w)
         {
             Projectile.Spawn(Team.Player, p.WorldX + p.Facing * 0.6f, p.Z, p.Facing,
-                             40f, w.Damage, new Color(1f, 0.8f, 0.35f));
+                             40f, w.Damage, new Color(1f, 0.8f, 0.35f))
+                      .ZombifyChance = 0.10f;                    // ~10% zombify on a headshot kill (§3.1)
             Vfx.MuzzleFlash(p.WorldX + p.Facing * 0.9f, p.Z, p.Facing);
             Sfx.Play("revolver");
             CameraShake.Add(CameraShake.Medium);
@@ -298,7 +300,8 @@ namespace ThisL
         public static bool FireGatling(PlayerController p, Weapon w)
         {
             Projectile.Spawn(Team.Player, p.WorldX + p.Facing * 0.6f, p.Z, p.Facing,
-                             50f, w.Damage, new Color(1f, 0.6f, 0.2f)); // 45 to the nearest ahead
+                             50f, w.Damage, new Color(1f, 0.6f, 0.2f))  // 45 to the nearest ahead
+                      .ZombifyChance = 0.10f;                            // ~10% zombify on a headshot kill (§3.6)
             Vfx.MuzzleFlash(p.WorldX + p.Facing * 0.9f, p.Z, p.Facing);
             Sfx.Play("gatling_barrage");
             CameraShake.Add(CameraShake.Medium);
