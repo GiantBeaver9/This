@@ -280,6 +280,10 @@ namespace ThisL
 
         /// <summary>Holding UP (into the far row) — used by the grenade's anti-air lob (§3.2).</summary>
         public bool HoldingUp => _input != null && _input.MoveZ > 0.4f;
+        /// <summary>Holding DOWN (toward the near row) — Ball &amp; Chain Ground-Zero shape (§3.3).</summary>
+        public bool HoldingDown => _input != null && _input.MoveZ < -0.4f;
+        /// <summary>Holding BACK (opposite the way you face) — Ball &amp; Chain Full-Swing shape (§3.3).</summary>
+        public bool HoldingBack => _input != null && (Facing > 0 ? _input.MoveX < -0.4f : _input.MoveX > 0.4f);
 
         private void Move(float dt)
         {

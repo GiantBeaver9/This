@@ -264,16 +264,34 @@ namespace ThisL
             return true;
         }
 
-        /// <summary>Ball &amp; Chain E-launch (§3.3): one heavy arc that hits a whole crowd in front for
-        /// 80 and floors them (knockdown). First pass of the launcher; the 4 named launch shapes
-        /// (Meteor/Uppercut/Ground-Zero/Full-Swing) + carry-slow are a tuning follow-up.</summary>
+        /// <summary>Ball &amp; Chain E-launch (§3.3): four named launch shapes picked by the aim held at
+        /// fire — ↑ Uppercut (pops the crowd airborne), ↓ Ground-Zero (radial floor around you), holding
+        /// BACK = Full-Swing (front AND behind), else Meteor (heavy forward floor). 3 launches, then spent.
+        /// (Tap-count arc-flattening + carry-slow are a later tuning pass.)</summary>
         public static bool SwingBallChain(PlayerController p, Weapon w)
         {
-            var hits = Combat.MeleeHitDirectional(p, new Vector2(p.Facing, 0f), 2.8f, 1.2f, 80, 1f);
-            foreach (var a in hits)
+            if (p.HoldingUp)                                     // Uppercut: fan front→up, launch airborne
             {
-                if (a is IStaggerable s) s.ApplyStagger(1.2f);   // floor them
-                Vfx.HitSpark(a.WorldX, a.Z);
+                foreach (var a in Combat.MeleeHitArc(p, 45f, 55f, 3.0f, 70))
+                {
+                    if (a is EnemyController ec) ec.Launch(15f, p.Facing * 2.5f);
+                    else if (a is IStaggerable s) s.ApplyStagger(1.2f);
+                    Vfx.HitSpark(a.WorldX, a.Z);
+                }
+            }
+            else if (p.HoldingDown)                             // Ground-Zero: radial floor (front + behind)
+            {
+                FloorSwing(p, p.Facing, 3.2f, 2.4f, 90);
+                FloorSwing(p, -p.Facing, 2.0f, 2.4f, 90);
+            }
+            else if (p.HoldingBack)                             // Full-Swing: 360 — hit both sides
+            {
+                FloorSwing(p, p.Facing, 3.0f, 1.6f, 70);
+                FloorSwing(p, -p.Facing, 3.0f, 1.6f, 70);
+            }
+            else                                                // Meteor: heavy forward crowd floor
+            {
+                FloorSwing(p, p.Facing, 2.8f, 1.2f, 80);
             }
             Vfx.Gust(p.WorldX + p.Facing * 2.8f, p.Z, p.Facing);
             Sfx.Play("ground_smash");
@@ -282,6 +300,18 @@ namespace ThisL
             w.FireCooldown = 0.6f;
             if (w.Spend()) p.CurrentWeapon = Weapon.Fists();     // 3 launches then spent
             return true;
+        }
+
+        /// <summary>One directional Ball &amp; Chain floor-swing: hit + knock down everyone in the fan.
+        /// Kept separate so the multi-direction shapes react to each set before the shared hit buffer
+        /// is reused by the next call.</summary>
+        private static void FloorSwing(PlayerController p, float dirX, float reach, float perpHalf, int dmg)
+        {
+            foreach (var a in Combat.MeleeHitDirectional(p, new Vector2(dirX, 0f), reach, perpHalf, dmg))
+            {
+                if (a is IStaggerable s) s.ApplyStagger(1.3f);
+                Vfx.HitSpark(a.WorldX, a.Z);
+            }
         }
 
         /// <summary>Staff: cast a status bolt straight ahead — the element (locked at pickup) applies
