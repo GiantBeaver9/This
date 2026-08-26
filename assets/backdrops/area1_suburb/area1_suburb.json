@@ -7,8 +7,9 @@
     "mid": 0.5,
     "near": 0.85
   },
-  "note": "Validation-gate backdrop (ASSET_MANIFEST \u00a70/\u00a77). 11 more theme sets follow at the same structure.",
-  "placeholder": true,
+  "note": "Distinct per-stage strip set (procedural, seamless) matching area1_suburb structure.",
+  "placeholder": false,
+  "procedural": true,
   "seamless": true,
   "theme": "area1_suburb",
   "tile_width": 512
