@@ -117,6 +117,10 @@ namespace ThisL
 
         private const float VignetteSeconds = 3.5f; // STAGES.md §1c: brief 3–5s vignette
 
+        /// <summary>Global multiplier on every spawn count (creator: "~15% more enemies overall").
+        /// Applied per spawn-entry when a wave is queued, so it lifts authored AND filler waves.</summary>
+        private const float EnemyCountScale = 1.15f;
+
         private void Start()
         {
             if (AutoStartStage >= 0) StartStage(AutoStartStage);
@@ -223,8 +227,11 @@ namespace ThisL
 
             _pending.Clear();
             foreach (var entry in wave.Spawns)
-                for (int i = 0; i < entry.Count; i++)
+            {
+                int n = Mathf.Max(1, Mathf.RoundToInt(entry.Count * EnemyCountScale)); // creator: ~+15% overall
+                for (int i = 0; i < n; i++)
                     _pending.Enqueue(new PendingUnit { Archetype = entry.Archetype, Side = entry.Side });
+            }
 
             _currentDrip = Mathf.Max(0.05f, wave.DripSeconds);
             _dripTimer = 0f; // spawn the first unit immediately
@@ -347,21 +354,30 @@ namespace ThisL
 
         // ---- Spawning helpers ---------------------------------------------------
 
+        // Share of flank spawns that come from AHEAD (the +X advance direction). The player pushes
+        // right through the lane, so -X is the already-cleared ground "behind" them; authoring often
+        // used SpawnSide.L which put most enemies back there (creator: "most enemies spawn behind the
+        // player"). We override L/R/A to a front-weighted coin-flip so the majority arrive in front,
+        // with a minority still flanking from behind ("some are okay").
+        private const float FrontSpawnBias = 0.72f;
+
         private void SpawnUnit(EnemyArchetype archetype, SpawnSide side)
         {
             float anchorX = GateX(Mathf.Max(0, _gateOrdinal - 1));
             if (PlayerController.Primary != null) anchorX = PlayerController.MidX(); // enter the shared frame
 
             float half = Tuning.ScreenWidthUnits * 0.5f + 1f;
+            const float front = +1f; // the advance direction is +X
             float x, z;
             switch (side)
             {
-                case SpawnSide.L: x = anchorX - half; z = RandNear(); break;
-                case SpawnSide.R: x = anchorX + half; z = RandNear(); break;
-                case SpawnSide.B: x = anchorX + Rand(-2f, 2f); z = Tuning.ZBandDepth - 0.5f; break;
-                case SpawnSide.Air: x = anchorX + Rand(-2f, 2f); z = Tuning.ZBandDepth - 0.5f; break;
-                case SpawnSide.A: x = anchorX + (Rand(0f, 1f) < 0.5f ? -half : half); z = RandNear(); break;
-                default: x = anchorX + half; z = RandNear(); break;
+                case SpawnSide.B:
+                case SpawnSide.Air:
+                    // Far-depth funnel (bus pass / top of screen): keep as authored.
+                    x = anchorX + Rand(-2f, 2f); z = Tuning.ZBandDepth - 0.5f; break;
+                default: // L / R / A → front-biased flank so most come from ahead, not the cleared side
+                    float dir = (Rand(0f, 1f) < FrontSpawnBias) ? front : -front;
+                    x = anchorX + dir * half; z = RandNear(); break;
             }
             StageEnemyFactory.Spawn(archetype, x, Mathf.Clamp(z, 0f, Tuning.ZBandDepth));
         }
@@ -467,13 +483,19 @@ namespace ThisL
             {
                 if (w.Kind != WaveKind.Filler) { outWaves.Add(w); continue; }
 
-                int count = MidpointRoundedUp(w.FillerMinWaves, w.FillerMaxWaves); // §0: midpoint, rounded up
+                // FEWER, MEATIER arenas. The old expansion made ~12 micro-gates only a few wu apart,
+                // so the camera barely moved between locks and it read as one endless fight, not
+                // distinct rooms (creator: "you basically made a 400wu area"). Collapse the block into
+                // 3–5 bigger arenas: each is a proper screen-lock room (its total drips in past the
+                // 8-on-screen cap) with real travel between, matching the JS-version feel.
+                int raw = MidpointRoundedUp(w.FillerMinWaves, w.FillerMaxWaves);
+                int count = Mathf.Clamp(Mathf.RoundToInt(raw / 3f), 3, 5); // e.g. 12 → 4 arenas
                 var pool = BuildFillerPool(data);
                 for (int i = 0; i < count; i++)
                 {
-                    // Size ramps linearly 4 → 6 across the block (§0).
-                    int size = count <= 1 ? 4 : Mathf.RoundToInt(Mathf.Lerp(4f, 6f, (float)i / (count - 1)));
-                    size = Mathf.Min(size, Tuning.MaxPursuers);
+                    // Total per arena ramps 9 → 15 across the block (NOT capped at the 8 on-screen
+                    // limit — that cap is enforced live by the drip, so the room holds more overall).
+                    int size = count <= 1 ? 12 : Mathf.RoundToInt(Mathf.Lerp(9f, 15f, (float)i / (count - 1)));
                     var wave = Wave.Spawn($"{w.Label} #{i + 1}", 0.8f, BuildFillerBatch(data, pool, size));
                     outWaves.Add(wave);
                 }

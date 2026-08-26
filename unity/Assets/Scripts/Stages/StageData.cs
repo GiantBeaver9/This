@@ -21,9 +21,10 @@ namespace ThisL
         public string MusicClip;             // Music.PlayStage stem (assets/audio/music/stage_loops/**)
         public string AmbientClip;           // Music.PlayAmbient stem (assets/audio/music/ambient/**)
 
-        /// <summary>Combat lane length in world-units (ENCOUNTERS.md §0: ~140 wu per combat stage;
-        /// finale is a pure boss arena, ~30 wu).</summary>
-        public float LaneLengthWu = 140f;
+        /// <summary>Combat lane length in world-units. Longer than the original 140 so the arenas
+        /// have real WALKING distance between them (creator: JS-version feel, "reach an area, lock,
+        /// then move on") and there's room to drop obstacles later. Finale overrides to ~30 (boss).</summary>
+        public float LaneLengthWu = 200f;
 
         /// <summary>The ordered spine: vignette / spawn / checkpoint / filler-marker / boss waves.</summary>
         public readonly List<Wave> Waves = new();
