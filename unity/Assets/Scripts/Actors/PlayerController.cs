@@ -964,12 +964,18 @@ namespace ThisL
                     perp = Tuning.SweepZTolerance; // the ONE wider crowd move
                     break;
                 case AttackKind.Up:       // strike into the FAR depth row
-                    dir = new Vector2(0f, 1f); reach = Tuning.StrikeZReach; perp = Tuning.StrikePerpX;
-                    dmg = Tuning.DmgUpStrike; dmgMult *= Character.PunchDmgMult;
+                    dir = new Vector2(0f, 1f); perp = Tuning.StrikePerpX;
+                    if (CurrentWeapon.Kind == WeaponKind.Whip)  // whip up-arc: its own reach/damage (§3.4)
+                    { reach = 2.5f; dmg = CurrentWeapon.Damage; dmgMult *= Character.WeaponDmgMult; }
+                    else
+                    { reach = Tuning.StrikeZReach; dmg = Tuning.DmgUpStrike; dmgMult *= Character.PunchDmgMult; }
                     break;
                 case AttackKind.Down:     // strike into the NEAR depth row
-                    dir = new Vector2(0f, -1f); reach = Tuning.StrikeZReach; perp = Tuning.StrikePerpX;
-                    dmg = Tuning.DmgDownStrike; dmgMult *= Character.PunchDmgMult;
+                    dir = new Vector2(0f, -1f); perp = Tuning.StrikePerpX;
+                    if (CurrentWeapon.Kind == WeaponKind.Whip)  // whip down-line: long crowd reach (§3.4)
+                    { reach = 4.0f; dmg = CurrentWeapon.Damage; dmgMult *= Character.WeaponDmgMult; }
+                    else
+                    { reach = Tuning.StrikeZReach; dmg = Tuning.DmgDownStrike; dmgMult *= Character.PunchDmgMult; }
                     break;
                 case AttackKind.AirSide:
                     reach = fistReach; dmg = Tuning.DmgAirSide; perp = Tuning.SideArcZTolerance;
@@ -1061,6 +1067,19 @@ namespace ThisL
             else if (_attackKind == AttackKind.AirDown)
             {
                 foreach (var a in hits) if (a is IStaggerable s) s.ApplyStagger(0.5f); // spike (down) stays
+            }
+
+            // WHIP PULL-DRAG (§3.4): a forward whip swing yanks the crowd ~3 wu toward you (its
+            // signature over plain long reach) — leaving a small gap so they land in punch range.
+            if (CurrentWeapon.Kind == WeaponKind.Whip && _attackKind == AttackKind.Side)
+            {
+                foreach (var a in hits)
+                {
+                    if (a is not EnemyController ec) continue;
+                    float gap = (a.WorldX - WorldX) * Facing;             // >0 = ahead of you
+                    float pull = Mathf.Clamp(gap - 0.9f, 0f, 3.0f);       // drag toward you, keep 0.9 wu
+                    if (pull > 0f) { ec.WorldX -= Facing * pull; if (a is IStaggerable s) s.ApplyStagger(0.3f); }
+                }
             }
 
             // Only the melee string (P1/P2/sweep) spends a MELEE weapon's durability. Ranged hybrids
