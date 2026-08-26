@@ -12,7 +12,7 @@ namespace ThisL
     /// </summary>
     public sealed class GameFlow : MonoBehaviour
     {
-        public enum State { Title, CharacterSelect, Playing }
+        public enum State { Title, Menu, CharacterSelect, HowToPlay, Playing }
         public static GameFlow Instance { get; private set; }
 
         public State Current { get; private set; } = State.Title;
@@ -21,10 +21,16 @@ namespace ThisL
         private CharacterDef _selectedP2;  // P2's pick (MVP: reuses P1's character)
         private bool _weaponPromptShown;   // one-time "press E to fire" teach on first pickup
         private bool _gameOver;            // latched when the shared life pool empties out
+        private bool _endlessPending;      // character-select is feeding an Endless run, not the campaign
+        private int _menuIndex;            // highlighted row on the main menu
         private GameObject _worldRoot;
         private CharacterDef[] _roster;
         private GUIStyle _title, _label, _btn, _special;
         private GUIStyle _titleBig, _titleMid, _titleSmall; // stacked, left-justified gag title
+        private GUIStyle _menuItem, _menuItemSel, _hint, _keyCap, _keyDesc; // menu + how-to-play
+
+        // Main-menu rows (index order drives keyboard nav + selection).
+        private static readonly string[] MenuItems = { "CAMPAIGN", "ENDLESS MODE", "HOW TO PLAY" };
 
         private void Awake()
         {
@@ -39,12 +45,27 @@ namespace ThisL
         {
             CancelInvoke(nameof(GoTitle)); // cancel a pending game-over return
             _gameOver = false;
+            _endlessPending = false;
             TeardownWorld();
             Current = State.Title;
             Music.PlayTitle();
         }
 
-        public void GoCharacterSelect() => Current = State.CharacterSelect;
+        /// <summary>Title -> main menu (Campaign / Endless / How to Play). Any key on the title lands here.</summary>
+        public void GoMenu()
+        {
+            _menuIndex = 0;
+            Current = State.Menu;
+        }
+
+        /// <summary>Menu -> character select. <paramref name="endless"/> routes SELECT to <see cref="StartEndlessRun"/>.</summary>
+        public void GoCharacterSelect(bool endless)
+        {
+            _endlessPending = endless;
+            Current = State.CharacterSelect;
+        }
+
+        public void GoHowToPlay() => Current = State.HowToPlay;
 
         public void StartRun(CharacterDef def)
         {
@@ -53,6 +74,22 @@ namespace ThisL
             _gameOver = false;
             Lives.Reset(Tuning.StartingLives); // fresh shared life pool for the run
             BuildWorld();
+            Current = State.Playing;
+        }
+
+        /// <summary>
+        /// Endless Mode (STAGES.md §7b): same world-build as <see cref="StartRun"/> — chosen character,
+        /// Backdrop, Hud, CoopJoin — but the field is driven by a <see cref="StageDirector"/> running in
+        /// endless mode (full-roster refill + scaling waves) instead of the linear <see cref="CampaignRunner"/>.
+        /// Skips the intro vignette + tutorial chain: Endless drops you straight into the fight.
+        /// </summary>
+        public void StartEndlessRun(CharacterDef def)
+        {
+            _selected = def;
+            _selectedP2 = null;
+            _gameOver = false;
+            Lives.Reset(Tuning.StartingLives);
+            BuildEndlessWorld();
             Current = State.Playing;
         }
 
@@ -70,7 +107,15 @@ namespace ThisL
         }
 
         // ---- World lifecycle -------------------------------------------------
-        private void BuildWorld()
+
+        /// <summary>
+        /// Build the shared gameplay world for the chosen character — player (keyboard P1),
+        /// Backdrop, Hud, CoopJoin — and return the "Systems" object so the caller can attach
+        /// the mode-specific director (CampaignRunner for a campaign, StageDirector for Endless).
+        /// The EnemySpawner/director is deliberately NOT added here so nothing spawns before the
+        /// caller decides how the field runs.
+        /// </summary>
+        private GameObject BuildWorldCore()
         {
             TeardownWorld();
             _worldRoot = new GameObject("World");
@@ -101,11 +146,28 @@ namespace ThisL
             sys.AddComponent<Backdrop>();
             sys.AddComponent<Hud>();
             sys.AddComponent<CoopJoin>();   // press START on a gamepad to drop in P2
+            return sys;
+        }
+
+        private void BuildWorld()
+        {
+            var sys = BuildWorldCore();
             // NOTE: the EnemySpawner is deliberately NOT added here — it's added at the
             // end of the opening chain below, so no wave spawns during the intro
             // cinematic or the tutorial.
-
             RunOpeningSequence(sys);
+        }
+
+        /// <summary>
+        /// Endless world: the shared core plus a <see cref="StageDirector"/> put straight into endless
+        /// mode (<see cref="StageDirector.StartEndless"/>). No CampaignRunner, no opening vignette/tutorial
+        /// chain — the director's LateUpdate drives the full-roster refill + scaling waves immediately.
+        /// </summary>
+        private void BuildEndlessWorld()
+        {
+            var sys = BuildWorldCore();
+            var director = sys.AddComponent<StageDirector>(); // AutoStartStage stays -1, so it idles until told
+            director.StartEndless();
         }
 
         /// <summary>
@@ -197,33 +259,102 @@ namespace ThisL
             GUI.DrawTexture(new Rect(0, 0, w, h), Texture2D.whiteTexture);
             GUI.color = Color.white;
 
-            if (Current == State.Title) TitleGUI(w, h);
-            else CharacterSelectGUI(w, h);
+            switch (Current)
+            {
+                case State.Title: TitleGUI(w, h); break;
+                case State.Menu: MenuGUI(w, h); break;
+                case State.CharacterSelect: CharacterSelectGUI(w, h); break;
+                case State.HowToPlay: HowToPlayGUI(w, h); break;
+            }
         }
 
         private void TitleGUI(float w, float h)
         {
             // The gag title, stacked + centered, biggest-to-smallest (it started as a
             // hand-drawn paper game — the escalating tiers ARE the joke).
-            GUI.Label(new Rect(0, 22, w, 56), "THIS!:", _titleBig);
-            GUI.Label(new Rect(0, 80, w, 40), "The Game:", _titleMid);
-            GUI.Label(new Rect(0, 120, w, 30), "The Video Game", _titleSmall);
+            GUI.Label(new Rect(0, 34, w, 56), "THIS!:", _titleBig);
+            GUI.Label(new Rect(0, 92, w, 40), "The Game:", _titleMid);
+            GUI.Label(new Rect(0, 132, w, 30), "The Video Game", _titleSmall);
 
-            // Difficulty picker (Hard is the baseline; Easy/Medium pare it down).
-            GUI.Label(new Rect(0, 166, w, 18), "DIFFICULTY", _label);
-            const float bw = 92f, bg = 10f;
-            float total = 3 * bw + 2 * bg, bx = (w - total) / 2f;
-            DiffButton(new Rect(bx, 186, bw, 28), Difficulty.Easy, "EASY");
-            DiffButton(new Rect(bx + bw + bg, 186, bw, 28), Difficulty.Medium, "MEDIUM");
-            DiffButton(new Rect(bx + 2 * (bw + bg), 186, bw, 28), Difficulty.Hard, "HARD");
+            // Pulsing "press any key to continue" (sine on unscaled time so it breathes even paused).
+            float pulse = 0.55f + 0.45f * Mathf.Abs(Mathf.Sin(Time.unscaledTime * 2.2f));
+            var prev = GUI.color;
+            GUI.color = new Color(1f, 1f, 1f, pulse);
+            GUI.Label(new Rect(0, 244, w, 24), "press any key to continue", _label);
+            GUI.color = prev;
 
-            if (Button(new Rect(w / 2f - 90, 240, 180, 40), "PRESS START") ||
-                Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.Space))
+            // ANY key or button (or a click) advances to the menu. Event-driven so one physical
+            // press fires exactly once (Input.anyKeyDown would bleed across the frame's GUI passes).
+            var e = Event.current;
+            if (e.type == EventType.KeyDown || e.type == EventType.MouseDown)
             {
                 Sfx.Play("confirm");
-                GoCharacterSelect();
+                GoMenu();
             }
-            GUI.Label(new Rect(0, h - 28, w, 22), "pick difficulty · Enter / click to begin", _label);
+        }
+
+        private void MenuGUI(float w, float h)
+        {
+            GUI.Label(new Rect(0, 40, w, 40), "THIS.L", _title);
+
+            const float bw = 260f, bh = 40f, gap = 12f;
+            float x = (w - bw) / 2f, y0 = 120f;
+            var e = Event.current;
+
+            for (int i = 0; i < MenuItems.Length; i++)
+            {
+                var r = new Rect(x, y0 + i * (bh + gap), bw, bh);
+                // Hover selects the row (mouse), matching the keyboard highlight.
+                if (e.type == EventType.MouseMove && r.Contains(e.mousePosition)) _menuIndex = i;
+
+                bool sel = _menuIndex == i;
+                GUI.color = sel ? new Color(0.22f, 0.5f, 0.85f, 1f) : new Color(0.16f, 0.19f, 0.27f, 1f);
+                GUI.DrawTexture(r, Texture2D.whiteTexture);
+                GUI.color = Color.white;
+                GUI.Label(new Rect(r.x, r.y + 9, r.width, r.height), MenuItems[i], sel ? _menuItemSel : _menuItem);
+
+                if (e.type == EventType.MouseDown && r.Contains(e.mousePosition)) { _menuIndex = i; ActivateMenu(i); return; }
+            }
+
+            GUI.Label(new Rect(0, h - 30, w, 24), "arrows / W-S to move  ·  Enter to select  ·  Esc for title", _hint);
+
+            // Keyboard nav — event-driven so each keypress moves exactly one row.
+            if (e.type == EventType.KeyDown)
+            {
+                switch (e.keyCode)
+                {
+                    case KeyCode.UpArrow:
+                    case KeyCode.W:
+                        _menuIndex = (_menuIndex + MenuItems.Length - 1) % MenuItems.Length;
+                        Sfx.Play("menu_move");
+                        break;
+                    case KeyCode.DownArrow:
+                    case KeyCode.S:
+                        _menuIndex = (_menuIndex + 1) % MenuItems.Length;
+                        Sfx.Play("menu_move");
+                        break;
+                    case KeyCode.Return:
+                    case KeyCode.KeypadEnter:
+                    case KeyCode.Space:
+                        ActivateMenu(_menuIndex);
+                        break;
+                    case KeyCode.Escape:
+                        Sfx.Play("cancel");
+                        GoTitle();
+                        break;
+                }
+            }
+        }
+
+        private void ActivateMenu(int i)
+        {
+            Sfx.Play("confirm");
+            switch (i)
+            {
+                case 0: GoCharacterSelect(false); break; // Campaign
+                case 1: GoCharacterSelect(true); break;  // Endless Mode
+                case 2: GoHowToPlay(); break;            // How to Play
+            }
         }
 
         private void DiffButton(Rect r, Difficulty d, string label)
@@ -244,7 +375,17 @@ namespace ThisL
 
         private void CharacterSelectGUI(float w, float h)
         {
-            GUI.Label(new Rect(0, 40, w, 40), "CHOOSE YOUR FIGHTER", _title);
+            GUI.Label(new Rect(0, 20, w, 40), _endlessPending ? "ENDLESS — CHOOSE YOUR FIGHTER" : "CHOOSE YOUR FIGHTER", _title);
+
+            // Difficulty picker lives here now (feeds both Campaign and Endless). Hard is the
+            // baseline; Easy/Medium pare it down.
+            GUI.Label(new Rect(0, 66, w, 16), "DIFFICULTY", _label);
+            const float dbw = 92f, dbg = 10f;
+            float dtotal = 3 * dbw + 2 * dbg, dbx = (w - dtotal) / 2f;
+            DiffButton(new Rect(dbx, 84, dbw, 24), Difficulty.Easy, "EASY");
+            DiffButton(new Rect(dbx + dbw + dbg, 84, dbw, 24), Difficulty.Medium, "MEDIUM");
+            DiffButton(new Rect(dbx + 2 * (dbw + dbg), 84, dbw, 24), Difficulty.Hard, "HARD");
+
             int n = _roster.Length;
             float cw = 150f, gap = 14f;
             float totalW = n * cw + (n - 1) * gap;
@@ -273,12 +414,49 @@ namespace ThisL
                     Input.GetKeyDown(KeyCode.Alpha1 + i))
                 {
                     Sfx.Play("confirm");
-                    StartRun(c);
+                    if (_endlessPending) StartEndlessRun(c); else StartRun(c);
                     return;
                 }
             }
             GUI.Label(new Rect(0, h - 30, w, 24), "click SELECT or press 1-4  ·  Esc to go back", _label);
-            if (Input.GetKeyDown(KeyCode.Escape)) { Sfx.Play("cancel"); GoTitle(); }
+            if (Input.GetKeyDown(KeyCode.Escape)) { Sfx.Play("cancel"); GoMenu(); }
+        }
+
+        private void HowToPlayGUI(float w, float h)
+        {
+            GUI.Label(new Rect(0, 20, w, 34), "HOW TO PLAY", _title);
+
+            // Two-column control list: key cap on the left, what it does on the right.
+            (string key, string desc)[] rows =
+            {
+                ("WASD", "Move"),
+                ("Arrow Keys", "Attack — directional (8 ways; up/down strike into depth)"),
+                ("Q", "Special — when the meter's full"),
+                ("E", "Use ranged weapon / fire item"),
+                ("F", "Pick up / swap weapon"),
+                ("Double-tap dir / LeftShift", "Dash"),
+                ("Dash into an enemy", "Bullet-shield dash — grab it as a shield and plow forward"),
+                ("Start (2nd USB pad)", "Player 2 drops in"),
+            };
+
+            float y = 70f, rowH = 26f;
+            float keyX = w * 0.10f, keyW = w * 0.34f;
+            float descX = w * 0.46f, descW = w * 0.44f;
+            foreach (var (key, desc) in rows)
+            {
+                GUI.Label(new Rect(keyX, y, keyW, rowH), key, _keyCap);
+                GUI.Label(new Rect(descX, y, descW, rowH), desc, _keyDesc);
+                y += rowH;
+            }
+
+            const float bw = 160f, bh = 34f;
+            var back = new Rect((w - bw) / 2f, h - 54, bw, bh);
+            if (Button(back, "BACK") || Input.GetKeyDown(KeyCode.Escape))
+            {
+                Sfx.Play("cancel");
+                GoMenu();
+            }
+            GUI.Label(new Rect(0, h - 16, w, 14), "Esc or BACK to return to the menu", _hint);
         }
 
         private bool Button(Rect r, string label)
@@ -302,6 +480,17 @@ namespace ThisL
             _btn = new GUIStyle(GUI.skin.label) { fontSize = 15, alignment = TextAnchor.MiddleCenter };
             _special = new GUIStyle(GUI.skin.label) { fontSize = 14, fontStyle = FontStyle.Bold, alignment = TextAnchor.MiddleCenter };
             _special.normal.textColor = new Color(0.95f, 0.82f, 0.45f); // warm accent for the special name
+
+            _menuItem = new GUIStyle(GUI.skin.label) { fontSize = 18, fontStyle = FontStyle.Bold, alignment = TextAnchor.MiddleCenter };
+            _menuItem.normal.textColor = new Color(0.82f, 0.86f, 0.94f);
+            _menuItemSel = new GUIStyle(_menuItem);
+            _menuItemSel.normal.textColor = Color.white;
+            _hint = new GUIStyle(GUI.skin.label) { fontSize = 12, alignment = TextAnchor.MiddleCenter };
+            _hint.normal.textColor = new Color(0.65f, 0.70f, 0.80f);
+            _keyCap = new GUIStyle(GUI.skin.label) { fontSize = 15, fontStyle = FontStyle.Bold, alignment = TextAnchor.MiddleLeft };
+            _keyCap.normal.textColor = new Color(0.95f, 0.82f, 0.45f); // warm accent = the key(s)
+            _keyDesc = new GUIStyle(GUI.skin.label) { fontSize = 14, alignment = TextAnchor.MiddleLeft };
+            _keyDesc.normal.textColor = new Color(0.86f, 0.89f, 0.94f);
         }
     }
 }

@@ -226,6 +226,10 @@ namespace ThisL
                 SpawnDummy(px + 1.7f, pz + 0.4f, -1),
                 SpawnDummy(px + 1.5f, pz - 0.4f, -1),
             };
+            // High HP so P1→P2→sweep can't kill them before the FINISH lands (default dummies
+            // are 12 HP and die to two punches, which broke the string and made the finisher
+            // feel unimplemented). They survive the whole string; the finisher tap ends them.
+            foreach (var d in cluster) if (d != null) { d.MaxHp = 500f; d.Hp = 500f; }
 
             _sawFinisher = false;
             SetArrow("→", "combo, then FINISH");
@@ -283,7 +287,7 @@ namespace ThisL
                 cluster.Add(SpawnDummy(px + 1.4f + i * 0.45f, pz + (i - 1) * 0.35f, -1));
 
             _sawDash = false;
-            SetArrow("»", "DASH! (Shift)");
+            SetArrow("»", "DASH! (double-tap a direction)");
             yield return Gate(() => _sawDash);
             // Sell the plow on the cluster even if the dash didn't quite reach them.
             foreach (var c in cluster) if (c != null) Vfx.HitSpark(c.WorldX, c.Z);

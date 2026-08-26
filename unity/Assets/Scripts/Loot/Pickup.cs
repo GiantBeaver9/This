@@ -18,6 +18,7 @@ namespace ThisL
         public float Z;
         private SpriteRenderer _sr;
         private float _bob;
+        private float _age;   // despawns after Tuning.WeaponPickupLifetime
 
         /// <summary>Live pickups, for the player's F-key nearest-drop query.</summary>
         private static readonly List<Pickup> _all = new();
@@ -52,9 +53,8 @@ namespace ThisL
                     var tex = new Texture2D(2, 2, TextureFormat.RGBA32, false) { filterMode = FilterMode.Point };
                     tex.LoadImage(System.IO.File.ReadAllBytes(path));
                     tex.Apply();
-                    // Normalize every ground pickup to ~1 wu tall (the raw stick-weapon PNGs are
-                    // ~2-4 wu at base ppu — as big as a fighter). ppu = height / targetHeightWu.
-                    const float targetHeightWu = 1.0f;
+                    // Small ground pickups (~0.6 wu — well under a fighter's ~2 wu). ppu = height / targetHeightWu.
+                    const float targetHeightWu = 0.6f;
                     float ppu = Mathf.Max(1f, tex.height / targetHeightWu);
                     s = Sprite.Create(tex, new Rect(0, 0, tex.width, tex.height), new Vector2(0.5f, 0f), ppu);
                 }
@@ -102,6 +102,12 @@ namespace ThisL
 
         private void Update()
         {
+            // Despawn after its lifetime (creator: dropped weapons must time out, not litter
+            // the ground forever). Blink for the last 3s as a warning.
+            _age += Time.deltaTime;
+            if (_age >= Tuning.WeaponPickupLifetime) { Destroy(gameObject); return; }
+            if (_sr != null) _sr.enabled = _age < Tuning.WeaponPickupLifetime - 3f || ((int)(_age * 6f) % 2 == 0);
+
             // Auto-grab ONLY when a player is empty-handed (fists); while armed you press
             // F to swap (PLAYER.md §2 single-slot rule). Any empty-handed player nearby grabs.
             foreach (var player in PlayerController.All)

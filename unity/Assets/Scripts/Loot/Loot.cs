@@ -312,6 +312,9 @@ namespace ThisL
     {
         public static WeaponKind? Roll(LootTier tier)
         {
+            // Most kills drop NOTHING (creator: weapon drop rate was way too high — the ground
+            // was carpeted). Only ~WeaponDropChance of loot-bearing kills actually drop a weapon.
+            if (tier == LootTier.None || Random.value > Tuning.WeaponDropChance) return null;
             switch (tier)
             {
                 case LootTier.None:

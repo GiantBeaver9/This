@@ -20,7 +20,7 @@ namespace ThisL
         public const float DepthScaleFar = 0.80f;        // 80% at Z=6 (linear, floor 0.80)
         public const float HitboxZTolerance = 0.4f;      // enemy/projectile depth tolerance (kept tight = fair)
         public const float PlayerHitZTolerance = 0.65f;  // up/down strike depth window
-        public const float SideArcZTolerance = 1.1f;     // the horizontal PUNCH sweeps a decent depth ARC (catchable)
+        public const float SideArcZTolerance = 1.7f;     // WIDE ~90° punch arc in front (creator: open it up, not just dead-ahead)
         public const float SweepZTolerance = 1.3f;       // combo sweep wide arc
         public const float PursuerSeparation = 1.0f;     // enemy<->enemy min center distance
         public const int MaxAttackers = 3;               // melee ring: how many commit a swing at once (a few, not one)
@@ -52,6 +52,8 @@ namespace ThisL
         public static readonly bool StartHardMode = true;
 
         // Item drops (reward + survivability while it's tuned hard).
+        public const float WeaponDropChance = 0.15f;     // only ~15% of loot-bearing kills drop a weapon (was 100% -> littered ground)
+        public const float WeaponPickupLifetime = 15f;   // dropped weapons despawn after 15s (creator ruling)
         public const float HealDropChance = 0.12f;       // base heal-drop chance on a kill
         public const float HealDropChanceLowHp = 0.30f;  // when the player is <=25% HP
 
@@ -68,7 +70,7 @@ namespace ThisL
         public const int DmgDashAttack = 0;              // stagger only
 
         // ---- §2.1 Melee reach -------------------------------------------------
-        public const float FistReach = 1.5f;             // bumped for feel (-> 2.1 with gust)
+        public const float FistReach = 1.8f;             // +0.3 wu reach (creator: extend 5-10px) -> 2.4 with gust
         public const float GustBonus = 0.6f;
         public const float SweepReach = 1.9f;
         public const float SwordReach = 2.1f;
