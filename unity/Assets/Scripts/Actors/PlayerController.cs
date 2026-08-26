@@ -766,6 +766,10 @@ namespace ThisL
                 _hitResolved = true;
             }
 
+            // Bat's signature: the swing's active frames reflect incoming enemy shots (WEAPONS.md §3.7).
+            if (_phase == Phase.Active && CurrentWeapon != null && CurrentWeapon.Kind == WeaponKind.Bat)
+                BatReflectSweep();
+
             if (_phaseTimer > 0f) return;
 
             switch (_phase)
@@ -781,6 +785,39 @@ namespace ThisL
                 case Phase.Recovery:
                     EndOfRecovery();
                     break;
+            }
+        }
+
+        /// <summary>
+        /// Bat parry (WEAPONS.md §3.7): during the swing's active frames, knock enemy shots in
+        /// the arc in front of the bat back the way they came — flat bullets fly straight back as
+        /// ours, arced heads (chopper) go home and score the boss pip. Reflect-only; the swing's
+        /// own melee hit still lands via ResolveSwing.
+        /// </summary>
+        private void BatReflectSweep()
+        {
+            const float reachX = 1.9f, reachZ = 1.1f;
+
+            foreach (var pr in Object.FindObjectsByType<Projectile>(FindObjectsInactive.Exclude))
+            {
+                if (pr == null || pr.OwnerTeam != Team.Enemy) continue;
+                float dx = pr.WorldX - WorldX;
+                if (Facing > 0 ? dx < -0.3f : dx > 0.3f) continue;          // must be in front of the swing
+                if (Mathf.Abs(dx) > reachX || !Playfield.WithinZ(pr.Z, Z, reachZ)) continue;
+                pr.Reflect(Team.Player, Facing);
+                Vfx.HitSpark(pr.WorldX, pr.Z);
+                Sfx.Play("hit_spark");
+            }
+
+            foreach (var arc in Object.FindObjectsByType<ArcProjectile>(FindObjectsInactive.Exclude))
+            {
+                if (arc == null || arc.Reflected || arc.OwnerTeam != Team.Enemy) continue;
+                float dx = arc.CurX - WorldX;
+                if (Facing > 0 ? dx < -0.3f : dx > 0.3f) continue;
+                if (Mathf.Abs(dx) > reachX || !Playfield.WithinZ(arc.CurZ, Z, reachZ)) continue;
+                arc.ReflectHome(this);
+                Vfx.HitSpark(arc.CurX, arc.CurZ);
+                Sfx.Play("crunch");   // heavier thock for batting a whole head back
             }
         }
 

@@ -70,7 +70,11 @@ namespace ThisL
             if (!Alive || p == null) yield break;
             var head = ArcProjectile.Spawn(Team.Enemy, WorldX, Z, p.WorldX, p.Z, 15f,
                                            new Color(0.95f, 0.9f, 0.8f), airTime: 0.9f);
-            if (head != null) head.name = "chopper_head";
+            if (head != null)
+            {
+                head.name = "chopper_head";
+                head.OnReflected = src => RegisterHeadReflect(src); // batted-back head = 1 pip (§5.5)
+            }
             Sfx.Play("head_throw");
         }
 

@@ -21,6 +21,32 @@ namespace ThisL
         public float AirTime = 0.9f;
         public float ArcHeight = 2.5f;       // peak visual lift in wu
         public System.Action OnLand;         // fired the moment it lands
+        public System.Action<Actor> OnReflected;  // fired when a bat knocks it back (boss pip hook)
+
+        /// <summary>True once a bat has knocked this arc back — don't re-reflect.</summary>
+        public bool Reflected { get; private set; }
+
+        /// <summary>Current interpolated world X/Z (for proximity checks by the bat).</summary>
+        public float CurX { get { float u = Mathf.Clamp01(_t / AirTime); return Mathf.Lerp(StartX, TargetX, u); } }
+        public float CurZ { get { float u = Mathf.Clamp01(_t / AirTime); return Mathf.Lerp(StartZ, TargetZ, u); } }
+
+        /// <summary>
+        /// Bat it back (WEAPONS.md §3.7 / BOSSES.md §5.5 chopper head): retarget to the launch
+        /// point, flip to the reflector's team, restart the airtime, and fire OnReflected so a
+        /// boss can score the pip. The return splash now spares the reflector's team and hits
+        /// the original thrower's.
+        /// </summary>
+        public void ReflectHome(Actor reflector)
+        {
+            if (Reflected) return;
+            Reflected = true;
+            float cx = CurX, cz = CurZ;
+            TargetX = StartX; TargetZ = StartZ;   // send it home
+            StartX = cx; StartZ = cz;
+            OwnerTeam = reflector != null ? reflector.Team : Team.Player;
+            _t = 0f;
+            OnReflected?.Invoke(reflector);
+        }
 
         private float _t;
         private SpriteRenderer _sr;

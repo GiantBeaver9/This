@@ -57,6 +57,23 @@ namespace ThisL
             }
         }
 
+        /// <summary>
+        /// Bat/parry reflect (WEAPONS.md §3.7 Bat): flip this shot to the reflector's team and
+        /// send it back along <paramref name="dirX"/>. Reflected player shots regain full speed
+        /// (enemy bullets spawn at 0.6× for fairness) and recolor cool-blue so the bat-back reads.
+        /// </summary>
+        public void Reflect(Team newTeam, float dirX)
+        {
+            OwnerTeam = newTeam;
+            float dir = dirX != 0f ? Mathf.Sign(dirX) : Mathf.Sign(VelX);
+            float speed = Mathf.Abs(VelX);
+            if (newTeam == Team.Player) speed = Mathf.Max(speed, 20f); // undo the enemy 0.6× slow
+            VelX = dir * speed;
+            Life = Mathf.Max(Life, 1.2f);
+            StunSeconds = 0f;                          // a batted bullet deals damage, not stun
+            if (_sr != null) _sr.color = new Color(0.6f, 0.9f, 1f);
+        }
+
         // Bullets fly at ~mid-character height, not along the ground (collision is
         // still Z-band logical, so this is purely where the shot is drawn).
         private const float MuzzleHeight = 1.0f; // ~half a 2wu character
