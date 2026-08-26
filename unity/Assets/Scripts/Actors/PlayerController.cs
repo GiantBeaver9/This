@@ -636,6 +636,9 @@ namespace ThisL
                 // Guns fire on E ONLY; an arrow press always PUNCHES (creator: guns don't
                 // touch melee). Boomerang (a thrown weapon) still throws on the arrow.
                 if (CurrentWeapon.Kind == WeaponKind.Boomerang) { FireWeapon(); return; }
+                // Point-blank pistol-whip EXECUTE (§3.1): a gun-bash finishes a near-dead enemy
+                // in melee range with no bullet — the up-close payoff for a spent mag.
+                if (TryPistolWhipExecute(d)) return;
                 StartSide(0);
             }
             else StartStrike(d == AttackDir.Up ? AttackKind.Up : AttackKind.Down);
@@ -856,6 +859,50 @@ namespace ThisL
                     DispatchBuffer();
                     break;
             }
+        }
+
+        private static bool IsGun(WeaponKind k) =>
+            k == WeaponKind.Pistol || k == WeaponKind.Revolver || k == WeaponKind.Gatling;
+
+        /// <summary>
+        /// Pistol-whip execute (§3.1): with a gun equipped, a point-blank attack press on a
+        /// near-dead enemy (≤20% HP) in the pressed direction bashes it out — no bullet spent.
+        /// Returns true if it executed so the caller skips the normal punch. Feel note: the spec
+        /// frames this as a double-tap; this first pass triggers on a single point-blank press.
+        /// </summary>
+        private bool TryPistolWhipExecute(AttackDir d)
+        {
+            if (CurrentWeapon == null || !IsGun(CurrentWeapon.Kind)) return false;
+            if (d == AttackDir.Left) Facing = -1; else if (d == AttackDir.Right) Facing = 1;
+
+            const float reachX = 1.4f, perpZ = 0.9f;
+            Actor victim = null;
+            foreach (var a in Actor.All)
+            {
+                if (a == null || !a.Alive || a.Team != Team.Enemy) continue;
+                float dx = a.WorldX - WorldX;
+                if (Facing > 0 ? dx < 0f : dx > 0f) continue;          // must be in the pressed direction
+                if (Mathf.Abs(dx) > reachX || !Playfield.WithinZ(a.Z, Z, perpZ)) continue;
+                if (a.Hp > a.MaxHp * 0.20f) continue;                  // only near-dead targets get the bash
+                victim = a; break;
+            }
+            if (victim == null) return false;
+
+            _attackKind = AttackKind.Side;
+            _combo = -1;
+            _hitResolved = true;                 // we apply the hit here; TickAttack won't re-swing
+            _bufferedAttack = false;
+            _phase = Phase.Startup;
+            _phaseTimer = PhaseStartup();
+            Anim.Play("attack_side", false, restart: true);
+
+            victim.TakeDamage(9999f, this);
+            Vfx.HitSpark(victim.WorldX, victim.Z);
+            ComboJuice.Impact(victim.WorldX, victim.Z, Meter.Combo, true);
+            HitStop.Freeze(HitStop.Kill);
+            ComboHud.RegisterKill();
+            Sfx.Play("finisher_crunch");
+            return true;
         }
 
         private void DispatchBuffer()
