@@ -1,0 +1,105 @@
+{
+  "actor": "player_tactical_pistol",
+  "atlas": {
+    "file": "player_tactical_pistol_atlas.png",
+    "frames": [
+      {
+        "name": "player_tactical_pistol_idle_00.png",
+        "rect": [
+          13,
+          2,
+          26,
+          63
+        ]
+      },
+      {
+        "name": "player_tactical_pistol_idle_01.png",
+        "rect": [
+          66,
+          1,
+          24,
+          64
+        ]
+      },
+      {
+        "name": "player_tactical_pistol_idle_02.png",
+        "rect": [
+          119,
+          1,
+          22,
+          64
+        ]
+      },
+      {
+        "name": "player_tactical_pistol_idle_03.png",
+        "rect": [
+          171,
+          2,
+          22,
+          63
+        ]
+      },
+      {
+        "name": "player_tactical_pistol_swing_00.png",
+        "rect": [
+          217,
+          3,
+          33,
+          62
+        ]
+      },
+      {
+        "name": "player_tactical_pistol_swing_01.png",
+        "rect": [
+          269,
+          4,
+          34,
+          61
+        ]
+      },
+      {
+        "name": "player_tactical_pistol_swing_02.png",
+        "rect": [
+          321,
+          5,
+          34,
+          60
+        ]
+      },
+      {
+        "name": "player_tactical_pistol_swing_03.png",
+        "rect": [
+          368,
+          4,
+          43,
+          61
+        ]
+      },
+      {
+        "name": "player_tactical_pistol_swing_04.png",
+        "rect": [
+          6,
+          65,
+          40,
+          65
+        ]
+      },
+      {
+        "name": "player_tactical_pistol_swing_05.png",
+        "rect": [
+          52,
+          65,
+          52,
+          65
+        ]
+      }
+    ],
+    "size": [
+      416,
+      130
+    ]
+  },
+  "ppu": 24,
+  "fps": 12,
+  "source": "pixellab"
+}
