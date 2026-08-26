@@ -57,7 +57,9 @@ namespace ThisL
         private bool _leftDown, _rightDown, _upDown, _downDown;
         private bool _fireDown, _fireHeld;
 
-        public GamepadInput(int index)
+        /// <param name="claim">True (P2) marks the pad slot taken so CoopJoin won't reuse it.
+        /// P1's soft pad passes false so a single controller can still be handed to P2 via Start.</param>
+        public GamepadInput(int index, bool claim = true)
         {
             _index = index < 0 ? 0 : index;
             _joy = _index + 1;
@@ -68,7 +70,7 @@ namespace ThisL
             _alt = "Joy" + _joy + "LT";
             _art = "Joy" + _joy + "RT";
             _btnBase = (KeyCode)((int)KeyCode.Joystick1Button0 + _index * 20);
-            _claimed.Add(_index);
+            if (claim) _claimed.Add(_index);
         }
 
         /// <summary>The pad slot this surface drives (0 = Joystick 1).</summary>

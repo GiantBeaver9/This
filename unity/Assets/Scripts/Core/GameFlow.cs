@@ -12,10 +12,19 @@ namespace ThisL
     /// </summary>
     public sealed class GameFlow : MonoBehaviour
     {
-        public enum State { Title, Menu, CharacterSelect, HowToPlay, Playing }
+        public enum State { Title, Menu, PlayerSetup, CharacterSelect, HowToPlay, Playing }
         public static GameFlow Instance { get; private set; }
 
+        /// <summary>How a player is driven — picked on the PlayerSetup screen.</summary>
+        public enum InputKind { Keyboard, Controller1, Controller2 }
+        private static readonly string[] InputNames = { "KEYBOARD", "CONTROLLER 1", "CONTROLLER 2" };
+
         public State Current { get; private set; } = State.Title;
+
+        // Player-setup selections (chosen before the run instead of random Start-to-join).
+        private int _playerCount = 1;
+        private InputKind _p1Input = InputKind.Keyboard;
+        private InputKind _p2Input = InputKind.Controller1;
 
         private CharacterDef _selected;
         private CharacterDef _selectedP2;  // P2's pick (MVP: reuses P1's character)
@@ -129,7 +138,7 @@ namespace ThisL
             player.WorldX = 0f;
             player.Z = 2.5f;
             player.Init();
-            player.SetInput(new KeyboardInput()); // P1 = keyboard (byte-identical single-player)
+            player.SetInput(MakeInput(_p1Input));   // P1's control surface, chosen on the setup screen
 
             // First weapon pickup pops a one-time "press E to fire" teach (TutorialController
             // exposes the self-dismissing overlay; it outlives the tutorial component).
@@ -145,7 +154,10 @@ namespace ThisL
             sys.transform.SetParent(_worldRoot.transform);
             sys.AddComponent<Backdrop>();
             sys.AddComponent<Hud>();
-            sys.AddComponent<CoopJoin>();   // press START on a gamepad to drop in P2
+            sys.AddComponent<CoopJoin>();   // press START on a gamepad to also drop in P2 mid-run
+
+            // 2-player was chosen on the setup screen → P2 is already in from the start.
+            if (_playerCount == 2) SpawnPlayer2(MakeInput(_p2Input));
             return sys;
         }
 
@@ -211,6 +223,16 @@ namespace ThisL
         {
             if (Current != State.Playing || _worldRoot == null) return;
             if (PlayerController.All.Count >= 2) return;
+            SpawnPlayer2(new GamepadInput(padIndex));
+            Sfx.Play("confirm");
+            Debug.Log($"[Coop] Player 2 joined on gamepad {padIndex}.");
+        }
+
+        /// <summary>Create the second fighter with the given control surface (from the setup screen
+        /// up-front, or from a mid-run Start-to-join). No-op if the world is gone or P2 already exists.</summary>
+        private void SpawnPlayer2(IPlayerInput input)
+        {
+            if (_worldRoot == null || PlayerController.All.Count >= 2) return;
 
             var p2Go = new GameObject("Player2");
             p2Go.transform.SetParent(_worldRoot.transform);
@@ -223,11 +245,8 @@ namespace ThisL
             p2.WorldX = (anchor != null ? anchor.WorldX : 0f) + 1.5f;
             p2.Z = 2.5f;
             p2.Init();
-            p2.SetInput(new GamepadInput(padIndex));
+            p2.SetInput(input);
             if (p2.Sr != null) p2.Sr.color = new Color(0.62f, 0.80f, 1f); // cool tint = P2 (until distinct art)
-
-            Sfx.Play("confirm");
-            Debug.Log($"[Coop] Player 2 joined on gamepad {padIndex}.");
         }
 
         private void TeardownWorld()
@@ -265,6 +284,7 @@ namespace ThisL
             {
                 case State.Title: TitleGUI(w, h); break;
                 case State.Menu: MenuGUI(w, h); break;
+                case State.PlayerSetup: PlayerSetupGUI(w, h); break;
                 case State.CharacterSelect: CharacterSelectGUI(w, h); break;
                 case State.HowToPlay: HowToPlayGUI(w, h); break;
             }
@@ -293,6 +313,52 @@ namespace ThisL
                 Sfx.Play("confirm");
                 GoMenu();
             }
+        }
+
+        // 1P/2P + per-player input selection, shown before character select (replaces the old
+        // "press Start on a pad to join" guesswork).
+        private void PlayerSetupGUI(float w, float h)
+        {
+            GUI.Label(new Rect(0, 30, w, 40), _endlessPending ? "ENDLESS — SETUP" : "SETUP", _title);
+            float cx = w / 2f;
+
+            if (OptionRow(cx, 110f, "PLAYERS", new[] { "1", "2" }, _playerCount - 1, out int pc)) _playerCount = pc + 1;
+            if (OptionRow(cx, 180f, "PLAYER 1", InputNames, (int)_p1Input, out int p1)) _p1Input = (InputKind)p1;
+            if (_playerCount == 2 && OptionRow(cx, 250f, "PLAYER 2", InputNames, (int)_p2Input, out int p2))
+                _p2Input = (InputKind)p2;
+
+            if (Button(new Rect(cx - 130f, 330f, 260f, 40f), "CONTINUE  →"))
+            {
+                Sfx.Play("confirm");
+                GoCharacterSelect(_endlessPending);
+            }
+
+            GUI.Label(new Rect(0, h - 30, w, 24), "click to choose  ·  Esc to go back", _hint);
+            var ev = Event.current;
+            if (ev.type == EventType.KeyDown && ev.keyCode == KeyCode.Escape) { Sfx.Play("cancel"); GoMenu(); }
+        }
+
+        /// <summary>A centered "LABEL  [opt][opt][opt]" chooser row; returns true (with the clicked
+        /// index) when an option was clicked this frame.</summary>
+        private bool OptionRow(float cx, float y, string label, string[] opts, int sel, out int clicked)
+        {
+            clicked = -1;
+            GUI.color = Color.white;
+            GUI.Label(new Rect(cx - 160f, y, 320f, 20f), label, _hint);
+            float ow = opts.Length <= 2 ? 90f : 150f, gap = 8f;
+            float total = opts.Length * ow + (opts.Length - 1) * gap;
+            float ox = cx - total / 2f;
+            var ev = Event.current;
+            for (int i = 0; i < opts.Length; i++)
+            {
+                var r = new Rect(ox + i * (ow + gap), y + 22f, ow, 32f);
+                GUI.color = i == sel ? new Color(0.22f, 0.5f, 0.85f) : new Color(0.16f, 0.19f, 0.27f);
+                GUI.DrawTexture(r, Texture2D.whiteTexture);
+                GUI.color = Color.white;
+                GUI.Label(new Rect(r.x, r.y + 6f, r.width, r.height), opts[i], _label);
+                if (ev.type == EventType.MouseDown && r.Contains(ev.mousePosition)) clicked = i;
+            }
+            return clicked >= 0;
         }
 
         private void MenuGUI(float w, float h)
@@ -353,11 +419,25 @@ namespace ThisL
             Sfx.Play("confirm");
             switch (i)
             {
-                case 0: GoCharacterSelect(false); break; // Campaign
-                case 1: GoCharacterSelect(true); break;  // Endless Mode
+                case 0: GoPlayerSetup(false); break;     // Campaign → 1P/2P setup → character select
+                case 1: GoPlayerSetup(true); break;      // Endless Mode
                 case 2: GoHowToPlay(); break;            // How to Play
             }
         }
+
+        private void GoPlayerSetup(bool endless)
+        {
+            _endlessPending = endless;
+            Current = State.PlayerSetup;
+        }
+
+        /// <summary>Build the control surface a player picked on the setup screen.</summary>
+        private static IPlayerInput MakeInput(InputKind kind) => kind switch
+        {
+            InputKind.Controller1 => new GamepadInput(0),
+            InputKind.Controller2 => new GamepadInput(1),
+            _ => new KeyboardInput(),
+        };
 
         private void DiffButton(Rect r, Difficulty d, string label)
         {
