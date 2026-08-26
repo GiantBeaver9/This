@@ -120,14 +120,18 @@ namespace ThisL
             HitsRemaining = 10, Warmup = 0.15f,
         };
 
-        /// <summary>Ball &amp; Chain — heavy launcher (§3.3/§6): swings as 20/hit heavy melee,
-        /// 3 uses. The directional E-launch shapes and 20% carry-slow are wired in
-        /// PlayerController (COMBOS.md §3); modelled here as a slow 3-durability melee.</summary>
-        public static Weapon BallChain() => new()
+        /// <summary>Ball &amp; Chain — heavy launcher (§3.3/§6): swings as 20/hit heavy melee on the
+        /// arrow, and on E does a big 80-dmg arc launch that floors a whole crowd in front. 3 uses.</summary>
+        public static Weapon BallChain()
         {
-            Kind = WeaponKind.BallChain, Reach = 2.5f, Damage = 20,
-            HitsRemaining = 3, Warmup = 0.40f,
-        };
+            var w = new Weapon
+            {
+                Kind = WeaponKind.BallChain, Reach = 2.5f, Damage = 20,
+                HitsRemaining = 3, Warmup = 0.40f, IsRanged = true,
+            };
+            w.FireImpl = p => WeaponFx.SwingBallChain(p, w);
+            return w;
+        }
 
         /// <summary>Staff — magic caster (§3.5/§6). Element is randomly locked at pickup; per-hit
         /// value = that element's base (Ice 8 / Fire 6 / Lightning 12), 6 casts. Casts a status
@@ -251,6 +255,26 @@ namespace ThisL
             b.OnFirstHit = () => p.CurrentWeapon = Weapon.Fists();  // HIT → it bounces away, you lose it
             w.FireCooldown = 1.2f;                                  // round-trip lockout; MISS returns to hand
             Sfx.Play("boomerang_throw");
+            return true;
+        }
+
+        /// <summary>Ball &amp; Chain E-launch (§3.3): one heavy arc that hits a whole crowd in front for
+        /// 80 and floors them (knockdown). First pass of the launcher; the 4 named launch shapes
+        /// (Meteor/Uppercut/Ground-Zero/Full-Swing) + carry-slow are a tuning follow-up.</summary>
+        public static bool SwingBallChain(PlayerController p, Weapon w)
+        {
+            var hits = Combat.MeleeHitDirectional(p, new Vector2(p.Facing, 0f), 2.8f, 1.2f, 80, 1f);
+            foreach (var a in hits)
+            {
+                if (a is IStaggerable s) s.ApplyStagger(1.2f);   // floor them
+                Vfx.HitSpark(a.WorldX, a.Z);
+            }
+            Vfx.Gust(p.WorldX + p.Facing * 2.8f, p.Z, p.Facing);
+            Sfx.Play("ground_smash");
+            CameraShake.Add(CameraShake.Heavy);
+            HitStop.Freeze(HitStop.Sweep);
+            w.FireCooldown = 0.6f;
+            if (w.Spend()) p.CurrentWeapon = Weapon.Fists();     // 3 launches then spent
             return true;
         }
 
