@@ -24,21 +24,29 @@ namespace ThisL
             if (p == null || !p.Alive) return;
 
             int stage = CampaignRunner.Instance != null ? CampaignRunner.Instance.CurrentStage : 0;
-            if (stage != _lastStage) { ClearAll(); _lastStage = stage; _nextX = p.WorldX + FirstAtWu; }
+            if (stage != _lastStage) { ClearAll(); _lastStage = stage; _stageStartX = p.WorldX; _nextX = p.WorldX + FirstAtWu; }
 
             // Place upcoming obstacles as they come within ~half a screen off the right edge.
             float horizon = p.WorldX + Tuning.ScreenWidthUnits * 0.5f + 4f;
             int guard = 0;
-            while (_nextX <= horizon && guard++ < 16)
+            while (_nextX <= horizon && guard++ < 24)
             {
                 PlaceAt(_nextX, stage);
-                _nextX += SpacingFor(stage);
+                _nextX += SpacingFor(stage, p.WorldX);
             }
             CullBehind(p.WorldX - 34f);   // keep the live count bounded (dense parked-car rows)
         }
 
-        /// <summary>Lincoln lines BOTH curbs with parked cars (dense); other stages are sparser.</summary>
-        private float SpacingFor(int stage) => stage == 0 ? 22f : SpacingWu;
+        /// <summary>Obstacles RAMP from sparse at the stage start to dense near the end (creator: "~2 at
+        /// the beginning, ~7-8 at the end"). Progress = how far into the ~1400 wu ramp the player is.</summary>
+        private float SpacingFor(int stage, float playerX)
+        {
+            float progress = Mathf.Clamp01((playerX - _stageStartX) / 1400f);
+            // lv1 drops 2 cars (both curbs) per step, so its spacing is wider than single-obstacle stages.
+            float startSp = stage == 0 ? 50f : 72f;
+            float endSp   = stage == 0 ? 10f : 22f;
+            return Mathf.Lerp(startSp, endSp, progress);
+        }
 
         private static void CullBehind(float cutoffX)
         {
