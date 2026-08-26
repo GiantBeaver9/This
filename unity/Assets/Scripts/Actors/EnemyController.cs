@@ -31,6 +31,13 @@ namespace ThisL
         private bool _relentless;      // swarmers rush without standoff/backoff
         private bool _zombie;          // rose again from a gun headshot (§3.1) — a slower green HOSTILE
 
+        // Staff status effects (§3.5): Ice freezes, Fire burns (DoT + walking-bomb on death),
+        // Lightning stuns + slows. All decay on their own timers.
+        private float _freezeTimer;
+        private float _burnTimer, _burnTick;
+        private float _slowTimer;
+        private bool _ignited;         // once set on fire, dying pops a walking-bomb blast
+
         public void Init(EnemyDef def)
         {
             Def = def;
@@ -50,6 +57,31 @@ namespace ThisL
             if (_state == State.Dead) return;
             float dt = Time.deltaTime;
             _cooldown = Mathf.Max(0f, _cooldown - dt);
+            _slowTimer = Mathf.Max(0f, _slowTimer - dt);
+
+            // Ice: frozen solid — no AI, icy tint, until it thaws.
+            if (_freezeTimer > 0f)
+            {
+                _freezeTimer -= dt;
+                ReleaseSlot();
+                if (Sr != null) Sr.color = new Color(0.6f, 0.85f, 1f);
+                Anim.Play("idle", true);
+                return;
+            }
+
+            // Fire: burn DoT in 0.5 s ticks (6/s). A burning enemy is "ignited" → pops on death.
+            if (_burnTimer > 0f)
+            {
+                _burnTimer -= dt;
+                _burnTick -= dt;
+                if (_burnTick <= 0f)
+                {
+                    _burnTick = 0.5f;
+                    Vfx.HitSpark(WorldX, Z);
+                    TakeDamage(3f, null);
+                    if (!Alive) return; // burned to death → OnDeath pops the walking bomb
+                }
+            }
 
             // Global reshuffle: every few seconds pass attack priority so different
             // enemies get a turn (idempotent — first enemy past the mark advances it).
@@ -73,7 +105,10 @@ namespace ThisL
                     float t = Mathf.PingPong(Time.time * 9f, 1f);
                     Sr.color = Color.Lerp(new Color(1f, 0.85f, 0.35f), new Color(1f, 0.25f, 0.2f), t);
                 }
-                else if (_state != State.Dead) Sr.color = _zombie ? ZombieTint : Color.white;
+                else if (_state != State.Dead)
+                    Sr.color = _burnTimer > 0f
+                        ? Color.Lerp(new Color(1f, 0.5f, 0.12f), Color.white, Mathf.PingPong(Time.time * 12f, 1f))
+                        : _zombie ? ZombieTint : Color.white;
             }
 
             switch (_state)
@@ -154,7 +189,33 @@ namespace ThisL
             MoveTo(desiredX, targetZ, EffSpeed, dt);
         }
 
-        private float EffSpeed => Def.Speed * Tuning.EnemySpeedMult * (_zombie ? 0.6f : 1f); // zombies shamble
+        private float EffSpeed => Def.Speed * Tuning.EnemySpeedMult
+            * (_zombie ? 0.6f : 1f)                 // zombies shamble
+            * (_slowTimer > 0f ? 0.5f : 1f);        // lightning slow (§3.5)
+
+        /// <summary>
+        /// Apply a Staff element's status (§3.5) — the cast projectile already dealt its base
+        /// damage; this adds the EFFECT only. Ice = freeze 3 s; Fire = ignite (burn DoT + a
+        /// walking-bomb blast if it dies burning); Lightning = brief stun + a 3 s move-slow.
+        /// </summary>
+        public void ApplyStaffStatus(StaffElement el)
+        {
+            if (_state == State.Dead || !Alive) return;
+            switch (el)
+            {
+                case StaffElement.Ice:
+                    _freezeTimer = 3f;
+                    break;
+                case StaffElement.Fire:
+                    _burnTimer = Mathf.Max(_burnTimer, 3f);
+                    _ignited = true;
+                    break;
+                default: // Lightning
+                    _slowTimer = 3f;
+                    ApplyStagger(1.0f);
+                    break;
+            }
+        }
 
         private static readonly Color ZombieTint = new(0.55f, 0.9f, 0.5f);
 
@@ -273,6 +334,15 @@ namespace ThisL
             Anim.Play("death", false, restart: true);
             Vfx.DeathBurst(WorldX, Z);
             Sfx.Play("knockdown_thud");
+
+            // Fire walking-bomb (§3.5): an enemy that dies while ignited detonates, hitting
+            // BOTH nearby enemies and the player (friendlyFire) — a chain-reaction payoff.
+            if (_ignited)
+            {
+                Explosion.Blast(Team.Enemy, WorldX, Z, 1.6f, 15f, friendlyFire: true, except: this);
+                Sfx.Play("grenade_explode");
+                CameraShake.Add(CameraShake.Medium);
+            }
 
             if (!_killedBySpecial && !_zombie)   // a re-killed zombie already gave its loot the first time
             {

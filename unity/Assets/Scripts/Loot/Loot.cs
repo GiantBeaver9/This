@@ -129,19 +129,21 @@ namespace ThisL
             HitsRemaining = 3, Warmup = 0.40f,
         };
 
-        /// <summary>Staff — magic caster (§3.5/§6). Element is randomly locked at pickup;
-        /// per-hit value = that element's base (Ice 8 / Fire 6 / Lightning 12), 6 casts.
-        /// Kept as a swung melee per the roster wiring; the freeze/DoT/stun status effects
-        /// are enemy-side and are not modelled at the Weapon seam.</summary>
+        /// <summary>Staff — magic caster (§3.5/§6). Element is randomly locked at pickup; per-hit
+        /// value = that element's base (Ice 8 / Fire 6 / Lightning 12), 6 casts. Casts a status
+        /// bolt on E (Ice=freeze, Fire=burn+walking-bomb, Lightning=stun+slow); still bonks as a
+        /// short melee on the arrow.</summary>
         public static Weapon Staff()
         {
             var el = (StaffElement)Random.Range(0, 3);
             int dmg = el switch { StaffElement.Ice => 8, StaffElement.Fire => 6, _ => 12 };
-            return new Weapon
+            var w = new Weapon
             {
                 Kind = WeaponKind.Staff, Reach = 1.8f, Damage = dmg,
-                HitsRemaining = 6, Warmup = 0.35f, Element = el,
+                HitsRemaining = 6, Warmup = 0.35f, Element = el, IsRanged = true,
             };
+            w.FireImpl = p => WeaponFx.CastStaff(p, w);
+            return w;
         }
 
         // ---- Ranged (fired via E; carry a FireImpl) --------------------------
@@ -250,6 +252,27 @@ namespace ThisL
             proj.OnConnect = () => p.CurrentWeapon = Weapon.Fists(); // lost the moment it connects
             w.FireCooldown = proj.Life + 0.1f;                       // re-throw after a miss returns
             Sfx.Play("boomerang_throw");
+            return true;
+        }
+
+        /// <summary>Staff: cast a status bolt straight ahead — the element (locked at pickup) applies
+        /// freeze / burn / stun+slow on hit (§3.5). Base damage rides on the bolt itself.</summary>
+        public static bool CastStaff(PlayerController p, Weapon w)
+        {
+            Color col = w.Element switch
+            {
+                StaffElement.Ice => new Color(0.6f, 0.9f, 1f),
+                StaffElement.Fire => new Color(1f, 0.5f, 0.15f),
+                _ => new Color(1f, 0.95f, 0.3f),   // Lightning
+            };
+            var proj = Projectile.Spawn(Team.Player, p.WorldX + p.Facing * 0.6f, p.Z, p.Facing,
+                                        26f, w.Damage, col);
+            proj.StaffEffect = w.Element;
+            Vfx.MuzzleFlash(p.WorldX + p.Facing * 0.9f, p.Z, p.Facing);
+            Sfx.Play("swing_whoosh");
+            CameraShake.Add(CameraShake.Light);
+            w.FireCooldown = 0.40f;
+            if (w.Spend()) p.CurrentWeapon = Weapon.Fists();   // 6 casts then spent
             return true;
         }
 
