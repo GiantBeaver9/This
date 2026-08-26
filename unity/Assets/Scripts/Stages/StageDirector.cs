@@ -149,7 +149,10 @@ namespace ThisL
                     break;
 
                 case DirectorState.AwaitClear:
-                    if (CountLiveEnemies() == 0)
+                    // An arena clears when its PURSUERS are down — pods + their swarmers (position-
+                    // triggered by PodDirector, roaming the travel stretches) are excluded so a pod
+                    // you left behind never blocks the next arena. Creator: pods give a break, not a gate.
+                    if (CountPursuers() == 0)
                     {
                         AdvanceCameraAfterWave();
                         NextWave();

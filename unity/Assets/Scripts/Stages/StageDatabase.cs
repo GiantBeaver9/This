@@ -96,7 +96,7 @@ namespace ThisL
                 };
                 st.Waves.Add(Wave.Vignette("Vignette: guard shoots T1 → zombifies → grab → fall"));
                 st.Waves.Add(Wave.Spawn("Wave 1", 0.9f, E(EnemyArchetype.Regular, 3, SpawnSide.L)));
-                st.Waves.Add(Wave.Spawn("Wave 2 (Pod + Regulars)", 0.8f, E(EnemyArchetype.Pod, 1, SpawnSide.B), E(EnemyArchetype.Regular, 2, SpawnSide.L)));
+                st.Waves.Add(Wave.Spawn("Wave 2 (Regulars)", 0.8f, E(EnemyArchetype.Regular, 3, SpawnSide.L))); // pods now come from PodDirector (position-triggered), not the wave flood
                 st.Waves.Add(Wave.Checkpoint("CHECKPOINT (atrium)"));
                 st.Waves.Add(Wave.Spawn("Wave 3 (first Zombie)", 0.8f, E(EnemyArchetype.Zombie, 1, SpawnSide.A), E(EnemyArchetype.Regular, 3, SpawnSide.L)));
                 st.Waves.Add(Wave.Filler("Filler (Regular/Swarmer-pod/Zombie)", 12, 16));
