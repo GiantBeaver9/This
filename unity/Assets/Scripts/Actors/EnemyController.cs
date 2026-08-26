@@ -444,7 +444,10 @@ namespace ThisL
 
         public override bool TakeDamage(float amount, Actor source)
         {
-            if (_state != State.Dead && _state != State.Stagger && Alive)
+            // Flinch on a hit — but NOT while winding up a punch: a committed swing plays through a
+            // light hit so enemies actually TRADE blows with you (creator: "no back-and-forthing").
+            // A heavy hit still interrupts by going through ApplyStagger/Launch, which sets the state.
+            if (_state != State.Dead && _state != State.Stagger && _state != State.Windup && Alive)
                 Anim.Play("hurt", false, restart: true);
             return base.TakeDamage(amount, source);
         }

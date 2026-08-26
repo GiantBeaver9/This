@@ -23,7 +23,7 @@ namespace ThisL
         public const float SideArcZTolerance = 1.7f;     // WIDE ~90° punch arc in front (creator: open it up, not just dead-ahead)
         public const float SweepZTolerance = 1.3f;       // combo sweep wide arc
         public const float PursuerSeparation = 1.0f;     // enemy<->enemy min center distance
-        public const int MaxAttackers = 3;               // melee ring: how many commit a swing at once (a few, not one)
+        public const int MaxAttackers = 4;               // melee ring: how many commit a swing at once (more trading)
         public const float StandoffRing = 2.8f;          // the rest circle at this distance
         public const float EnemySpeedMult = 0.8f;        // global 20% slower enemy movement (pace)
         public const float EnemyAttackZTolerance = 0.6f; // forgiving depth window when an enemy commits its hit
@@ -33,8 +33,8 @@ namespace ThisL
         public const int MaxPursuers = 8;                // (legacy) baseline pursue cap
 
         // ---- Beat-'em-up horde feel (back-off rhythm + ramp) -----------------
-        public const float BackoffMin = 0.6f;            // after a swing, retreat this long (min)
-        public const float BackoffMax = 1.2f;            // ...max (randomised per enemy)
+        public const float BackoffMin = 0.3f;            // after a swing, retreat this long (min) — re-engage fast to trade
+        public const float BackoffMax = 0.65f;           // ...max (randomised per enemy)
         public const float BackoffSpeedMult = 0.85f;     // retreat a touch slower than approach
         public const float ZSpreadBias = 1.6f;           // ± depth offset each pursuer holds (Z-spread)
 
