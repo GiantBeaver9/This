@@ -728,8 +728,8 @@ namespace ThisL
             _phaseTimer = PhaseStartup();
             _hitResolved = false;
             _bufferedAttack = false;
-            Anim.Play("attack_down", false, restart: true); // downward STOMP read (creator ruling)
-            Sfx.Play("swing_whoosh");
+            Anim.Play("stomp", false, restart: true); // finisher = a downward STOMP on the floored enemy
+            Sfx.Play("finisher_crunch");
         }
 
         private void StartStrike(AttackKind kind) // standalone up/down normal (not part of the string)
