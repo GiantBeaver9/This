@@ -15,6 +15,7 @@ namespace ThisL
         public float FirstAtWu = 40f;
 
         private float _nextX = float.NaN;
+        private float _stageStartX;        // player's X when the current stage began (density-ramp origin)
         private int _lastStage = -1;
 
         private void Update()
