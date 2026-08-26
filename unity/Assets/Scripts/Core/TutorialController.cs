@@ -112,7 +112,7 @@ namespace ThisL
         // =====================================================================
         private IEnumerator DemoPunch()
         {
-            var demo = SpawnDummy(-4.0f, DemoZ, 1, "sprites/characters/zebra", "zebra");
+            var demo = SpawnDummy(-4.0f, DemoZ, 1, "sprites/characters/zebra_mascot", "zebra_mascot");
             var front = SpawnDummy(-2.8f, DemoZ, -1);      // to its right  (→)
             var back = SpawnDummy(-5.2f, DemoZ, 1);        // to its left   (←)
             yield return Wait(0.5f);
@@ -164,16 +164,17 @@ namespace ThisL
         // =====================================================================
         private IEnumerator DemoFinisher()
         {
-            var zebra = SpawnDummy(-4.0f, DemoZ, 1, "sprites/characters/zebra", "zebra");
+            var zebra = SpawnDummy(-4.0f, DemoZ, 1, "sprites/characters/zebra_mascot", "zebra_mascot");
             var victim = SpawnDummy(-2.9f, DemoZ, -1);      // thug the zebra will floor + execute
             var attacker = SpawnDummy(-5.4f, DemoZ, 1);     // second thug, waiting BEHIND the zebra
             yield return Wait(0.5f);
 
-            // 1) Knock the victim DOWN.
+            // 1) Knock the victim DOWN — with a HORSE MULE-KICK (creator: the zebra's knockdown is a
+            //    kick like a horse). It faces AWAY so the back-kick lashes into the victim behind it.
             SetArrow("↓", "knock them down");
-            zebra.Facing = 1;
-            PlayIf(zebra, "attack_side");
-            Sfx.Play("punch_1");
+            zebra.Facing = -1;
+            PlayIf(zebra, "kick");
+            Sfx.Play("knockdown_thud");
             yield return Wait(0.15f);
             if (victim != null)
             {
@@ -185,6 +186,7 @@ namespace ThisL
 
             // 2) STOMP to execute — and get CLOCKED mid-stomp (the whole point of this step).
             SetArrow("↓", "then FINISH");
+            zebra.Facing = 1;                    // turn back to face the downed victim for the stomp
             PlayIf(zebra, "attack_down");
             Sfx.Play("finisher_crunch");
             Vfx.FinisherFlash(victim != null ? victim.WorldX : zebra.WorldX + 1f, DemoZ);
@@ -246,7 +248,7 @@ namespace ThisL
         // =====================================================================
         private IEnumerator DemoDash()
         {
-            var zebra = SpawnDummy(-5.6f, DemoZ, 1, "sprites/characters/zebra", "zebra");
+            var zebra = SpawnDummy(-5.6f, DemoZ, 1, "sprites/characters/zebra_mascot", "zebra_mascot");
             var crowd = new List<PassiveDummy>();
             for (int i = 0; i < 3; i++)
                 crowd.Add(SpawnDummy(-3.6f + i * 0.5f, DemoZ + (i - 1) * 0.35f, -1));

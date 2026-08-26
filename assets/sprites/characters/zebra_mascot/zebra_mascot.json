@@ -193,7 +193,7 @@
         ]
       },
       {
-        "name": "zebra_mascot_walk_00.png",
+        "name": "zebra_mascot_kick_00.png",
         "rect": [
           195,
           107,
@@ -202,10 +202,73 @@
         ]
       },
       {
+        "name": "zebra_mascot_kick_01.png",
+        "rect": [
+          231,
+          108,
+          19,
+          51
+        ]
+      },
+      {
+        "name": "zebra_mascot_kick_02.png",
+        "rect": [
+          265,
+          109,
+          24,
+          50
+        ]
+      },
+      {
+        "name": "zebra_mascot_kick_03.png",
+        "rect": [
+          1,
+          168,
+          34,
+          44
+        ]
+      },
+      {
+        "name": "zebra_mascot_kick_04.png",
+        "rect": [
+          38,
+          169,
+          34,
+          43
+        ]
+      },
+      {
+        "name": "zebra_mascot_kick_05.png",
+        "rect": [
+          77,
+          166,
+          31,
+          46
+        ]
+      },
+      {
+        "name": "zebra_mascot_kick_06.png",
+        "rect": [
+          117,
+          160,
+          25,
+          52
+        ]
+      },
+      {
+        "name": "zebra_mascot_walk_00.png",
+        "rect": [
+          158,
+          160,
+          17,
+          52
+        ]
+      },
+      {
         "name": "zebra_mascot_walk_01.png",
         "rect": [
-          230,
-          107,
+          193,
+          160,
           20,
           52
         ]
@@ -213,8 +276,8 @@
       {
         "name": "zebra_mascot_walk_02.png",
         "rect": [
-          263,
-          109,
+          226,
+          162,
           29,
           50
         ]
@@ -222,7 +285,7 @@
       {
         "name": "zebra_mascot_walk_03.png",
         "rect": [
-          8,
+          267,
           161,
           21,
           51
@@ -231,8 +294,8 @@
       {
         "name": "zebra_mascot_walk_04.png",
         "rect": [
-          47,
-          160,
+          10,
+          213,
           17,
           52
         ]
@@ -240,8 +303,8 @@
       {
         "name": "zebra_mascot_walk_05.png",
         "rect": [
-          83,
-          160,
+          46,
+          213,
           19,
           52
         ]
@@ -249,8 +312,8 @@
       {
         "name": "zebra_mascot_walk_06.png",
         "rect": [
-          115,
-          161,
+          78,
+          214,
           28,
           51
         ]
@@ -258,7 +321,7 @@
     ],
     "size": [
       296,
-      212
+      265
     ]
   },
   "ppu": 24,
