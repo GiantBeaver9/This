@@ -29,10 +29,23 @@ namespace ThisL
             // Place upcoming obstacles as they come within ~half a screen off the right edge.
             float horizon = p.WorldX + Tuning.ScreenWidthUnits * 0.5f + 4f;
             int guard = 0;
-            while (_nextX <= horizon && guard++ < 8)
+            while (_nextX <= horizon && guard++ < 16)
             {
                 PlaceAt(_nextX, stage);
-                _nextX += SpacingWu;
+                _nextX += SpacingFor(stage);
+            }
+            CullBehind(p.WorldX - 34f);   // keep the live count bounded (dense parked-car rows)
+        }
+
+        /// <summary>Lincoln lines BOTH curbs with parked cars (dense); other stages are sparser.</summary>
+        private float SpacingFor(int stage) => stage == 0 ? 22f : SpacingWu;
+
+        private static void CullBehind(float cutoffX)
+        {
+            for (int i = Obstacle.All.Count - 1; i >= 0; i--)
+            {
+                var o = Obstacle.All[i];
+                if (o != null && o.X < cutoffX) Destroy(o.gameObject);
             }
         }
 
@@ -46,13 +59,17 @@ namespace ThisL
 
         private static void PlaceAt(float x, int stage)
         {
-            float z = Random.Range(1.2f, Tuning.ZBandDepth - 1.2f);   // leave a lane open on either side
-            switch (stage)
+            if (stage == 0)
             {
-                case 0:  Obstacle.Spawn(CarSprite(),   x, z, 1.5f, 0.5f, new Vector2(3.0f, 1.4f)); break; // parked cars
-                case 2:  Obstacle.Spawn(KioskSprite(), x, z, 0.8f, 0.7f, new Vector2(2.2f, 2.2f)); break; // mall kiosks
-                default: Obstacle.Spawn(CrateSprite(), x, z, 0.7f, 0.6f, new Vector2(1.8f, 1.8f)); break; // generic crates
+                // Lincoln: parked cars line BOTH curbs (near + far row), the road stays open down the
+                // middle. Stagger the far car so the two sides don't sit perfectly abreast.
+                Obstacle.Spawn(CarSprite(), x,        0.7f,                       1.5f, 0.5f, new Vector2(3.0f, 1.4f));
+                Obstacle.Spawn(CarSprite(), x + 8f,   Tuning.ZBandDepth - 0.7f,   1.5f, 0.5f, new Vector2(3.0f, 1.4f));
+                return;
             }
+            float z = Random.Range(1.2f, Tuning.ZBandDepth - 1.2f);   // leave a lane open on either side
+            if (stage == 2) Obstacle.Spawn(KioskSprite(), x, z, 0.8f, 0.7f, new Vector2(2.2f, 2.2f)); // mall kiosks
+            else            Obstacle.Spawn(CrateSprite(), x, z, 0.7f, 0.6f, new Vector2(1.8f, 1.8f)); // generic crates
         }
 
         // ---- Placeholder sprites (real prop art can replace these later) ----------

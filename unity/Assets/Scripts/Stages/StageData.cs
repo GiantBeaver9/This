@@ -25,7 +25,7 @@ namespace ThisL
         /// be about 8x as long, so we can add obstacles"). The arena count scales with this in
         /// StageDirector.ExpandWaves so the fights stay ~3 screens apart (obstacle room between, not
         /// one giant empty walk). Finale overrides to ~30 (pure boss arena).</summary>
-        public float LaneLengthWu = 1200f;
+        public float LaneLengthWu = 1600f;
 
         /// <summary>The ordered spine: vignette / spawn / checkpoint / filler-marker / boss waves.</summary>
         public readonly List<Wave> Waves = new();

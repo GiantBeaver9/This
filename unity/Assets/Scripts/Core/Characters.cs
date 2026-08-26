@@ -128,7 +128,7 @@ namespace ThisL
         {
             p.Anim?.Play("transform", false, restart: true); // power-lean + arch-back + scream art
             float dur = tier <= 1 ? 5f : tier == 2 ? 7f : 9f;  // transform window by fill
-            SpecialSequences.Windup(p, () =>               // shared 0.45s slow-down wind-up, then transform
+            SpecialSequences.Windup(p, spin: false, payload: () => // no weapon spin — Gabe goes werewolf
             {
                 Sfx.Play("werewolf_transform_howl");
                 SpecialFx.Ring(p.WorldX, p.Z, 2.6f, new Color(1f, 0.8f, 0.3f));
@@ -147,7 +147,7 @@ namespace ThisL
         {
             float radius = tier <= 1 ? 3.0f : tier == 2 ? 4.0f : 5.0f; // wider radius per fill
             p.Anim?.Play("special", false, restart: true);
-            SpecialSequences.Windup(p, () =>               // shared 0.45s slow-down wind-up, then vaporize
+            SpecialSequences.Windup(p, spin: false, payload: () => // no weapon spin — Bert vaporizes bare-handed
             {
                 Sfx.Play("underdog_vaporize_whomp");
                 SpecialFx.Ring(p.WorldX, p.Z, radius, new Color(0.75f, 0.5f, 1f));   // the vaporize radius

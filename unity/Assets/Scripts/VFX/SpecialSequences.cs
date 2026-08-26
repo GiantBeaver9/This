@@ -13,8 +13,8 @@ namespace ThisL
         /// <summary>The shared special WIND-UP (creator: "all of them need the 0.45 slow-down"): time
         /// slows to a crawl, a blackish blur spins up at the hands + a charge glow, then after ~0.45s
         /// real-time it restores normal speed and runs <paramref name="payload"/> (the actual effect).</summary>
-        public static void Windup(PlayerController p, System.Action payload, float seconds = 0.45f) =>
-            new GameObject("fx_special_windup").AddComponent<WindupSeq>().Begin(p, payload, seconds);
+        public static void Windup(PlayerController p, System.Action payload, bool spin = true, float seconds = 0.45f) =>
+            new GameObject("fx_special_windup").AddComponent<WindupSeq>().Begin(p, payload, spin, seconds);
 
         public static void SniperRicochet(Actor from, int maxKills) =>
             new GameObject("fx_sniper_seq").AddComponent<SniperSeq>().Begin(from, maxKills);
@@ -100,15 +100,15 @@ namespace ThisL
 
         private sealed class WindupSeq : MonoBehaviour
         {
-            private PlayerController _p; private System.Action _payload; private float _sec;
-            public void Begin(PlayerController p, System.Action payload, float sec)
-            { _p = p; _payload = payload; _sec = sec; StartCoroutine(Run()); }
+            private PlayerController _p; private System.Action _payload; private float _sec; private bool _spin;
+            public void Begin(PlayerController p, System.Action payload, bool spin, float sec)
+            { _p = p; _payload = payload; _spin = spin; _sec = sec; StartCoroutine(Run()); }
 
             private IEnumerator Run()
             {
                 Time.timeScale = 0.4f;                     // the slow-down beat (real-time waits below)
                 Sfx.Play("sniper_timeslow_enter");         // shared slow-mo whoosh
-                var blur = MakeSpinBlur(_p);
+                var blur = _spin ? MakeSpinBlur(_p) : null; // only weapon-users spin a weapon
                 if (_p != null) SpecialFx.Glow(_p, new Color(1f, 0.95f, 0.6f), _sec);
                 float t = 0f;
                 while (t < _sec)
