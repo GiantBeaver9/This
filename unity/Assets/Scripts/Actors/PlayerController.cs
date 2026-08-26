@@ -320,6 +320,11 @@ namespace ThisL
             float speed = (_input.WalkHeld ? Tuning.WalkSpeed : Tuning.RunSpeed) * Character.MoveSpeedMult;
             WorldX += dir.x * speed * dt;
             Z += dir.y * speed * dt;
+
+            // Weave around static obstacles (parked cars, kiosks, crates) — pushed out of their footprint.
+            float nx = WorldX, nz = Z;
+            Obstacle.Resolve(ref nx, ref nz, 0.45f);
+            WorldX = nx; Z = nz;
         }
 
         // ---- Dash (double-tap WASD or LeftShift) -----------------------------

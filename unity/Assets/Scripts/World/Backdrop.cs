@@ -201,6 +201,7 @@ namespace ThisL
             }
 
             Palette palette = PaletteFor(_area);
+            TweakPaletteForTheme(ref palette);
             BandDef[] defs = MakeBandDefs();
 
             foreach (var def in defs)
@@ -257,8 +258,12 @@ namespace ThisL
         /// <summary>Theme stems that IGNORE their strip art and render the procedural street instead
         /// (the strips read badly for these). Stage 1/2 (area1_suburb) use the real "two sidewalks +
         /// road" street; the MALL (area1_mall) does too so its store prop row (BuildMallStoreRow) sits
-        /// on the real street + grass verge. Add more stems here to roll the procedural street out further.</summary>
-        private static readonly HashSet<string> s_forceProcedural = new() { "area1_suburb", "area1_mall" };
+        /// on the real street + grass verge. Add more stems here to roll the procedural street out further.
+        /// The AIRPORT (area2_airport) and CAUSEWAY (area3_causeway) also use the procedural street so
+        /// their theme-aware far rows run: the airport's stationary control-tower landmark (parallax 0.15)
+        /// and the causeway's water/marsh dike row — neither reads right baked into a mid-parallax strip.</summary>
+        private static readonly HashSet<string> s_forceProcedural =
+            new() { "area1_suburb", "area1_mall", "area2_airport", "area3_causeway" };
 
         private bool BuildStripBands(List<LayerInstance> built)
         {
@@ -378,6 +383,10 @@ namespace ThisL
             // MALL theme: a continuous strip of two-story storefronts instead of the suburb houses.
             // Falls through to the house row if the store art is absent (graceful until it lands).
             if (IsMallTheme() && BuildMallStoreRow(built)) return;
+            // AIRPORT theme: terminals + parked planes along the apron instead of houses.
+            if (IsAirportTheme() && BuildAirportPropRow(built)) return;
+            // CAUSEWAY theme: a low levee/dike embankment line over the water, reeds + a water tower.
+            if (IsCausewayTheme() && BuildCausewayPropRow(built)) return;
 
             string dir = PropsDirForArea(_area);
             Sprite house = LoadProp(dir, "house.png");
@@ -437,6 +446,16 @@ namespace ThisL
         /// prop row for a row of two-story storefronts.</summary>
         private static bool IsMallTheme() =>
             !string.IsNullOrEmpty(s_themeStem) && s_themeStem.Trim().ToLowerInvariant() == "area1_mall";
+
+        /// <summary>True when the live theme stem is the Sacramento Airport (Stage 5), which swaps the
+        /// suburb house prop row for terminals + parked planes and shows the stationary control tower.</summary>
+        private static bool IsAirportTheme() =>
+            !string.IsNullOrEmpty(s_themeStem) && s_themeStem.Trim().ToLowerInvariant() == "area2_airport";
+
+        /// <summary>True when the live theme stem is the Davis Causeway (Stage 6), which reads as an
+        /// elevated road over marsh water: the house row becomes a low levee/dike line + reeds.</summary>
+        private static bool IsCausewayTheme() =>
+            !string.IsNullOrEmpty(s_themeStem) && s_themeStem.Trim().ToLowerInvariant() == "area3_causeway";
 
         /// <summary>Load the mall storefront sprites (assets/backdrops/area1_mall_props/store_*.png),
         /// name-sorted for a stable order. Empty list when the folder/art is absent.</summary>
@@ -508,6 +527,144 @@ namespace ThisL
                 TileWorld = rowWidth,
             });
             return true;
+        }
+
+        // ---- Airport apron (theme "area2_airport") ---------------------------------
+
+        /// <summary>
+        /// AIRPORT prop row: long low TERMINAL/hangar buildings with parked PLANES between them,
+        /// seated on the horizon in place of the suburb houses (the stationary control tower is the
+        /// separate landmark row behind, at parallax 0.15). Terminals never flip so their signage/jet
+        /// bridges read left-to-right; planes are parked scenery on the tarmac (NOT the flying-plane
+        /// hazard, which another system owns). Rides the same far parallax (0.24) and whole-tile wrap
+        /// as the house row. Returns false — the house row then runs — when no airport art is present.
+        /// </summary>
+        private bool BuildAirportPropRow(List<LayerInstance> built)
+        {
+            string dir = PropsDirForArea(_area);
+            Sprite terminal = LoadProp(dir, "terminal.png");
+            Sprite plane    = LoadProp(dir, "plane.png");
+            if (terminal == null && plane == null) return false;   // no airport art yet → house fallback
+
+            float horizon = Playfield.FeetY(Tuning.ZBandDepth);
+            float rowWidth = Tuning.ScreenWidthUnits * 3f;         // 3 screens so recentring always covers the view
+
+            var parent = new GameObject("band_airport_props");
+            parent.transform.SetParent(transform, false);
+
+            float x = -rowWidth * 0.5f;
+            int i = 0;
+            while (x < rowWidth * 0.5f)
+            {
+                bool usePlane = (i % 2 == 1) && plane != null;     // a parked plane between terminals
+                Sprite s = usePlane ? plane : (terminal ?? plane);
+                if (s == null) break;
+
+                float targetTall = usePlane ? 2.2f : 3.6f;         // low terminals; parked planes shorter
+                float natTall = s.rect.height / Tuning.PixelsPerUnit;
+                float scale = natTall > 0.01f ? targetTall / natTall : 1f;
+                float wWu = (s.rect.width / Tuning.PixelsPerUnit) * scale;
+
+                var go = new GameObject(usePlane ? "parked_plane" : "terminal");
+                go.transform.SetParent(parent.transform, false);
+                var sr = go.AddComponent<SpriteRenderer>();
+                sr.sprite = s;
+                sr.sortingOrder = -994;                            // same depth as the house prop row
+                go.transform.localScale = new Vector3(scale, scale, 1f);  // never flipped: signage/nose stays readable
+                go.transform.localPosition = new Vector3(x + wWu * 0.5f, horizon, 0f);
+
+                float gap = usePlane ? 1.4f : 0.6f;                // open apron gaps between structures
+                x += wWu + gap;
+                i++;
+            }
+
+            built.Add(new LayerInstance
+            {
+                Transform = parent.transform,
+                Parallax = 0.24f,          // far layer, same as the house row
+                BaseY = 0f,                // props carry their own horizon Y in localPosition
+                TileWorld = rowWidth,
+            });
+            return true;
+        }
+
+        // ---- Causeway marsh (theme "area3_causeway") -------------------------------
+
+        /// <summary>
+        /// CAUSEWAY prop row: the Davis/Yolo Causeway reads as an elevated road over marshland, so the
+        /// house row becomes a near-continuous low LEVEE/DIKE embankment line along the water, broken up
+        /// by clumps of REEDS/cattails and the occasional distant WATER TOWER. Dikes are near-touching
+        /// (a continuous embankment), reeds sit a touch in front, the tower is a rare tall accent. Rides
+        /// the same far parallax (0.24) and whole-tile wrap as the house row. Returns false — the house
+        /// row then runs — when no causeway art is present.
+        /// </summary>
+        private bool BuildCausewayPropRow(List<LayerInstance> built)
+        {
+            string dir = PropsDirForArea(_area);
+            Sprite dike  = LoadProp(dir, "dike.png");
+            Sprite reeds = LoadProp(dir, "reeds.png");
+            Sprite tower = LoadProp(dir, "water_tower.png");
+            if (dike == null && reeds == null && tower == null) return false;  // no marsh art yet → house fallback
+
+            float horizon = Playfield.FeetY(Tuning.ZBandDepth);
+            float rowWidth = Tuning.ScreenWidthUnits * 3f;         // 3 screens so recentring always covers the view
+
+            var parent = new GameObject("band_causeway_props");
+            parent.transform.SetParent(transform, false);
+
+            float x = -rowWidth * 0.5f;
+            int i = 0;
+            while (x < rowWidth * 0.5f)
+            {
+                bool useTower = (i % 7 == 4) && tower != null;                 // rare tall landmark
+                bool useReeds = !useTower && (i % 3 == 2) && reeds != null;    // occasional reed break
+                Sprite s = useTower ? tower : (useReeds ? reeds : (dike ?? reeds ?? tower));
+                if (s == null) break;
+
+                float targetTall = useTower ? 5.0f : (useReeds ? 1.7f : 1.4f);
+                float natTall = s.rect.height / Tuning.PixelsPerUnit;
+                float scale = natTall > 0.01f ? targetTall / natTall : 1f;
+                float wWu = (s.rect.width / Tuning.PixelsPerUnit) * scale;
+
+                var go = new GameObject(useTower ? "water_tower" : (useReeds ? "reeds" : "dike"));
+                go.transform.SetParent(parent.transform, false);
+                var sr = go.AddComponent<SpriteRenderer>();
+                sr.sprite = s;
+                sr.sortingOrder = useReeds ? -993 : -994;          // reeds a touch in front of the dike line
+                bool flip = !useTower && (i % 2) == 0;             // mirror dike/reeds for variety; tower upright
+                go.transform.localScale = new Vector3(flip ? -scale : scale, scale, 1f);
+                go.transform.localPosition = new Vector3(x + wWu * 0.5f, horizon, 0f);
+
+                float gap = useTower ? 2.5f : (useReeds ? 0.5f : 0.05f);   // dike near-continuous levee line
+                x += wWu + gap;
+                i++;
+            }
+
+            built.Add(new LayerInstance
+            {
+                Transform = parent.transform,
+                Parallax = 0.24f,          // far layer, same as the house row
+                BaseY = 0f,                // props carry their own horizon Y in localPosition
+                TileWorld = rowWidth,
+            });
+            return true;
+        }
+
+        /// <summary>Theme-specific palette nudges layered on top of the per-area palette. The Davis
+        /// Causeway reads as water/marsh, so its sky cools and its verge/curb go greener-blue so the
+        /// far background behind the dike line reads as marsh water rather than golden hills.</summary>
+        private static void TweakPaletteForTheme(ref Palette p)
+        {
+            if (IsCausewayTheme())
+            {
+                p.SkyTop    = new Color32(120, 175, 195, 255);   // cooler marsh-blue sky
+                p.SkyBottom = new Color32(190, 212, 208, 255);
+                p.Cloud     = new Color32(240, 246, 246, 255);
+                p.Grass     = new Color32(96, 138, 118, 255);    // marsh green-blue verge (the waterline)
+                p.Walk      = new Color32(150, 158, 160, 255);   // damp grey causeway concrete
+                p.WalkCrack = new Color32(115, 123, 128, 255);
+                p.WalkFront = new Color32(130, 138, 142, 255);
+            }
         }
 
         /// <summary>The signature landmark sprites for an area (empty = none yet). These make each
