@@ -713,7 +713,7 @@ namespace ThisL
             _phaseTimer = PhaseStartup();
             _hitResolved = false;
             _bufferedAttack = false;
-            Anim.Play("attack_side", false, restart: true);
+            Anim.Play("sweep", false, restart: true);   // #3 = the leg-sweep knockdown (was a plain punch)
             Sfx.Play("swing_whoosh");
         }
 

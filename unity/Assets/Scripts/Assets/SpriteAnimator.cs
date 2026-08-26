@@ -76,11 +76,13 @@ namespace ThisL
             fromOverlay = false;
             if (Overlay != null && clip != null)
             {
-                // idle/walk keep the weapon in hand (so the player never has to check the HUD to
-                // recall what they're holding); any attack/sweep uses the weapon swing.
+                // idle keeps the weapon in hand; a real attack/sweep uses the weapon swing. Walk uses
+                // the weapon's walk clip IF it exists, else falls through to the base walk (moving
+                // legs) rather than a static held pose that slides. Dash/charge fall through to base
+                // (mapping them to the swing produced a horrific sliding-swing sprite).
                 string oclip = clip == "idle" ? "idle"
-                             : clip == "walk" ? (Overlay.Clips.ContainsKey("walk") ? "walk" : "idle")
-                             : (clip.Contains("attack") || clip == "sweep" || clip == "dash") ? "swing"
+                             : clip == "walk" ? (Overlay.Clips.ContainsKey("walk") ? "walk" : null)
+                             : (clip.Contains("attack") || clip == "sweep") ? "swing"
                              : null;
                 if (oclip != null && Overlay.Clips.TryGetValue(oclip, out var of) && of != null && of.Length > 0)
                 {
