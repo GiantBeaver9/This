@@ -155,27 +155,25 @@ namespace ThisL
         private static BandDef[] MakeBandDefs()
         {
             float top = Playfield.CameraOrthoSize;                    //  7.5 (screen top)
-            float horizon = Playfield.FeetY(Tuning.ZBandDepth);      // -0.5 (far feet / top of ground plane)
-
+            float horizon = Playfield.FeetY(Tuning.ZBandDepth);      // -0.5 (far feet / top of walk band)
+            float nearFeet = Playfield.GroundBaselineY;              // -6.5 (near feet / bottom of walk band)
             float bottom = -top;                                     // -7.5 (screen bottom)
 
-            // Far -> near. The real house/tree sprites are a discrete PROP ROW (BuildPropRow,
-            // order -994) between sky and fence. The GROUND is ONE cohesive pavement filling
-            // the whole play area (horizon down to the screen bottom) so the fighters read as
-            // standing ON it — not on a thin strip above a big empty slab. A thin fence/wall
-            // sits at the horizon; the low sidewalk/road split that pushed the ground "too
-            // low" is gone.
-            // Structured street: a DARK asphalt road strip (with a curb + yellow dashes)
-            // runs from the horizon down to `roadBottom`, then a LIGHTER sidewalk fills the
-            // near play area below it. The tonal contrast + curb line break up the flat gray
-            // ("concrete hell") and read as a real street the fighters stand on.
-            float roadBottom = -2.6f;
+            // A real STREET, framed like a beat-'em-up (creator: "running down a street, two
+            // sidewalks up and down"). The ROAD (dark asphalt, yellow dashes down the middle)
+            // fills the walkable band so the fighters read as standing on the street. A light
+            // concrete SIDEWALK frames each end: a FAR pavement the buildings sit on (the back
+            // lane, just under the horizon) and a NEAR pavement in the foreground. Buildings are
+            // the discrete PROP ROW (BuildPropRow) seated at the horizon; sky fills behind them.
+            float farWalkTop  = horizon;          // -0.5  buildings seat here
+            float farWalkBot  = horizon - 0.7f;   // -1.2  back sidewalk lane (against the buildings)
+            float nearWalkTop = nearFeet + 0.2f;  // -6.3  foreground sidewalk starts just below the near feet line
             return new[]
             {
-                new BandDef { Name = "sky",   Parallax = 0.10f, Order = -996, BottomY = horizon - 1.0f,  TopY = top,             Build = BuildSky },
-                new BandDef { Name = "fence", Parallax = 0.30f, Order = -992, BottomY = horizon - 0.15f, TopY = horizon + 1.30f, Build = BuildFence },
-                new BandDef { Name = "road",  Parallax = 1.00f, Order = -988, BottomY = roadBottom,      TopY = horizon,            Build = BuildRoad },
-                new BandDef { Name = "ground",Parallax = 1.00f, Order = -984, BottomY = bottom,          TopY = roadBottom + 0.05f, Build = BuildGround },
+                new BandDef { Name = "sky",      Parallax = 0.10f, Order = -996, BottomY = horizon - 1.0f, TopY = top,        Build = BuildSky },
+                new BandDef { Name = "farwalk",  Parallax = 1.00f, Order = -995, BottomY = farWalkBot,     TopY = farWalkTop, Build = BuildSidewalk },
+                new BandDef { Name = "road",     Parallax = 1.00f, Order = -988, BottomY = nearWalkTop,    TopY = farWalkBot, Build = BuildStreet },
+                new BandDef { Name = "nearwalk", Parallax = 1.00f, Order = -986, BottomY = bottom,         TopY = nearWalkTop,Build = BuildSidewalk },
             };
         }
 
@@ -249,11 +247,17 @@ namespace ThisL
         /// bands if the real strip placement needs a visual pass. Default on.</summary>
         public static bool EnableStripArt = true;
 
+        /// <summary>Theme stems that IGNORE their strip art and render the procedural street instead
+        /// (the strips read badly for these). Stage 1/2 (area1_suburb) use the real "two sidewalks +
+        /// road" street; add more stems here to roll the procedural street out further.</summary>
+        private static readonly HashSet<string> s_forceProcedural = new() { "area1_suburb" };
+
         private bool BuildStripBands(List<LayerInstance> built)
         {
             if (!EnableStripArt) return false;
             string stem = s_themeStem;
             if (string.IsNullOrEmpty(stem)) return false;
+            if (s_forceProcedural.Contains(stem.Trim().ToLowerInvariant())) return false;
             string dir = System.IO.Path.Combine(SpriteLibrary.AssetsRoot, "backdrops", stem);
             if (!System.IO.File.Exists(System.IO.Path.Combine(dir, stem + "_far.png"))) return false;
 
@@ -690,6 +694,71 @@ namespace ThisL
             {
                 int x = (i * 37) % w, y = (i * 61) % h;
                 px[y * w + x] = Blend(px[y * w + x], p.WalkCrack, 0.22f);
+            }
+            return MakeSprite(w, h, px);
+        }
+
+        /// <summary>The road the fighters run down: dark asphalt with a light curb at each edge
+        /// (where the two sidewalks meet it) and a dashed centre line running down the street.</summary>
+        private static Sprite BuildStreet(in Palette p, int h)
+        {
+            const int w = 64;                               // dash 24 + gap 40 -> seamless dashes down the street
+            var px = new Color32[w * h];
+            for (int y = 0; y < h; y++)
+                for (int x = 0; x < w; x++)
+                    px[y * w + x] = p.Road;
+
+            // Curb line where the asphalt meets the far sidewalk (top) and the near sidewalk (bottom).
+            for (int x = 0; x < w; x++)
+            {
+                SetPx(px, w, h, x, h - 1, p.RoadEdge);
+                SetPx(px, w, h, x, h - 2, p.RoadEdge);
+                SetPx(px, w, h, x, 0, p.RoadEdge);
+                SetPx(px, w, h, x, 1, p.RoadEdge);
+            }
+            // Dashed yellow centre line running down the middle of the street (horizontal dashes).
+            int cy = Mathf.RoundToInt(h * 0.5f);
+            for (int x = 0; x < 24; x++)
+                for (int y = cy - 1; y <= cy + 1; y++)
+                    SetPx(px, w, h, x, y, p.RoadDash);
+            // A faint lighter lane line a third of the way up (extra depth, not a full lane).
+            int ly = Mathf.RoundToInt(h * 0.26f);
+            for (int x = 0; x < w; x += 2) SetPx(px, w, h, x, ly, p.RoadEdge);
+
+            // Faint speckle for asphalt grain (deterministic, wraps in x via % w so it stays seamless).
+            for (int i = 0; i < (w * h) / 24; i++)
+            {
+                int x = (i * 37) % w, y = (i * 61) % h;
+                px[y * w + x] = Blend(px[y * w + x], p.RoadEdge, 0.14f);
+            }
+            return MakeSprite(w, h, px);
+        }
+
+        /// <summary>A concrete sidewalk band: light pavement with a darker curb along its road edge
+        /// and evenly-spaced expansion joints (so it reads as paving slabs, not a flat slab).</summary>
+        private static Sprite BuildSidewalk(in Palette p, int h)
+        {
+            const int w = 48;                               // one paving slab every 24 px -> seamless
+            var px = new Color32[w * h];
+            for (int y = 0; y < h; y++)
+                for (int x = 0; x < w; x++)
+                    px[y * w + x] = p.Walk;
+
+            // Vertical expansion joints (the slab seams), perpendicular to the direction of travel.
+            for (int x = 0; x < w; x += 24)
+                for (int y = 0; y < h; y++)
+                    SetPx(px, w, h, x, y, p.WalkCrack);
+            // A darker curb strip along the TOP edge (the raised lip meeting the road).
+            for (int x = 0; x < w; x++)
+            {
+                SetPx(px, w, h, x, h - 1, p.WalkFront);
+                SetPx(px, w, h, x, h - 2, p.WalkFront);
+            }
+            // Faint speckle for concrete grain.
+            for (int i = 0; i < (w * h) / 22; i++)
+            {
+                int x = (i * 41) % w, y = (i * 59) % h;
+                px[y * w + x] = Blend(px[y * w + x], p.WalkCrack, 0.20f);
             }
             return MakeSprite(w, h, px);
         }
