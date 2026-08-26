@@ -501,55 +501,55 @@
       {
         "name": "player_tactical_special_01.png",
         "rect": [
-          418,
-          335,
-          19,
-          50
+          419,
+          334,
+          16,
+          51
         ]
       },
       {
         "name": "player_tactical_special_02.png",
         "rect": [
-          18,
-          390,
-          21,
-          50
+          20,
+          389,
+          17,
+          51
         ]
       },
       {
         "name": "player_tactical_special_03.png",
         "rect": [
-          65,
-          395,
-          41,
-          45
+          71,
+          391,
+          28,
+          49
         ]
       },
       {
         "name": "player_tactical_special_04.png",
         "rect": [
-          119,
-          399,
-          47,
-          41
+          126,
+          392,
+          32,
+          48
         ]
       },
       {
         "name": "player_tactical_special_05.png",
         "rect": [
-          176,
-          396,
-          46,
-          44
+          184,
+          392,
+          31,
+          48
         ]
       },
       {
         "name": "player_tactical_special_06.png",
         "rect": [
-          233,
-          395,
-          46,
-          45
+          241,
+          392,
+          31,
+          48
         ]
       },
       {
