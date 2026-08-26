@@ -34,10 +34,18 @@ namespace ThisL
 
         private void Start()
         {
-            _director = gameObject.AddComponent<StageDirector>();
-            _director.OnStageComplete += HandleStageComplete;
+            EnsureDirector();
             gameObject.AddComponent<StageMarkers>();   // visible progression (barricade + GO + banners)
             StartStage(0);
+        }
+
+        /// <summary>Create the StageDirector on demand — so StartStage/SkipToNext are safe even if
+        /// something drives them before Start() runs (was a null-deref: campaign smoke).</summary>
+        private void EnsureDirector()
+        {
+            if (_director != null) return;
+            _director = gameObject.AddComponent<StageDirector>();
+            _director.OnStageComplete += HandleStageComplete;
         }
 
         private void OnDestroy()
@@ -63,6 +71,7 @@ namespace ThisL
 
         private void StartStage(int i)
         {
+            EnsureDirector();
             CurrentStage = Mathf.Clamp(i, 0, StageDatabase.StageCount - 1);
             _director.StartStage(CurrentStage);
             Debug.Log($"[Campaign] Entering stage {CurrentStage + 1}/{StageDatabase.StageCount}.");

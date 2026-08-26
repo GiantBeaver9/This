@@ -136,5 +136,76 @@ namespace ThisL.EditorTools
             EditorApplication.isPlaying = false;
             EditorApplication.Exit(ok ? 0 : 2);
         }
+
+        // ================= Campaign chain smoke (RunCampaign) =====================
+        // Verifies every boss id instantiates without throwing, and that the 13-stage
+        // campaign walks end-to-end via CampaignRunner.SkipToNext. Run with
+        //   -executeMethod ThisL.EditorTools.SmokeTest.RunCampaign
+        private static readonly string[] BossIds =
+        {
+            "sandwich_bros", "burly", "colossus", "helicopter", "monkey_boss",
+            "big_armripper", "tank", "boomergunner", "gatlinggunguy", "phil",
+        };
+
+        private static int _cFrames, _cBossesOk, _cMaxStage;
+        private static bool _cStarted, _cSweptBosses;
+
+        public static void RunCampaign()
+        {
+            Application.logMessageReceived += OnLog;
+            EditorSettings.enterPlayModeOptionsEnabled = true;
+            EditorSettings.enterPlayModeOptions =
+                EnterPlayModeOptions.DisableDomainReload | EnterPlayModeOptions.DisableSceneReload;
+            EditorApplication.update += TickCampaign;
+            EditorApplication.EnterPlaymode();
+        }
+
+        private static void TickCampaign()
+        {
+            if (EditorApplication.isPlaying)
+            {
+                _cStarted = true;
+                _cFrames++;
+
+                if (_cFrames == 20 && GameFlow.Instance != null && GameFlow.Instance.Current != GameFlow.State.Playing)
+                    GameFlow.Instance.StartRun(CharacterDef.Tactical());
+                if (VignettePlayer.Instance != null && VignettePlayer.Instance.IsPlaying)
+                    VignettePlayer.Instance.Skip();
+
+                // Boss instantiation sweep: spawn each boss id, confirm it built, destroy it.
+                if (_cFrames >= 40 && !_cSweptBosses && PlayerController.Instance != null)
+                {
+                    _cSweptBosses = true;
+                    for (int i = 0; i < BossIds.Length; i++)
+                    {
+                        var b = Bosses.Spawn(BossIds[i], 120f + i * 6f, 3f);
+                        if (b != null) { _cBossesOk++; Object.Destroy(b.gameObject); }
+                        else Debug.Log($"SMOKE_CAMPAIGN_BOSS_NULL: {BossIds[i]}");
+                    }
+                }
+
+                // Ensure a campaign is running, then walk the whole 13-stage chain.
+                if (_cFrames == 55 && CampaignRunner.Instance == null)
+                    new GameObject("SmokeCampaign").AddComponent<CampaignRunner>();
+                if (_cFrames > 70 && _cFrames % 10 == 0 && CampaignRunner.Instance != null)
+                    CampaignRunner.Instance.SkipToNext();
+                if (CampaignRunner.Instance != null)
+                    _cMaxStage = Mathf.Max(_cMaxStage, CampaignRunner.Instance.CurrentStage);
+
+                if (_cFrames > 320) FinishCampaign();
+            }
+            else if (_cStarted) FinishCampaign();
+        }
+
+        private static void FinishCampaign()
+        {
+            EditorApplication.update -= TickCampaign;
+            int lastStage = StageDatabase.StageCount - 1;
+            bool ok = _errors == 0 && _cBossesOk == BossIds.Length && _cMaxStage >= lastStage;
+            Debug.Log($"SMOKE_CAMPAIGN_RESULT bosses={_cBossesOk}/{BossIds.Length} maxStage={_cMaxStage}/{lastStage} " +
+                      $"errors={_errors} frames={_cFrames} ok={ok}");
+            EditorApplication.isPlaying = false;
+            EditorApplication.Exit(ok ? 0 : 2);
+        }
     }
 }
