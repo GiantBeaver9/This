@@ -48,6 +48,12 @@ namespace ThisL
         /// <summary>Boss music cue stem (assets/audio/music/boss_cues/**), or null to keep the stage loop
         /// (Sandwich Bros has no dedicated cue).</summary>
         public string BossMusicClip;
+
+        /// <summary>Anchor the boss arena at the LANE END (near a set-piece the finale drops there, e.g.
+        /// the Sandwich Bros store) instead of one screen past the last cleared gate. The player then
+        /// clears the last wave and WALKS the final stretch (crossing the railroad) to the boss at the
+        /// store. Off by default — most bosses want the tighter "next room" anchor.</summary>
+        public bool BossAtLaneEnd = false;
     }
 
     /// <summary>What a <see cref="Wave"/> is. Vignette/Checkpoint auto-advance (no kill-gate);

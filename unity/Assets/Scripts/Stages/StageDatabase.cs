@@ -37,17 +37,23 @@ namespace ThisL
 
             // =========================== ACT 1 — Placer Suburbs & Mall ===========================
 
-            // --- Stage 1 — Lincoln High + suburb streets (opener). No boss. ENCOUNTERS.md Stage 1. ---
+            // --- Stage 1 — THE NEIGHBORHOOD: houses → school → courts → diner → railroad → Sandwich Bros.
+            // Culminates at the Sandwich Bros store, where you fight the BIG-CHARGER boss (a big version of
+            // the neighborhood Regulars with a charge attack). Creator: "the only thing that ends levels is
+            // defeating the boss… sandwich bros is the end of stage zero of the neighborhood." ---
             {
                 var st = new StageData
                 {
                     Id = 1,
-                    DisplayName = "Lincoln High + Suburb Streets",
+                    DisplayName = "The Neighborhood → Sandwich Bros",
                     Area = "Placer Suburbs & Mall",
                     BackdropTheme = "area1_suburb",
                     MusicClip = "a1_surfrock_opener",
                     AmbientClip = "lincoln_birds_traffic",
                     NewestArchetype = EnemyArchetype.Regular,
+                    BossId = "sandwich_bros",  // big version of the Regulars + charge (BigVersionBoss.SandwichBros)
+                    BossMusicClip = null,
+                    BossAtLaneEnd = true,      // fight at the store: clear waves → walk over the railroad → boss
                 };
                 st.Waves.Add(Wave.Vignette("Vignette: dancing Zebra punches a Regular"));
                 st.Waves.Add(Wave.Spawn("Wave 1", 1.0f, E(EnemyArchetype.Regular, 2, SpawnSide.L)));
@@ -55,6 +61,9 @@ namespace ThisL
                 st.Waves.Add(Wave.Checkpoint("CHECKPOINT (mid)"));
                 st.Waves.Add(Wave.Filler("Filler (Regulars)", 10, 14));
                 st.Waves.Add(Wave.Spawn("Wave 3 (funnel, bus pass)", 0.8f, E(EnemyArchetype.Regular, 5, SpawnSide.B)));
+                // Cross the railroad, reach the store (StageFinaleProps drops railroad + Sandwich Bros here),
+                // then the boss barrels out of the parking lot. Only its defeat ends the level.
+                st.Waves.Add(Wave.Boss("BOSS: Sandwich Bros (big charger)"));
                 s.Add(st);
             }
 

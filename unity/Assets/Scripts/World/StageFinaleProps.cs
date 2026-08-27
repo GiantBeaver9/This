@@ -12,7 +12,8 @@ namespace ThisL
     /// </summary>
     public sealed class StageFinaleProps : MonoBehaviour
     {
-        private const int SandwichBrosStage = 1; // Stage 2 (0-based index)
+        private const int SandwichBrosStage = 0; // Stage 1 / index 0 — the neighborhood culminates here
+                                                 // (railroad → Sandwich Bros store → big-charger boss).
         // The finale anchors to the ACTUAL running lane length (StageDirector publishes it), not a
         // hardcoded 1600 — otherwise the store landed at 1600 and "the end was there immediately"
         // once the lane grew. Falls back to 1600 if no stage is running yet.

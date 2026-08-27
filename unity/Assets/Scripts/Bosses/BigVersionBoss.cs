@@ -25,6 +25,7 @@ namespace ThisL
             public Mode Mode;
             public float[] Thresholds;
             public Color Tint;
+            public bool CanCharge;   // melee: barrels across the arena from range (creator's "charge attack")
         }
 
         private Config _cfg;
@@ -37,7 +38,7 @@ namespace ThisL
         public static Config SandwichBros => new()
         {
             Id = "sandwich_bros", Display = "Sandwich Bros", Cue = null, // no dedicated cue
-            Hp = 160f, Move = 5.9f, Dmg = 11f, Mode = Mode.Melee,
+            Hp = 160f, Move = 5.9f, Dmg = 11f, Mode = Mode.Melee, CanCharge = true,
             Thresholds = new[] { 0.5f }, Tint = new Color(0.85f, 0.7f, 0.4f),
         };
 
@@ -81,12 +82,55 @@ namespace ThisL
             AttackTimer -= dt;
             Reposition(player, dt, keep: 1.4f, speed: MoveSpeed);
             if (AttackTimer > 0f) return;
-            if (player.DistanceTo(this) <= 2.2f)
+            float dist = player.DistanceTo(this);
+            if (dist <= 2.2f)
             {
                 RunAttack(LungePunch());
                 // Phase 2 "faster" = +20% cadence (BOSSES.md §7 Sandwich note).
                 AttackTimer = CurrentPhase >= 2 ? 1.0f : 1.25f;
             }
+            else if (_cfg.CanCharge && dist <= 13f)
+            {
+                // From range, BARREL across the arena (creator: "big version of the guys with a
+                // charge attack"). Longer recovery than the lunge — the charge is the punish window.
+                RunAttack(ChargeRush(player));
+                AttackTimer = CurrentPhase >= 2 ? 1.5f : 2.0f;
+            }
+        }
+
+        /// <summary>The signature CHARGE: plant + telegraph, then rush forward fast in a LOCKED
+        /// direction, bowling the player back on contact, then a winded recovery. Movement is owned
+        /// here because the base skips BossUpdate while an attack coroutine runs (Busy).</summary>
+        private IEnumerator ChargeRush(PlayerController player)
+        {
+            int dir = player.WorldX >= WorldX ? 1 : -1;     // lock the run direction at wind-up
+            Anim.Play("hurt", false, restart: true);         // no dedicated pose — reuse the recoil as a lean-back
+            Sfx.Play("boss_windup");
+            CameraShake.Add(CameraShake.Light);
+            yield return Telegraph(CurrentPhase >= 2 ? 0.35f : 0.45f);
+            if (!Alive) yield break;
+
+            Anim.Play("walk", true);
+            Sfx.Play("boss_windup");                          // charge grunt (missing sfx no-ops)
+            float speed = MoveSpeed * 3.4f;
+            bool hit = false;
+            float t = 0f;
+            while (t < 0.75f && Alive)
+            {
+                WorldX += dir * speed * Time.deltaTime;
+                if (!hit && player != null && player.Alive && player.DistanceTo(this) <= 1.9f)
+                {
+                    hit = true;
+                    player.TakeDamage(_cfg.Dmg * 1.6f, this);
+                    player.WorldX += dir * 2.6f;              // knock the player back along the charge
+                    CameraShake.Add(CameraShake.Heavy);
+                    Sfx.Play("punch_2");
+                }
+                t += Time.deltaTime;
+                yield return null;
+            }
+            Anim.Play("idle", true);
+            yield return Telegraph(0.45f);                    // winded — the opening to punish
         }
 
         private IEnumerator LungePunch()

@@ -339,11 +339,15 @@ namespace ThisL
         /// </summary>
         private float BossArenaX()
         {
+            float laneTail = _originX + Mathf.Max(8f, _data.LaneLengthWu - 10f);
+            // Finale stages (Sandwich Bros) put the boss at the lane end, by the store — the player
+            // clears the last wave then walks the final stretch (over the railroad) into the fight.
+            if (_data.BossAtLaneEnd) return laneTail;
+
             // When the boss wave begins, _gateOrdinal == the number of spawn gates already
             // consumed, so GateX(_gateOrdinal - 1) is the LAST spawn gate the player cleared.
             float lastGateX = _gateOrdinal > 0 ? GateX(_gateOrdinal - 1) : _originX + 8f;
             float arenaX = lastGateX + Tuning.ScreenWidthUnits; // one screen: a distinct room, short walk
-            float laneTail = _originX + Mathf.Max(8f, _data.LaneLengthWu - 10f);
             return Mathf.Min(arenaX, laneTail);
         }
 
