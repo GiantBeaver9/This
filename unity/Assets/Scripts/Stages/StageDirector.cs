@@ -490,8 +490,13 @@ namespace ThisL
         private void ResolveCameraRig()
         {
             if (_rig != null) return;
+            // Get the rig from Camera.main if it has one, but ALWAYS fall back to a scene-wide search:
+            // a stray/second camera can make Camera.main the wrong (rig-less) camera, which used to
+            // leave _rig null and SILENTLY DISABLE ALL GATING (no wave lock, boss never reached). The
+            // rig lives on our code camera regardless of which camera .main resolves to.
             var cam = Camera.main != null ? Camera.main : FindAnyObjectByType<Camera>();
-            _rig = cam != null ? cam.GetComponent<CameraRig>() : FindAnyObjectByType<CameraRig>();
+            _rig = cam != null ? cam.GetComponent<CameraRig>() : null;
+            if (_rig == null) _rig = FindAnyObjectByType<CameraRig>();
             if (_rig == null) Debug.LogWarning("[StageDirector] No CameraRig found — camera gating disabled.");
         }
 

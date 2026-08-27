@@ -23,6 +23,9 @@ namespace ThisL.EditorTools
         private static bool _combatRan;
         private static bool _weaponsFired;
         private static bool _sawP2;
+        private static int _cameras = -1;    // must be exactly 1 (a stray scene camera disabled gating)
+        private static int _listeners = -1;  // must be exactly 1 (dupes spam "2 audio listeners")
+        private static bool _rigFound;       // the CameraRig the StageDirector needs for wave locks
 
         public static void Run()
         {
@@ -157,6 +160,17 @@ namespace ThisL.EditorTools
                     p.CurrentWeapon = Weapon.Fists();
                 }
 
+                // CAMERA/GATING GUARD: exactly one Camera + one AudioListener, and a CameraRig present.
+                // A stray scene "Main Camera" used to make Camera.main rig-less, silently disabling ALL
+                // wave locks + boss reachability — and it never showed here because the audio warning is
+                // filtered. Sample once the world is up.
+                if (_frames == 40)
+                {
+                    _cameras = Object.FindObjectsByType<Camera>(FindObjectsInactive.Include, FindObjectsSortMode.None).Length;
+                    _listeners = Object.FindObjectsByType<AudioListener>(FindObjectsInactive.Include, FindObjectsSortMode.None).Length;
+                    _rigFound = Object.FindAnyObjectByType<CameraRig>() != null;
+                }
+
                 if (PlayerController.Instance != null) _sawPlayer = true;
                 int enemies = 0;
                 foreach (var a in Actor.All)
@@ -175,9 +189,10 @@ namespace ThisL.EditorTools
         {
             EditorApplication.update -= Tick;
             bool combatOk = _combatRan && _foeHpAfter < _foeHpBefore && _foeDied;
-            bool ok = _sawBoot && _sawPlayer && _errors == 0 && combatOk;
+            bool cameraOk = _cameras == 1 && _listeners == 1 && _rigFound;
+            bool ok = _sawBoot && _sawPlayer && _errors == 0 && combatOk && cameraOk;
             Debug.Log($"SMOKE_RESULT boot={_sawBoot} player={_sawPlayer} p2={_sawP2} maxEnemies={_maxEnemies} errors={_errors} frames={_frames} " +
-                      $"combatRan={_combatRan} foeHp={_foeHpBefore}->{_foeHpAfter} foeDied={_foeDied} ok={ok}");
+                      $"combatRan={_combatRan} foeHp={_foeHpBefore}->{_foeHpAfter} foeDied={_foeDied} cameras={_cameras} listeners={_listeners} rig={_rigFound} ok={ok}");
             EditorApplication.isPlaying = false;
             EditorApplication.Exit(ok ? 0 : 2);
         }
