@@ -23,9 +23,13 @@ namespace ThisL
     {
         private const float WindowCap = 125f;    // per-window damage cap = 25% (TUNING §7)
 
+        private const float SharpenSeconds = 10f;  // vulnerable window (creator: "sharpens for 10s")
+
         private bool _sharpening;                // true = vulnerable window open
         private float _windowDamage;             // damage dealt in the current window
         private bool _cycleRunning;
+        private bool _onRight;                    // which of his two sides he's currently on
+        private float _leftX, _rightX, _backZ;    // his two teleport spots + the draw row
 
         /// <summary>HUD hook: the finisher (pencil-laser) input is live this window.</summary>
         public bool CanBeFinished { get; private set; }
@@ -35,47 +39,40 @@ namespace ThisL
             InitBoss("phil", "Phil", "phil_realized", 500f, x, z,
                      new Color(0.55f, 0.5f, 0.6f), moveSpeed: 5.0f, sizeScale: 1.9f);
             IsHpDepletion = false;               // finisher-only; specials whiff (BOSSES.md §5.1)
-            // Visual waypoints for the summon-roster escalation (not damage gates).
             PhaseThresholds = new[] { 0.75f, 0.50f, 0.25f };
+            // Two sides of the rooftop he teleports between (kept inside the locked finale view).
+            _leftX = x - 7f; _rightX = x + 3f;
+            _backZ = Tuning.ZBandDepth - 0.5f;
+            _onRight = true; WorldX = _rightX; Z = _backZ;
         }
 
         protected override void BossUpdate(float dt, PlayerController player)
         {
-            Anim.Play(_sharpening ? "hurt" : "idle", true); // hunched/bleeding while sharpening
             if (!_cycleRunning) RunAttack(DrawSharpenCycle(player));
         }
 
+        /// <summary>Phil's whole loop (creator): DRAW a pod on one side → TELEPORT to his other side →
+        /// DRAW another pod → SHARPEN the pencil for 10 s, wide open. He's untouchable except during the
+        /// sharpen window (capped at 125 HP so a burst build can't skip the fight).</summary>
         private IEnumerator DrawSharpenCycle(PlayerController p)
         {
             _cycleRunning = true;
-
-            // --- Draw phase: invulnerable, sketch adds until "out of lead" (FIRST-PASS ~4 s). ---
             _sharpening = false;
             CanBeFinished = false;
-            Sfx.Play("phil_draw");
-            float drawTime = 4f;
-            float drawT = 0f, summonT = 0f;
-            while (drawT < drawTime && Alive)
-            {
-                drawT += Time.deltaTime;
-                summonT -= Time.deltaTime;
-                if (summonT <= 0f && CountAdds() < 6)
-                {
-                    SpawnAdd(PickSummon());   // cumulative-by-band roster (FIRST-PASS)
-                    summonT = 1.5f;           // one draw every 1.5 s (BOSSES.md §5.1)
-                }
-                yield return null;
-            }
+
+            yield return DrawPod();               // pod on this side
+            yield return TeleportToOtherSide();   // vanish → reappear on the far side
+            yield return DrawPod();               // pod on the far side
             if (!Alive) { _cycleRunning = false; yield break; }
 
-            // --- Sharpen window: vulnerable 3–5 s, ends early at the 125 cap. ---
+            // SHARPEN — vulnerable for 10 s (ends early only if you burst the 125-HP window cap).
             _sharpening = true;
             _windowDamage = 0f;
             Vfx.FinisherFlash(WorldX, Z);
             Sfx.Play("phil_sharpen");
-            if (Anim != null) Anim.Play("sharpen", true);   // Holy Sharpener loops through the window
+            if (Anim != null) Anim.Play("sharpen", true, restart: true);
             float wT = 0f;
-            while (wT < 5f && Alive && _windowDamage < WindowCap)
+            while (wT < SharpenSeconds && Alive && _windowDamage < WindowCap)
             {
                 wT += Time.deltaTime;
                 yield return null;
@@ -85,15 +82,37 @@ namespace ThisL
             _cycleRunning = false;
         }
 
-        /// <summary>Cumulative summon roster by HP band (BOSSES.md §5.1), FIRST-PASS mapping.</summary>
-        private EnemyArchetype PickSummon()
+        /// <summary>Scribble a pod onto the paper on his current side — it draws out one enemy every
+        /// half second for ~3 s (creator: "he spawns 1 enemy every half second").</summary>
+        private IEnumerator DrawPod()
         {
-            float frac = Hp / MaxHp;
-            float r = Random.value;
-            if (frac <= 0.25f && r < 0.25f) return EnemyArchetype.Heavy;
-            if (frac <= 0.50f && r < 0.35f) return EnemyArchetype.ArmRipper;   // Pool-B reprise stand-in
-            if (frac <= 0.75f && r < 0.35f) return EnemyArchetype.Snapper;     // Pool-A reprise stand-in
-            return r < 0.3f ? EnemyArchetype.Swarmer : EnemyArchetype.Regular; // Regulars + Swarmer pods
+            Sfx.Play("phil_draw");
+            if (Anim != null) Anim.Play("attack_side", false, restart: true);   // scribbling pose
+            float drawTime = 3f, spawnT = 0f;
+            for (float t = 0f; t < drawTime && Alive; t += Time.deltaTime)
+            {
+                spawnT -= Time.deltaTime;
+                if (spawnT <= 0f)
+                {
+                    if (CountAdds() < 10) { SpawnAdd(EnemyArchetype.Regular); Vfx.FinisherFlash(WorldX, _backZ); Sfx.Play("phil_draw"); }
+                    spawnT = 0.5f;   // one enemy per half second
+                }
+                yield return null;
+            }
+        }
+
+        /// <summary>He has two sides — blink out and reappear on the other one.</summary>
+        private IEnumerator TeleportToOtherSide()
+        {
+            Sfx.Play("phil_teleport");            // synth fallback
+            Vfx.DeathBurst(WorldX, Z, 1.3f);      // vanish poof
+            yield return Telegraph(0.15f);
+            _onRight = !_onRight;
+            WorldX = _onRight ? _rightX : _leftX;
+            Z = _backZ;
+            Facing = _onRight ? -1 : 1;
+            Vfx.FinisherFlash(WorldX, Z);
+            yield return Telegraph(0.2f);
         }
 
         public override bool TakeDamage(float amount, Actor source)

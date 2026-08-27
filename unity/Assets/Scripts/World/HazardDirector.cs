@@ -43,7 +43,7 @@ namespace ThisL
         /// Theme-driven, NOT by stage index — L2 is stashed, so an index-keyed table put the guard
         /// hazard on the skipped stage and left the playable mall bare. Keying off the backdrop theme
         /// maps each of the four playable levels (Streets / Mall / Sac / Airport) to its hazard.</summary>
-        private enum HazardKind { None, Car, Guard, Plane, CrossProp }
+        private enum HazardKind { None, Car, Guard, Plane, CrossProp, Wind }
         private static HazardKind KindForStage(int stage)
         {
             var data = StageDatabase.Get(stage);
@@ -58,6 +58,7 @@ namespace ThisL
                 "area4_vallejo"   => HazardKind.CrossProp, // Six Flags — a roller-coaster car on the top rail
                 "area4_marin"     => HazardKind.CrossProp, // Redwoods — a rolling log
                 "area4_sf"        => HazardKind.CrossProp, // SF — a runaway trolley
+                "finale_rooftop"  => HazardKind.Wind,      // Phil's rooftop — gusts shove you around the arena
                 _ => HazardKind.None,                      // Sac (whip fight) + causeway (gap platformer): no hazard
             };
         }
@@ -94,7 +95,7 @@ namespace ThisL
 
             // TELEGRAPH: a blinking warning arrow at the incoming edge on the hazard's row + a cue,
             // so the player always sees it coming.
-            Sfx.Play(cross ? spec.Sfx : kind == HazardKind.Plane ? "jet_pass" : kind == HazardKind.Guard ? "guard_whistle" : "car_horn");
+            Sfx.Play(cross ? spec.Sfx : kind == HazardKind.Wind ? "gust" : kind == HazardKind.Plane ? "jet_pass" : kind == HazardKind.Guard ? "guard_whistle" : "car_horn");
             var warn = MakeWarn(fromLeft, z);
             float t = WarnSeconds;
             while (t > 0f)
@@ -114,6 +115,22 @@ namespace ThisL
             float dir = fromLeft ? 1f : -1f;
             switch (kind)
             {
+                case HazardKind.Wind:   // Phil's rooftop: a sustained gust shoves everyone across the arena
+                {
+                    Sfx.Play("gust");
+                    for (float g = 0f; g < 1.8f; g += Time.deltaTime)
+                    {
+                        float step = 5.5f * Time.deltaTime;              // resistible (player walk > this)
+                        foreach (var p in PlayerController.All)
+                            if (p != null && p.Alive) p.WorldX += dir * step;
+                        if (Random.value < 0.5f)                          // wind streaks blowing across
+                            Vfx.Gust(PlayerController.MidX() - dir * Random.Range(0f, 14f),
+                                     Random.Range(0f, Tuning.ZBandDepth), (int)dir);
+                        CameraShake.Add(CameraShake.Light);
+                        yield return null;
+                    }
+                    break;
+                }
                 case HazardKind.Car:
                     CarHazard.Spawn(x, z, dir * CarSpeed, CarColors[Random.Range(0, CarColors.Length)]);
                     break;
