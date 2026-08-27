@@ -18,9 +18,10 @@ namespace ThisL
         // first 1600 wu of a longer stage and leave the rest bare. Falls back to 1600 pre-stage.
         private float LaneLen => StageDirector.ActiveLaneLengthWu;
 
-        // A cluster (the campus) fills edge-to-edge, so on a long lane its fraction-span could demand
-        // ~150 buildings; cap it to a compact, readable campus and let the house row carry the rest.
-        private const int MaxClusterBuildings = 16;
+        // A cluster fills edge-to-edge, so on a long lane its fraction-span could demand ~150 buildings;
+        // cap it. 24 lets a full-span cluster (Sac's 0.66→1.0 downtown skyline, ~23 towers) reach the
+        // boss arena at the lane end; shorter clusters (the Stage-1 campus) still break at their own endX.
+        private const int MaxClusterBuildings = 24;
 
         private int _lastStage = -1;
         private readonly List<GameObject> _props = new();

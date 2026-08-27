@@ -160,6 +160,7 @@ namespace ThisL
                     NewestArchetype = EnemyArchetype.HeadThrower,
                     BossId = "helicopter",
                     BossMusicClip = "helicopter",
+                    GuaranteedWeapon = WeaponKind.Pistol, // the chopper hovers at far-Z — give the player a gun to down it
                 };
                 st.Waves.Add(Wave.Vignette("Vignette: head-grenade + bat-a-plane"));
                 st.Waves.Add(Wave.Spawn("Wave 1 (AA debut)", 0.8f, E(EnemyArchetype.AntiAircraft, 3, SpawnSide.B), E(EnemyArchetype.Regular, 2, SpawnSide.L)));

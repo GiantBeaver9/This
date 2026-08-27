@@ -39,8 +39,12 @@ namespace ThisL
             // make it a normal HP boss — shoot it down. Real pip mechanic is a later pass.
             IsHpDepletion = true;
             PhaseThresholds = new[] { 0.5f };      // phase 2 at half HP
-            _minX = x - 8f;
-            _maxX = x + 8f;
+            // Keep the strafe INSIDE the locked view. The camera locks at MaxX=arenaX (right edge
+            // ≈ arenaX + ScreenWidthUnits/2) and the boss spawns at x = arenaX + 0.30*ScreenWidthUnits,
+            // so a symmetric ±8 strafe pushed its right end ~3 wu off-screen (unreachable). Bias the
+            // window left so the whole strafe stays framed.
+            _minX = x - 15f;
+            _maxX = x + 3f;
             Z = Tuning.ZBandDepth - 0.5f;          // hovers at the back/top band
         }
 
