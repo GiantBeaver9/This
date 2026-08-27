@@ -87,9 +87,10 @@ namespace ThisL
         private void LateUpdate()
         {
             Playfield.Place(transform, WorldX, Z, _sr);
-            transform.position += Vector3.up * 1.0f;   // bullets at mid-body height, not feet
             if (_sr != null) _sr.sortingOrder = 900; // projectiles always on top (see them coming)
             var p = transform.position;
+            // Single mid-body offset. This used to ALSO add a flat +1.0 above, so bullets flew at ~1.8wu
+            // (out of the character's head, creator). Just the depth-scaled muzzle height now (~gun height).
             p.y += MuzzleHeight * Playfield.DepthScale(Z);
             transform.position = p;
         }

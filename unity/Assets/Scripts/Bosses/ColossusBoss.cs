@@ -21,10 +21,14 @@ namespace ThisL
 
         public void Init(float x, float z)
         {
-            InitBoss("colossus", "The Colossus", "colossus", 6f, x, z,
+            // SOFTLOCK FIX (creator): this was an objective boss beatable ONLY by a Whip-pull mechanic
+            // that is not implemented (RegisterWhipPull is never called), so it could never lose HP.
+            // Until the whip/piece-strip mechanic is built, make it a normal HP-depletion boss so it's
+            // actually killable. (Whip + Sacramento rework are a separate, deferred pass.)
+            InitBoss("colossus", "The Colossus", "colossus", 200f, x, z,
                      new Color(0.8f, 0.8f, 0.85f), moveSpeed: 3.5f, sizeScale: 2.6f);
-            IsHpDepletion = false;                          // objective — no execute (BOSSES.md §1)
-            PhaseThresholds = new[] { 4f / 6f, 2f / 6f };   // speed up at 4 & 2 pieces
+            IsHpDepletion = true;                           // beatable by normal attacks (was the softlock)
+            PhaseThresholds = new[] { 4f / 6f, 2f / 6f };   // speed up at 4 & 2 "pieces" (HP thirds)
         }
 
         protected override void BossUpdate(float dt, PlayerController player)

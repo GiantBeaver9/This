@@ -52,7 +52,7 @@ namespace ThisL
         public static readonly bool StartHardMode = true;
 
         // Item drops (reward + survivability while it's tuned hard).
-        public const float WeaponDropChance = 0.15f;     // only ~15% of loot-bearing kills drop a weapon (was 100% -> littered ground)
+        public const float WeaponDropChance = 0.09f;     // ~9% of loot-bearing kills drop a weapon (dense stages like Sacramento were carpeted)
         public const float WeaponPickupLifetime = 15f;   // dropped weapons despawn after 15s (creator ruling)
         public const float HealDropChance = 0.12f;       // base heal-drop chance on a kill
         public const float HealDropChanceLowHp = 0.30f;  // when the player is <=25% HP
