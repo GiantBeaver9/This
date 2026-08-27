@@ -21,6 +21,16 @@ namespace ThisL
 
             Application.targetFrameRate = 60;
 
+            // A hand-saved / default scene can leave a stock "Main Camera" (with its OWN AudioListener)
+            // sitting next to the code camera we're about to create — that collides: TWO cameras fight
+            // for the view and TWO AudioListeners spam "there are 2 audio listeners" every frame (999+
+            // warnings that bury real errors). This is code-first, so strip every pre-existing camera and
+            // audio listener before we build ours, leaving exactly one of each.
+            foreach (var stray in Object.FindObjectsByType<Camera>(FindObjectsInactive.Include, FindObjectsSortMode.None))
+                Object.Destroy(stray.gameObject);
+            foreach (var listener in Object.FindObjectsByType<AudioListener>(FindObjectsInactive.Include, FindObjectsSortMode.None))
+                Object.Destroy(listener);
+
             // --- Persistent camera + rig ---
             var camGo = new GameObject("MainCamera");
             camGo.tag = "MainCamera";
