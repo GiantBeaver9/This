@@ -81,11 +81,13 @@ namespace ThisL
                 {
                     var gs = GuardSprite();
                     float sc = 2.6f / Mathf.Max(0.3f, gs.rect.height / Tuning.PixelsPerUnit); // ~person height, any sprite
-                    var guard = CrossHazard.Spawn(gs, x, z, dir * 9f, 16f, new Vector2(sc, sc), 0.8f, 0f);
-                    // A jogging guard SHOVES people over — it must NOT one-shot the crowd you're
-                    // fighting (creator: "a guard flies in and kills people — that needs to change").
-                    // The 2.0s stagger in CrossHazard already reads as a knockdown; keep the chip low.
-                    guard.EnemyDamage = 18f;
+                    // The guard KILLS NO ONE — it just barges through and shoves everyone (player AND
+                    // enemies) back along its path (creator: "the car should kill them, the guard just
+                    // pushes everyone back"). Cars keep their own lethal CarHazard.
+                    var guard = CrossHazard.Spawn(gs, x, z, dir * 9f, 0f, new Vector2(sc, sc), 0.8f, 0f);
+                    guard.EnemyDamage = 0f;       // no kill
+                    guard.PushX = 3.0f;           // firm shove for everyone it clips
+                    guard.StaggerSeconds = 1.0f;  // brief stumble, not a long knockdown
                     break;
                 }
                 case HazardKind.Plane:   // a jet roars across the far tarmac row — big, fast, deadly

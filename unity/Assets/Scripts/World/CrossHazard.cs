@@ -13,8 +13,11 @@ namespace ThisL
     public sealed class CrossHazard : MonoBehaviour
     {
         public float WorldX, Z, VelX;
-        public float Damage = 20f;          // to the player
-        public float EnemyDamage = 60f;     // hazards bowl enemies over too
+        public float Damage = 20f;          // to the player (0 = a harmless shove, e.g. the guard)
+        public float EnemyDamage = 60f;     // to enemies (0 = shove only, don't clear the crowd)
+        public float PushX = 0f;            // one-shot shove (wu) applied to EVERYONE it touches, in
+                                            // travel direction — a guard that "just pushes everyone back"
+        public float StaggerSeconds = 2.0f; // how long struck enemies are knocked out of their attack
         public float HalfLenX = 1.6f;       // contact half-length in X
         public float HitZ = 0.7f;           // depth tolerance on its row
         public float YOffset = 0f;          // lift above the row (planes ride high)
@@ -51,12 +54,17 @@ namespace ThisL
                 if (!Playfield.WithinZ(a.Z, Z, HitZ)) continue;
                 _hit.Add(a);
                 Vfx.HitSpark(a.WorldX, a.Z);
-                if (a is PlayerController pl) pl.TakeDamage(Damage, null);
+                float dir = Mathf.Sign(VelX);
+                if (a is PlayerController pl)
+                {
+                    if (Damage > 0f) pl.TakeDamage(Damage, null);
+                    if (PushX > 0f) pl.WorldX += dir * PushX;   // shove the player along too
+                }
                 else
                 {
-                    if (a is IStaggerable s) s.ApplyStagger(2.0f);
-                    a.TakeDamage(EnemyDamage, null);
-                    a.WorldX += Mathf.Sign(VelX) * 1.5f;
+                    if (a is IStaggerable s) s.ApplyStagger(StaggerSeconds);
+                    if (EnemyDamage > 0f) a.TakeDamage(EnemyDamage, null);
+                    a.WorldX += dir * Mathf.Max(1.5f, PushX);   // bowl them over in the travel direction
                 }
             }
 
