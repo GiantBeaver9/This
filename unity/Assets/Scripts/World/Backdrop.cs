@@ -178,9 +178,9 @@ namespace ThisL
             return new[]
             {
                 new BandDef { Name = "sky",      Parallax = 0.10f, Order = -996, BottomY = horizon - 1.0f, TopY = top,        Build = BuildSky },
-                new BandDef { Name = "grass",    Parallax = 1.00f, Order = -995, BottomY = horizon,        TopY = grassTop,   Build = BuildGrass },
+                new BandDef { Name = "grass",    Parallax = 1.00f, Order = -995, BottomY = horizon,        TopY = grassTop,   Build = BuildVerge },
                 new BandDef { Name = "farwalk",  Parallax = 1.00f, Order = -995, BottomY = farWalkBot,     TopY = farWalkTop, Build = BuildSidewalk },
-                new BandDef { Name = "road",     Parallax = 1.00f, Order = -988, BottomY = nearWalkTop,    TopY = farWalkBot, Build = BuildStreet },
+                new BandDef { Name = "road",     Parallax = 1.00f, Order = -988, BottomY = nearWalkTop,    TopY = farWalkBot, Build = BuildFloor },
                 new BandDef { Name = "nearwalk", Parallax = 1.00f, Order = -986, BottomY = bottom,         TopY = nearWalkTop,Build = BuildSidewalk },
             };
         }
@@ -923,6 +923,64 @@ namespace ThisL
             for (int x = 0; x < 32; x++)
                 for (int y = cy - 1; y <= cy + 1; y++)
                     SetPx(px, w, h, x, y, p.RoadDash);
+            return MakeSprite(w, h, px);
+        }
+
+        /// <summary>The strip behind the building row: green grass for outdoor areas, a GREY interior wall
+        /// for the mall (creator: "mall needs a grey background").</summary>
+        private static Sprite BuildVerge(in Palette p, int h)
+        {
+            if (IsMallTheme()) return BuildMallWall(p, h);
+            return BuildGrass(p, h);
+        }
+
+        /// <summary>Mall interior wall: flat grey with faint vertical panel seams.</summary>
+        private static Sprite BuildMallWall(in Palette p, int h)
+        {
+            const int w = 64;
+            var px = new Color32[w * h];
+            Color32 wall = new(168, 170, 176, 255), seam = new(150, 152, 158, 255), lit = new(184, 186, 192, 255);
+            for (int y = 0; y < h; y++)
+                for (int x = 0; x < w; x++)
+                    px[y * w + x] = ((x / 16) & 1) == 0 ? wall : lit;   // subtle wide panels
+            for (int x = 0; x < w; x += 16) for (int y = 0; y < h; y++) SetPx(px, w, h, x, y, seam); // panel seams
+            return MakeSprite(w, h, px);
+        }
+
+        /// <summary>The walkable FLOOR changes by area (creator: "no street in the middle — that changes
+        /// by level; mall is a tiled floor, airport a runway; the street is good on suburb/Sacramento").</summary>
+        private static Sprite BuildFloor(in Palette p, int h)
+        {
+            if (IsMallTheme()) return BuildMallFloor(p, h);
+            if (IsAirportTheme()) return BuildRunway(p, h);
+            return BuildStreet(p, h);                       // suburb + Sacramento keep the street
+        }
+
+        /// <summary>Indoor mall: a grey polished-tile floor (grid of tiles, no road).</summary>
+        private static Sprite BuildMallFloor(in Palette p, int h)
+        {
+            const int w = 64;
+            var px = new Color32[w * h];
+            Color32 tile = new(178, 180, 186, 255), grout = new(150, 152, 158, 255), sheen = new(200, 202, 208, 255);
+            for (int y = 0; y < h; y++) for (int x = 0; x < w; x++) px[y * w + x] = tile;
+            for (int x = 0; x < w; x += 16) for (int y = 0; y < h; y++) SetPx(px, w, h, x, y, grout);   // vertical grout
+            for (int y = 0; y < h; y += 16) for (int x = 0; x < w; x++) SetPx(px, w, h, x, y, grout);   // horizontal grout
+            for (int ty = 0; ty < h; ty += 16)
+                for (int tx = 0; tx < w; tx += 16) { SetPx(px, w, h, tx + 2, ty + 2, sheen); SetPx(px, w, h, tx + 3, ty + 2, sheen); } // polish glint
+            return MakeSprite(w, h, px);
+        }
+
+        /// <summary>Airport: dark tarmac RUNWAY with white edge lines + a dashed centreline.</summary>
+        private static Sprite BuildRunway(in Palette p, int h)
+        {
+            const int w = 64;
+            var px = new Color32[w * h];
+            Color32 tarmac = new(56, 58, 64, 255), edge = new(92, 94, 102, 255), mark = new(232, 232, 226, 255);
+            for (int y = 0; y < h; y++) for (int x = 0; x < w; x++) px[y * w + x] = tarmac;
+            for (int x = 0; x < w; x++) { SetPx(px, w, h, x, 1, mark); SetPx(px, w, h, x, h - 2, mark); } // runway edge lines
+            int cy = Mathf.RoundToInt(h * 0.5f);
+            for (int x = 0; x < 40; x++) for (int y = cy - 1; y <= cy + 1; y++) SetPx(px, w, h, x, y, mark); // long dashes
+            for (int i = 0; i < (w * h) / 24; i++) { int x = (i * 37) % w, y = (i * 61) % h; px[y * w + x] = Blend(px[y * w + x], edge, 0.12f); }
             return MakeSprite(w, h, px);
         }
 
