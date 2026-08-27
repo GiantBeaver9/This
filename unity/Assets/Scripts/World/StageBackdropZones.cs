@@ -48,9 +48,9 @@ namespace ThisL
             {
                 // Three distinct TOUCHING areas (creator): school buildings, then a tennis-court run, then a
                 // basketball-court run. No intersection; the tiled house row (world-fixed) fills the gaps.
-                new Zone { Frac = 0.12f, FracEnd = 0.34f, File = "school",     Tall = 7f, Z = Far, Foreground = false }, // school buildings touch
-                new Zone { Frac = 0.40f, FracEnd = 0.56f, File = "tennis",     Tall = 5f, Z = Far, Foreground = false }, // tennis courts touch
-                new Zone { Frac = 0.60f, FracEnd = 0.80f, File = "basketball", Tall = 5f, Z = Far, Foreground = false }, // basketball courts touch
+                new Zone { Frac = 0.10f, FracEnd = 0.38f, File = "school",     Tall = 10f, Z = Far, Foreground = false }, // BIG school buildings, touching
+                new Zone { Frac = 0.42f, FracEnd = 0.58f, File = "tennis",     Tall = 5f,  Z = Far, Foreground = false }, // tennis courts touch
+                new Zone { Frac = 0.62f, FracEnd = 0.82f, File = "basketball", Tall = 5f,  Z = Far, Foreground = false }, // basketball courts touch
             },
             _ => System.Array.Empty<Zone>(),
         };
@@ -156,8 +156,11 @@ namespace ThisL
             go.transform.SetParent(transform, false);
             var sr = go.AddComponent<SpriteRenderer>();
             sr.sprite = spr;
+            Playfield.Place(go.transform, worldX, z, sr);              // world-fixed: sets position (+ a depth scale)
+            // Playfield.Place OVERWRITES localScale with a depth scale (0.8 at Far) — that discarded our
+            // intended z.Tall size, making buildings render at raw-sprite*0.8 (school too small, houses
+            // wider than their spacing => overlap). Re-apply OUR scale so z.Tall / the house size wins.
             go.transform.localScale = new Vector3(scale, scale, 1f);
-            Playfield.Place(go.transform, worldX, z, sr);              // world-fixed: the camera scrolls to it
             sr.sortingOrder = foreground ? Playfield.SortingOrder(z) + 3 : (isCrosswalk ? -20 : -300);
             return go;
         }

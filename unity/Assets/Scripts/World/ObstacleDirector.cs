@@ -77,8 +77,10 @@ namespace ThisL
                 // Lincoln: the UPPER car parks up on the far sidewalk against the houses; the LOWER car
                 // sits out in the MIDDLE of the street (creator), leaving the near sidewalk clear so the
                 // player can walk below it. Stagger them so the two aren't perfectly abreast.
-                SpawnCar(x,      3.0f);                    // middle of the street
-                SpawnCar(x + 8f, Tuning.ZBandDepth - 0.2f); // up on the far sidewalk (z ~5.8)
+                // Pulled DOWN toward the player (creator): the near car sits at the lower curb, the far
+                // car just above mid-street — both low on screen, not up against the houses.
+                SpawnCar(x,      0.6f);                    // lower curb, right by the near sidewalk
+                SpawnCar(x + 8f, 3.4f);                    // upper car, mid-street (pulled down off the far walk)
                 return;
             }
             float z = Random.Range(1.2f, Tuning.ZBandDepth - 1.2f);   // leave a lane open on either side
