@@ -93,7 +93,7 @@ namespace ThisL
 
         // ---- State machine ------------------------------------------------------
 
-        private enum DirectorState { Idle, Vignette, Spawning, AwaitClear, Boss, Complete }
+        private enum DirectorState { Idle, Vignette, Travel, Spawning, AwaitClear, Boss, Complete }
 
         private StageData _data;
         private List<Wave> _waves;
@@ -150,6 +150,10 @@ namespace ThisL
                         if (_staging != null) _staging.Abort(); // no-op if it already finished
                         NextWave();
                     }
+                    break;
+
+                case DirectorState.Travel:
+                    TickTravel();
                     break;
 
                 case DirectorState.Spawning:
@@ -229,7 +233,35 @@ namespace ThisL
             }
         }
 
+        // ---- Travel-to-gate (the level is a JOURNEY, not a stationary grind) ----
+        private Wave _travelWave;
+        private float _travelTargetX, _travelTimeout;
+
+        /// <summary>Open the wall to this wave's gate and make the player WALK UP to it before the wave
+        /// spawns — so a stage reads as moving THROUGH the place (past the school, courts, diner, …),
+        /// not every wave materialising on top of you (creator: "still the tiny area… no change from
+        /// one scene to the next"). Lock + spawn on arrival (see <see cref="TickTravel"/>).</summary>
         private void BeginSpawnWave(Wave wave)
+        {
+            float gateX = GateX(_gateOrdinal);
+            SetCameraBounds(_originX, gateX);       // wall opens up to the gate; player advances into it
+            _travelWave = wave;
+            _travelTargetX = gateX;
+            _travelTimeout = 30f;                   // safety: spawn anyway if the player dawdles
+            _state = DirectorState.Travel;
+            Debug.Log($"[StageDirector] Travel to gate {gateX:0.0} for {wave.Label}.");
+        }
+
+        private void TickTravel()
+        {
+            _travelTimeout -= Time.deltaTime;
+            float px = PlayerController.Primary != null ? PlayerController.MidX() : _originX;
+            // Spawn once the player has walked to within ~half a screen of the gate (or dawdled out).
+            if (px >= _travelTargetX - Tuning.ScreenWidthUnits * 0.5f || _travelTimeout <= 0f)
+                DoSpawnWave(_travelWave);
+        }
+
+        private void DoSpawnWave(Wave wave)
         {
             // Camera hard-locks at this wave's gate X until the field clears (ENCOUNTERS.md §0).
             float gateX = GateX(_gateOrdinal);

@@ -159,6 +159,7 @@ namespace ThisL
             sys.AddComponent<Backdrop>();
             sys.AddComponent<Hud>();
             sys.AddComponent<CoopJoin>();   // press START on a gamepad to also drop in P2 mid-run
+            sys.AddComponent<BuildStamp>(); // corner build tag — confirms a FRESH (recompiled) build
 
             // 2-player was chosen on the setup screen → P2 is already in from the start.
             if (_playerCount == 2) SpawnPlayer2(MakeInput(_p2Input));

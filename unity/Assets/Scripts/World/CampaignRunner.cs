@@ -105,9 +105,11 @@ namespace ThisL
             foreach (var p in PlayerController.All)
                 if (p != null) p.ReviveIfDownedOut();
 
-            // Chain straight into the next stage; StageDirector re-anchors the lane to the
-            // player's current X, so the world reads as one continuous drive to SF.
-            StartStage(next);
+            // Beat the boss → FADE OUT → swap the stage at full black (with a hold for VO) → FADE IN,
+            // instead of the jarring instant "you're now on Lv 2" (creator: "fight the boss, then it
+            // fades out — I can do VO for that"). StageDirector re-anchors the lane to the player's X
+            // at black, so the world reads as one continuous drive.
+            ScreenFade.FadeOutIn(1.1f, 1.4f, 1.1f, () => StartStage(next));
         }
 
         private void WinRun()
