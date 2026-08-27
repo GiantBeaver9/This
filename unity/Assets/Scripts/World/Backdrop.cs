@@ -956,22 +956,48 @@ namespace ThisL
         {
             const int w = 64;
             var px = new Color32[w * h];
-            Color32 dark  = Lerp32(p.Grass, new Color32(0, 0, 0, 255), 0.28f);       // shadow at the pavement
-            Color32 light = Lerp32(p.Grass, new Color32(255, 255, 255, 255), 0.14f); // lit blades at the top
+            Color32 dark  = Lerp32(p.Grass, new Color32(0, 0, 0, 255), 0.30f);       // shadow at the pavement
+            Color32 light = Lerp32(p.Grass, new Color32(255, 255, 255, 255), 0.16f); // lit blades at the top
+
+            // Base: vertical gradient dark(bottom)->light(top) crossed with mowed STRIPES — alternating
+            // slightly lighter/darker vertical bands (16 px each -> 4 bands, so it tiles seamlessly),
+            // the tell-tale "mown lawn" read instead of one flat field of green.
+            Color32 mowLo = Lerp32(p.Grass, new Color32(0, 0, 0, 255), 0.12f);
+            Color32 mowHi = Lerp32(p.Grass, new Color32(255, 255, 255, 255), 0.10f);
             for (int y = 0; y < h; y++)
             {
                 float t = h > 1 ? (float)y / (h - 1) : 0f;   // 0 bottom -> 1 top
-                Color32 c = Lerp32(dark, light, t);
-                for (int x = 0; x < w; x++) px[y * w + x] = c;
+                for (int x = 0; x < w; x++)
+                {
+                    Color32 c = Lerp32(dark, light, t);
+                    bool hiStripe = ((x / 16) & 1) == 0;     // every other 16-px band is the "with-mow" light stripe
+                    c = Blend(c, hiStripe ? mowHi : mowLo, 0.28f);
+                    px[y * w + x] = c;
+                }
             }
-            // Bright blade line along the very top (the grass meeting the sky).
-            for (int x = 0; x < w; x++) SetPx(px, w, h, x, h - 1, light);
-            // Faint darker fleck for grassy texture (wraps in x via % w so it stays seamless).
-            Color32 fleck = Lerp32(p.Grass, new Color32(0, 0, 0, 255), 0.20f);
-            for (int i = 0; i < (w * h) / 9; i++)
+
+            // Blade TUFTS: short vertical strokes (2-4 px) of lighter & darker green scattered across the
+            // band so it reads as grass, not a smooth gradient. Deterministic + wraps in x -> seamless.
+            Color32 bladeHi = Lerp32(p.Grass, new Color32(255, 255, 255, 255), 0.30f);
+            Color32 bladeLo = Lerp32(p.Grass, new Color32(0, 0, 0, 255), 0.34f);
+            int tufts = (w * h) / 5;
+            for (int i = 0; i < tufts; i++)
             {
-                int x = (i * 37) % w, y = (i * 61) % h;
-                px[y * w + x] = Blend(px[y * w + x], fleck, 0.40f);
+                int x = (i * 37) % w;
+                int baseY = (i * 53) % Mathf.Max(1, h - 1);
+                int len = 1 + (i % 3);                       // 1..3 px tall blade
+                Color32 blade = (i & 1) == 0 ? bladeHi : bladeLo;
+                for (int k = 0; k < len; k++)
+                {
+                    int y = baseY + k;
+                    if (y < h) px[y * w + x] = Blend(px[y * w + x], blade, 0.55f);
+                }
+            }
+
+            // Bright blade line along the very top (the lawn edge catching light where it meets the sky).
+            for (int x = 0; x < w; x++)
+            {
+                SetPx(px, w, h, x, h - 1, ((x >> 1) & 1) == 0 ? light : bladeHi); // ragged, not a hard rule
             }
             return MakeSprite(w, h, px);
         }
