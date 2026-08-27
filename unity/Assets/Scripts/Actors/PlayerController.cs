@@ -1520,6 +1520,10 @@ namespace ThisL
             Anim.Play(MoveX() != 0 || MoveZ() != 0 ? "walk" : "idle", true);
         }
 
+        // The player may step down onto the near sidewalk, lower than the enemy band — so you can walk
+        // in front of (below) the cars parked along the lower curb (creator note).
+        protected override float MinZ => -0.9f;
+
         protected override void LateUpdate()
         {
             base.LateUpdate();

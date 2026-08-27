@@ -26,14 +26,14 @@ namespace ThisL
         /// is ~N/5.6 seconds of walking end-to-end, chunked by the arena locks. The arena count scales
         /// with this / <see cref="ArenaSpacingWu"/> in StageDirector.ExpandWaves so fights sit one lock
         /// apart with real travel (obstacles + pods) between. Finale overrides to ~30 (pure boss arena).
-        /// KNOB: raise for a longer stage. Currently ~3x the old 1600.</summary>
-        public float LaneLengthWu = 5000f;
+        /// KNOB: raise for a longer stage.</summary>
+        public float LaneLengthWu = 1700f;
 
         /// <summary>Distance between camera-lock arenas, in world-units (creator: "locking camera every
         /// 6k or so" — scaled to the engine: at RunSpeed 5.6 wu/s a 500 wu gap is ~90s of travel). One
         /// filler arena is placed per this many wu; StageDirector.ExpandWaves clamps the count to 3..20.
         /// KNOB: raise for FEWER, more spread-out locks (longer breaks between fights).</summary>
-        public float ArenaSpacingWu = 500f;
+        public float ArenaSpacingWu = 170f;
 
         /// <summary>The ordered spine: vignette / spawn / checkpoint / filler-marker / boss waves.</summary>
         public readonly List<Wave> Waves = new();

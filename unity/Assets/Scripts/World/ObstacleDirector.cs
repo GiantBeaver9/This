@@ -47,8 +47,9 @@ namespace ThisL
             float rampLen = Mathf.Max(600f, StageDirector.ActiveLaneLengthWu);
             float progress = Mathf.Clamp01((playerX - _stageStartX) / rampLen);
             // lv1 drops 2 cars (both curbs) per step, so its spacing is wider than single-obstacle stages.
-            float startSp = stage == 0 ? 50f : 72f;
-            float endSp   = stage == 0 ? 10f : 22f;
+            // It also packs TIGHT near the end — a wall of parked cars approaching Sandwich Bros (creator).
+            float startSp = stage == 0 ? 46f : 72f;
+            float endSp   = stage == 0 ? 6f  : 22f;
             return Mathf.Lerp(startSp, endSp, progress);
         }
 
@@ -73,10 +74,12 @@ namespace ThisL
         {
             if (stage == 0)
             {
-                // Lincoln: parked cars line BOTH curbs (near + far row), the road stays open down the
-                // middle. Stagger the far car so the two sides don't sit perfectly abreast.
-                SpawnCar(x,      0.7f);
-                SpawnCar(x + 8f, Tuning.ZBandDepth - 0.7f);
+                // Lincoln: parked cars line BOTH curbs, the road stays open down the middle. The LOWER
+                // row sits at the lower curb (z 1.4) so the player can still walk BELOW it on the near
+                // sidewalk (creator note); the UPPER row parks up on the far sidewalk against the houses
+                // (z 5.6). Stagger the far car so the two sides aren't perfectly abreast.
+                SpawnCar(x,      1.4f);
+                SpawnCar(x + 8f, Tuning.ZBandDepth - 0.4f);
                 return;
             }
             float z = Random.Range(1.2f, Tuning.ZBandDepth - 1.2f);   // leave a lane open on either side

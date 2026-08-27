@@ -42,10 +42,15 @@ namespace ThisL
         protected virtual void OnEnable() { if (!All.Contains(this)) All.Add(this); }
         protected virtual void OnDisable() => All.Remove(this);
 
+        /// <summary>Near (low-Z) walk limit. Actors sit in the [0, ZBandDepth] band; the PLAYER overrides
+        /// this a touch lower so they can step down onto the near sidewalk, in front of the lower-curb
+        /// parked cars (creator: "I should be able to walk lower than the cars parked on the lower side").</summary>
+        protected virtual float MinZ => 0f;
+
         /// <summary>Clamp Z into the band and push the logical position onto the sprite transform.</summary>
         protected virtual void LateUpdate()
         {
-            Z = Mathf.Clamp(Z, 0f, Tuning.ZBandDepth);
+            Z = Mathf.Clamp(Z, MinZ, Tuning.ZBandDepth);
             Playfield.Place(transform, WorldX, Z, Sr);
             if (ScaleMult != 1f)
             {

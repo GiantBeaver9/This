@@ -41,14 +41,15 @@ namespace ThisL
         // (crosswalk + lights) -> basketball courts -> diner, laid over the house row.
         private static Zone[] ZonesFor(int stage) => stage switch
         {
+            // Progression (creator): houses → SCHOOL → tennis/basketball COURTS → railroad → Sandwich Bros.
+            // The railroad + store are the finale set-pieces (StageFinaleProps) at the lane end. No diner.
             0 => new[]
             {
-                new Zone { Frac = 0.16f, FracEnd = 0.44f, File = "school", Tall = 15f, Z = Far, Foreground = false }, // whole campus
-                new Zone { Frac = 0.50f, File = "crosswalk.png",        Tall = 1.2f, Z = 2.6f, Foreground = false }, // stripes on the road
-                new Zone { Frac = 0.49f, File = "traffic_light.png",    Tall = 6f,  Z = 0.6f, Foreground = true },   // near light
-                new Zone { Frac = 0.52f, File = "traffic_light.png",    Tall = 5f,  Z = Far,  Foreground = false },  // far light
-                new Zone { Frac = 0.64f, File = "basketball_court.png", Tall = 9f,  Z = Far,  Foreground = false },
-                new Zone { Frac = 0.86f, File = "diner.png",            Tall = 12f, Z = Far,  Foreground = false },
+                new Zone { Frac = 0.14f, FracEnd = 0.40f, File = "school", Tall = 15f, Z = Far, Foreground = false }, // whole campus
+                new Zone { Frac = 0.46f, File = "crosswalk.png",        Tall = 1.2f, Z = 2.6f, Foreground = false }, // stripes on the road
+                new Zone { Frac = 0.45f, File = "traffic_light.png",    Tall = 6f,  Z = 0.6f, Foreground = true },   // near light
+                new Zone { Frac = 0.48f, File = "traffic_light.png",    Tall = 5f,  Z = Far,  Foreground = false },  // far light
+                new Zone { Frac = 0.70f, FracEnd = 0.82f, File = "courts", Tall = 9f, Z = Far, Foreground = false }, // tennis/basketball courts run
             },
             _ => System.Array.Empty<Zone>(),
         };
