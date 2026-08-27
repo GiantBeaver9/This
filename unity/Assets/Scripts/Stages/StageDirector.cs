@@ -84,6 +84,15 @@ namespace ThisL
             // Lock the camera to the head of the lane until the first wave is placed.
             SetCameraBounds(_originX, GateX(0));
 
+            // Guaranteed weapon drop (e.g. the Whip before the Colossus) — a pickup just ahead of the
+            // player so a boss that REQUIRES a weapon can't soft-lock on the random loot roll.
+            if (data.GuaranteedWeapon.HasValue)
+            {
+                float px = PlayerController.Instance != null ? PlayerController.Instance.WorldX : _originX;
+                float pz = PlayerController.Instance != null ? PlayerController.Instance.Z : 0f;
+                Pickup.SpawnWeapon(data.GuaranteedWeapon.Value, px + 4.5f, pz);
+            }
+
             _waveIndex = -1;
             _boss = null;
             _state = DirectorState.Idle;
@@ -325,6 +334,11 @@ namespace ThisL
             if (!string.IsNullOrEmpty(_data.BossMusicClip)) Music.PlayBoss(_data.BossMusicClip);
             float arenaX = BossArenaX();
             SetCameraBounds(_originX, arenaX);
+
+            // Drop a FRESH copy of the required weapon at the arena entrance — the stage-start one may
+            // be spent/discarded by now, and the Colossus can't be beaten without a live Whip.
+            if (_data.GuaranteedWeapon.HasValue)
+                Pickup.SpawnWeapon(_data.GuaranteedWeapon.Value, arenaX, Tuning.ZBandDepth * 0.5f);
 
             Debug.Log($"[StageDirector] SpawnBoss(\"{_data.BossId}\") @ arena {arenaX:0.0}.");
             _boss = SpawnBoss(_data.BossId, arenaX);

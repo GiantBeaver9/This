@@ -51,7 +51,7 @@ namespace ThisL
                     MusicClip = "a1_surfrock_opener",
                     AmbientClip = "lincoln_birds_traffic",
                     NewestArchetype = EnemyArchetype.Regular,
-                    BossId = "sandwich_bros",  // big version of the Regulars + charge (BigVersionBoss.SandwichBros)
+                    BossId = "road_bruiser",   // SWAPPED with L2 (creator) — big Regular + charge (BigVersionBoss.RoadBruiser)
                     BossMusicClip = null,
                     BossAtLaneEnd = true,      // fight at the store: clear waves → walk over the railroad → boss
                 };
@@ -64,7 +64,7 @@ namespace ThisL
                 // Walk into the Sandwich Bros lot: a SMALL POD first, THEN the boss barrels out on arrival
                 // (creator: "there should be a small pod, then he spawns"). Boss only spawns once you walk in.
                 st.Waves.Add(Wave.Spawn("Sandwich Bros lot — pod", 0.7f, E(EnemyArchetype.Regular, 3, SpawnSide.L)));
-                st.Waves.Add(Wave.Boss("BOSS: Sandwich Bros (big charger)"));
+                st.Waves.Add(Wave.Boss("BOSS: Road Bruiser (big charger)")); // SWAPPED to L1
                 s.Add(st);
             }
 
@@ -83,7 +83,7 @@ namespace ThisL
                     MusicClip = "a1_surfrock_opener",
                     AmbientClip = "lincoln_birds_traffic",
                     NewestArchetype = EnemyArchetype.Regular,
-                    BossId = "road_bruiser",   // big Regular + charge (BigVersionBoss.RoadBruiser)
+                    BossId = "sandwich_bros",  // SWAPPED with L1 (creator) — big version of the Regulars + charge
                     BossMusicClip = null,
                 };
                 st.Waves.Add(Wave.Spawn("Wave 1", 0.9f, E(EnemyArchetype.Regular, 3, SpawnSide.L)));
@@ -91,7 +91,7 @@ namespace ThisL
                 st.Waves.Add(Wave.Filler("Filler (Regulars)", 10, 12));
                 st.Waves.Add(Wave.Spawn("Wave 2 (funnel to the mall lot)", 0.7f,
                     E(EnemyArchetype.Regular, 5, SpawnSide.L), E(EnemyArchetype.Regular, 4, SpawnSide.R)));
-                st.Waves.Add(Wave.Boss("BOSS: Road Bruiser (big charger)"));
+                st.Waves.Add(Wave.Boss("BOSS: Sandwich Bros (big charger)")); // SWAPPED to L2
                 s.Add(st);
             }
 
@@ -135,6 +135,7 @@ namespace ThisL
                     NewestArchetype = EnemyArchetype.Snapper,
                     BossId = "colossus",
                     BossMusicClip = "colossus",
+                    GuaranteedWeapon = WeaponKind.Whip, // the Colossus is beaten by whip-pulls — never leave it to the loot roll
                 };
                 st.Waves.Add(Wave.Vignette("Vignette: whip-pull demo (teaches the Whip)"));
                 st.Waves.Add(Wave.Spawn("Wave 1", 0.9f, E(EnemyArchetype.Regular, 3, SpawnSide.L)));

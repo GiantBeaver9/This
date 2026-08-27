@@ -59,6 +59,11 @@ namespace ThisL
         /// over it). Lets us pull a stage out of the run without renumbering every index-keyed system
         /// (hazards, backdrops). Creator: "stash L2, point L1 to L3."</summary>
         public bool Stashed = false;
+
+        /// <summary>A weapon dropped as a guaranteed pickup at the head of the lane on stage start.
+        /// Used where a stage's boss REQUIRES a specific weapon (Sacramento/Colossus needs the Whip
+        /// to rip pieces off), so it never soft-locks on the random loot roll. Null = none.</summary>
+        public WeaponKind? GuaranteedWeapon = null;
     }
 
     /// <summary>What a <see cref="Wave"/> is. Vignette/Checkpoint auto-advance (no kill-gate);
