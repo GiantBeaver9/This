@@ -46,10 +46,11 @@ namespace ThisL
             // The railroad + store are the finale set-pieces (StageFinaleProps) at the lane end. No diner.
             0 => new[]
             {
-                // No intersection (creator: "no real intersection, lights look awful"). Just the campus
-                // then the courts; the tiled house row (now world-fixed, Backdrop parallax 1.0) fills the rest.
-                new Zone { Frac = 0.16f, FracEnd = 0.42f, File = "school", Tall = 9f, Z = Far, Foreground = false }, // whole campus (tallest building = 9wu)
-                new Zone { Frac = 0.66f, FracEnd = 0.80f, File = "courts", Tall = 6f, Z = Far, Foreground = false }, // tennis/basketball courts run
+                // Three distinct TOUCHING areas (creator): school buildings, then a tennis-court run, then a
+                // basketball-court run. No intersection; the tiled house row (world-fixed) fills the gaps.
+                new Zone { Frac = 0.12f, FracEnd = 0.34f, File = "school",     Tall = 7f, Z = Far, Foreground = false }, // school buildings touch
+                new Zone { Frac = 0.40f, FracEnd = 0.56f, File = "tennis",     Tall = 5f, Z = Far, Foreground = false }, // tennis courts touch
+                new Zone { Frac = 0.60f, FracEnd = 0.80f, File = "basketball", Tall = 5f, Z = Far, Foreground = false }, // basketball courts touch
             },
             _ => System.Array.Empty<Zone>(),
         };
@@ -92,7 +93,7 @@ namespace ThisL
                 float wWu = (spr.rect.width / Tuning.PixelsPerUnit) * scale;
                 var go = MakeProp(spr, x + wWu * 0.5f, z.Z, scale, foreground: false, isCrosswalk: false);
                 _props.Add(go);
-                x += wWu - 0.3f;   // TOUCHING: slight overlap so campus buildings / courts butt together (creator)
+                x += wWu - 0.5f;   // TOUCHING: overlap so buildings / courts butt together, no gaps (creator)
                 i++;
             }
         }

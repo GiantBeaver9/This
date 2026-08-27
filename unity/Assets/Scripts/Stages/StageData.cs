@@ -27,7 +27,7 @@ namespace ThisL
         /// with this / <see cref="ArenaSpacingWu"/> in StageDirector.ExpandWaves so fights sit one lock
         /// apart with real travel (obstacles + pods) between. Finale overrides to ~30 (pure boss arena).
         /// KNOB: raise for a longer stage.</summary>
-        public float LaneLengthWu = 190f;
+        public float LaneLengthWu = 150f;
 
         /// <summary>Distance between camera-lock arenas, in world-units (creator: "locking camera every
         /// 6k or so" — scaled to the engine: at RunSpeed 5.6 wu/s a 500 wu gap is ~90s of travel). One
