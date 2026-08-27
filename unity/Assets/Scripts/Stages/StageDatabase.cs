@@ -67,16 +67,17 @@ namespace ThisL
                 s.Add(st);
             }
 
-            // --- Stage 2 — ROCKLIN: the Highway-65 drive from Sandwich Bros to the Roseville Galleria.
-            // Mall-security guards charge in (HazardDirector stage 1 = Guard). Ends on the Road Bruiser
-            // (another big Regular with a charge) so the level closes on a boss, not wave-exhaustion. ---
+            // --- Stage 2 — THE MALL (Roseville Galleria). Creator: "Lv 2 is just Lv 1 again — needs to be
+            // in a mall." Distinct storefront backdrop (area1_mall) vs the suburb; mall-security guards
+            // shove through (HazardDirector stage 1 = Guard); ends on the Road Bruiser (big Regular +
+            // charge) so it closes on a boss. ---
             {
                 var st = new StageData
                 {
                     Id = 2,
-                    DisplayName = "Rocklin — Highway 65 to the Galleria",
+                    DisplayName = "Roseville Galleria (Mall)",
                     Area = "Placer Suburbs & Mall",
-                    BackdropTheme = "area1_suburb",
+                    BackdropTheme = "area1_mall",
                     MusicClip = "a1_surfrock_opener",
                     AmbientClip = "lincoln_birds_traffic",
                     NewestArchetype = EnemyArchetype.Regular,

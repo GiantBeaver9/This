@@ -178,7 +178,7 @@ namespace ThisL
             return new[]
             {
                 new BandDef { Name = "sky",      Parallax = 0.10f, Order = -996, BottomY = horizon - 1.0f, TopY = top,        Build = BuildSky },
-                new BandDef { Name = "grass",    Parallax = 0.24f, Order = -995, BottomY = horizon,        TopY = grassTop,   Build = BuildGrass },
+                new BandDef { Name = "grass",    Parallax = 1.00f, Order = -995, BottomY = horizon,        TopY = grassTop,   Build = BuildGrass },
                 new BandDef { Name = "farwalk",  Parallax = 1.00f, Order = -995, BottomY = farWalkBot,     TopY = farWalkTop, Build = BuildSidewalk },
                 new BandDef { Name = "road",     Parallax = 1.00f, Order = -988, BottomY = nearWalkTop,    TopY = farWalkBot, Build = BuildStreet },
                 new BandDef { Name = "nearwalk", Parallax = 1.00f, Order = -986, BottomY = bottom,         TopY = nearWalkTop,Build = BuildSidewalk },
@@ -435,7 +435,9 @@ namespace ThisL
             built.Add(new LayerInstance
             {
                 Transform = parent.transform,
-                Parallax = 0.24f,          // far layer
+                Parallax = 1.00f,          // WORLD-FIXED: houses move 1:1 with the world (you walk PAST
+                                           // them) instead of drifting/scrolling by (creator note). Still
+                                           // whole-tile wraps seamlessly so the row covers any distance.
                 BaseY = 0f,                // props carry their own horizon Y in localPosition
                 TileWorld = rowWidth,
             });
@@ -523,7 +525,7 @@ namespace ThisL
             built.Add(new LayerInstance
             {
                 Transform = parent.transform,
-                Parallax = 0.24f,          // far layer, same as the house row
+                Parallax = 1.00f,          // WORLD-FIXED (walk past, not scroll), like the house row
                 BaseY = 0f,                // stores carry their own horizon Y in localPosition
                 TileWorld = rowWidth,
             });
@@ -582,7 +584,7 @@ namespace ThisL
             built.Add(new LayerInstance
             {
                 Transform = parent.transform,
-                Parallax = 0.24f,          // far layer, same as the house row
+                Parallax = 1.00f,          // WORLD-FIXED (walk past, not scroll), like the house row
                 BaseY = 0f,                // props carry their own horizon Y in localPosition
                 TileWorld = rowWidth,
             });
@@ -644,7 +646,7 @@ namespace ThisL
             built.Add(new LayerInstance
             {
                 Transform = parent.transform,
-                Parallax = 0.24f,          // far layer, same as the house row
+                Parallax = 1.00f,          // WORLD-FIXED (walk past, not scroll), like the house row
                 BaseY = 0f,                // props carry their own horizon Y in localPosition
                 TileWorld = rowWidth,
             });

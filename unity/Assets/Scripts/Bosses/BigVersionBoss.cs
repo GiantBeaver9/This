@@ -71,6 +71,8 @@ namespace ThisL
         {
             _cfg = cfg;
             InitBoss(cfg.Id, cfg.Display, cfg.Cue, cfg.Hp, x, z, cfg.Tint, cfg.Move);
+            SizeScale = 1.15f;                                 // creator: "half size" (was ~2x) — still reads
+                                                              // as a boss vs 1.0 enemies, but no longer huge
             IsHpDepletion = true;                              // executable at ≤10%
             PhaseThresholds = cfg.Thresholds;
             _attack = cfg.FireInterval;
@@ -89,10 +91,10 @@ namespace ThisL
         private void MeleeBehaviour(float dt, PlayerController player)
         {
             AttackTimer -= dt;
-            Reposition(player, dt, keep: 1.4f, speed: MoveSpeed);
+            Reposition(player, dt, keep: 1.0f, speed: MoveSpeed);   // closes in more (smaller boss, shorter reach)
             if (AttackTimer > 0f) return;
             float dist = player.DistanceTo(this);
-            if (dist <= 2.2f)
+            if (dist <= 1.5f)
             {
                 RunAttack(LungePunch());
                 // Phase 2 "faster" = +20% cadence (BOSSES.md §7 Sandwich note).
@@ -127,7 +129,7 @@ namespace ThisL
             while (t < 0.75f && Alive)
             {
                 WorldX += dir * speed * Time.deltaTime;
-                if (!hit && player != null && player.Alive && player.DistanceTo(this) <= 1.9f)
+                if (!hit && player != null && player.Alive && player.DistanceTo(this) <= 1.3f)
                 {
                     hit = true;
                     player.TakeDamage(_cfg.Dmg * 1.6f, this);
@@ -149,7 +151,7 @@ namespace ThisL
             yield return Telegraph(CurrentPhase >= 2 ? 0.22f : 0.3f);
             if (!Alive) yield break;
             Sfx.Play("punch_2");
-            HitPlayerIfInRange(2.2f, _cfg.Dmg);
+            HitPlayerIfInRange(1.5f, _cfg.Dmg);
             CameraShake.Add(CameraShake.Medium);
             yield return Telegraph(0.2f);
         }
