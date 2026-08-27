@@ -1118,6 +1118,9 @@ namespace ThisL
             {
                 foreach (var a in hits)
                 {
+                    // The Colossus (or any grab-apart boss): a connecting whip crack RIPS a whole
+                    // stick-figure PIECE off it (§5.4) — that's the win condition, not the drag.
+                    if (a is IWhipPullable wp) { wp.RegisterWhipPull(this); continue; }
                     if (a is not EnemyController ec) continue;
                     float gap = (a.WorldX - WorldX) * Facing;             // >0 = ahead of you
                     float pull = Mathf.Clamp(gap - 0.9f, 0f, 3.0f);       // drag toward you, keep 0.9 wu
