@@ -25,10 +25,20 @@ namespace ThisL
 
         public void Init(float x, float z)
         {
-            InitBoss("helicopter", "Monkey Chopper", "helicopter", 6f, x, z,
-                     new Color(0.6f, 0.75f, 0.6f), moveSpeed: 8.0f, sizeScale: 2.2f);
-            IsHpDepletion = false;                 // objective — no execute (BOSSES.md §1)
-            PhaseThresholds = new[] { 0.5f };      // phase 2 at 3 pips (half of 6)
+            InitBoss("helicopter", "Monkey Chopper", "helicopter", 160f, x, z,
+                     new Color(0.6f, 0.75f, 0.6f), moveSpeed: 8.0f, sizeScale: 1.5f);
+            // Real HELICOPTER art (creator: "the airport boss is not a helicopter") — a side-view chopper
+            // with a spinning rotor + monkey pilot, replacing the tinted stick-figure placeholder.
+            if (SpriteLibrary.HasAtlas("sprites/enemies/boss_helicopter", "boss_helicopter"))
+            {
+                Anim.Set = SpriteLibrary.Load("sprites/enemies/boss_helicopter", "boss_helicopter");
+                if (Sr != null) Sr.color = Color.white;   // real art — drop the green tint
+                Anim.Play("walk", true, restart: true);
+            }
+            // SOFTLOCK FIX (stopgap): the pip mechanic (bat-reflect / grenade-lob) isn't implemented, so
+            // make it a normal HP boss — shoot it down. Real pip mechanic is a later pass.
+            IsHpDepletion = true;
+            PhaseThresholds = new[] { 0.5f };      // phase 2 at half HP
             _minX = x - 8f;
             _maxX = x + 8f;
             Z = Tuning.ZBandDepth - 0.5f;          // hovers at the back/top band
