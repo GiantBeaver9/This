@@ -43,29 +43,58 @@ namespace ThisL
         /// Theme-driven, NOT by stage index — L2 is stashed, so an index-keyed table put the guard
         /// hazard on the skipped stage and left the playable mall bare. Keying off the backdrop theme
         /// maps each of the four playable levels (Streets / Mall / Sac / Airport) to its hazard.</summary>
-        private enum HazardKind { None, Car, Guard, Plane }
+        private enum HazardKind { None, Car, Guard, Plane, CrossProp }
         private static HazardKind KindForStage(int stage)
         {
             var data = StageDatabase.Get(stage);
             return (data != null ? data.BackdropTheme : null) switch
             {
-                "area1_suburb"  => HazardKind.Car,     // Streets — cars barrel through
-                "area1_mall"    => HazardKind.Guard,   // Mall — security guards charge across the concourse
-                "area2_airport" => HazardKind.Plane,   // Airport — a jet screams across the tarmac
-                _ => HazardKind.None,                  // Sac (Colossus/whip) + the rest: no environmental hazard
+                "area1_suburb"    => HazardKind.Car,       // Streets — cars barrel through
+                "area4_goldengate"=> HazardKind.Car,       // Golden Gate — bridge traffic
+                "area1_mall"      => HazardKind.Guard,     // Mall — security guards charge the concourse
+                "area2_airport"   => HazardKind.Plane,     // Airport — a jet screams across the tarmac
+                "area3_farm"      => HazardKind.CrossProp, // Farm — a charging bull
+                "area3_dixon"     => HazardKind.CrossProp, // Dixon — a tumbleweed rolls through
+                "area4_vallejo"   => HazardKind.CrossProp, // Six Flags — a roller-coaster car on the top rail
+                "area4_marin"     => HazardKind.CrossProp, // Redwoods — a rolling log
+                "area4_sf"        => HazardKind.CrossProp, // SF — a runaway trolley
+                _ => HazardKind.None,                      // Sac (whip fight) + causeway (gap platformer): no hazard
             };
         }
+
+        /// <summary>A themed lane-crossing hazard: which prop, how fast, how it hurts. Reused by the
+        /// Area-3/4 levels through <see cref="CrossHazard"/> (sprite art faces -X / left).</summary>
+        private struct CrossSpec { public string Sprite, Sfx; public float Speed, ScaleH, Dmg, EnemyDmg, Push, Stagger; public bool FarRow; }
+        private static CrossSpec SpecForTheme(string theme) => theme switch
+        {
+            "area3_farm"    => new CrossSpec { Sprite = "bull",       Sfx = "whoosh_heavy", Speed = 14f, ScaleH = 2.4f, Dmg = 18f,   EnemyDmg = 40f, Push = 2f,   Stagger = 0.9f, FarRow = false },
+            "area3_dixon"   => new CrossSpec { Sprite = "tumbleweed", Sfx = "dash_whoosh",  Speed = 11f, ScaleH = 1.7f, Dmg = 0f,    EnemyDmg = 0f,  Push = 1.5f, Stagger = 0.4f, FarRow = false },
+            "area4_vallejo" => new CrossSpec { Sprite = "coaster",    Sfx = "car_horn",     Speed = 30f, ScaleH = 2.6f, Dmg = 9999f, EnemyDmg = 60f, Push = 0f,   Stagger = 0f,   FarRow = true  },
+            "area4_marin"   => new CrossSpec { Sprite = "log",        Sfx = "whoosh_heavy", Speed = 17f, ScaleH = 1.8f, Dmg = 15f,   EnemyDmg = 40f, Push = 2.5f, Stagger = 0.7f, FarRow = false },
+            "area4_sf"      => new CrossSpec { Sprite = "trolley",    Sfx = "car_horn",     Speed = 22f, ScaleH = 3.2f, Dmg = 9999f, EnemyDmg = 60f, Push = 0f,   Stagger = 0f,   FarRow = false },
+            _               => new CrossSpec { Sprite = "log",        Sfx = "whoosh_heavy", Speed = 14f, ScaleH = 1.8f, Dmg = 15f,   EnemyDmg = 40f, Push = 2f,   Stagger = 0.6f, FarRow = false },
+        };
 
         private System.Collections.IEnumerator WarnThenHazard(HazardKind kind)
         {
             _busy = true;
             bool fromLeft = Random.value < 0.5f;
-            // Planes scream across a FAR row (over the tarmac); cars/guards use a random near-ish row.
-            float z = kind == HazardKind.Plane ? Tuning.ZBandDepth - 0.5f : Random.Range(1f, Tuning.ZBandDepth - 1f);
+
+            CrossSpec spec = default;
+            bool cross = kind == HazardKind.CrossProp;
+            if (cross)
+            {
+                var d = CampaignRunner.Instance != null ? StageDatabase.Get(CampaignRunner.Instance.CurrentStage) : null;
+                spec = SpecForTheme(d != null ? d.BackdropTheme : null);
+            }
+
+            // Planes / a coaster on the top rail scream across a FAR row; the rest use a random near-ish row.
+            float z = (kind == HazardKind.Plane || (cross && spec.FarRow))
+                ? Tuning.ZBandDepth - 0.5f : Random.Range(1f, Tuning.ZBandDepth - 1f);
 
             // TELEGRAPH: a blinking warning arrow at the incoming edge on the hazard's row + a cue,
             // so the player always sees it coming.
-            Sfx.Play(kind == HazardKind.Plane ? "jet_pass" : kind == HazardKind.Guard ? "guard_whistle" : "car_horn");
+            Sfx.Play(cross ? spec.Sfx : kind == HazardKind.Plane ? "jet_pass" : kind == HazardKind.Guard ? "guard_whistle" : "car_horn");
             var warn = MakeWarn(fromLeft, z);
             float t = WarnSeconds;
             while (t > 0f)
@@ -104,6 +133,17 @@ namespace ThisL
                 case HazardKind.Plane:   // a jet roars across the far tarmac row — big, fast, deadly
                     CrossHazard.Spawn(PlaneSprite(), x, z, dir * 34f, 26f, new Vector2(4.5f, 2.2f), 2.4f, 0.4f);
                     break;
+                case HazardKind.CrossProp:   // themed lane-crosser (bull / tumbleweed / coaster / log / trolley)
+                {
+                    var spr = CrossSprite(spec.Sprite);
+                    float sc = spec.ScaleH / Mathf.Max(0.3f, spr.rect.height / Tuning.PixelsPerUnit);
+                    float halfLen = Mathf.Max(0.7f, spr.rect.width / Tuning.PixelsPerUnit * sc * 0.42f);
+                    var h = CrossHazard.Spawn(spr, x, z, dir * spec.Speed, spec.Dmg, new Vector2(sc, sc), halfLen, 0f);
+                    h.EnemyDamage = spec.EnemyDmg;
+                    h.PushX = spec.Push;
+                    h.StaggerSeconds = spec.Stagger;
+                    break;
+                }
             }
             _busy = false;
         }
@@ -157,6 +197,16 @@ namespace ThisL
         private static Sprite _plane, _guard;
         private static Sprite PlaneSprite() => _plane ??= (LoadProp("plane.png") ?? MakePlane());
         private static Sprite GuardSprite() => _guard ??= (LoadProp("guard.png") ?? MakeGuard());
+
+        // Themed cross-prop sprites (bull/tumbleweed/coaster/log/trolley), cached by name.
+        private static readonly System.Collections.Generic.Dictionary<string, Sprite> _crossCache = new();
+        private static Sprite CrossSprite(string name)
+        {
+            if (_crossCache.TryGetValue(name, out var s) && s != null) return s;
+            s = LoadProp(name + ".png") ?? MakeGuard();   // fallback keeps CrossHazard non-null
+            _crossCache[name] = s;
+            return s;
+        }
 
         private static Sprite LoadProp(string file)
         {
