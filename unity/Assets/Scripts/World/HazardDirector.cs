@@ -53,8 +53,8 @@ namespace ThisL
                 "area4_goldengate"=> HazardKind.Car,       // Golden Gate — bridge traffic
                 "area1_mall"      => HazardKind.Guard,     // Mall — security guards charge the concourse
                 "area2_airport"   => HazardKind.Plane,     // Airport — a jet screams across the tarmac
-                "area3_farm"      => HazardKind.CrossProp, // Farm — a charging bull
-                "area3_dixon"     => HazardKind.CrossProp, // Dixon — a tumbleweed rolls through
+                "area3_farm"      => HazardKind.CrossProp, // Farm — loose cows/goats wander across
+                "area3_dixon"     => HazardKind.Car,       // Dixon — it's a town: cars again
                 "area4_vallejo"   => HazardKind.CrossProp, // Six Flags — a roller-coaster car on the top rail
                 "area4_marin"     => HazardKind.CrossProp, // Redwoods — a rolling log
                 "area4_sf"        => HazardKind.CrossProp, // SF — a runaway trolley
@@ -68,8 +68,10 @@ namespace ThisL
         private struct CrossSpec { public string Sprite, Sfx; public float Speed, ScaleH, Dmg, EnemyDmg, Push, Stagger; public bool FarRow; }
         private static CrossSpec SpecForTheme(string theme) => theme switch
         {
-            "area3_farm"    => new CrossSpec { Sprite = "bull",       Sfx = "whoosh_heavy", Speed = 14f, ScaleH = 2.4f, Dmg = 18f,   EnemyDmg = 40f, Push = 2f,   Stagger = 0.9f, FarRow = false },
-            "area3_dixon"   => new CrossSpec { Sprite = "tumbleweed", Sfx = "dash_whoosh",  Speed = 11f, ScaleH = 1.7f, Dmg = 0f,    EnemyDmg = 0f,  Push = 1.5f, Stagger = 0.4f, FarRow = false },
+            // Farm: a loose COW (slow) or GOAT (quicker) ambles across — a gentle bump, not a kill.
+            "area3_farm"    => Random.value < 0.5f
+                ? new CrossSpec { Sprite = "cow",  Sfx = "whoosh_heavy", Speed = 8f,  ScaleH = 2.2f, Dmg = 8f, EnemyDmg = 20f, Push = 2f, Stagger = 0.6f, FarRow = false }
+                : new CrossSpec { Sprite = "goat", Sfx = "whoosh_heavy", Speed = 11f, ScaleH = 1.7f, Dmg = 8f, EnemyDmg = 20f, Push = 2f, Stagger = 0.6f, FarRow = false },
             "area4_vallejo" => new CrossSpec { Sprite = "coaster",    Sfx = "car_horn",     Speed = 30f, ScaleH = 2.6f, Dmg = 9999f, EnemyDmg = 60f, Push = 0f,   Stagger = 0f,   FarRow = true  },
             "area4_marin"   => new CrossSpec { Sprite = "log",        Sfx = "whoosh_heavy", Speed = 17f, ScaleH = 1.8f, Dmg = 15f,   EnemyDmg = 40f, Push = 2.5f, Stagger = 0.7f, FarRow = false },
             "area4_sf"      => new CrossSpec { Sprite = "trolley",    Sfx = "car_horn",     Speed = 22f, ScaleH = 3.2f, Dmg = 9999f, EnemyDmg = 60f, Push = 0f,   Stagger = 0f,   FarRow = false },
