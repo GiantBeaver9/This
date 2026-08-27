@@ -120,13 +120,16 @@ namespace ThisL
             float x = startX + z.Frac * LaneLen;
             float endX = startX + z.FracEnd * LaneLen;
             int i = 0;
-            while (x < endX && i < MaxClusterBuildings)
+            while (i < MaxClusterBuildings)
             {
                 var spr = sprites[i % sprites.Count];
                 float wWu = (spr.rect.width / Tuning.PixelsPerUnit) * scale;
+                // Keep the cluster INSIDE its span so it never spills into the next area (tennis into
+                // basketball); always place at least one. Edge-to-edge (x += wWu) = touching, no overlap.
+                if (i > 0 && x + wWu > endX) break;
                 var go = MakeProp(spr, x + wWu * 0.5f, z.Z, scale, foreground: false, isCrosswalk: false);
                 _props.Add(go);
-                x += wWu - 0.5f;   // TOUCHING: overlap so buildings / courts butt together, no gaps (creator)
+                x += wWu;   // TOUCHING, edge-to-edge (no overlap, no gap)
                 i++;
             }
         }

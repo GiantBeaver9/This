@@ -28,6 +28,10 @@ namespace ThisL
         private int _slotGen;          // the reshuffle generation this slot was taken in
         private bool _killedBySpecial;
         private float _zBias;          // this pursuer's preferred depth offset (Z-spread)
+
+        // Match the player's low walk limit so enemies can follow you onto the near sidewalk and hit
+        // you at the very bottom of the screen (creator: "enemies can't hit you at the bottom").
+        protected override float MinZ => -0.9f;
         private bool _relentless;      // swarmers rush without standoff/backoff
         private bool _zombie;          // rose again from a gun headshot (§3.1) — a slower green HOSTILE
 
@@ -104,7 +108,9 @@ namespace ThisL
             if (player == null || !player.Alive) { Anim.Play("idle", true); return; }
 
             Facing = player.WorldX >= WorldX ? 1 : -1;
-            float targetZ = Mathf.Clamp(player.Z + _zBias, 0f, Tuning.ZBandDepth);
+            // Follow the player down to the near sidewalk (MinZ), not just the enemy band floor of 0 —
+            // otherwise the player is untouchable at the very bottom of the screen (creator).
+            float targetZ = Mathf.Clamp(player.Z + _zBias, MinZ, Tuning.ZBandDepth);
 
             // Telegraph: flash the wind-up so an incoming hit is unmistakable.
             if (Sr != null)

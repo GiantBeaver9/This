@@ -80,7 +80,7 @@ namespace ThisL
                 // Pulled DOWN toward the player (creator): the near car sits at the lower curb, the far
                 // car just above mid-street — both low on screen, not up against the houses.
                 SpawnCar(x,      0.6f);                    // lower curb, right by the near sidewalk
-                SpawnCar(x + 8f, 3.4f);                    // upper car, mid-street (pulled down off the far walk)
+                SpawnCar(x + 8f, 4.8f);                    // upper car ONE LANE UP (far lane, off mid-street)
                 return;
             }
             float z = Random.Range(1.2f, Tuning.ZBandDepth - 1.2f);   // leave a lane open on either side

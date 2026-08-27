@@ -98,18 +98,10 @@ namespace ThisL
             _prevMaxX = _rig.MaxX;
             _hadWall = walled;
 
-            // Show the barricade at the wall while enemies remain; hide it when the lane opens.
-            if (walled)
-            {
-                _post.enabled = true;
-                float x = _rig.MaxX;               // the world X the camera is locked to
-                _post.transform.position = new Vector3(x, Playfield.FeetY(PostZ), 0f);
-                _post.transform.localScale = new Vector3(0.7f, 5.2f, 1f);
-                _post.sortingOrder = 860;          // in front of actors, under bullets (900)
-                float pulse = 0.60f + 0.30f * Mathf.Abs(Mathf.Sin(Time.time * 4f));
-                _post.color = new Color(1f, 0.30f, 0.20f, pulse);
-            }
-            else _post.enabled = false;
+            // The visible barricade POST is removed (creator: "get rid of the pillar" — it read as a
+            // red/black striped pillar planted at the camera wall). The camera lock still walls the
+            // player; the "GO →" flash (OnGUI) still signals when a wave clears.
+            if (_post != null) _post.enabled = false;
         }
 
         private static int CountLiveEnemies()
