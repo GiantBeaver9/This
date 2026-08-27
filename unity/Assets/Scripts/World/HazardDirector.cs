@@ -64,7 +64,11 @@ namespace ThisL
             while (t > 0f)
             {
                 t -= Time.deltaTime;
-                if (warn != null) warn.enabled = ((int)(Time.time * 10f) & 1) == 0;   // blink
+                if (warn != null)
+                {
+                    warn.enabled = ((int)(Time.time * 10f) & 1) == 0;   // blink
+                    PinWarnToCameraEdge(warn.transform, fromLeft, z);   // stay glued to the screen edge
+                }
                 yield return null;
             }
             if (warn != null) Destroy(warn.gameObject);
@@ -97,19 +101,28 @@ namespace ThisL
             _busy = false;
         }
 
-        // A yellow warning arrow at the screen edge on the car's row, pointing the way it'll come.
+        // A yellow warning arrow pinned to the screen EDGE on the hazard's row, pointing the way it'll come.
         private static SpriteRenderer MakeWarn(bool fromLeft, float z)
         {
-            var go = new GameObject("car_warn");
+            var go = new GameObject("hazard_warn");
             var sr = go.AddComponent<SpriteRenderer>();
             sr.sprite = WarnSprite();
             sr.sortingOrder = 950;
-            float edgeX = PlayerController.MidX() + (fromLeft ? -(Tuning.ScreenWidthUnits * 0.5f - 1f)
-                                                              : (Tuning.ScreenWidthUnits * 0.5f - 1f));
-            Playfield.Place(go.transform, edgeX, z, sr);
-            go.transform.position += Vector3.up * 1.2f;
-            go.transform.localScale = new Vector3(fromLeft ? 1f : -1f, 1f, 1f); // point toward travel
+            PinWarnToCameraEdge(go.transform, fromLeft, z);
             return sr;
+        }
+
+        /// <summary>Glue the warn arrow to the CAMERA's screen edge (not a fixed world X) on row z, so it
+        /// stays on-screen as the camera scrolls during the telegraph (creator: "bound to the camera,
+        /// not x/y/z"). Recomputed every frame from the live camera position.</summary>
+        private static void PinWarnToCameraEdge(Transform tr, bool fromLeft, float z)
+        {
+            var cam = Camera.main;
+            float camX = cam != null ? cam.transform.position.x : PlayerController.MidX();
+            float edgeX = camX + (fromLeft ? -1f : 1f) * (Tuning.ScreenWidthUnits * 0.5f - 1f);
+            Playfield.Place(tr, edgeX, z, null);                 // world x/z for the row; camera pins the x
+            tr.position += Vector3.up * 1.2f;
+            tr.localScale = new Vector3(fromLeft ? 1f : -1f, 1f, 1f); // point toward travel (overrides Place's depth scale)
         }
 
         private static Sprite _warn;
