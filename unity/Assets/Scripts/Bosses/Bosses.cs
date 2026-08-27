@@ -26,6 +26,7 @@ namespace ThisL
                 case "road_bruiser":  { var b = New<BigVersionBoss>("boss_road_bruiser");     b.Init(BigVersionBoss.RoadBruiser, x, z); return b; }
                 case "big_armripper": { var b = New<BigVersionBoss>("boss_big_armripper");    b.Init(BigVersionBoss.BigArmRipper, x, z); return b; }
                 case "boomergunner":  { var b = New<BigVersionBoss>("boss_boomergunner");     b.Init(BigVersionBoss.Boomergunner, x, z); return b; }
+                case "sniper_boss":   { var b = New<SniperBoss>("boss_sniper");               b.Init(x, z); return b; }
 
                 // ---- The 5 objective/proxy/scripted bosses (NO execute) ----
                 case "tank":          { var b = New<TankBoss>("boss_tank");            b.Init(x, z); return b; }

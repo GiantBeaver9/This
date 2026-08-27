@@ -205,6 +205,7 @@ namespace ThisL.EditorTools
         {
             "sandwich_bros", "burly", "colossus", "helicopter", "monkey_boss",
             "big_armripper", "tank", "boomergunner", "gatlinggunguy", "phil",
+            "sniper_boss",
         };
 
         private static int _cFrames, _cBossesOk, _cMaxStage;

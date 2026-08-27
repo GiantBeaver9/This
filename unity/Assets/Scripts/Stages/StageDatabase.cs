@@ -174,24 +174,32 @@ namespace ThisL
 
             // =========================== ACT 3 — Hills, Causeway & Dixon ===========================
 
-            // --- Stage 6 — Hills + causeway + Sniper/Flying Monkey debut. No boss. ENCOUNTERS.md Stage 6. ---
+            // --- Stage 6 — Yolo Causeway (semi-platformer, jump the gaps over the water) that TRANSITIONS
+            // into farmland, capped by the SNIPER as the boss (creator). ENCOUNTERS.md Stage 6. ---
             {
                 var st = new StageData
                 {
                     Id = 6,
-                    DisplayName = "Rolling Hills + Yolo Causeway",
+                    DisplayName = "Yolo Causeway → Farmland → The Sniper",
                     Area = "Hills, Causeway & Dixon",
                     BackdropTheme = "area3_causeway",
                     MusicClip = "a3_hoedown_bluegrass",
                     AmbientClip = "causeway_marsh_wind",
                     NewestArchetype = EnemyArchetype.Sniper,
+                    BossId = "sniper_boss",   // the perched Sniper comes down for a proper duel at the farm
+                    BossMusicClip = null,     // no bespoke cue yet — the stage bed carries the fight
+                    GuaranteedWeapon = WeaponKind.Pistol, // give the player a ranged option vs the perching sniper
                 };
                 st.Waves.Add(Wave.Vignette("Vignette: sniper apex-punish + dime→whistle→monkey"));
+                // FIRST HALF — the causeway platformer: jump the gaps between road sections over the water
+                // (CausewayPlatforms), snipers picking from the far bank.
                 st.Waves.Add(Wave.Spawn("Wave 1 (perched Sniper)", 0.8f, E(EnemyArchetype.Sniper, 1, SpawnSide.B), E(EnemyArchetype.Regular, 3, SpawnSide.L)));
                 st.Waves.Add(Wave.Spawn("Wave 2 (platforms)", 0.9f, E(EnemyArchetype.FlyingMonkey, 2, SpawnSide.Air), E(EnemyArchetype.Regular, 3, SpawnSide.L), E(EnemyArchetype.Monkey, 1, SpawnSide.A)));
                 st.Waves.Add(Wave.Checkpoint("CHECKPOINT (mid-causeway)"));
+                // SECOND HALF — off the causeway onto solid farmland (the transition into Area-3 farm).
                 st.Waves.Add(Wave.Filler("Filler (Regular/Flying Monkey/AA/Sniper)", 10, 14));
-                st.Waves.Add(Wave.Spawn("Wave 3 (funnel to farm)", 0.7f, E(EnemyArchetype.Regular, 5, SpawnSide.L), E(EnemyArchetype.Monkey, 1, SpawnSide.A)));
+                st.Waves.Add(Wave.Spawn("Wave 3 (funnel to the farm)", 0.7f, E(EnemyArchetype.Regular, 5, SpawnSide.L), E(EnemyArchetype.Monkey, 1, SpawnSide.A)));
+                st.Waves.Add(Wave.Boss("BOSS: The Sniper"));
                 s.Add(st);
             }
 
