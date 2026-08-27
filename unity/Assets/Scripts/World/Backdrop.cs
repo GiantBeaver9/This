@@ -173,7 +173,8 @@ namespace ThisL
             // standing ON grass instead of floating over sky. Drawn in front of the sky (-996)
             // yet behind the houses (-994), and it rides the SAME far parallax as the prop row
             // (0.24) so the houses stay planted on it as the player advances.
-            float grassTop = horizon + 0.7f;      // +0.2  grass horizon (sky begins above this)
+            float grassTop = horizon + 1.35f;     // taller grass verge — rises ~15px further up behind the
+                                                  // houses so the sky starts higher and they sit deeper in grass (creator)
             return new[]
             {
                 new BandDef { Name = "sky",      Parallax = 0.10f, Order = -996, BottomY = horizon - 1.0f, TopY = top,        Build = BuildSky },
