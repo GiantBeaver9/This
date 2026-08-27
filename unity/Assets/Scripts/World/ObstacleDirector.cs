@@ -83,23 +83,85 @@ namespace ThisL
                 SpawnCar(x + 8f, 4.8f);                    // upper car ONE LANE UP (far lane, off mid-street)
                 return;
             }
+            // MALL: a concourse kiosk parked in the MIDDLE of the lane (creator: "kiosk … in the middle
+            // vs sides for parked cars") — the player weaves above or below it.
+            if (IsMallStage(stage)) { SpawnKiosk(x); return; }
             float z = Random.Range(1.2f, Tuning.ZBandDepth - 1.2f);   // leave a lane open on either side
-            if (stage == 2) Obstacle.Spawn(KioskSprite(), x, z, 0.8f, 0.7f, new Vector2(2.2f, 2.2f)); // mall kiosks
-            else            Obstacle.Spawn(CrateSprite(), x, z, 0.7f, 0.6f, new Vector2(1.8f, 1.8f)); // generic crates
+            Obstacle.Spawn(CrateSprite(), x, z, 0.7f, 0.6f, new Vector2(1.8f, 1.8f)); // generic crates
         }
 
-        /// <summary>Drop one random parked car, normalised to ~4.4 wu wide regardless of source size.</summary>
+        /// <summary>True when the given campaign stage index uses the mall interior (so obstacles are
+        /// centre-lane kiosks, not curb-side cars). Theme-driven so it survives stage reordering.</summary>
+        private static bool IsMallStage(int stage)
+        {
+            var data = StageDatabase.Get(stage);
+            return data != null && data.BackdropTheme == "area1_mall";
+        }
+
+        /// <summary>Drop one random parked car on a curb SIDE, normalised to ~6.6 wu wide — 50% bigger
+        /// than before (creator: "parked cars should be scaled up 50%").</summary>
         private static void SpawnCar(float x, float z)
         {
             var spr = CarSprite();
             float natW = spr.rect.width / 30f;                // cars load at 30 ppu
-            float sc = natW > 0.1f ? 4.4f / natW : 1.6f;
+            float sc = natW > 0.1f ? 6.6f / natW : 2.4f;      // was 4.4 / 1.6 → ×1.5
             Obstacle.Spawn(spr, x, z, 1.6f, 0.5f, new Vector2(sc, sc));
         }
 
-        // ---- Placeholder sprites (real prop art can replace these later) ----------
+        /// <summary>Drop one random mall kiosk in the MIDDLE lane, normalised to ~2.8 wu wide.</summary>
+        private static void SpawnKiosk(float x)
+        {
+            var spr = KioskSprite();
+            float natW = spr.rect.width / Tuning.PixelsPerUnit;   // kiosks load at 24 ppu
+            float sc = natW > 0.1f ? 2.8f / natW : 2.2f;
+            float z = Tuning.ZBandDepth * 0.5f + Random.Range(-0.6f, 0.6f); // centre of the concourse
+            Obstacle.Spawn(spr, x, z, 1.0f, 0.8f, new Vector2(sc, sc));
+        }
+
+        // ---- Prop sprites (real art from assets/sprites/props, procedural fallback) ----------
         private static Sprite _kiosk, _crate;
-        private static Sprite[] _cars;
+        private static Sprite[] _cars, _kiosks;
+
+        /// <summary>A RANDOM mall kiosk from assets/sprites/props/kiosk*.png (variety, like the car set);
+        /// falls back to the procedural stall if the art is absent.</summary>
+        private static Sprite KioskSprite()
+        {
+            if (_kiosks == null)
+            {
+                var list = new System.Collections.Generic.List<Sprite>();
+                try
+                {
+                    string dir = System.IO.Path.Combine(SpriteLibrary.AssetsRoot, "sprites", "props");
+                    if (System.IO.Directory.Exists(dir))
+                        foreach (var path in System.IO.Directory.GetFiles(dir, "kiosk*.png"))
+                        {
+                            var s = LoadProp(System.IO.Path.GetFileName(path), Tuning.PixelsPerUnit, 0.05f);
+                            if (s != null) list.Add(s);
+                        }
+                }
+                catch { }
+                if (list.Count == 0) list.Add(ProceduralKiosk());
+                _kiosks = list.ToArray();
+            }
+            return _kiosks[Random.Range(0, _kiosks.Length)];
+        }
+
+        /// <summary>Load a bottom-anchored prop PNG at the given ppu. Null if missing/unreadable.</summary>
+        private static Sprite LoadProp(string file, float ppu, float pivotY)
+        {
+            try
+            {
+                string path = System.IO.Path.Combine(SpriteLibrary.AssetsRoot, "sprites", "props", file);
+                if (System.IO.File.Exists(path))
+                {
+                    var t = new Texture2D(2, 2, TextureFormat.RGBA32, false) { filterMode = FilterMode.Point };
+                    t.LoadImage(System.IO.File.ReadAllBytes(path)); t.Apply();
+                    return Sprite.Create(t, new Rect(0, 0, t.width, t.height), new Vector2(0.5f, pivotY), ppu);
+                }
+            }
+            catch { }
+            return null;
+        }
 
         /// <summary>A RANDOM parked-car type — variety along the curb (creator: "gen a few more types
         /// of cars"). Loads every car_*.png (+ the original car.png) once; falls back to a crate.</summary>
@@ -141,7 +203,7 @@ namespace ThisL
             return null;
         }
 
-        private static Sprite KioskSprite()
+        private static Sprite ProceduralKiosk()
         {
             if (_kiosk != null) return _kiosk;
             const int W = 22, H = 26;
