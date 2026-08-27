@@ -42,6 +42,15 @@ namespace ThisL
             Thresholds = new[] { 0.5f }, Tint = new Color(0.85f, 0.7f, 0.4f),
         };
 
+        // The Rocklin/Highway-65 drive boss: another big Regular with the charge, steely-grey so it
+        // reads distinct from Sandwich Bros. Ends the connector stage into the Galleria.
+        public static Config RoadBruiser => new()
+        {
+            Id = "road_bruiser", Display = "Road Bruiser", Cue = null,
+            Hp = 185f, Move = 6.1f, Dmg = 12f, Mode = Mode.Melee, CanCharge = true,
+            Thresholds = new[] { 0.5f }, Tint = new Color(0.55f, 0.6f, 0.72f),
+        };
+
         public static Config BigArmRipper => new()
         {
             Id = "big_armripper", Display = "big Arm-Ripper", Cue = "big_armripper",

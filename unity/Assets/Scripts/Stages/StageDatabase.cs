@@ -67,27 +67,28 @@ namespace ThisL
                 s.Add(st);
             }
 
-            // --- Stage 2 — Old Hwy 65 → BOSS: Sandwich Bros (big Tier-1). ENCOUNTERS.md Stage 2. ---
+            // --- Stage 2 — ROCKLIN: the Highway-65 drive from Sandwich Bros to the Roseville Galleria.
+            // Mall-security guards charge in (HazardDirector stage 1 = Guard). Ends on the Road Bruiser
+            // (another big Regular with a charge) so the level closes on a boss, not wave-exhaustion. ---
             {
                 var st = new StageData
                 {
                     Id = 2,
-                    DisplayName = "Old Hwy 65 → Sandwich Bros",
+                    DisplayName = "Rocklin — Highway 65 to the Galleria",
                     Area = "Placer Suburbs & Mall",
                     BackdropTheme = "area1_suburb",
                     MusicClip = "a1_surfrock_opener",
                     AmbientClip = "lincoln_birds_traffic",
                     NewestArchetype = EnemyArchetype.Regular,
-                    BossId = null,        // Sandwich Bros is the STORE (backdrop) — no boss; you fight in front of it
+                    BossId = "road_bruiser",   // big Regular + charge (BigVersionBoss.RoadBruiser)
                     BossMusicClip = null,
                 };
                 st.Waves.Add(Wave.Spawn("Wave 1", 0.9f, E(EnemyArchetype.Regular, 3, SpawnSide.L)));
                 st.Waves.Add(Wave.Checkpoint("CHECKPOINT (mid)"));
                 st.Waves.Add(Wave.Filler("Filler (Regulars)", 10, 12));
-                // Finale: the brawl in FRONT OF the Sandwich Bros store (railroad crossing leads in;
-                // StageFinaleProps drops the store + crossing here). No boss character.
-                st.Waves.Add(Wave.Spawn("Finale — in front of Sandwich Bros", 0.7f,
+                st.Waves.Add(Wave.Spawn("Wave 2 (funnel to the mall lot)", 0.7f,
                     E(EnemyArchetype.Regular, 5, SpawnSide.L), E(EnemyArchetype.Regular, 4, SpawnSide.R)));
+                st.Waves.Add(Wave.Boss("BOSS: Road Bruiser (big charger)"));
                 s.Add(st);
             }
 
