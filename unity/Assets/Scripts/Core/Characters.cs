@@ -75,6 +75,7 @@ namespace ThisL
         {
             Sfx.Play("sniper_scope_in");                    // pull-out
             p.Anim?.Play("special", false, restart: true);
+            p.HoldSpecialPose(0.7f);                        // reach up, spin the sniper, POSE (can't move)
             int kills = SpecialMeter.SniperKills(tier);
             // Shared 0.45s slow-down wind-up, THEN the shot fires + slow-mo ricochet.
             SpecialSequences.Windup(p, () => { Sfx.Play("sniper_shot"); SpecialSequences.SniperRicochet(p, kills); });
@@ -91,6 +92,7 @@ namespace ThisL
             float length = tier <= 1 ? 6f : tier == 2 ? 8f : 10f; // cone length by fill
             float knock = tier <= 1 ? 8f : tier == 2 ? 11f : 14f; // large pushback by fill
             p.Anim?.Play("special", false, restart: true); // gun-spin+fire art
+            p.HoldSpecialPose(0.85f);                      // Aaron braces + CAN'T MOVE through the blast (creator)
             SpecialSequences.Windup(p, () =>               // shared 0.45s slow-down wind-up, then the blast
             {
                 Sfx.Play("giant_shotgun_boom");
@@ -106,21 +108,21 @@ namespace ThisL
                     e.TakeDamage(45f, p);                                // massive damage, keeps drops
                     hit++;
                 }
-                // EXPANDING ARC of bullets (creator: "an expanding arc of bullets that cone out and hit
-                // all enemies downstream"): a fan of pellet projectiles that start tight at the barrel and
-                // FAN OUT in depth (VelZ) as they fly forward — a real widening shotgun cone. Each pellet
-                // deals chip damage so it visibly clips enemies across the whole downstream cone (the
-                // hit-scan above is the reliable big hit/knockback).
-                const int pellets = 15;
+                // HUGE cone of PARTICLES flying out in BULLET TIME (creator: "a huge cone of particles
+                // flying out in bullet time, aggressively cone out, not a wall of bullets"). Re-slow time
+                // for the beat, and spray a wide fan that starts tight at the barrel and AGGRESSIVELY fans
+                // out in depth (VelZ up to ~11) at a slower forward speed so the spread reads.
+                SpecialSequences.BulletTime(p, 0.55f);          // the slow-mo beat while the cone blooms
+                const int pellets = 22;
                 for (int i = 0; i < pellets; i++)
                 {
                     float f = (i / (pellets - 1f)) * 2f - 1f;                 // -1..1 across the fan
-                    var pel = Projectile.Spawn(Team.Player, p.WorldX + p.Facing * 0.7f, p.Z,
-                                               p.Facing, 26f, 8, new Color(1f, 0.85f, 0.4f));
-                    pel.VelZ = f * 6.5f;                                       // outward depth spread = the CONE
-                    pel.Life = length / 26f + 0.2f;                           // reach ~the cone length, then vanish
+                    var pel = Projectile.Spawn(Team.Player, p.WorldX + p.Facing * 0.8f, p.Z,
+                                               p.Facing, 17f, 7, new Color(1f, 0.85f, 0.4f));
+                    pel.VelZ = f * 11f;                                       // AGGRESSIVE outward spread = wide cone
+                    pel.Life = length / 17f + 0.35f;                         // travel the cone length, then vanish
                 }
-                Debug.Log($"[Special] Giant Shotgun tier {tier}: {hit} coned + {pellets}-pellet expanding arc.");
+                Debug.Log($"[Special] Giant Shotgun tier {tier}: {hit} coned + {pellets}-pellet bullet-time cone.");
             });
         }
     }
@@ -152,6 +154,7 @@ namespace ThisL
         {
             float radius = tier <= 1 ? 3.0f : tier == 2 ? 4.0f : 5.0f; // wider radius per fill
             p.Anim?.Play("special", false, restart: true);
+            p.HoldSpecialPose(0.6f);                        // posed through the vaporize windup
             SpecialSequences.Windup(p, spin: false, payload: () => // no weapon spin — Bert vaporizes bare-handed
             {
                 Sfx.Play("underdog_vaporize_whomp");

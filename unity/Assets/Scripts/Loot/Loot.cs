@@ -101,14 +101,14 @@ namespace ThisL
 
         public static Weapon Sword() => new()
         {
-            Kind = WeaponKind.Sword, Reach = Tuning.SwordReach, Damage = 18,
+            Kind = WeaponKind.Sword, Reach = Tuning.SwordReach, Damage = 22,
             HitsRemaining = 8, Warmup = Tuning.WeaponWarmup, // 5-10 hits, midpoint 8 (§6)
         };
 
         /// <summary>Whip — directional crowd melee (§3.4/§6): 14/hit, 11 hits, fwd-pull reach 3.0 wu.</summary>
         public static Weapon Whip() => new()
         {
-            Kind = WeaponKind.Whip, Reach = 3.0f, Damage = 14,
+            Kind = WeaponKind.Whip, Reach = 3.0f, Damage = 18,
             HitsRemaining = 11, Warmup = 0.25f, // 10-12 hit range, midpoint 11 (§6)
         };
 
@@ -116,14 +116,14 @@ namespace ThisL
         /// The 0.20 s swing-timed reflect window is a PlayerController concern.</summary>
         public static Weapon Bat() => new()
         {
-            Kind = WeaponKind.Bat, Reach = 1.6f, Damage = 12,
+            Kind = WeaponKind.Bat, Reach = 1.6f, Damage = 20,
             HitsRemaining = 12, Warmup = 0.15f,
         };
 
         /// <summary>Club — basic heavy melee (§3.7c/§6): 14/hit + knockback, 10 hits, short reach.</summary>
         public static Weapon Club() => new()
         {
-            Kind = WeaponKind.Club, Reach = 1.4f, Damage = 14,
+            Kind = WeaponKind.Club, Reach = 1.4f, Damage = 18,
             HitsRemaining = 10, Warmup = 0.15f,
         };
 
@@ -174,7 +174,7 @@ namespace ThisL
         {
             var w = new Weapon
             {
-                Kind = WeaponKind.Boomerang, Reach = 0f, Damage = 8,
+                Kind = WeaponKind.Boomerang, Reach = 0f, Damage = 15,
                 HitsRemaining = int.MaxValue, Warmup = 0.15f, IsRanged = true,
             };
             w.FireImpl = p => WeaponFx.ThrowBoomerang(p, w);
@@ -186,7 +186,7 @@ namespace ThisL
         {
             var w = new Weapon
             {
-                Kind = WeaponKind.Pistol, Reach = 0f, Damage = 12,
+                Kind = WeaponKind.Pistol, Reach = 0f, Damage = 16,
                 HitsRemaining = 8, Warmup = 0.25f, IsRanged = true,
                 AimTime = 0.2f,          // aim then shoot (§3.1 precise) — creator will tune damage
             };

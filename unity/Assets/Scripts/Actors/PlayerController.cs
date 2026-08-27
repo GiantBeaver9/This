@@ -100,7 +100,15 @@ namespace ThisL
         private float _hitstun;
         private float _weaponReady;       // warm-up countdown before a looted weapon can fire
         private float _fireLock;          // brief root-in-place after firing a ranged weapon (anti-spam)
+        private float _specialLock;       // ROOTED + posed during a cinematic special (real-time countdown)
         private float _aimTimer;          // >0 = winding up an aimed shot (pistol); the shot leaves at 0
+
+        /// <summary>Root the player in a POSE for a cinematic special (Adam sniper spin, Aaron cone) —
+        /// they can't move/attack and the special anim isn't overridden by Move, so the pose holds while
+        /// the special "loads" (creator). Counts down in REAL time (survives the slow-mo). Sequences
+        /// re-arm it each frame to hold through their whole run.</summary>
+        public void HoldSpecialPose(float seconds) => _specialLock = Mathf.Max(_specialLock, seconds);
+        public bool SpecialPosing => _specialLock > 0f;
         private bool _wasArmed;            // edge-detect the meter arming for the chime
 
         // Downed / respawn (shared-life system). On death we don't destroy the player;
@@ -224,6 +232,7 @@ namespace ThisL
             _hitstun = Mathf.Max(0f, _hitstun - dt);
             _weaponReady = Mathf.Max(0f, _weaponReady - dt);
             _fireLock = Mathf.Max(0f, _fireLock - dt);
+            _specialLock = Mathf.Max(0f, _specialLock - Time.unscaledDeltaTime); // real time — the special slows dt
 
             // Aimed-shot wind-up (pistol §3.1): the trigger starts a brief aim; the shot leaves when
             // the timer runs out (more precise than a snap shot). A hit mid-aim cancels it.
@@ -309,6 +318,7 @@ namespace ThisL
             float ix = MoveX(), iz = MoveZ();
             if (ix != 0) Facing = ix > 0 ? 1 : -1;
             if (_fireLock > 0f) return;   // ROOTED while firing a ranged weapon — a 0.2s commitment so you can't run-and-gun spam (creator ruling)
+            if (_specialLock > 0f) return; // ROOTED + posed during a cinematic special (Adam/Aaron can't move)
 
             if (_airborne)
             {
@@ -630,6 +640,7 @@ namespace ThisL
         // ---- Input dispatch --------------------------------------------------
         private void HandleActionInput()
         {
+            if (_specialLock > 0f) return;   // locked in the special pose — no move/attack/jump/recast
             if (_input.JumpDown) StartJump();
             if (_input.FireDown) FireWeapon();   // E / East = use/fire the held item
             if (_input.PickupDown) TryPickup();  // F / North = pick up

@@ -22,6 +22,30 @@ namespace ThisL
         public static void Werewolf(PlayerController p, float duration) =>
             new GameObject("fx_werewolf").AddComponent<WerewolfMode>().Begin(p, duration);
 
+        /// <summary>A BULLET-TIME beat: drop Time.timeScale to a crawl for <paramref name="seconds"/> real
+        /// time (Aaron's cone blooms in slow-mo), keeping the caster rooted, then restore.</summary>
+        public static void BulletTime(PlayerController p, float seconds) =>
+            new GameObject("fx_bullettime").AddComponent<BulletTimeSeq>().Begin(p, seconds);
+
+        private sealed class BulletTimeSeq : MonoBehaviour
+        {
+            private PlayerController _p; private float _sec;
+            public void Begin(PlayerController p, float sec) { _p = p; _sec = sec; StartCoroutine(Run()); }
+            private IEnumerator Run()
+            {
+                Time.timeScale = 0.25f;                       // bullet time
+                float t = 0f;
+                while (t < _sec)
+                {
+                    t += Time.unscaledDeltaTime;
+                    if (_p != null) _p.HoldSpecialPose(0.2f); // stay rooted + posed through the beat
+                    yield return null;
+                }
+                Time.timeScale = 1f;
+                Destroy(gameObject);
+            }
+        }
+
         private static Actor NearestEnemyTo(float x, float z)
         {
             Actor best = null; float bestD = float.MaxValue;
@@ -136,22 +160,61 @@ namespace ThisL
             private IEnumerator Run()
             {
                 Time.timeScale = 0.28f;                 // time slows (real-time waits below)
+                var pc = _from as PlayerController;
                 float x = _from != null ? _from.WorldX : 0f, z = _from != null ? _from.Z : 3f;
                 int kills = 0;
                 while (kills < _max)
                 {
                     var t = NearestEnemyTo(x, z);
                     if (t == null) break;
-                    Tracer.Spawn(x, z, t.WorldX, t.Z, new Color(1f, 0.95f, 0.6f)); // the bullet's visible ricochet streak
+                    pc?.HoldSpecialPose(0.4f);          // hold Adam's aimed pose through the whole ricochet
+                    // A SMALL bullet we actually FOLLOW from the last point to the target, laying a fading
+                    // trail behind it (creator: "make bullet smaller, follow the bullet better with a trail").
+                    yield return FlyBullet(x, z, t.WorldX, t.Z);
                     Vfx.FinisherFlash(t.WorldX, t.Z);
                     Sfx.Play("hit_spark");
                     if (t is ISpecialKillable k) k.KillBySpecial(_from); else t.TakeDamage(9999f, _from);
                     x = t.WorldX; z = t.Z; kills++;
-                    yield return new WaitForSecondsRealtime(0.13f);
+                    yield return new WaitForSecondsRealtime(0.05f);
                 }
                 Sfx.Play("time_resume_whoosh");
                 Time.timeScale = 1f;
                 Destroy(gameObject);
+            }
+
+            // Fly a tiny bright bullet along the hop, dropping short fading trail streaks so the eye
+            // tracks it (real-time so it reads even in the slow-mo).
+            private IEnumerator FlyBullet(float x0, float z0, float x1, float z1)
+            {
+                var go = new GameObject("sniper_bullet");
+                var sr = go.AddComponent<SpriteRenderer>();
+                sr.sprite = BulletDot();
+                sr.color = new Color(1f, 0.97f, 0.7f);
+                sr.sortingOrder = 960;
+                float dur = 0.11f, t = 0f, px = x0, pz = z0;
+                while (t < dur)
+                {
+                    t += Time.unscaledDeltaTime;
+                    float u = Mathf.Clamp01(t / dur);
+                    float cx = Mathf.Lerp(x0, x1, u), cz = Mathf.Lerp(z0, z1, u);
+                    Tracer.Spawn(px, pz, cx, cz, new Color(1f, 0.9f, 0.5f, 0.7f)); // short fading trail seg
+                    px = cx; pz = cz;
+                    Playfield.Place(go.transform, cx, cz, sr);
+                    go.transform.position += Vector3.up * 1.0f;   // mid-body height
+                    yield return null;
+                }
+                Object.Destroy(go);
+            }
+
+            private static Sprite _bulletDot;
+            private static Sprite BulletDot()
+            {
+                if (_bulletDot != null) return _bulletDot;
+                var tex = new Texture2D(2, 2, TextureFormat.RGBA32, false) { filterMode = FilterMode.Point };
+                var w = new Color32(255, 255, 255, 255);
+                tex.SetPixels32(new[] { w, w, w, w }); tex.Apply();
+                _bulletDot = Sprite.Create(tex, new Rect(0, 0, 2, 2), new Vector2(0.5f, 0.5f), Tuning.PixelsPerUnit * 1.5f);
+                return _bulletDot;
             }
         }
 
