@@ -35,7 +35,8 @@ namespace ThisL
             public bool Foreground;
         }
 
-        private const float Far = 5.7f; // horizon row for buildings
+        private const float Far = 6.0f; // seat buildings on the SAME curb line the tiled house row sits on
+                                        // (FeetY(ZBandDepth)) so the school meets the curb, not floats above it
 
         // Per-stage layout. Stage 1 (index 0): a full LINCOLN HIGH campus (cluster) -> intersection
         // (crosswalk + lights) -> basketball courts -> diner, laid over the house row.
@@ -45,11 +46,11 @@ namespace ThisL
             // The railroad + store are the finale set-pieces (StageFinaleProps) at the lane end. No diner.
             0 => new[]
             {
-                new Zone { Frac = 0.14f, FracEnd = 0.40f, File = "school", Tall = 15f, Z = Far, Foreground = false }, // whole campus
+                new Zone { Frac = 0.14f, FracEnd = 0.40f, File = "school", Tall = 9f, Z = Far, Foreground = false }, // whole campus (tallest building = 9wu)
                 new Zone { Frac = 0.46f, File = "crosswalk.png",        Tall = 1.2f, Z = 2.6f, Foreground = false }, // stripes on the road
                 new Zone { Frac = 0.45f, File = "traffic_light.png",    Tall = 6f,  Z = 0.6f, Foreground = true },   // near light
                 new Zone { Frac = 0.48f, File = "traffic_light.png",    Tall = 5f,  Z = Far,  Foreground = false },  // far light
-                new Zone { Frac = 0.70f, FracEnd = 0.82f, File = "courts", Tall = 9f, Z = Far, Foreground = false }, // tennis/basketball courts run
+                new Zone { Frac = 0.70f, FracEnd = 0.82f, File = "courts", Tall = 6f, Z = Far, Foreground = false }, // tennis/basketball courts run
             },
             _ => System.Array.Empty<Zone>(),
         };
@@ -77,16 +78,18 @@ namespace ThisL
         {
             var sprites = LoadFolder(z.File);
             if (sprites.Count == 0) return;
+            // ONE uniform scale for the whole set (the tallest sprite -> z.Tall), so buildings keep their
+            // RELATIVE heights — a real campus with a tall main hall and a low cafeteria, not every
+            // building stretched to the same height (which blew short buildings up absurdly wide).
+            float maxNat = 0.01f;
+            foreach (var s in sprites) maxNat = Mathf.Max(maxNat, s.rect.height / Tuning.PixelsPerUnit);
+            float scale = z.Tall / maxNat;
             float x = startX + z.Frac * LaneLen;
             float endX = startX + z.FracEnd * LaneLen;
             int i = 0;
             while (x < endX && i < MaxClusterBuildings)
             {
                 var spr = sprites[i % sprites.Count];
-                float natTall = spr.rect.height / Tuning.PixelsPerUnit;
-                // vary the height a touch per building around the zone's target
-                float tall = z.Tall * (0.82f + 0.10f * (i % 3));
-                float scale = natTall > 0.01f ? tall / natTall : 1f;
                 float wWu = (spr.rect.width / Tuning.PixelsPerUnit) * scale;
                 var go = MakeProp(spr, x + wWu * 0.5f, z.Z, scale, foreground: false, isCrosswalk: false);
                 _props.Add(go);

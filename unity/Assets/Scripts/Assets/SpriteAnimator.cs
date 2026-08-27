@@ -20,6 +20,12 @@ namespace ThisL
         /// </summary>
         [System.NonSerialized] public SpriteLibrary.ActorSprites Overlay;
 
+        /// <summary>When false, the overlay is used ONLY for attack/swing frames — idle and walk fall
+        /// through to the base <see cref="Set"/>. Ranged weapons set this off so the gun character just
+        /// carries the base melee idle/walk (rifle slung) and only snaps to the aim/fire pose when
+        /// shooting (creator: "with the gun use the same melee animation, only aim & fire when shooting").</summary>
+        [System.NonSerialized] public bool OverlayIdleWalk = true;
+
         public int Fps = Tuning.AnimFps;
 
         private SpriteRenderer _sr;
@@ -80,8 +86,8 @@ namespace ThisL
                 // the weapon's walk clip IF it exists, else falls through to the base walk (moving
                 // legs) rather than a static held pose that slides. Dash/charge fall through to base
                 // (mapping them to the swing produced a horrific sliding-swing sprite).
-                string oclip = clip == "idle" ? "idle"
-                             : clip == "walk" ? (Overlay.Clips.ContainsKey("walk") ? "walk" : null)
+                string oclip = (clip == "idle" && OverlayIdleWalk) ? "idle"
+                             : (clip == "walk" && OverlayIdleWalk) ? (Overlay.Clips.ContainsKey("walk") ? "walk" : null)
                              : (clip.Contains("attack") || clip == "sweep") ? "swing"
                              : null;
                 if (oclip != null && Overlay.Clips.TryGetValue(oclip, out var of) && of != null && of.Length > 0)

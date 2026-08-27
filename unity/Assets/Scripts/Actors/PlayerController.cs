@@ -1430,6 +1430,9 @@ namespace ThisL
             string dir = $"sprites/characters/{Character.SpriteActor}_{wname}";
             string actor = $"{Character.SpriteActor}_{wname}";
             Anim.Overlay = SpriteLibrary.HasAtlas(dir, actor) ? SpriteLibrary.Load(dir, actor) : null;
+            // Ranged weapons: carry the base melee idle/walk (rifle slung) and only show the weapon
+            // pose when firing; melee weapons hold their weapon in idle/walk as before.
+            Anim.OverlayIdleWalk = !(CurrentWeapon != null && CurrentWeapon.IsRanged);
 
             // The weapon art was drawn on a 96px canvas vs the 68px base, so its frames are ~1.25x
             // taller — without correction you become a giant when armed. Scale the sprite down by

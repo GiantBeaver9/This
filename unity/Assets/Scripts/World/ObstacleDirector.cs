@@ -74,12 +74,11 @@ namespace ThisL
         {
             if (stage == 0)
             {
-                // Lincoln: parked cars line BOTH curbs, the road stays open down the middle. The LOWER
-                // row sits at the lower curb (z 1.4) so the player can still walk BELOW it on the near
-                // sidewalk (creator note); the UPPER row parks up on the far sidewalk against the houses
-                // (z 5.6). Stagger the far car so the two sides aren't perfectly abreast.
-                SpawnCar(x,      1.4f);
-                SpawnCar(x + 8f, Tuning.ZBandDepth - 0.4f);
+                // Lincoln: the UPPER car parks up on the far sidewalk against the houses; the LOWER car
+                // sits out in the MIDDLE of the street (creator), leaving the near sidewalk clear so the
+                // player can walk below it. Stagger them so the two aren't perfectly abreast.
+                SpawnCar(x,      3.0f);                    // middle of the street
+                SpawnCar(x + 8f, Tuning.ZBandDepth - 0.2f); // up on the far sidewalk (z ~5.8)
                 return;
             }
             float z = Random.Range(1.2f, Tuning.ZBandDepth - 1.2f);   // leave a lane open on either side
