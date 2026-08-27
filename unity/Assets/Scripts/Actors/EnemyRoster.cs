@@ -102,7 +102,7 @@ namespace ThisL
             SpriteDir = "sprites/enemies/enemy_regular",
             SpriteActor = "enemy_regular",
             Tier = "T2-eff", Hp = 45f, Damage = 15f, Speed = 5.5f, Reach = 1.0f,
-            WindupSeconds = 0.10f, AttackCooldown = 3.0f, Weight = StaggerWeight.M,
+            WindupSeconds = 0.45f, AttackCooldown = 3.0f, Weight = StaggerWeight.M,  // longer telegraph: rip head off
             Loot = LootTier.T2,
             IsRanged = true, HoldDistance = 7f, FireRange = 8f,
             ProjectileSpeed = 9f, FireInterval = 3.0f,

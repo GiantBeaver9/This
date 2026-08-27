@@ -110,7 +110,7 @@ namespace ThisL
                 case EnemyArchetype.Pickpocket:   return ApplyArt(EnemyRoster.Pickpocket(),  "enemy_pickpocket");
                 case EnemyArchetype.ArmRipper:    return ApplyArt(EnemyRoster.ArmRipper(),   "enemy_armripper");
                 case EnemyArchetype.Ninja:        return ApplyArt(EnemyRoster.Ninja(),       "enemy_ninja");
-                case EnemyArchetype.HeadThrower:  return ApplyArt(EnemyRoster.HeadThrower(),   "enemy_headthrower");
+                case EnemyArchetype.HeadThrower:  return ApplyArt(EnemyRoster.HeadThrower(),   "enemy_regular"); // looks like an L1 enemy; rips its head off, then a headless body chases
                 case EnemyArchetype.AntiAircraft: return ApplyArt(EnemyRoster.AntiAircraft(),  "enemy_antiaircraft");
                 case EnemyArchetype.Monkey:       return ApplyArt(EnemyRoster.EconomyMonkey(), "enemy_monkey");
 

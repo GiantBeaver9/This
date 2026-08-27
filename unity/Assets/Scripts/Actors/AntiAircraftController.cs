@@ -13,7 +13,7 @@ namespace ThisL
     /// </summary>
     public sealed class AntiAircraftController : Actor, ISpecialKillable, IStaggerable
     {
-        private enum State { Hold, Windup, Dead }
+        private enum State { Hold, Windup, Chase, Dead }
 
         [System.NonSerialized] public EnemyDef Def;
         private State _state = State.Hold;
@@ -22,16 +22,22 @@ namespace ThisL
         private float _stagger;
         private float _targetX, _targetZ;
         private bool _killedBySpecial;
+        private bool _isHead;    // HeadThrower: rips its OWN HEAD off and lobs it as a live bomb (creator)
+        private bool _headless;  // already threw its head -> a headless body that chases + melees
+        private GameObject _wiggle; // the head held overhead, wiggling, during the throw wind-up
+        private float _meleeCd;
 
         public void Init(EnemyDef def)
         {
             Def = def;
             Team = Team.Enemy;
             Hp = MaxHp = def.Hp;
+            _isHead = def.Id == "head_thrower";
             if (Anim == null) Anim = GetComponent<SpriteAnimator>();
             Anim.Set = SpriteLibrary.Load(def.SpriteDir, def.SpriteActor);
             Anim.Play("idle", true);
-            if (Sr != null) Sr.color = new Color(0.72f, 0.56f, 0.34f); // earthy tint (art gap)
+            // Rock-lobbers get an earthy tint; head-throwers keep the plain enemy look (they toss a pale head).
+            if (Sr != null && !_isHead) Sr.color = new Color(0.72f, 0.56f, 0.34f); // earthy tint (art gap)
             Shadow.Attach(this, Shadow.MediumTier);
         }
 
@@ -48,17 +54,67 @@ namespace ThisL
 
             Facing = player.WorldX >= WorldX ? 1 : -1;
 
+            // HEADLESS body: chase the player and melee (creator: "then the headless body chases").
+            if (_state == State.Chase)
+            {
+                _meleeCd = Mathf.Max(0f, _meleeCd - dt);
+                float cx = player.WorldX - WorldX;
+                Facing = cx >= 0f ? 1 : -1;
+                bool inReach = Mathf.Abs(cx) <= Def.Reach + 0.3f && Playfield.WithinZ(player.Z, Z, 0.9f);
+                if (!inReach)
+                {
+                    WorldX += Mathf.Sign(cx) * Def.Speed * dt;
+                    Z += Mathf.Clamp(player.Z - Z, -Def.Speed * dt, Def.Speed * dt);
+                    Steering.Separate(this);
+                    Anim.Play("walk", true);
+                }
+                else if (_meleeCd <= 0f)
+                {
+                    _meleeCd = 1.0f;
+                    Anim.Play("attack_side", false, restart: true);
+                    if (player.DistanceTo(this) <= Def.Reach + 0.4f) player.TakeDamage(Def.Damage, this);
+                }
+                else Anim.Play("idle", true);
+                return;
+            }
+
             if (_state == State.Windup)
             {
                 _windup -= dt;
+                // Wiggle the head held OVERHEAD in both hands during the wind-up (creator: "wiggle their
+                // heads with their arms, then chuck it").
+                if (_isHead && _wiggle != null)
+                {
+                    Playfield.Place(_wiggle.transform, WorldX + Mathf.Sin(Time.time * 24f) * 0.22f, Z, null);
+                    _wiggle.transform.position += Vector3.up * 2.1f;
+                }
                 if (_windup <= 0f)
                 {
-                    // Lob at the spot the player was standing when the throw committed.
-                    ArcProjectile.Spawn(Team.Enemy, WorldX, Z, _targetX, _targetZ,
-                                        Def.Damage, new Color(0.65f, 0.55f, 0.45f), airTime: 0.9f);
-                    Sfx.Play("knockdown_thud");
-                    _cooldown = Def.AttackCooldown;
-                    _state = State.Hold;
+                    if (_isHead)
+                    {
+                        // CHUCK the head from the hands as a live BOMB, then go headless + chase.
+                        float hx = WorldX, hz = Z;
+                        if (_wiggle != null) { Destroy(_wiggle); _wiggle = null; }
+                        Vfx.DeathBurst(hx, hz, 1.0f);
+                        Sfx.Play("finisher_crunch");
+                        float lx = _targetX, lz = _targetZ;
+                        var head = ArcProjectile.Spawn(Team.Enemy, hx, hz + 1.8f, lx, lz,
+                                                       Def.Damage, new Color(0.95f, 0.9f, 0.8f), airTime: 0.9f);
+                        head.SplashRadius = 1.8f;                              // it's a BOMB — AoE
+                        head.ArcHeight = 3.2f;
+                        head.OnLand = () => { Vfx.DeathBurst(lx, lz, 2.2f); Sfx.Play("grenade_explode"); CameraShake.Add(CameraShake.Medium); };
+                        GoHeadless();
+                        _state = State.Chase;
+                    }
+                    else
+                    {
+                        // Lob a rock at the spot the player was standing when the throw committed.
+                        ArcProjectile.Spawn(Team.Enemy, WorldX, Z, _targetX, _targetZ,
+                                            Def.Damage, new Color(0.65f, 0.55f, 0.45f), airTime: 0.9f);
+                        Sfx.Play("knockdown_thud");
+                        _cooldown = Def.AttackCooldown;
+                        _state = State.Hold;
+                    }
                 }
                 return;
             }
@@ -76,7 +132,12 @@ namespace ThisL
                 _windup = Def.WindupSeconds;
                 _targetX = player.WorldX;
                 _targetZ = player.Z;
-                Anim.Play("attack_side", false, restart: true);
+                Anim.Play("attack_side", false, restart: true);   // arms up working the head (regular has no attack_up)
+                if (_isHead)
+                {
+                    _wiggle = MakeWiggleHead();     // the head, held overhead, about to be wiggled + chucked
+                    Sfx.Play("guard_whistle");      // a "grab" tell (missing sfx no-ops)
+                }
             }
             else
             {
@@ -88,8 +149,48 @@ namespace ThisL
         {
             if (_state == State.Dead) return;
             _stagger = seconds;
-            _state = State.Hold;
+            if (_wiggle != null) { Destroy(_wiggle); _wiggle = null; } // drop the head if hit mid-wind-up
+            _state = _headless ? State.Chase : State.Hold;             // a headless body can't re-throw
             Anim.Play("hurt", false, restart: true);
+        }
+
+        // ---- Head-throw helpers -------------------------------------------------
+        private void GoHeadless()
+        {
+            _headless = true;
+            if (SpriteLibrary.HasAtlas("sprites/enemies/enemy_headless", "enemy_headless"))
+                Anim.Set = SpriteLibrary.Load("sprites/enemies/enemy_headless", "enemy_headless");
+            if (Sr != null) Sr.color = Color.white;
+            Anim.Play("walk", true, restart: true);
+        }
+
+        private GameObject MakeWiggleHead()
+        {
+            var go = new GameObject("wiggle_head");
+            var sr = go.AddComponent<SpriteRenderer>();
+            sr.sprite = HeadSprite();
+            sr.sortingOrder = Playfield.SortingOrder(Z) + 5;
+            return go;
+        }
+
+        private static Sprite _headSprite;
+        private static Sprite HeadSprite()
+        {
+            if (_headSprite != null) return _headSprite;
+            const int d = 11;
+            var tex = new Texture2D(d, d, TextureFormat.RGBA32, false) { filterMode = FilterMode.Point };
+            var px = new Color32[d * d];
+            var pale = new Color32(242, 230, 205, 255);
+            float r = d / 2f;
+            for (int y = 0; y < d; y++)
+                for (int x = 0; x < d; x++)
+                {
+                    float dx = x - r + 0.5f, dy = y - r + 0.5f;
+                    px[y * d + x] = dx * dx + dy * dy <= r * r ? pale : new Color32(0, 0, 0, 0);
+                }
+            tex.SetPixels32(px); tex.Apply();
+            _headSprite = Sprite.Create(tex, new Rect(0, 0, d, d), new Vector2(0.5f, 0.5f), Tuning.PixelsPerUnit);
+            return _headSprite;
         }
 
         public void KillBySpecial(Actor source) { _killedBySpecial = true; TakeDamage(9999f, source); }
@@ -103,6 +204,7 @@ namespace ThisL
         protected override void OnDeath(Actor source)
         {
             _state = State.Dead;
+            if (_wiggle != null) { Destroy(_wiggle); _wiggle = null; }
             Anim.Play("death", false, restart: true);
             Vfx.DeathBurst(WorldX, Z);
             Sfx.Play("knockdown_thud");
