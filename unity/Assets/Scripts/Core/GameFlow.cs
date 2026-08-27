@@ -211,7 +211,7 @@ namespace ThisL
                         // StageDatabase, so those play in sequence without a separate hook here.
                         // HazardDirector self-gates the car to Level 1 only (creator ruling);
                         // per-area hazards come later.
-                        if (sys != null) { sys.AddComponent<CampaignRunner>(); sys.AddComponent<HazardDirector>(); sys.AddComponent<PodDirector>(); sys.AddComponent<ObstacleDirector>(); sys.AddComponent<StageFinaleProps>(); sys.AddComponent<StageBackdropZones>(); }
+                        if (sys != null) { sys.AddComponent<CampaignRunner>(); sys.AddComponent<HazardDirector>(); sys.AddComponent<PodDirector>(); sys.AddComponent<ObstacleDirector>(); sys.AddComponent<StageFinaleProps>(); sys.AddComponent<StageBackdropZones>(); sys.AddComponent<AirportTraffic>(); }
                         // The Fighting Zebra fights beside you for the opening ~15s, then runs off (onboarding).
                         var pz = PlayerController.Primary;
                         if (pz != null) ZebraAlly.Spawn(pz.WorldX + 2.5f, pz.Z + 0.6f);
