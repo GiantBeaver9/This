@@ -50,9 +50,11 @@ namespace ThisL
             // It also packs TIGHT near the end — a wall of parked cars approaching Sandwich Bros (creator).
             // Golden Gate packs cars TONS-dense (2/step, tight) so there's always cover from the gunfire.
             var data = StageDatabase.Get(stage);
-            bool gg = data != null && data.BackdropTheme == "area4_goldengate";
-            float startSp = stage == 0 ? 46f : gg ? 30f : 72f;
-            float endSp   = stage == 0 ? 6f  : gg ? 9f  : 22f;
+            string theme = data != null ? data.BackdropTheme : null;
+            bool gg = theme == "area4_goldengate";
+            bool twoCar = stage == 0 || theme == "area2_sacramento";   // stages that drop 2 cars per step
+            float startSp = twoCar ? 46f : gg ? 30f : 72f;
+            float endSp   = twoCar ? 6f  : gg ? 9f  : 22f;
             return Mathf.Lerp(startSp, endSp, progress);
         }
 
@@ -78,9 +80,10 @@ namespace ThisL
             var data = StageDatabase.Get(stage);
             switch (data != null ? data.BackdropTheme : null)
             {
-                case "area1_suburb":     // Streets: two staggered curb cars (near curb + far lane)
-                    SpawnCar(x, 0.6f);
-                    SpawnCar(x + 8f, 4.8f);
+                case "area1_suburb":       // Streets: two staggered curb cars (near curb + far lane)
+                case "area2_sacramento":   // Sac old-town street: parked cars up AND down too (creator)
+                    SpawnCar(x, 0.6f);       // down / near curb
+                    SpawnCar(x + 8f, 4.8f);  // up / far curb
                     return;
                 case "area4_goldengate": // Golden Gate: TONS of parked cars = cover from the gatling's fire
                     SpawnCar(x, Random.Range(0.6f, 2.2f));
