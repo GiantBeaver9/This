@@ -91,6 +91,7 @@ namespace ThisL
         private float _dashTimer, _dashCooldown, _dashDirX, _dashDirZ;
         private bool _airborne;
         private float _jumpTimer, _jumpOffset;
+        private float _recoilVelX;        // execution leap-back drift (spent in TickJump)
         private bool _airDashing;          // one X-only air-dash per airtime (TUNING §2.2)
         private float _airDashTimer, _airDashDirX;
         private bool _airDashUsed;
@@ -586,6 +587,13 @@ namespace ThisL
         {
             if (!_airborne) return;
             _jumpTimer += dt;
+            // Execution LEAP-BACK: a decaying backward drift applied over the hop (creator: "the
+            // character should jump back"). Set in ResolveFinisher, spent here during the airtime.
+            if (_recoilVelX != 0f)
+            {
+                WorldX += _recoilVelX * dt;
+                _recoilVelX = Mathf.MoveTowards(_recoilVelX, 0f, 45f * dt);
+            }
             // ASYMMETRIC arc (creator: "come down 2x as fast as jumping up"). Peak at 2/3 of
             // the airtime so the fall (final 1/3) is half the rise duration = 2x faster down.
             float T = Tuning.JumpDuration;
@@ -1146,15 +1154,19 @@ namespace ThisL
             var wk = CurrentWeapon != null ? CurrentWeapon.Kind : WeaponKind.Fists;
             if (wk is WeaponKind.Whip or WeaponKind.Sword or WeaponKind.BallChain or WeaponKind.Bat)
             {
-                target.TakeDamage(9999f, this);            // execution = instant kill
-                Vfx.DeathBurst(target.WorldX, target.Z);   // neck spray
+                target.TakeDamage(9999f, this);                 // execution = instant kill
+                Vfx.DeathBurst(target.WorldX, target.Z, 2.4f);   // BIG neck spray
+                // The player LEAPS BACK from the kill (creator).
+                _recoilVelX = -Facing * 13f;
+                if (!_airborne && !_dashing) StartJump();
                 switch (wk)
                 {
                     case WeaponKind.Whip:                  // ripped off → a LIVE grenade head
                     {
                         var head = FlingHead(target, Facing * 4.5f, 30f, 3f);
                         head.SplashRadius = 2f;
-                        head.OnLand = () => { Sfx.Play("grenade_explode"); CameraShake.Add(CameraShake.Heavy); };
+                        float lx = target.WorldX + Facing * 4.5f, lz = target.Z;
+                        head.OnLand = () => { Vfx.DeathBurst(lx, lz, 3f); Sfx.Play("grenade_explode"); CameraShake.Add(CameraShake.Heavy); };
                         break;
                     }
                     case WeaponKind.Sword:                 // lopped off → tumbles a short way
@@ -1164,8 +1176,8 @@ namespace ThisL
                         FlingHead(target, Facing * 12f, 32f, 5f);
                         Sfx.Play("air_hit");
                         break;
-                    case WeaponKind.BallChain:             // SMASHED → no flying head, pulp + a big shake
-                        Vfx.DeathBurst(target.WorldX + 0.2f, target.Z + 0.2f);
+                    case WeaponKind.BallChain:             // SMASHED → no flying head, BIG pulp + a big shake
+                        Vfx.DeathBurst(target.WorldX + 0.2f, target.Z + 0.2f, 3f);
                         Sfx.Play("ground_smash");
                         break;
                 }
@@ -1194,10 +1206,12 @@ namespace ThisL
         /// <summary>Fling a severed head from a target: a pale arc projectile that thuds on landing.</summary>
         private ArcProjectile FlingHead(Actor t, float dxWu, float speed, float arcHeight)
         {
-            var head = ArcProjectile.Spawn(Team.Player, t.WorldX, t.Z + 0.3f, t.WorldX + dxWu, t.Z,
+            float lx = t.WorldX + dxWu, lz = t.Z;
+            var head = ArcProjectile.Spawn(Team.Player, t.WorldX, t.Z + 0.3f, lx, lz,
                                            speed, new Color(0.95f, 0.9f, 0.8f), airTime: 0.7f);
             head.ArcHeight = arcHeight;
-            head.OnLand = () => Sfx.Play("knockdown_thud");
+            // The head EXPLODES big where it lands (creator: "the head should explode a lot larger").
+            head.OnLand = () => { Vfx.DeathBurst(lx, lz, 2.6f); Sfx.Play("finisher_crunch"); CameraShake.Add(CameraShake.Medium); };
             return head;
         }
 

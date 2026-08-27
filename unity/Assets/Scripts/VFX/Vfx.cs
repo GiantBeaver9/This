@@ -59,6 +59,9 @@ namespace ThisL
         /// <summary>Comedic transient gore: a burst of flying red pixels that clears (§5).</summary>
         public static void DeathBurst(float x, float z) => Spawn("death_burst", x, z, 0);
 
+        /// <summary>A death burst scaled up (execution head-pop wants a BIG one — creator).</summary>
+        public static void DeathBurst(float x, float z, float scale) => Spawn("death_burst", x, z, 0, scale);
+
         /// <summary>Grounded-dash kick-up dust (§2, P0).</summary>
         public static void DashDust(float x, float z) => Spawn("dash_dust", x, z, 0);
 
@@ -76,7 +79,9 @@ namespace ThisL
 
         // -- Spawn ------------------------------------------------------------
 
-        private static void Spawn(string clip, float x, float z, int facing)
+        private static void Spawn(string clip, float x, float z, int facing) => Spawn(clip, x, z, facing, 1f);
+
+        private static void Spawn(string clip, float x, float z, int facing, float scale)
         {
             EnsureLoaded();
             if (_set == null) return;
@@ -89,6 +94,7 @@ namespace ThisL
 
             // Project onto the band: feet position, depth-scaled, sorted for Z.
             Playfield.Place(go.transform, x, z, sr);
+            if (scale != 1f) go.transform.localScale *= scale;         // Place set a depth scale; blow it up
             var p = go.transform.position;
             if (!GroundClips.Contains(clip)) p.y += BodyMidY;            // float impacts to torso
             // Nudge sideways so directional effects read off the fist/barrel.
