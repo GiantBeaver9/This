@@ -109,6 +109,8 @@ namespace ThisL
         /// re-arm it each frame to hold through their whole run.</summary>
         public void HoldSpecialPose(float seconds) => _specialLock = Mathf.Max(_specialLock, seconds);
         public bool SpecialPosing => _specialLock > 0f;
+        /// <summary>Off the ground — mid-jump or mid-air-dash (so a gap/pit hazard knows you cleared it).</summary>
+        public bool Airborne => _airborne || _jumpOffset > 0.02f;
         private bool _wasArmed;            // edge-detect the meter arming for the chime
 
         // Downed / respawn (shared-life system). On death we don't destroy the player;
