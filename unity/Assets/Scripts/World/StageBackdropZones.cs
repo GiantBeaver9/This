@@ -65,10 +65,43 @@ namespace ThisL
             Clear();
             _lastStage = stage;
             float startX = p.WorldX;
-            foreach (var z in ZonesFor(stage))
+            var zones = ZonesFor(stage);
+
+            // Suburb (stage 0): a BOUNDED world-fixed house row from the lane head up to the first landmark
+            // (the school), then nothing — houses do NOT repeat across the whole level (creator: "houses
+            // should only be until the school… they're baked in and reset, offputting"). Grass tiles the rest.
+            if (stage == 0 && zones.Length > 0)
+                PlaceHouseRow(startX, startX + zones[0].Frac * LaneLen);
+
+            foreach (var z in zones)
             {
                 if (z.FracEnd > z.Frac) PlaceCluster(z, startX);
                 else Place(z.File, startX + z.Frac * LaneLen, z.Tall, z.Z, z.Foreground);
+            }
+        }
+
+        /// <summary>A world-fixed row of suburb houses (+ the odd tree) from <paramref name="startX"/> to
+        /// <paramref name="endX"/> — bounded, so it doesn't tile across the whole lane like the Backdrop
+        /// row (which is suppressed in campaign). Uses the same house art the Backdrop would.</summary>
+        private void PlaceHouseRow(float startX, float endX)
+        {
+            var house = LoadAreaProp("house.png");
+            var tree = LoadAreaProp("tree.png");
+            if (house == null) return;
+            float x = startX;
+            int i = 0;
+            while (x < endX)
+            {
+                bool useTree = (i % 4 == 3) && tree != null;
+                var spr = useTree ? tree : house;
+                float natTall = spr.rect.height / Tuning.PixelsPerUnit;
+                float tall = useTree ? 2.7f : 2.2f;
+                float scale = natTall > 0.01f ? tall / natTall : 1f;
+                float wWu = (spr.rect.width / Tuning.PixelsPerUnit) * scale;
+                var go = MakeProp(spr, x + wWu * 0.5f, Far, scale, foreground: false, isCrosswalk: false);
+                _props.Add(go);
+                x += wWu + 0.12f;   // dense suburb row
+                i++;
             }
         }
 
@@ -167,6 +200,28 @@ namespace ThisL
             }
             catch { s = null; }
             s_cache[file] = s;
+            return s;
+        }
+
+        // The suburb house/tree props (backdrops/area1_props/) — the same art the Backdrop's tiled row
+        // uses, loaded here so the bounded world-fixed house row matches it.
+        private static readonly Dictionary<string, Sprite> s_areaCache = new();
+        private static Sprite LoadAreaProp(string file)
+        {
+            if (s_areaCache.TryGetValue(file, out var c)) return c;
+            Sprite s = null;
+            try
+            {
+                string path = System.IO.Path.Combine(SpriteLibrary.AssetsRoot, "backdrops", "area1_props", file);
+                if (System.IO.File.Exists(path))
+                {
+                    var t = new Texture2D(2, 2, TextureFormat.RGBA32, false) { filterMode = FilterMode.Point };
+                    t.LoadImage(System.IO.File.ReadAllBytes(path)); t.Apply();
+                    s = Sprite.Create(t, new Rect(0, 0, t.width, t.height), new Vector2(0.5f, 0f), Tuning.PixelsPerUnit);
+                }
+            }
+            catch { s = null; }
+            s_areaCache[file] = s;
             return s;
         }
     }

@@ -389,6 +389,12 @@ namespace ThisL
             // CAUSEWAY theme: a low levee/dike embankment line over the water, reeds + a water tower.
             if (IsCausewayTheme() && BuildCausewayPropRow(built)) return;
 
+            // In the CAMPAIGN, the suburb houses are placed WORLD-FIXED and BOUNDED by StageBackdropZones
+            // (only up to the school), so the tiled repeating house row is suppressed here — otherwise the
+            // same houses tile across the whole level ("baked in and reset", creator). Grass still tiles the
+            // whole lane. Menu/Endless (no CampaignRunner) keep the full procedural house row.
+            if (CampaignRunner.Instance != null) return;
+
             string dir = PropsDirForArea(_area);
             Sprite house = LoadProp(dir, "house.png");
             Sprite tree = LoadProp(dir, "tree.png");
