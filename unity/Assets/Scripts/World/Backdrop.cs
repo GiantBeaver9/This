@@ -508,9 +508,9 @@ namespace ThisL
             {
                 Sprite s = stores[i % stores.Count];
 
-                // Two floors already live in the sprite, so we just seat it on the horizon and
-                // size it tall enough that both floors sit clearly above the far sidewalk.
-                float targetTall = 4.5f;
+                // Two floors + a balcony live in the sprite; size it TALL so the 2nd-floor walkway reads
+                // near the top of the screen (creator: 'a second floor on the top of the screen').
+                float targetTall = 8.0f;
                 float natTall = s.rect.height / Tuning.PixelsPerUnit;
                 float scale = natTall > 0.01f ? targetTall / natTall : 1f;
                 float wWu = (s.rect.width / Tuning.PixelsPerUnit) * scale;
