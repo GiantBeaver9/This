@@ -236,6 +236,7 @@ namespace ThisL
         // ---- Travel-to-gate (the level is a JOURNEY, not a stationary grind) ----
         private Wave _travelWave;
         private float _travelTargetX, _travelTimeout;
+        private bool _travelBoss;      // travelling to the BOSS arena (spawn the boss on arrival, not a wave)
 
         /// <summary>Open the wall to this wave's gate and make the player WALK UP to it before the wave
         /// spawns — so a stage reads as moving THROUGH the place (past the school, courts, diner, …),
@@ -258,7 +259,10 @@ namespace ThisL
             float px = PlayerController.Primary != null ? PlayerController.MidX() : _originX;
             // Spawn once the player has walked to within ~half a screen of the gate (or dawdled out).
             if (px >= _travelTargetX - Tuning.ScreenWidthUnits * 0.5f || _travelTimeout <= 0f)
-                DoSpawnWave(_travelWave);
+            {
+                if (_travelBoss) { _travelBoss = false; SpawnBossOnArrival(); }
+                else DoSpawnWave(_travelWave);
+            }
         }
 
         private void DoSpawnWave(Wave wave)
@@ -303,16 +307,26 @@ namespace ThisL
 
         private void BeginBossWave(Wave wave)
         {
+            // Don't spawn the boss the instant the last wave clears — open the wall to the arena (the
+            // Sandwich Bros lot) and let the player WALK IN; the boss appears ON ARRIVAL (creator). The
+            // small pre-boss pod is just an ordinary Spawn wave authored right before this one.
+            float arenaX = BossArenaX();
+            SetCameraBounds(_originX, arenaX);
+            _travelTargetX = arenaX;
+            _travelTimeout = 30f;
+            _travelBoss = true;
+            _state = DirectorState.Travel;
+            Debug.Log($"[StageDirector] Travel to boss arena {arenaX:0.0} for {wave.Label}.");
+        }
+
+        /// <summary>Spawn the stage boss once the player has walked into the arena (see TickTravel).</summary>
+        private void SpawnBossOnArrival()
+        {
             if (!string.IsNullOrEmpty(_data.BossMusicClip)) Music.PlayBoss(_data.BossMusicClip);
-            // Boss arena sits ONE SHORT WALK past the last cleared gate — NOT at the raw lane
-            // tail. The lane was lengthened ~8× (StageData.LaneLengthWu), so the old
-            // `LaneLengthWu - 10` pinned the arena hundreds of wu past where the player actually
-            // ends up (the last spawn gate), leaving the boss spawned far off-screen and the
-            // fight never starting. Anchor to the last gate / player end instead (ENCOUNTERS.md §0).
             float arenaX = BossArenaX();
             SetCameraBounds(_originX, arenaX);
 
-            Debug.Log($"[StageDirector] {wave.Label} — SpawnBoss(\"{_data.BossId}\") @ arena {arenaX:0.0}.");
+            Debug.Log($"[StageDirector] SpawnBoss(\"{_data.BossId}\") @ arena {arenaX:0.0}.");
             _boss = SpawnBoss(_data.BossId, arenaX);
             _state = DirectorState.Boss;
 
@@ -320,7 +334,7 @@ namespace ThisL
             if (_boss == null)
             {
                 Debug.LogWarning($"[StageDirector] Boss \"{_data.BossId}\" is a placeholder (no actor). " +
-                                 "Bosses agent fills SpawnBoss(); treating the boss gate as cleared.");
+                                 "treating the boss gate as cleared.");
                 AdvanceCameraAfterWave();
                 NextWave();
             }

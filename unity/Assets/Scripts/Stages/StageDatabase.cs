@@ -61,8 +61,9 @@ namespace ThisL
                 st.Waves.Add(Wave.Checkpoint("CHECKPOINT (mid)"));
                 st.Waves.Add(Wave.Filler("Filler (Regulars)", 10, 14));
                 st.Waves.Add(Wave.Spawn("Wave 3 (funnel, bus pass)", 0.8f, E(EnemyArchetype.Regular, 5, SpawnSide.B)));
-                // Cross the railroad, reach the store (StageFinaleProps drops railroad + Sandwich Bros here),
-                // then the boss barrels out of the parking lot. Only its defeat ends the level.
+                // Walk into the Sandwich Bros lot: a SMALL POD first, THEN the boss barrels out on arrival
+                // (creator: "there should be a small pod, then he spawns"). Boss only spawns once you walk in.
+                st.Waves.Add(Wave.Spawn("Sandwich Bros lot — pod", 0.7f, E(EnemyArchetype.Regular, 3, SpawnSide.L)));
                 st.Waves.Add(Wave.Boss("BOSS: Sandwich Bros (big charger)"));
                 s.Add(st);
             }
