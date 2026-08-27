@@ -34,6 +34,8 @@ namespace ThisL
         private bool _gameOver;            // latched when the shared life pool empties out
         private bool _endlessPending;      // character-select is feeding an Endless run, not the campaign
         private int _menuIndex;            // highlighted row on the main menu
+        private int _charIndex;            // highlighted fighter card on character select (keyboard/pad cursor)
+        private int _setupRow;             // highlighted row on the player-setup screen (keyboard/pad cursor)
         private GameObject _worldRoot;
         private CharacterDef[] _roster;
         private GUIStyle _title, _label, _btn, _special;
@@ -50,6 +52,117 @@ namespace ThisL
         }
 
         private void Start() => GoTitle();
+
+        // ---- Gamepad menu navigation (legacy Input; keyboard/mouse stay in OnGUI) --------------
+        private void Update()
+        {
+            if (Current == State.Playing) return;   // in-run pads are driven by the players/CoopJoin
+            var nav = MenuPad.Poll();
+            if (!nav.Any) return;
+
+            switch (Current)
+            {
+                case State.Title:
+                    Sfx.Play("confirm"); GoMenu();
+                    break;
+
+                case State.Menu:
+                    if (nav.Up)   { _menuIndex = (_menuIndex + MenuItems.Length - 1) % MenuItems.Length; Sfx.Play("menu_move"); }
+                    if (nav.Down) { _menuIndex = (_menuIndex + 1) % MenuItems.Length; Sfx.Play("menu_move"); }
+                    if (nav.Confirm) ActivateMenu(_menuIndex);
+                    else if (nav.Back) { Sfx.Play("cancel"); GoTitle(); }
+                    break;
+
+                case State.PlayerSetup:
+                    HandleSetupNav(nav);
+                    break;
+
+                case State.CharacterSelect:
+                {
+                    int n = _roster.Length;
+                    if (nav.Left)  { _charIndex = (_charIndex + n - 1) % n; Sfx.Play("menu_move"); }
+                    if (nav.Right) { _charIndex = (_charIndex + 1) % n; Sfx.Play("menu_move"); }
+                    if (nav.Confirm) SelectChar(_charIndex);
+                    else if (nav.Back) CharSelectBack();
+                    break;
+                }
+
+                case State.HowToPlay:
+                    if (nav.Confirm || nav.Back) { Sfx.Play("cancel"); GoMenu(); }
+                    break;
+            }
+        }
+
+        private void HandleSetupNav(MenuPad.Nav nav)
+        {
+            int rows = _playerCount == 2 ? 3 : 2;      // PLAYERS · P1 input · (P2 input)
+            if (nav.Up)   { _setupRow = (_setupRow + rows - 1) % rows; Sfx.Play("menu_move"); }
+            if (nav.Down) { _setupRow = (_setupRow + 1) % rows; Sfx.Play("menu_move"); }
+            if (nav.Left)  { SetupAdjust(_setupRow, -1); Sfx.Play("menu_move"); }
+            if (nav.Right) { SetupAdjust(_setupRow,  1); Sfx.Play("menu_move"); }
+            if (nav.Confirm) { Sfx.Play("confirm"); GoCharacterSelect(_endlessPending); }
+            else if (nav.Back) { Sfx.Play("cancel"); GoMenu(); }
+        }
+
+        /// <summary>Change one player-setup row's value by <paramref name="d"/> (wrap). Row 0 = player
+        /// count (1/2), row 1 = P1 input, row 2 = P2 input.</summary>
+        private void SetupAdjust(int row, int d)
+        {
+            switch (row)
+            {
+                case 0:
+                    _playerCount = Mathf.Clamp(_playerCount + d, 1, 2);
+                    if (_playerCount == 1 && _setupRow > 1) _setupRow = 1;   // P2 row vanished
+                    break;
+                case 1: _p1Input = CycleInput(_p1Input, d); break;
+                case 2: _p2Input = CycleInput(_p2Input, d); break;
+            }
+        }
+
+        private static InputKind CycleInput(InputKind k, int d)
+        {
+            int n = InputNames.Length;
+            return (InputKind)(((int)k + d + n) % n);
+        }
+
+        /// <summary>Edge-detected menu navigation aggregated across the (up to 2) connected pads —
+        /// left stick / D-pad for direction, A/Start = confirm, B = back. Legacy Input only.</summary>
+        private static class MenuPad
+        {
+            public struct Nav { public bool Up, Down, Left, Right, Confirm, Back, Any; }
+            private static bool _up, _down, _left, _right;
+
+            public static Nav Poll()
+            {
+                var names = Input.GetJoystickNames();
+                int count = Mathf.Min(names.Length, 2);   // only Joy1/Joy2 axes are defined in InputManager
+                float lx = 0f, lz = 0f;
+                bool confirm = false, back = false;
+                for (int i = 0; i < count; i++)
+                {
+                    if (string.IsNullOrEmpty(names[i])) continue;
+                    int joy = i + 1;
+                    float x = Input.GetAxisRaw("Joy" + joy + "X"), dx = Input.GetAxisRaw("Joy" + joy + "DX");
+                    float y = Input.GetAxisRaw("Joy" + joy + "Y"), dy = Input.GetAxisRaw("Joy" + joy + "DY");
+                    if (Mathf.Abs(x) < 0.5f) x = dx;
+                    if (Mathf.Abs(y) < 0.5f) y = dy;
+                    if (x < -0.5f) lx = -1f; else if (x > 0.5f) lx = 1f;
+                    if (y >  0.5f) lz =  1f; else if (y < -0.5f) lz = -1f;   // Joy Y positive = up (matches GamepadInput)
+                    var b = (KeyCode)((int)KeyCode.Joystick1Button0 + i * 20);
+                    if (Input.GetKeyDown(b + 0) || Input.GetKeyDown(b + 7)) confirm = true; // A or Start
+                    if (Input.GetKeyDown(b + 1)) back = true;                                // B
+                }
+                bool up = lz > 0.5f, down = lz < -0.5f, left = lx < -0.5f, right = lx > 0.5f;
+                var nav = new Nav
+                {
+                    Up = up && !_up, Down = down && !_down, Left = left && !_left, Right = right && !_right,
+                    Confirm = confirm, Back = back,
+                };
+                _up = up; _down = down; _left = left; _right = right;
+                nav.Any = nav.Up || nav.Down || nav.Left || nav.Right || nav.Confirm || nav.Back;
+                return nav;
+            }
+        }
 
         // ---- Transitions -----------------------------------------------------
         public void GoTitle()
@@ -75,6 +188,7 @@ namespace ThisL
             _endlessPending = endless;
             _selectingP2 = false;   // always start on P1's pick
             _p1Pick = null;
+            _charIndex = 0;         // reset the keyboard/pad cursor to the first fighter
             Current = State.CharacterSelect;
         }
 
@@ -329,11 +443,12 @@ namespace ThisL
         {
             GUI.Label(new Rect(0, 30, w, 40), _endlessPending ? "ENDLESS — SETUP" : "SETUP", _title);
             float cx = w / 2f;
+            int rows = _playerCount == 2 ? 3 : 2;
+            _setupRow = Mathf.Clamp(_setupRow, 0, rows - 1);
 
-            if (OptionRow(cx, 110f, "PLAYERS", new[] { "1", "2" }, _playerCount - 1, out int pc)) _playerCount = pc + 1;
-            if (OptionRow(cx, 180f, "PLAYER 1", InputNames, (int)_p1Input, out int p1)) _p1Input = (InputKind)p1;
-            if (_playerCount == 2 && OptionRow(cx, 250f, "PLAYER 2", InputNames, (int)_p2Input, out int p2))
-                _p2Input = (InputKind)p2;
+            if (OptionRow(cx, 110f, "PLAYERS", new[] { "1", "2" }, _playerCount - 1, _setupRow == 0, out int pc)) { _playerCount = pc + 1; _setupRow = 0; }
+            if (OptionRow(cx, 180f, "PLAYER 1", InputNames, (int)_p1Input, _setupRow == 1, out int p1)) { _p1Input = (InputKind)p1; _setupRow = 1; }
+            if (_playerCount == 2 && OptionRow(cx, 250f, "PLAYER 2", InputNames, (int)_p2Input, _setupRow == 2, out int p2)) { _p2Input = (InputKind)p2; _setupRow = 2; }
 
             if (Button(new Rect(cx - 130f, 330f, 260f, 40f), "CONTINUE  →"))
             {
@@ -341,18 +456,31 @@ namespace ThisL
                 GoCharacterSelect(_endlessPending);
             }
 
-            GUI.Label(new Rect(0, h - 30, w, 24), "click to choose  ·  Esc to go back", _hint);
+            GUI.Label(new Rect(0, h - 30, w, 24), "↑↓ pick row · ←→ change · Enter/A continue · Esc/B back · (or click)", _hint);
             var ev = Event.current;
-            if (ev.type == EventType.KeyDown && ev.keyCode == KeyCode.Escape) { Sfx.Play("cancel"); GoMenu(); }
+            if (ev.type == EventType.KeyDown)
+            {
+                switch (ev.keyCode)
+                {
+                    case KeyCode.UpArrow: case KeyCode.W: _setupRow = (_setupRow + rows - 1) % rows; Sfx.Play("menu_move"); break;
+                    case KeyCode.DownArrow: case KeyCode.S: _setupRow = (_setupRow + 1) % rows; Sfx.Play("menu_move"); break;
+                    case KeyCode.LeftArrow: case KeyCode.A: SetupAdjust(_setupRow, -1); Sfx.Play("menu_move"); break;
+                    case KeyCode.RightArrow: case KeyCode.D: SetupAdjust(_setupRow, 1); Sfx.Play("menu_move"); break;
+                    case KeyCode.Return: case KeyCode.KeypadEnter: case KeyCode.Space: Sfx.Play("confirm"); GoCharacterSelect(_endlessPending); break;
+                    case KeyCode.Escape: Sfx.Play("cancel"); GoMenu(); break;
+                }
+            }
         }
 
         /// <summary>A centered "LABEL  [opt][opt][opt]" chooser row; returns true (with the clicked
-        /// index) when an option was clicked this frame.</summary>
-        private bool OptionRow(float cx, float y, string label, string[] opts, int sel, out int clicked)
+        /// index) when an option was clicked this frame. <paramref name="active"/> marks the row the
+        /// keyboard/pad cursor is on.</summary>
+        private bool OptionRow(float cx, float y, string label, string[] opts, int sel, bool active, out int clicked)
         {
             clicked = -1;
+            GUI.color = active ? new Color(0.95f, 0.82f, 0.45f) : Color.white;   // warm = the cursor's row
+            GUI.Label(new Rect(cx - 160f, y, 320f, 20f), (active ? "▸ " : "") + label, _hint);
             GUI.color = Color.white;
-            GUI.Label(new Rect(cx - 160f, y, 320f, 20f), label, _hint);
             float ow = opts.Length <= 2 ? 90f : 150f, gap = 8f;
             float total = opts.Length * ow + (opts.Length - 1) * gap;
             float ox = cx - total / 2f;
@@ -436,6 +564,7 @@ namespace ThisL
         private void GoPlayerSetup(bool endless)
         {
             _endlessPending = endless;
+            _setupRow = 0;
             Current = State.PlayerSetup;
         }
 
@@ -487,7 +616,11 @@ namespace ThisL
                 // Taller card so the special-move name gets its own line clear of the
                 // stat block and the SELECT button (was overlapping the button before).
                 var r = new Rect(x0 + i * (cw + gap), 110, cw, 176);
-                GUI.color = new Color(0.14f, 0.16f, 0.22f, 1f);
+                // Hover moves the cursor too, so mouse + keyboard + pad all agree on the highlight.
+                if (Event.current.type == EventType.MouseMove && r.Contains(Event.current.mousePosition)) _charIndex = i;
+                bool cur = i == _charIndex;
+                if (cur) { GUI.color = new Color(0.95f, 0.82f, 0.45f, 1f); GUI.DrawTexture(new Rect(r.x - 3, r.y - 3, r.width + 6, r.height + 6), Texture2D.whiteTexture); } // cursor outline
+                GUI.color = cur ? new Color(0.20f, 0.30f, 0.46f, 1f) : new Color(0.14f, 0.16f, 0.22f, 1f);
                 GUI.DrawTexture(r, Texture2D.whiteTexture);
                 GUI.color = Color.white;
                 GUI.Label(new Rect(r.x, r.y + 8, r.width, 24), c.DisplayName, _label);
@@ -514,34 +647,56 @@ namespace ThisL
                         $"Spd x{c.MoveSpeedMult:0.00}\nFist x{c.PunchDmgMult:0.00}\nMeter x{c.MeterFillMult:0.00}\nWpn x{c.WeaponDmgMult:0.00}");
                 // Special-move name on its own line, clearly ABOVE the button.
                 GUI.Label(new Rect(r.x + 6, r.y + r.height - 58, r.width - 12, 20), c.Special?.Name ?? "", _special);
-                if (Button(new Rect(r.x + 20, r.y + r.height - 34, r.width - 40, 26), "SELECT") ||
-                    Input.GetKeyDown(KeyCode.Alpha1 + i))
+                if (Button(new Rect(r.x + 20, r.y + r.height - 34, r.width - 40, 26), "SELECT")) { _charIndex = i; SelectChar(i); return; }
+            }
+            // Number keys 1-4 jump-select a fighter (kept for keyboard players).
+            for (int k = 0; k < n; k++)
+                if (Input.GetKeyDown(KeyCode.Alpha1 + k)) { _charIndex = k; SelectChar(k); return; }
+
+            string who2 = _playerCount == 2 ? (_selectingP2 ? "P2: " : "P1: ") : "";
+            GUI.Label(new Rect(0, h - 30, w, 24),
+                who2 + "← → move  ·  Enter / A to pick  ·  click, or press 1-4  ·  Esc / B to go back", _label);
+
+            // Keyboard cursor nav (pad nav lives in Update). Event-driven so each press moves one card.
+            var ce = Event.current;
+            if (ce.type == EventType.KeyDown)
+            {
+                switch (ce.keyCode)
                 {
-                    Sfx.Play("confirm");
-                    // 2P: P1 picks first, then the screen re-arms for P2's own pick, THEN the run starts.
-                    if (_playerCount == 2 && !_selectingP2)
-                    {
-                        _p1Pick = c;
-                        _selectingP2 = true;
-                        return;
-                    }
-                    CharacterDef p1 = _selectingP2 ? _p1Pick : c;
-                    CharacterDef p2 = _selectingP2 ? c : null;
-                    if (_endlessPending) StartEndlessRun(p1, p2); else StartRun(p1, p2);
-                    return;
+                    case KeyCode.LeftArrow:  case KeyCode.A: _charIndex = (_charIndex + n - 1) % n; Sfx.Play("menu_move"); break;
+                    case KeyCode.RightArrow: case KeyCode.D: _charIndex = (_charIndex + 1) % n; Sfx.Play("menu_move"); break;
+                    case KeyCode.Return: case KeyCode.KeypadEnter: case KeyCode.Space: SelectChar(_charIndex); return;
+                    case KeyCode.Escape: CharSelectBack(); return;
                 }
             }
-            string hint = _playerCount == 2 && !_selectingP2
-                ? "P1: click SELECT or press 1-4  ·  Esc to go back"
-                : "click SELECT or press 1-4  ·  Esc to go back";
-            GUI.Label(new Rect(0, h - 30, w, 24), hint, _label);
-            // Esc backs P2 out to P1's pick first, then out of the screen.
-            if (Input.GetKeyDown(KeyCode.Escape))
+        }
+
+        /// <summary>Commit fighter <paramref name="i"/> for the currently-picking player. In 2P the screen
+        /// re-arms for P2's own pick after P1 confirms, then the run starts (P2 can drive their own pick
+        /// with a controller — pad nav in Update reads any connected pad).</summary>
+        private void SelectChar(int i)
+        {
+            if (_roster == null || i < 0 || i >= _roster.Length) return;
+            var c = _roster[i];
+            Sfx.Play("confirm");
+            if (_playerCount == 2 && !_selectingP2)
             {
-                Sfx.Play("cancel");
-                if (_selectingP2) { _selectingP2 = false; _p1Pick = null; }
-                else GoMenu();
+                _p1Pick = c;
+                _selectingP2 = true;
+                _charIndex = 0;         // P2 starts fresh on the first card
+                return;
             }
+            CharacterDef p1 = _selectingP2 ? _p1Pick : c;
+            CharacterDef p2 = _selectingP2 ? c : null;
+            if (_endlessPending) StartEndlessRun(p1, p2); else StartRun(p1, p2);
+        }
+
+        /// <summary>Back out of character select: P2 → back to P1's pick first, else → menu.</summary>
+        private void CharSelectBack()
+        {
+            Sfx.Play("cancel");
+            if (_selectingP2) { _selectingP2 = false; _p1Pick = null; _charIndex = 0; }
+            else GoMenu();
         }
 
         private void HowToPlayGUI(float w, float h)
@@ -588,14 +743,19 @@ namespace ThisL
 
             // A couple of extras that don't fit the strict two-binding grid.
             y += 6f;
+            GUI.color = new Color(0.95f, 0.82f, 0.45f);
+            GUI.Label(new Rect(colA, y, w * 0.86f, 16),
+                "MENUS: D-pad / left stick to move · A (or Start) to confirm · B to go back.", _hint);
+            GUI.color = Color.white;
+            y += 16f;
             GUI.Label(new Rect(colA, y, w * 0.86f, 16),
                 "Dash into an enemy's shot to grab it as a bullet-shield and plow forward.", _hint);
             y += 16f;
             GUI.Label(new Rect(colA, y, w * 0.86f, 16),
-                "Player 2 drops in any time: press Start on a 2nd USB pad (also pauses).", _hint);
+                "2 PLAYERS: on Setup pick Controller for P2, then each player picks their own fighter.", _hint);
             y += 16f;
             GUI.Label(new Rect(colA, y, w * 0.86f, 16),
-                "Pick Keyboard / Controller 1 / Controller 2 per player on the Setup screen.", _hint);
+                "Or drop in mid-run: press Start on a 2nd USB pad any time (also pauses).", _hint);
 
             const float bw = 160f, bh = 30f;
             var back = new Rect((w - bw) / 2f, h - 44, bw, bh);
