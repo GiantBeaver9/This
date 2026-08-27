@@ -257,14 +257,15 @@ namespace ThisL
         public static bool EnableStripArt = true;
 
         /// <summary>Theme stems that IGNORE their strip art and render the procedural street instead
-        /// (the strips read badly for these). Stage 1/2 (area1_suburb) use the real "two sidewalks +
-        /// road" street; the MALL (area1_mall) does too so its store prop row (BuildMallStoreRow) sits
-        /// on the real street + grass verge. Add more stems here to roll the procedural street out further.
-        /// The AIRPORT (area2_airport) and CAUSEWAY (area3_causeway) also use the procedural street so
-        /// their theme-aware far rows run: the airport's stationary control-tower landmark (parallax 0.15)
-        /// and the causeway's water/marsh dike row — neither reads right baked into a mid-parallax strip.</summary>
+        /// (the strips read badly for these). Stage 1 (area1_suburb) uses the real "two sidewalks +
+        /// road" street. The AIRPORT (area2_airport) and CAUSEWAY (area3_causeway) also use the
+        /// procedural street so their theme-aware far rows run: the airport's stationary control-tower
+        /// landmark (parallax 0.15) and the causeway's water/marsh dike row — neither reads right baked
+        /// into a mid-parallax strip. Sacramento (area2_sacramento) uses it for the Victorian old-town +
+        /// world-fixed downtown skyscrapers. The MALL (area1_mall) is NOT here — creator wants its
+        /// interior to SCROLL as its parallax strip art, not the generated store row.</summary>
         private static readonly HashSet<string> s_forceProcedural =
-            new() { "area1_suburb", "area1_mall", "area2_sacramento", "area2_airport", "area3_causeway" };
+            new() { "area1_suburb", "area2_sacramento", "area2_airport", "area3_causeway" };
 
         private bool BuildStripBands(List<LayerInstance> built)
         {
