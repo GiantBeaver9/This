@@ -52,6 +52,13 @@ namespace ThisL
                 new Zone { Frac = 0.42f, FracEnd = 0.58f, File = "tennis",     Tall = 5f,  Z = Far, Foreground = false }, // tennis courts touch
                 new Zone { Frac = 0.62f, FracEnd = 0.82f, File = "basketball", Tall = 5f,  Z = Far, Foreground = false }, // basketball courts touch
             },
+            // Sacramento (stage index 3): Victorian old-town (the world-fixed brownstone row placed in
+            // Update) up to DOWNTOWN — a run of skyscrapers filling the boss end where the Colossus fights
+            // (creator: "Sacramento needs victorian houses, boss fight is at the skyscrapers").
+            3 => new[]
+            {
+                new Zone { Frac = 0.66f, FracEnd = 1.0f, File = "sac_skyline", Tall = 12f, Z = Far, Foreground = false },
+            },
             _ => System.Array.Empty<Zone>(),
         };
 
@@ -72,6 +79,9 @@ namespace ThisL
             // should only be until the school… they're baked in and reset, offputting"). Grass tiles the rest.
             if (stage == 0 && zones.Length > 0)
                 PlaceHouseRow(startX, startX + zones[0].Frac * LaneLen);
+            // Sacramento: a Victorian brownstone row from the lane head up to the downtown skyscrapers.
+            else if (stage == 3 && zones.Length > 0)
+                PlaceHouseRow(startX, startX + zones[0].Frac * LaneLen, "area2_props", 3.4f);
 
             foreach (var z in zones)
             {
@@ -83,10 +93,10 @@ namespace ThisL
         /// <summary>A world-fixed row of suburb houses (+ the odd tree) from <paramref name="startX"/> to
         /// <paramref name="endX"/> — bounded, so it doesn't tile across the whole lane like the Backdrop
         /// row (which is suppressed in campaign). Uses the same house art the Backdrop would.</summary>
-        private void PlaceHouseRow(float startX, float endX)
+        private void PlaceHouseRow(float startX, float endX, string propsFolder = "area1_props", float houseTall = 2.2f)
         {
-            var house = LoadAreaProp("house.png");
-            var tree = LoadAreaProp("tree.png");
+            var house = LoadAreaProp("house.png", propsFolder);
+            var tree = LoadAreaProp("tree.png", propsFolder);
             if (house == null) return;
             float x = startX;
             int i = 0;
@@ -95,7 +105,7 @@ namespace ThisL
                 bool useTree = (i % 4 == 3) && tree != null;
                 var spr = useTree ? tree : house;
                 float natTall = spr.rect.height / Tuning.PixelsPerUnit;
-                float tall = useTree ? 2.7f : 2.2f;
+                float tall = useTree ? houseTall * 1.2f : houseTall;
                 float scale = natTall > 0.01f ? tall / natTall : 1f;
                 float wWu = (spr.rect.width / Tuning.PixelsPerUnit) * scale;
                 var go = MakeProp(spr, x + wWu * 0.5f, Far, scale, foreground: false, isCrosswalk: false);
@@ -212,13 +222,14 @@ namespace ThisL
         // The suburb house/tree props (backdrops/area1_props/) — the same art the Backdrop's tiled row
         // uses, loaded here so the bounded world-fixed house row matches it.
         private static readonly Dictionary<string, Sprite> s_areaCache = new();
-        private static Sprite LoadAreaProp(string file)
+        private static Sprite LoadAreaProp(string file, string folder = "area1_props")
         {
-            if (s_areaCache.TryGetValue(file, out var c)) return c;
+            string key = folder + "/" + file;
+            if (s_areaCache.TryGetValue(key, out var c)) return c;
             Sprite s = null;
             try
             {
-                string path = System.IO.Path.Combine(SpriteLibrary.AssetsRoot, "backdrops", "area1_props", file);
+                string path = System.IO.Path.Combine(SpriteLibrary.AssetsRoot, "backdrops", folder, file);
                 if (System.IO.File.Exists(path))
                 {
                     var t = new Texture2D(2, 2, TextureFormat.RGBA32, false) { filterMode = FilterMode.Point };
@@ -227,7 +238,7 @@ namespace ThisL
                 }
             }
             catch { s = null; }
-            s_areaCache[file] = s;
+            s_areaCache[key] = s;
             return s;
         }
     }

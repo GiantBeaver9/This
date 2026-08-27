@@ -264,7 +264,7 @@ namespace ThisL
         /// their theme-aware far rows run: the airport's stationary control-tower landmark (parallax 0.15)
         /// and the causeway's water/marsh dike row — neither reads right baked into a mid-parallax strip.</summary>
         private static readonly HashSet<string> s_forceProcedural =
-            new() { "area1_suburb", "area1_mall", "area2_airport", "area3_causeway" };
+            new() { "area1_suburb", "area1_mall", "area2_sacramento", "area2_airport", "area3_causeway" };
 
         private bool BuildStripBands(List<LayerInstance> built)
         {
@@ -680,7 +680,9 @@ namespace ThisL
         /// area read differently at a glance — the "levels all look the same" fix.</summary>
         private static string[] LandmarksForArea(int area) => area switch
         {
-            2 => new[] { "control_tower.png" },                   // Airport: the single stationary tower
+            // Area 2 covers Sacramento (old-town, no landmark — its downtown skyscrapers are world-fixed
+            // at the boss arena via StageBackdropZones) AND the Airport (the stationary control tower).
+            2 => IsAirportTheme() ? new[] { "control_tower.png" } : System.Array.Empty<string>(),
             // Area 3 causeway draws its levee/dike as the theme prop row (BuildCausewayPropRow), so it
             // needs no separate landmark; other area-3 stages use strip art (no landmark row runs).
             4 => new[] { "golden_gate.png", "skyline_tower.png" },// Vallejo → GG → SF
