@@ -681,12 +681,13 @@ namespace ThisL
             //    the melee string with P1; a pure up/down is a standalone normal.
             if (horizontal)
             {
-                // Guns fire on E ONLY; an arrow press always PUNCHES (creator: guns don't
-                // touch melee). Boomerang (a thrown weapon) still throws on the arrow.
-                if (CurrentWeapon.Kind == WeaponKind.Boomerang) { FireWeapon(); return; }
                 // Point-blank pistol-whip EXECUTE (§3.1): a gun-bash finishes a near-dead enemy
                 // in melee range with no bullet — the up-close payoff for a spent mag.
                 if (TryPistolWhipExecute(d)) return;
+                // A RANGED weapon FIRES on the arrow attack — animation AND bullet together (creator:
+                // "the shooting animation happens when I arrow key but E spawns the bullet — wrong").
+                // Boomerang (thrown) also goes out on the arrow. E stays as an alias.
+                if (CurrentWeapon.Kind == WeaponKind.Boomerang || CurrentWeapon.IsRanged) { FireWeapon(); return; }
                 StartSide(0);
             }
             else StartStrike(d == AttackDir.Up ? AttackKind.Up : AttackKind.Down);
