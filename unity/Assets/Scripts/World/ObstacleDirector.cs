@@ -39,10 +39,13 @@ namespace ThisL
         }
 
         /// <summary>Obstacles RAMP from sparse at the stage start to dense near the end (creator: "~2 at
-        /// the beginning, ~7-8 at the end"). Progress = how far into the ~1400 wu ramp the player is.</summary>
+        /// the beginning, ~7-8 at the end"). Progress = fraction of the way down the ACTUAL lane — so
+        /// the ramp stretches across the whole stage instead of maxing out in the first 1400 wu of a
+        /// long one and reading dense the rest of the way.</summary>
         private float SpacingFor(int stage, float playerX)
         {
-            float progress = Mathf.Clamp01((playerX - _stageStartX) / 1400f);
+            float rampLen = Mathf.Max(600f, StageDirector.ActiveLaneLengthWu);
+            float progress = Mathf.Clamp01((playerX - _stageStartX) / rampLen);
             // lv1 drops 2 cars (both curbs) per step, so its spacing is wider than single-obstacle stages.
             float startSp = stage == 0 ? 50f : 72f;
             float endSp   = stage == 0 ? 10f : 22f;

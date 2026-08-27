@@ -13,7 +13,14 @@ namespace ThisL
     /// </summary>
     public sealed class StageBackdropZones : MonoBehaviour
     {
-        public float LaneLen = 1600f;
+        // Landmarks are placed at FRACTIONS of the running lane, so they must use the ACTUAL lane
+        // length (StageDirector publishes it) — a hardcoded 1600 would bunch every landmark into the
+        // first 1600 wu of a longer stage and leave the rest bare. Falls back to 1600 pre-stage.
+        private float LaneLen => StageDirector.ActiveLaneLengthWu;
+
+        // A cluster (the campus) fills edge-to-edge, so on a long lane its fraction-span could demand
+        // ~150 buildings; cap it to a compact, readable campus and let the house row carry the rest.
+        private const int MaxClusterBuildings = 16;
 
         private int _lastStage = -1;
         private readonly List<GameObject> _props = new();
@@ -72,7 +79,7 @@ namespace ThisL
             float x = startX + z.Frac * LaneLen;
             float endX = startX + z.FracEnd * LaneLen;
             int i = 0;
-            while (x < endX)
+            while (x < endX && i < MaxClusterBuildings)
             {
                 var spr = sprites[i % sprites.Count];
                 float natTall = spr.rect.height / Tuning.PixelsPerUnit;

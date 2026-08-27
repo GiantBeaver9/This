@@ -29,6 +29,13 @@ namespace ThisL
         /// <summary>The index (0-based) of the stage currently running, or -1.</summary>
         public int CurrentStageIndex { get; private set; } = -1;
 
+        /// <summary>The running stage's lane length in wu (StageData.LaneLengthWu), published so the
+        /// world-fixed set-piece placers (StageBackdropZones, StageFinaleProps) and the obstacle
+        /// density ramp anchor to the ACTUAL lane end instead of a stale hardcoded 1600 — otherwise
+        /// the finale store / zones landed at 1600 and the level "ended immediately" once the lane
+        /// was lengthened.</summary>
+        public static float ActiveLaneLengthWu { get; private set; } = 1600f;
+
         /// <summary>True while a stage is actively running (not idle/complete).</summary>
         public bool Running => _state != DirectorState.Idle && _state != DirectorState.Complete;
 
@@ -57,6 +64,7 @@ namespace ThisL
 
             _data = data;
             CurrentStageIndex = index;
+            ActiveLaneLengthWu = data.LaneLengthWu; // publish for the world-fixed placers + density ramp
             _rng = new System.Random(data.Id); // deterministic seed = stage id (ENCOUNTERS.md §0)
 
             // Keep the shared HUD statics (EnemySpawner.StageLabel / KillsThisStage) authoritative:
@@ -519,10 +527,12 @@ namespace ThisL
                 // distinct rooms (creator: "you basically made a 400wu area"). Collapse the block into
                 // 3–5 bigger arenas: each is a proper screen-lock room (its total drips in past the
                 // 8-on-screen cap) with real travel between, matching the JS-version feel.
-                // Arena count SCALES WITH LANE LENGTH so an ~8x-longer stage stays paced: one filler
-                // arena per ~100 wu (~3.4 screens), leaving obstacle room between distinct screen-lock
-                // rooms rather than one giant empty walk. (Short/legacy lanes clamp back to 3.)
-                int count = Mathf.Clamp(Mathf.RoundToInt((data.LaneLengthWu - 100f) / 100f), 3, 14);
+                // Arena count SCALES WITH LANE LENGTH so a longer stage stays paced: one filler arena
+                // per ArenaSpacingWu (creator: "locking camera every 6k or so"), leaving real travel
+                // (obstacles + pods) between distinct screen-lock rooms rather than 14 micro-gates a
+                // few wu apart. (Short/legacy lanes clamp back to 3; very long ones cap at 20.)
+                float spacing = Mathf.Max(100f, data.ArenaSpacingWu);
+                int count = Mathf.Clamp(Mathf.RoundToInt(data.LaneLengthWu / spacing), 3, 20);
                 var pool = BuildFillerPool(data);
                 for (int i = 0; i < count; i++)
                 {

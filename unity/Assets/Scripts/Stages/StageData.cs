@@ -21,11 +21,19 @@ namespace ThisL
         public string MusicClip;             // Music.PlayStage stem (assets/audio/music/stage_loops/**)
         public string AmbientClip;           // Music.PlayAmbient stem (assets/audio/music/ambient/**)
 
-        /// <summary>Combat lane length in world-units. ~8x the original 140 (creator: "stages should
-        /// be about 8x as long, so we can add obstacles"). The arena count scales with this in
-        /// StageDirector.ExpandWaves so the fights stay ~3 screens apart (obstacle room between, not
-        /// one giant empty walk). Finale overrides to ~30 (pure boss arena).</summary>
-        public float LaneLengthWu = 1600f;
+        /// <summary>Combat lane length in world-units (creator: "the end of level is there immediately…
+        /// we might need a longer level, locking the camera every so often"). At RunSpeed 5.6 wu/s this
+        /// is ~N/5.6 seconds of walking end-to-end, chunked by the arena locks. The arena count scales
+        /// with this / <see cref="ArenaSpacingWu"/> in StageDirector.ExpandWaves so fights sit one lock
+        /// apart with real travel (obstacles + pods) between. Finale overrides to ~30 (pure boss arena).
+        /// KNOB: raise for a longer stage. Currently ~3x the old 1600.</summary>
+        public float LaneLengthWu = 5000f;
+
+        /// <summary>Distance between camera-lock arenas, in world-units (creator: "locking camera every
+        /// 6k or so" — scaled to the engine: at RunSpeed 5.6 wu/s a 500 wu gap is ~90s of travel). One
+        /// filler arena is placed per this many wu; StageDirector.ExpandWaves clamps the count to 3..20.
+        /// KNOB: raise for FEWER, more spread-out locks (longer breaks between fights).</summary>
+        public float ArenaSpacingWu = 500f;
 
         /// <summary>The ordered spine: vignette / spawn / checkpoint / filler-marker / boss waves.</summary>
         public readonly List<Wave> Waves = new();

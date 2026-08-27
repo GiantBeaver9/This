@@ -13,7 +13,10 @@ namespace ThisL
     public sealed class StageFinaleProps : MonoBehaviour
     {
         private const int SandwichBrosStage = 1; // Stage 2 (0-based index)
-        public float LaneLen = 1600f;            // matches StageData.LaneLengthWu default
+        // The finale anchors to the ACTUAL running lane length (StageDirector publishes it), not a
+        // hardcoded 1600 — otherwise the store landed at 1600 and "the end was there immediately"
+        // once the lane grew. Falls back to 1600 if no stage is running yet.
+        private float LaneLen => StageDirector.ActiveLaneLengthWu;
 
         private int _lastStage = -1;
         private float _startX;
