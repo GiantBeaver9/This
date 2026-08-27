@@ -60,6 +60,16 @@ namespace ThisL
             {
                 new Zone { Frac = 0.66f, FracEnd = 1.0f, File = "sac_skyline", Tall = 12f, Z = Far, Foreground = false },
             },
+            // Level 5 (stage index 5): the causeway's SECOND HALF transitions into FARMLAND — a barn,
+            // a grain silo and hay bales spread along the back as you come off the water (creator).
+            5 => new[]
+            {
+                new Zone { Frac = 0.58f, File = "farmland/barn.png",    Tall = 5.2f, Z = Far, Foreground = false },
+                new Zone { Frac = 0.68f, File = "farmland/silo.png",    Tall = 6.0f, Z = Far, Foreground = false },
+                new Zone { Frac = 0.77f, File = "farmland/haybale.png", Tall = 1.5f, Z = Far, Foreground = false },
+                new Zone { Frac = 0.86f, File = "farmland/barn.png",    Tall = 4.3f, Z = Far, Foreground = false },
+                new Zone { Frac = 0.93f, File = "farmland/haybale.png", Tall = 1.4f, Z = Far, Foreground = false },
+            },
             _ => System.Array.Empty<Zone>(),
         };
 
