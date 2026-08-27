@@ -39,15 +39,22 @@ namespace ThisL
             StartCoroutine(WarnThenHazard(kind));
         }
 
-        /// <summary>Which nuisance haunts which stage (creator: "we decide on hazards per level").</summary>
+        /// <summary>Which nuisance haunts which level (creator: "we decide on hazards per level").
+        /// Theme-driven, NOT by stage index — L2 is stashed, so an index-keyed table put the guard
+        /// hazard on the skipped stage and left the playable mall bare. Keying off the backdrop theme
+        /// maps each of the four playable levels (Streets / Mall / Sac / Airport) to its hazard.</summary>
         private enum HazardKind { None, Car, Guard, Plane }
-        private static HazardKind KindForStage(int stage) => stage switch
+        private static HazardKind KindForStage(int stage)
         {
-            0 => HazardKind.Car,     // Lincoln High + suburb — cars barrel through
-            1 => HazardKind.Guard,   // Rocklin — security guards charge in
-            4 => HazardKind.Plane,   // Sacramento Airport — planes scream across the tarmac
-            _ => HazardKind.None,    // the rest: TBD per level
-        };
+            var data = StageDatabase.Get(stage);
+            return (data != null ? data.BackdropTheme : null) switch
+            {
+                "area1_suburb"  => HazardKind.Car,     // Streets — cars barrel through
+                "area1_mall"    => HazardKind.Guard,   // Mall — security guards charge across the concourse
+                "area2_airport" => HazardKind.Plane,   // Airport — a jet screams across the tarmac
+                _ => HazardKind.None,                  // Sac (Colossus/whip) + the rest: no environmental hazard
+            };
+        }
 
         private System.Collections.IEnumerator WarnThenHazard(HazardKind kind)
         {
