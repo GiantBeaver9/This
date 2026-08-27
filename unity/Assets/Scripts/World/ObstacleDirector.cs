@@ -48,8 +48,11 @@ namespace ThisL
             float progress = Mathf.Clamp01((playerX - _stageStartX) / rampLen);
             // lv1 drops 2 cars (both curbs) per step, so its spacing is wider than single-obstacle stages.
             // It also packs TIGHT near the end — a wall of parked cars approaching Sandwich Bros (creator).
-            float startSp = stage == 0 ? 46f : 72f;
-            float endSp   = stage == 0 ? 6f  : 22f;
+            // Golden Gate packs cars TONS-dense (2/step, tight) so there's always cover from the gunfire.
+            var data = StageDatabase.Get(stage);
+            bool gg = data != null && data.BackdropTheme == "area4_goldengate";
+            float startSp = stage == 0 ? 46f : gg ? 30f : 72f;
+            float endSp   = stage == 0 ? 6f  : gg ? 9f  : 22f;
             return Mathf.Lerp(startSp, endSp, progress);
         }
 
@@ -72,30 +75,39 @@ namespace ThisL
 
         private static void PlaceAt(float x, int stage)
         {
-            if (stage == 0)
+            var data = StageDatabase.Get(stage);
+            switch (data != null ? data.BackdropTheme : null)
             {
-                // Lincoln: the UPPER car parks up on the far sidewalk against the houses; the LOWER car
-                // sits out in the MIDDLE of the street (creator), leaving the near sidewalk clear so the
-                // player can walk below it. Stagger them so the two aren't perfectly abreast.
-                // Pulled DOWN toward the player (creator): the near car sits at the lower curb, the far
-                // car just above mid-street — both low on screen, not up against the houses.
-                SpawnCar(x,      0.6f);                    // lower curb, right by the near sidewalk
-                SpawnCar(x + 8f, 4.8f);                    // upper car ONE LANE UP (far lane, off mid-street)
-                return;
+                case "area1_suburb":     // Streets: two staggered curb cars (near curb + far lane)
+                    SpawnCar(x, 0.6f);
+                    SpawnCar(x + 8f, 4.8f);
+                    return;
+                case "area4_goldengate": // Golden Gate: TONS of parked cars = cover from the gatling's fire
+                    SpawnCar(x, Random.Range(0.6f, 2.2f));
+                    SpawnCar(x + Random.Range(3f, 6f), Random.Range(3.4f, 5.0f));
+                    return;
+                case "area1_mall":       // Mall: centre-lane kiosk (weave above/below)
+                case "area4_vallejo":    // Six Flags: food/bathroom vendor stalls (same stall art)
+                    SpawnKiosk(x);
+                    return;
+                case "area4_marin":      // Redwoods: a tall tree to weave around
+                    SpawnRedwood(x);
+                    return;
+                default:
+                    float z = Random.Range(1.2f, Tuning.ZBandDepth - 1.2f);   // leave a lane open on either side
+                    Obstacle.Spawn(CrateSprite(), x, z, 0.7f, 0.6f, new Vector2(1.8f, 1.8f)); // generic crates
+                    return;
             }
-            // MALL: a concourse kiosk parked in the MIDDLE of the lane (creator: "kiosk … in the middle
-            // vs sides for parked cars") — the player weaves above or below it.
-            if (IsMallStage(stage)) { SpawnKiosk(x); return; }
-            float z = Random.Range(1.2f, Tuning.ZBandDepth - 1.2f);   // leave a lane open on either side
-            Obstacle.Spawn(CrateSprite(), x, z, 0.7f, 0.6f, new Vector2(1.8f, 1.8f)); // generic crates
         }
 
-        /// <summary>True when the given campaign stage index uses the mall interior (so obstacles are
-        /// centre-lane kiosks, not curb-side cars). Theme-driven so it survives stage reordering.</summary>
-        private static bool IsMallStage(int stage)
+        /// <summary>Drop a tall redwood to weave around (small trunk footprint; the canopy is visual).</summary>
+        private static void SpawnRedwood(float x)
         {
-            var data = StageDatabase.Get(stage);
-            return data != null && data.BackdropTheme == "area1_mall";
+            var spr = RedwoodSprite();
+            float natH = spr.rect.height / Tuning.PixelsPerUnit;
+            float sc = natH > 0.1f ? 6.0f / natH : 2.0f;                     // ~6 wu tall
+            float z = Random.Range(1.0f, Tuning.ZBandDepth - 1.0f);
+            Obstacle.Spawn(spr, x, z, 0.6f, 0.5f, new Vector2(sc, sc));
         }
 
         /// <summary>Drop one random parked car on a curb SIDE, normalised to ~6.6 wu wide — 50% bigger
@@ -119,8 +131,11 @@ namespace ThisL
         }
 
         // ---- Prop sprites (real art from assets/sprites/props, procedural fallback) ----------
-        private static Sprite _kiosk, _crate;
+        private static Sprite _kiosk, _crate, _redwood;
         private static Sprite[] _cars, _kiosks;
+
+        private static Sprite RedwoodSprite() =>
+            _redwood ??= (LoadProp("redwood.png", Tuning.PixelsPerUnit, 0.02f) ?? CrateSprite());
 
         /// <summary>A RANDOM mall kiosk from assets/sprites/props/kiosk*.png (variety, like the car set);
         /// falls back to the procedural stall if the art is absent.</summary>

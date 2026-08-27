@@ -48,6 +48,10 @@ namespace ThisL
             Life -= dt;
             if (Life <= 0f) { Destroy(gameObject); return; }
 
+            // COVER: a shot that runs into a static obstacle (a parked car, a crate) is absorbed —
+            // hide behind the Golden Gate's parked cars to break the gatling's line of fire (creator).
+            if (Obstacle.Blocks(WorldX, Z)) { Vfx.HitSpark(WorldX, Z); Destroy(gameObject); return; }
+
             foreach (var a in Actor.All)
             {
                 if (!a.Alive || a.Team == OwnerTeam) continue;

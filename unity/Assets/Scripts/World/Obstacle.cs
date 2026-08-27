@@ -36,6 +36,18 @@ namespace ThisL
             if (_sr != null) _sr.sortingOrder = Playfield.SortingOrder(Z); // depth-sorted like an actor on its row
         }
 
+        /// <summary>True if (x,z) sits inside any obstacle footprint — used to absorb projectiles so
+        /// parked cars / crates act as cover from gunfire.</summary>
+        public static bool Blocks(float x, float z)
+        {
+            foreach (var o in All)
+            {
+                if (o == null) continue;
+                if (x > o.X - o.HalfX && x < o.X + o.HalfX && z > o.Z - o.HalfZ && z < o.Z + o.HalfZ) return true;
+            }
+            return false;
+        }
+
         /// <summary>Push (<paramref name="x"/>,<paramref name="z"/>) out of any obstacle footprint
         /// (expanded by the mover's <paramref name="rad"/>), along whichever axis it's least inside —
         /// so you slide along the object instead of walking through it.</summary>
