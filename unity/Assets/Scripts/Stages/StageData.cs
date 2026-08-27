@@ -54,6 +54,11 @@ namespace ThisL
         /// clears the last wave and WALKS the final stretch (crossing the railroad) to the boss at the
         /// store. Off by default — most bosses want the tighter "next room" anchor.</summary>
         public bool BossAtLaneEnd = false;
+
+        /// <summary>STASHED: kept in the database but SKIPPED by the campaign flow (CampaignRunner steps
+        /// over it). Lets us pull a stage out of the run without renumbering every index-keyed system
+        /// (hazards, backdrops). Creator: "stash L2, point L1 to L3."</summary>
+        public bool Stashed = false;
     }
 
     /// <summary>What a <see cref="Wave"/> is. Vignette/Checkpoint auto-advance (no kill-gate);

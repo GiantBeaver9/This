@@ -79,6 +79,7 @@ namespace ThisL
                     DisplayName = "Roseville Galleria (Mall)",
                     Area = "Placer Suburbs & Mall",
                     BackdropTheme = "area1_mall",
+                    Stashed = true,            // creator: "stash L2, point L1 to L3" — skipped by the campaign
                     MusicClip = "a1_surfrock_opener",
                     AmbientClip = "lincoln_birds_traffic",
                     NewestArchetype = EnemyArchetype.Regular,

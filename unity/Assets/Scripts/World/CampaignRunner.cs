@@ -36,7 +36,16 @@ namespace ThisL
         {
             EnsureDirector();
             gameObject.AddComponent<StageMarkers>();   // visible progression (barricade + GO + banners)
-            StartStage(0);
+            StartStage(NextPlayable(0));
+        }
+
+        /// <summary>First non-stashed stage at or after <paramref name="from"/> (creator: "stash L2, point
+        /// L1 to L3" — the campaign steps over stashed stages without renumbering the database).</summary>
+        private static int NextPlayable(int from)
+        {
+            int n = Mathf.Max(0, from);
+            while (n < StageDatabase.StageCount && StageDatabase.Get(n) != null && StageDatabase.Get(n).Stashed) n++;
+            return n;
         }
 
         /// <summary>Create the StageDirector on demand — so StartStage/SkipToNext are safe even if
@@ -64,7 +73,7 @@ namespace ThisL
             foreach (var p in Object.FindObjectsByType<Projectile>(FindObjectsInactive.Exclude)) kill.Add(p.gameObject);
             foreach (var go in kill) if (go != null) Destroy(go);
 
-            int next = CurrentStage + 1;
+            int next = NextPlayable(CurrentStage + 1);
             if (next >= StageDatabase.StageCount) { WinRun(); return; }
             StartStage(next);
         }
@@ -81,7 +90,7 @@ namespace ThisL
         {
             if (_campaignComplete) return;
 
-            int next = CurrentStage + 1;
+            int next = NextPlayable(CurrentStage + 1);
             if (next >= StageDatabase.StageCount)
             {
                 WinRun();
