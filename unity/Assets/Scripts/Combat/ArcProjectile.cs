@@ -51,9 +51,11 @@ namespace ThisL
         private float _t;
         private SpriteRenderer _sr;
 
+        private float _spin;   // deg/sec tumble (a thrown body cartwheels); 0 = no spin
+
         public static ArcProjectile Spawn(Team ownerTeam, float sx, float sz,
                                           float tx, float tz, float damage, Color color,
-                                          float airTime = 0.9f)
+                                          float airTime = 0.9f, Sprite sprite = null, float spinDegPerSec = 0f)
         {
             var go = new GameObject("arc_projectile");
             var p = go.AddComponent<ArcProjectile>();
@@ -62,8 +64,9 @@ namespace ThisL
             p.TargetX = tx; p.TargetZ = Mathf.Clamp(tz, 0f, Tuning.ZBandDepth);
             p.Damage = damage;
             p.AirTime = Mathf.Max(0.1f, airTime);
+            p._spin = spinDegPerSec;
             p._sr = go.AddComponent<SpriteRenderer>();
-            p._sr.sprite = Blob();
+            p._sr.sprite = sprite != null ? sprite : Blob();   // a real body (thrown stick figure) or the plain blob
             p._sr.color = color;
             return p;
         }
@@ -100,6 +103,7 @@ namespace ThisL
             var pos = transform.position;
             pos.y += ArcHeight * 4f * u * (1f - u); // 0 -> peak -> 0 parabola
             transform.position = pos;
+            if (_spin != 0f) transform.rotation = Quaternion.Euler(0f, 0f, _t * _spin); // tumbling body
             if (_sr != null) _sr.sortingOrder = 900; // ALL projectiles render on top (creator: you must see them coming, even if depth says otherwise)
         }
 

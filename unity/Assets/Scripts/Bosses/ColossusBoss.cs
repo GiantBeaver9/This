@@ -42,7 +42,8 @@ namespace ThisL
             if (_spitTimer <= 0f)
             {
                 RunAttack(PieceSpit(player));
-                _spitTimer = 4f;
+                _spitTimer = Random.Range(2.5f, 4.5f);      // random cadence, faster once pieces come off
+                if (CurrentPhase >= 2) _spitTimer *= 0.75f;
                 return;
             }
             if (_swipeTimer <= 0f)
@@ -71,11 +72,29 @@ namespace ThisL
             Sfx.Play("boss_windup");
             yield return Telegraph(0.5f);
             if (!Alive || p == null) yield break;
-            int spits = CurrentPhase >= 3 ? 2 : 1;          // "cornered giant" spits two at once
+            // GRAB one of its own stick figures and CHUCK it at you — a tumbling body that
+            // splats where you're standing (creator: "randomly throw other stick figures at you").
+            int spits = CurrentPhase >= 3 ? 2 : 1;          // "cornered giant" hurls two at once
             for (int i = 0; i < spits; i++)
-                ArcProjectile.Spawn(Team.Enemy, WorldX, Z, p.WorldX, p.Z, 15f,
-                                    new Color(0.9f, 0.9f, 0.95f), airTime: 0.8f);
+            {
+                float tx = p.WorldX + Random.Range(-1.2f, 1.2f);  // random scatter — not a homing shot
+                float tz = Mathf.Clamp(p.Z + Random.Range(-0.8f, 0.8f), 0f, Tuning.ZBandDepth);
+                float spin = Random.value < 0.5f ? 540f : -540f;  // cartwheel either way
+                var body = ArcProjectile.Spawn(Team.Enemy, WorldX, Z + 1.2f, tx, tz, 15f,
+                                               Color.white, airTime: 0.85f, sprite: StickBody(), spinDegPerSec: spin);
+                if (body != null) body.SplashRadius = 1.2f;
+                Sfx.Play("whoosh_heavy");
+            }
             yield return Telegraph(0.2f);
+        }
+
+        private static Sprite _stickBody;
+        /// <summary>A single stick-figure frame to render the thrown body (enemy_regular idle).</summary>
+        private static Sprite StickBody()
+        {
+            if (_stickBody != null) return _stickBody;
+            _stickBody = SpriteLibrary.Load("sprites/enemies/enemy_regular", "enemy_regular")?.First;
+            return _stickBody;
         }
 
         // ---- Whip-pull objective (the win condition) --------------------------
