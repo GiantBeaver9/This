@@ -6,17 +6,17 @@
       {
         "name": "player_tactical_whip_idle_00.png",
         "rect": [
-          15,
-          2,
-          18,
+          22,
+          4,
+          20,
           51
         ]
       },
       {
         "name": "player_tactical_whip_idle_01.png",
         "rect": [
-          62,
-          1,
+          86,
+          3,
           19,
           52
         ]
@@ -24,160 +24,106 @@
       {
         "name": "player_tactical_whip_idle_02.png",
         "rect": [
-          110,
-          0,
-          19,
+          150,
+          2,
+          20,
           53
         ]
       },
       {
         "name": "player_tactical_whip_idle_03.png",
         "rect": [
-          154,
-          0,
-          27,
-          53
-        ]
-      },
-      {
-        "name": "player_tactical_whip_idle_04.png",
-        "rect": [
-          200,
-          0,
-          31,
-          53
+          214,
+          3,
+          20,
+          52
         ]
       },
       {
         "name": "player_tactical_whip_swing_00.png",
         "rect": [
-          255,
-          2,
-          18,
-          51
+          274,
+          0,
+          27,
+          55
         ]
       },
       {
         "name": "player_tactical_whip_swing_01.png",
         "rect": [
-          303,
-          2,
-          18,
-          51
+          327,
+          0,
+          49,
+          55
         ]
       },
       {
         "name": "player_tactical_whip_swing_02.png",
         "rect": [
-          351,
-          2,
-          18,
-          51
+          384,
+          0,
+          64,
+          55
         ]
       },
       {
         "name": "player_tactical_whip_swing_03.png",
         "rect": [
+          448,
           0,
-          55,
-          48,
-          51
+          64,
+          55
         ]
       },
       {
         "name": "player_tactical_whip_swing_04.png",
         "rect": [
-          52,
-          55,
-          39,
-          51
-        ]
-      },
-      {
-        "name": "player_tactical_whip_swing_05.png",
-        "rect": [
-          99,
-          55,
-          42,
-          51
-        ]
-      },
-      {
-        "name": "player_tactical_whip_swing_06.png",
-        "rect": [
-          144,
-          55,
-          47,
-          51
+          16,
+          58,
+          31,
+          52
         ]
       },
       {
         "name": "player_tactical_whip_walk_00.png",
         "rect": [
-          207,
-          55,
-          18,
+          87,
+          59,
+          17,
           51
         ]
       },
       {
         "name": "player_tactical_whip_walk_01.png",
         "rect": [
-          254,
-          54,
-          19,
-          52
+          148,
+          59,
+          24,
+          51
         ]
       },
       {
         "name": "player_tactical_whip_walk_02.png",
         "rect": [
-          299,
-          56,
-          25,
-          50
-        ]
-      },
-      {
-        "name": "player_tactical_whip_walk_03.png",
-        "rect": [
-          350,
-          57,
-          19,
-          49
-        ]
-      },
-      {
-        "name": "player_tactical_whip_walk_04.png",
-        "rect": [
-          15,
-          108,
+          215,
+          59,
           18,
           51
         ]
       },
       {
-        "name": "player_tactical_whip_walk_05.png",
+        "name": "player_tactical_whip_walk_03.png",
         "rect": [
-          61,
-          108,
-          21,
+          275,
+          59,
+          26,
           51
-        ]
-      },
-      {
-        "name": "player_tactical_whip_walk_06.png",
-        "rect": [
-          107,
-          109,
-          25,
-          50
         ]
       }
     ],
     "size": [
-      384,
-      159
+      512,
+      110
     ]
   },
   "ppu": 24,
