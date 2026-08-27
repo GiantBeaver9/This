@@ -106,16 +106,21 @@ namespace ThisL
                     e.TakeDamage(45f, p);                                // massive damage, keeps drops
                     hit++;
                 }
-                // Visible SPREAD: a fan of pellets across the cone width so it reads as a giant shotgun
-                // blast (the cone above is the reliable damage/knockback; these sell the spread).
-                for (int i = 0; i < 9; i++)
+                // EXPANDING ARC of bullets (creator: "an expanding arc of bullets that cone out and hit
+                // all enemies downstream"): a fan of pellet projectiles that start tight at the barrel and
+                // FAN OUT in depth (VelZ) as they fly forward — a real widening shotgun cone. Each pellet
+                // deals chip damage so it visibly clips enemies across the whole downstream cone (the
+                // hit-scan above is the reliable big hit/knockback).
+                const int pellets = 15;
+                for (int i = 0; i < pellets; i++)
                 {
-                    float dz = Mathf.Lerp(-1.6f, 1.6f, i / 8f);
-                    Projectile.Spawn(Team.Player, p.WorldX + p.Facing * 0.7f,
-                                     Mathf.Clamp(p.Z + dz, 0f, Tuning.ZBandDepth), p.Facing, 24f, 6,
-                                     new Color(1f, 0.85f, 0.4f));
+                    float f = (i / (pellets - 1f)) * 2f - 1f;                 // -1..1 across the fan
+                    var pel = Projectile.Spawn(Team.Player, p.WorldX + p.Facing * 0.7f, p.Z,
+                                               p.Facing, 26f, 8, new Color(1f, 0.85f, 0.4f));
+                    pel.VelZ = f * 6.5f;                                       // outward depth spread = the CONE
+                    pel.Life = length / 26f + 0.2f;                           // reach ~the cone length, then vanish
                 }
-                Debug.Log($"[Special] Giant Shotgun tier {tier}: {hit} blasted back + floored 3.6s.");
+                Debug.Log($"[Special] Giant Shotgun tier {tier}: {hit} coned + {pellets}-pellet expanding arc.");
             });
         }
     }

@@ -13,6 +13,7 @@ namespace ThisL
     {
         public Team OwnerTeam;
         public float WorldX, Z, VelX, Damage;
+        public float VelZ;                     // >0 => the shot fans out in depth (shotgun cone spread)
         public float Life = 3f;
         public float StunSeconds;              // >0 => stagger instead of damage (boomerang)
         public float ZombifyChance;            // >0 on gun rounds: a lethal hit may raise a zombie (§3.1)
@@ -43,6 +44,7 @@ namespace ThisL
         {
             float dt = Time.deltaTime;
             WorldX += VelX * dt;
+            if (VelZ != 0f) Z = Mathf.Clamp(Z + VelZ * dt, 0f, Tuning.ZBandDepth); // shotgun cone fans out in depth
             Life -= dt;
             if (Life <= 0f) { Destroy(gameObject); return; }
 
