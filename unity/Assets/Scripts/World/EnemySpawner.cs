@@ -22,6 +22,10 @@ namespace ThisL
         public static int KillsThisStage;
         public static string StageLabel = "";
 
+        /// <summary>True while an Endless run is live — the HUD shows the running kill tally, and the
+        /// difficulty ramp (DifficultySettings.EndlessPressure) is active. Reset per world build.</summary>
+        public static bool EndlessMode;
+
         public static void NotifyKill() => KillsThisStage++;
 
         // ---- Tunable knobs ------------------------------------------------------

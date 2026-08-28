@@ -83,6 +83,10 @@ namespace ThisL
         private float _invuln;             // Werewolf transform i-frames, etc.
         private float _dmgBuffMult = 1f;   // Underdog Vaporize +20% window
         public static bool GodMode;        // TEMP DEBUG: K toggles invincible + infinite special
+
+        /// <summary>Dev-only cheat keys (K god mode, I fill-special, O skip-stage, J cycle-weapon) and
+        /// the DEBUG HUD are stripped from the public WebGL build so demo players can't cheat.</summary>
+        public static bool CheatsEnabled => Application.platform != RuntimePlatform.WebGLPlayer;
         private float _dmgBuffTimer;
 
         // Movement / dash / jump
@@ -269,7 +273,8 @@ namespace ThisL
 
             // ---- TEMP DEBUG keys (deliberate, non-gameplay keys; delete before ship) ----
             // Keyboard-only + P1-only so a second player's Update doesn't double-fire them.
-            if (this == Primary)
+            // CheatsEnabled is false on the public WebGL build → cheats fully off for demo players.
+            if (this == Primary && CheatsEnabled)
             {
                 if (Input.GetKeyDown(KeyCode.I)) Meter.Award(Tuning.MeterMax);          // I = fill special once
                 if (Input.GetKeyDown(KeyCode.O)) CampaignRunner.Instance?.SkipToNext(); // O = skip to next stage
@@ -1492,6 +1497,12 @@ namespace ThisL
         private WeaponKind _overlayKind = WeaponKind.Fists;
         private float _overlayScale = 1f;   // shrink the (96px-canvas) weapon art to match the 68px base
 
+        /// <summary>Heroes whose weapon overlays are colour-faithful. All four now use the v3-custom-
+        /// animation overlays (weapon in-hand through the swing, appearance on-model). The earlier
+        /// template-based swings drifted Aaron/Gabe/Bert (Gabe turned pale); the redo fixed that.</summary>
+        private static readonly HashSet<string> OverlayHeroes =
+            new() { "player_tactical", "player_shotgunner", "player_werewolf", "player_underdog" };
+
         /// <summary>Point the animator at this hero's per-weapon idle/swing atlas when one exists
         /// (assets/sprites/characters/&lt;hero&gt;_&lt;weapon&gt;); clear it for fists / un-arted weapons.
         /// Reactive to any equip/discard path since it keys off the current weapon each frame.</summary>
@@ -1506,7 +1517,8 @@ namespace ThisL
             string wname = kind.ToString().ToLowerInvariant();
             string dir = $"sprites/characters/{Character.SpriteActor}_{wname}";
             string actor = $"{Character.SpriteActor}_{wname}";
-            Anim.Overlay = SpriteLibrary.HasAtlas(dir, actor) ? SpriteLibrary.Load(dir, actor) : null;
+            Anim.Overlay = (OverlayHeroes.Contains(Character.SpriteActor) && SpriteLibrary.HasAtlas(dir, actor))
+                ? SpriteLibrary.Load(dir, actor) : null;
             // Ranged weapons: carry the base melee idle/walk (rifle slung) and only show the weapon
             // pose when firing; melee weapons hold their weapon in idle/walk as before.
             Anim.OverlayIdleWalk = !(CurrentWeapon != null && CurrentWeapon.IsRanged);
@@ -1592,10 +1604,14 @@ namespace ThisL
         private void UpdateAnimation()
         {
             RefreshWeaponOverlay();
+            // The special's spin→aim→fire clip plays at real 12fps through the cinematic slow-mo.
+            Anim.Unscaled = _specialLock > 0f;
             if (_phase != Phase.None) return; // attack clip already playing
             // HOLD the gun's aim/fire pose through the aim wind-up + fire recover, so the shooting
             // animation actually shows instead of snapping straight back to idle (creator).
-            if (_aimTimer > 0f || _fireLock > 0f) return;
+            // _specialLock: same idea for the cinematic special — let the "special" clip
+            // (spin→aim→fire pixel art) play out instead of idle stomping it every frame.
+            if (_aimTimer > 0f || _fireLock > 0f || _specialLock > 0f) return;
             if (_airDashing) { Anim.Play("dash", false); return; }
             if (_airborne) { Anim.Play("jump", false); return; }
             // Shoving an enemy → a looping shoulder-charge sprint; a clean dash → the slide.
@@ -1683,8 +1699,11 @@ namespace ThisL
             GUI.matrix = Matrix4x4.TRS(Vector3.zero, Quaternion.identity, new Vector3(scale, scale, 1f));
             float w = Screen.width / scale;
 
-            GUI.color = new Color(1f, 1f, 1f, 0.32f);
-            GUI.Label(new Rect(6, 342, 360, 16), "DEBUG   I: fill special    O: skip stage    K: god mode");
+            if (CheatsEnabled)
+            {
+                GUI.color = new Color(1f, 1f, 1f, 0.32f);
+                GUI.Label(new Rect(6, 342, 360, 16), "DEBUG   I: fill special    O: skip stage    K: god mode");
+            }
 
             if (GodMode)
             {

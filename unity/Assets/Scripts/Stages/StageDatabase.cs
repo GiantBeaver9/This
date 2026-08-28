@@ -362,7 +362,7 @@ namespace ThisL
                     DisplayName = "Salesforce Rooftop → Phil",
                     Area = "Finale",
                     BackdropTheme = "finale_rooftop",
-                    MusicClip = "finale_rooftop_approach",
+                    MusicClip = "a4_electropunk",   // reuse the SF Streets bed for the rooftop approach (creator)
                     AmbientClip = "finale_rooftop_wind",
                     LaneLengthWu = 30f, // pure boss arena (ENCOUNTERS.md boss-arena table: Phil 30 × 8 wu)
                     NewestArchetype = EnemyArchetype.Heavy,

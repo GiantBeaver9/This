@@ -485,6 +485,16 @@ namespace ThisL
                     if (kind.HasValue) Pickup.SpawnWeapon(kind.Value, WorldX, Z);
                 }
                 HealPickup.MaybeDrop(WorldX, Z);
+
+                // Area-3+ economy (WEAPONS.md §3.7/§3.9). A Monkey drops the Merc-claim token; every
+                // other non-swarm enemy has a chance at a coin (value tiers by toughness: reg 10 / gun
+                // 20 / heavy 30). Swarmers drop nothing.
+                if (Economy.Active)
+                {
+                    if (Def.Id == "economy_monkey") MercTokenPickup.Spawn(WorldX, Z);
+                    else if (Def.Id != "swarmer" && Random.value < 0.35f)
+                        CoinPickup.Spawn(WorldX, Z, Economy.CoinValueFor(Def.Id));
+                }
             }
             Destroy(gameObject, 1.0f); // let the death frames play out
         }

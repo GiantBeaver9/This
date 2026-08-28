@@ -133,12 +133,16 @@ namespace ThisL
                 _windup = Def.WindupSeconds;
                 _targetX = player.WorldX;
                 _targetZ = player.Z;
-                Anim.Play("attack_side", false, restart: true);   // arms up working the head (regular has no attack_up)
                 if (_isHead)
                 {
-                    _wiggle = MakeWiggleHead();     // the head, held overhead, about to be wiggled + chucked
+                    // Rip the head OFF the body FIRST (swap to the headless sprite) so you don't see a
+                    // second head floating over a still-headed body (creator: "they have a head on top
+                    // of them"). Now it's a headless body holding its own head overhead.
+                    SwapToHeadlessSprite();
+                    _wiggle = MakeWiggleHead();     // the ripped-off head, held overhead, about to be chucked
                     Sfx.Play("guard_whistle");      // a "grab" tell (missing sfx no-ops)
                 }
+                Anim.Play("attack_side", false, restart: true);   // arms up working the head
             }
             else
             {
@@ -156,11 +160,23 @@ namespace ThisL
         }
 
         // ---- Head-throw helpers -------------------------------------------------
+        private bool _headlessSprite;
+        /// <summary>Swap the body art to the headless stick figure (visual only). Called when the head is
+        /// grabbed for the wind-up AND on the final throw, so the body never shows two heads.</summary>
+        private void SwapToHeadlessSprite()
+        {
+            if (_headlessSprite) return;
+            if (SpriteLibrary.HasAtlas("sprites/enemies/enemy_headless", "enemy_headless"))
+            {
+                Anim.Set = SpriteLibrary.Load("sprites/enemies/enemy_headless", "enemy_headless");
+                _headlessSprite = true;
+            }
+        }
+
         private void GoHeadless()
         {
             _headless = true;
-            if (SpriteLibrary.HasAtlas("sprites/enemies/enemy_headless", "enemy_headless"))
-                Anim.Set = SpriteLibrary.Load("sprites/enemies/enemy_headless", "enemy_headless");
+            SwapToHeadlessSprite();
             if (Sr != null) Sr.color = Color.white;
             Anim.Play("walk", true, restart: true);
         }
@@ -181,20 +197,19 @@ namespace ThisL
             const int d = 13;
             var tex = new Texture2D(d, d, TextureFormat.RGBA32, false) { filterMode = FilterMode.Point };
             var px = new Color32[d * d];
-            var skin = new Color32(224, 178, 140, 255);           // a real HEAD, not a pale bomb
-            var hair = new Color32(70, 52, 44, 255);
-            var dark = new Color32(30, 26, 24, 255);
+            // A DARK-BLACK stick-figure head (creator: "head should be dark black") — matches the
+            // black stick-figure enemies, not the old skin-toned face.
+            var black = new Color32(20, 18, 22, 255);
+            var rim = new Color32(6, 6, 8, 255);
             float r = d / 2f;
             for (int y = 0; y < d; y++)
                 for (int x = 0; x < d; x++)
                 {
                     float dx = x - r + 0.5f, dy = y - r + 0.5f;
-                    if (dx * dx + dy * dy > r * r) { px[y * d + x] = new Color32(0, 0, 0, 0); continue; }
-                    px[y * d + x] = y >= d - 4 ? hair : skin;     // hair on top (y grows up)
+                    float d2 = dx * dx + dy * dy;
+                    if (d2 > r * r) { px[y * d + x] = new Color32(0, 0, 0, 0); continue; }
+                    px[y * d + x] = d2 > (r - 1f) * (r - 1f) ? rim : black;   // subtle darker rim
                 }
-            void Set(int x, int y, Color32 c) { if (x >= 0 && x < d && y >= 0 && y < d) px[y * d + x] = c; }
-            Set(4, 7, dark); Set(8, 7, dark);                     // two eyes
-            Set(5, 4, dark); Set(6, 4, dark); Set(7, 4, dark);    // mouth
             tex.SetPixels32(px); tex.Apply();
             _headSprite = Sprite.Create(tex, new Rect(0, 0, d, d), new Vector2(0.5f, 0.5f), Tuning.PixelsPerUnit);
             return _headSprite;

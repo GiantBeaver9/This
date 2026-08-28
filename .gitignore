@@ -23,3 +23,6 @@ __pycache__/
 # Sprite pipeline backups/scratch
 *.prev
 *.concept
+
+# WebGL deploy copy (built + pushed separately to the Railway repo)
+webgl/

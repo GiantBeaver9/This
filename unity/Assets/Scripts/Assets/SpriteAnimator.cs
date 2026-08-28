@@ -28,6 +28,11 @@ namespace ThisL
 
         public int Fps = Tuning.AnimFps;
 
+        /// <summary>Advance on unscaled time (ignore Time.timeScale). The cinematic special slows the
+        /// world to a crawl; the character's own spin→aim→fire clip should still play at the authored
+        /// 12fps and hold the fire frame, not freeze mid-spin. Set by the player while special-posing.</summary>
+        [System.NonSerialized] public bool Unscaled;
+
         private SpriteRenderer _sr;
         private Sprite[] _frames;
         private string _clip;
@@ -123,7 +128,7 @@ namespace ThisL
             if (_frames == null || _frames.Length == 0) return;
             if (_finished && !_loop) return;
 
-            _t += Time.deltaTime * Fps;
+            _t += (Unscaled ? Time.unscaledDeltaTime : Time.deltaTime) * Fps;
             int idx = Mathf.FloorToInt(_t);
             if (_loop)
             {

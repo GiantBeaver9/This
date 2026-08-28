@@ -37,6 +37,11 @@ namespace ThisL
         private int _charIndex;            // highlighted fighter card on character select (keyboard/pad cursor)
         private int _setupRow;             // highlighted row on the player-setup screen (keyboard/pad cursor)
         private GameObject _worldRoot;
+
+        // ---- Pause (ESC / controller Start) — overlays a LIVE run and hard-freezes time ----
+        private bool _paused;
+        private int _pauseIndex;             // 0 = Continue, 1 = Main Menu
+        public bool IsPaused => _paused;
         private CharacterDef[] _roster;
         private GUIStyle _title, _hdr, _label, _btn, _special;
         private GUIStyle _titleBig, _titleMid, _titleSmall; // stacked, left-justified gag title
@@ -56,7 +61,20 @@ namespace ThisL
         // ---- Gamepad menu navigation (legacy Input; keyboard/mouse stay in OnGUI) --------------
         private void Update()
         {
-            if (Current == State.Playing) return;   // in-run pads are driven by the players/CoopJoin
+            if (Current == State.Playing)
+            {
+                // ESC / a player's controller Start toggles the pause overlay (never during the
+                // game-over beat). Unclaimed pads keep Start for CoopJoin's P2 drop-in.
+                if (_worldRoot != null && !_gameOver && PauseButtonDown()) TogglePause();
+                if (_paused)
+                {
+                    UpdatePauseMenu();
+                    // Re-assert the freeze: a HitStop / special slow-mo coroutine ticks on
+                    // unscaled time and would otherwise restore timeScale out from under us.
+                    if (_paused) Time.timeScale = 0f;
+                }
+                return;   // in-run pads are driven by the players/CoopJoin
+            }
             var nav = MenuPad.Poll();
             if (!nav.Any) return;
 
@@ -82,6 +100,8 @@ namespace ThisL
                     int n = _roster.Length;
                     if (nav.Left)  { _charIndex = (_charIndex + n - 1) % n; Sfx.Play("menu_move"); }
                     if (nav.Right) { _charIndex = (_charIndex + 1) % n; Sfx.Play("menu_move"); }
+                    if (nav.Up)    CycleDifficulty(-1);   // ↑↓ = Easy / Medium / Hard (Left/Right owns the roster)
+                    if (nav.Down)  CycleDifficulty(+1);
                     if (nav.Confirm) SelectChar(_charIndex);
                     else if (nav.Back) CharSelectBack();
                     break;
@@ -245,6 +265,9 @@ namespace ThisL
         private GameObject BuildWorldCore()
         {
             TeardownWorld();
+            // Campaign defaults; BuildEndlessWorld's StartEndless flips these on right after.
+            EnemySpawner.EndlessMode = false;
+            DifficultySettings.EndlessPressure = 1f;
             _worldRoot = new GameObject("World");
 
             var pGo = new GameObject("Player");
@@ -388,10 +411,88 @@ namespace ThisL
             _worldRoot = null;
         }
 
+        // ---- Pause menu ------------------------------------------------------
+        /// <summary>ESC, or the Start button (7) on a CLAIMED pad — a controller that already drives
+        /// a player. Unclaimed pads keep Start for <see cref="CoopJoin"/>'s P2 drop-in, so pause and
+        /// mid-run join never fight over the same button.</summary>
+        private static bool PauseButtonDown()
+        {
+            if (Input.GetKeyDown(KeyCode.Escape)) return true;
+            var names = Input.GetJoystickNames();
+            int count = Mathf.Min(names.Length, 8);
+            for (int i = 0; i < count; i++)
+            {
+                if (string.IsNullOrEmpty(names[i]) || !GamepadInput.IsClaimed(i)) continue;
+                var startKey = (KeyCode)((int)KeyCode.Joystick1Button0 + i * 20 + 7);
+                if (Input.GetKeyDown(startKey)) return true;
+            }
+            return false;
+        }
+
+        private void TogglePause() => SetPaused(!_paused);
+
+        private void SetPaused(bool p)
+        {
+            if (_paused == p) return;
+            _paused = p;
+            _pauseIndex = 0;
+            Time.timeScale = p ? 0f : 1f;   // hard freeze; resume restores normal speed
+            Sfx.Play(p ? "menu_move" : "confirm");
+        }
+
+        private void UpdatePauseMenu()
+        {
+            if (Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.W)) _pauseIndex = 0;
+            if (Input.GetKeyDown(KeyCode.DownArrow) || Input.GetKeyDown(KeyCode.S)) _pauseIndex = 1;
+            var nav = MenuPad.Poll();
+            if (nav.Up) _pauseIndex = 0;
+            if (nav.Down) _pauseIndex = 1;
+            if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.Space) || nav.Confirm)
+                ActivatePauseItem();
+        }
+
+        private void ActivatePauseItem()
+        {
+            if (_pauseIndex == 0) SetPaused(false);                    // Continue
+            else { SetPaused(false); Sfx.Play("confirm"); GoTitle(); } // Main Menu (timeScale restored first)
+        }
+
+        private void DrawPauseMenu()
+        {
+            EnsureStyles();
+            float scale = Screen.height / 360f;
+            GUI.matrix = Matrix4x4.TRS(Vector3.zero, Quaternion.identity, new Vector3(scale, scale, 1f));
+            float w = Screen.width / scale, h = 360f;
+
+            GUI.color = new Color(0.03f, 0.04f, 0.07f, 0.72f);   // dim the frozen playfield
+            GUI.DrawTexture(new Rect(0, 0, w, h), Texture2D.whiteTexture);
+            GUI.color = Color.white;
+
+            GUI.Label(new Rect(0, 92, w, 40), "PAUSED", _title);
+
+            string[] items = { "CONTINUE", "MAIN MENU" };
+            const float bw = 220f, bh = 34f, gap = 12f;
+            float bx = (w - bw) / 2f, by = 168f;
+            for (int i = 0; i < items.Length; i++)
+            {
+                var r = new Rect(bx, by + i * (bh + gap), bw, bh);
+                if (Event.current.type == EventType.MouseMove && r.Contains(Event.current.mousePosition)) _pauseIndex = i;
+                bool sel = i == _pauseIndex;
+                GUI.color = sel ? new Color(0.95f, 0.85f, 0.25f) : new Color(0.18f, 0.22f, 0.32f);
+                GUI.DrawTexture(r, Texture2D.whiteTexture);
+                GUI.color = sel ? Color.black : Color.white;
+                GUI.Label(new Rect(r.x, r.y + 7, r.width, r.height), items[i], _label);
+                GUI.color = Color.white;
+                if (Event.current.type == EventType.MouseDown && r.Contains(Event.current.mousePosition))
+                { _pauseIndex = i; ActivatePauseItem(); }
+            }
+            GUI.Label(new Rect(0, by + 2 * (bh + gap) + 10, w, 16), "ESC / Start to resume", _hint);
+        }
+
         // ---- Placeholder IMGUI screens --------------------------------------
         private void OnGUI()
         {
-            if (Current == State.Playing) return;
+            if (Current == State.Playing) { if (_paused) DrawPauseMenu(); return; }
 
             EnsureStyles();
             float scale = Screen.height / 360f;
@@ -577,6 +678,15 @@ namespace ThisL
             _ => new KeyboardInput(),
         };
 
+        /// <summary>Cycle the shared Easy/Medium/Hard setting (↑↓ on character select). Wraps.</summary>
+        private void CycleDifficulty(int dir)
+        {
+            int count = System.Enum.GetValues(typeof(Difficulty)).Length;
+            int v = ((int)DifficultySettings.Current + dir + count) % count;
+            DifficultySettings.Current = (Difficulty)v;
+            Sfx.Play("menu_move");
+        }
+
         private void DiffButton(Rect r, Difficulty d, string label)
         {
             bool sel = DifficultySettings.Current == d;
@@ -656,7 +766,7 @@ namespace ThisL
 
             string who2 = _playerCount == 2 ? (_selectingP2 ? "P2: " : "P1: ") : "";
             GUI.Label(new Rect(0, h - 30, w, 24),
-                who2 + "← → move  ·  Enter / A to pick  ·  click, or press 1-4  ·  Esc / B to go back", _label);
+                who2 + "← → fighter  ·  ↑ ↓ difficulty  ·  Enter / A to pick  ·  1-4 jump  ·  Esc / B back", _label);
 
             // Keyboard cursor nav (pad nav lives in Update). Event-driven so each press moves one card.
             var ce = Event.current;
@@ -666,6 +776,8 @@ namespace ThisL
                 {
                     case KeyCode.LeftArrow:  case KeyCode.A: _charIndex = (_charIndex + n - 1) % n; Sfx.Play("menu_move"); break;
                     case KeyCode.RightArrow: case KeyCode.D: _charIndex = (_charIndex + 1) % n; Sfx.Play("menu_move"); break;
+                    case KeyCode.UpArrow:   case KeyCode.W: CycleDifficulty(-1); break;   // ↑↓ = difficulty
+                    case KeyCode.DownArrow: case KeyCode.S: CycleDifficulty(+1); break;
                     case KeyCode.Return: case KeyCode.KeypadEnter: case KeyCode.Space: SelectChar(_charIndex); return;
                     case KeyCode.Escape: CharSelectBack(); return;
                 }

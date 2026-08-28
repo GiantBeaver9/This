@@ -12,16 +12,26 @@ namespace ThisL
     {
         public static Difficulty Current = Difficulty.Hard;
 
-        /// <summary>Multiplier on how many enemies are present.</summary>
-        public static float EnemyCountMult => Current switch
+        /// <summary>Time-based ramp for Endless: the chosen difficulty is the CEILING, and the run
+        /// starts gentler and climbs toward (then past) it, so Endless isn't "instant hard". Scales
+        /// enemy count + damage on top of the difficulty base. Stays 1 in the campaign. Driven by
+        /// <see cref="StageDirector"/> while endless is live; reset to 1 on every world build.</summary>
+        public static float EndlessPressure = 1f;
+
+        /// <summary>Multiplier on how many enemies are present (× the Endless ramp).</summary>
+        public static float EnemyCountMult => BaseCountMult * EndlessPressure;
+
+        private static float BaseCountMult => Current switch
         {
             Difficulty.Easy => 0.55f,
             Difficulty.Medium => 0.8f,
             _ => 1f,
         };
 
-        /// <summary>Multiplier on damage enemies deal to the player.</summary>
-        public static float EnemyDamageMult => Current switch
+        /// <summary>Multiplier on damage enemies deal to the player (× the Endless ramp).</summary>
+        public static float EnemyDamageMult => BaseDamageMult * EndlessPressure;
+
+        private static float BaseDamageMult => Current switch
         {
             Difficulty.Easy => 0.5f,
             Difficulty.Medium => 0.75f,

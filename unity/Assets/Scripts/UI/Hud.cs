@@ -16,6 +16,7 @@ namespace ThisL
     {
         private GUIStyle _label;   // big (game over)
         private GUIStyle _cap;     // small bar caption
+        private GUIStyle _kills;   // endless kill tally
 
         private void OnGUI()
         {
@@ -88,6 +89,32 @@ namespace ThisL
 
             DrawBossBar(w);
 
+            // Endless: a running enemies-killed tally, centered up top (out of the way of the
+            // P1/P2 blocks and the boss bar).
+            if (EnemySpawner.EndlessMode)
+            {
+                _kills ??= new GUIStyle(GUI.skin.label)
+                { fontSize = 15, fontStyle = FontStyle.Bold, alignment = TextAnchor.UpperCenter };
+                GUI.color = new Color(0f, 0f, 0f, 0.55f);
+                GUI.DrawTexture(new Rect(w / 2f - 70f, 6f, 140f, 22f), Texture2D.whiteTexture);
+                GUI.color = new Color(0.95f, 0.85f, 0.3f);
+                GUI.Label(new Rect(w / 2f - 70f, 8f, 140f, 20f), $"KILLS  {EnemySpawner.KillsThisStage}", _kills);
+                GUI.color = Color.white;
+            }
+
+            // Area-3+ economy: coin wallet + merc-summon count, under the P1 block.
+            if (Economy.Active)
+            {
+                _kills ??= new GUIStyle(GUI.skin.label)
+                { fontSize = 15, fontStyle = FontStyle.Bold, alignment = TextAnchor.UpperCenter };
+                var walletStyle = new GUIStyle(_kills) { alignment = TextAnchor.MiddleLeft, fontSize = 13 };
+                GUI.color = new Color(0f, 0f, 0f, 0.5f);
+                GUI.DrawTexture(new Rect(12f, 70f, 150f, 20f), Texture2D.whiteTexture);
+                GUI.color = new Color(1f, 0.88f, 0.4f);
+                GUI.Label(new Rect(18f, 70f, 150f, 20f), $"¢ {Economy.Cents}   MERCS {Economy.SummonsThisLevel}/3", walletStyle);
+                GUI.color = Color.white;
+            }
+
             // Game over only once EVERYONE is down and the pool is spent.
             if (!PlayerController.AnyAlive && Lives.Count <= 0)
                 GUI.Label(new Rect(w / 2f - 60, 150, 200, 30), "GAME OVER", _label);
@@ -107,7 +134,7 @@ namespace ThisL
             _bossName ??= new GUIStyle(GUI.skin.label)
             { fontSize = 13, fontStyle = FontStyle.Bold, alignment = TextAnchor.MiddleCenter };
 
-            float bw = 300f, bx = (w - bw) * 0.5f, by = 32f;
+            float bw = 300f, bx = (w - bw) * 0.5f, by = 64f;   // dropped ~2 bar-heights so it clears the P1/P2 HUD block
             float frac = boss.MaxHp > 0f ? Mathf.Clamp01(boss.Hp / boss.MaxHp) : 0f;
 
             GUI.color = Color.white;

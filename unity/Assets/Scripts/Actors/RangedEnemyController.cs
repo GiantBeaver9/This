@@ -56,7 +56,7 @@ namespace ThisL
                 {
                     _aiming = false;
                     if (Sr != null) Sr.color = Color.white;
-                    _fireTimer = Def.FireInterval * 1.8f;   // shoot LESS often (creator ruling)
+                    _fireTimer = Def.FireInterval * 3.6f;   // HALVED fire rate — 2× the gap (creator: "shoot too fast, cut in half to be fair")
                     Vfx.MuzzleFlash(WorldX + Facing * 0.6f, Z, Facing);
                     Sfx.Play("pistol");
                     Projectile.Spawn(Team.Enemy, WorldX + Facing * 0.6f, Z, Facing,

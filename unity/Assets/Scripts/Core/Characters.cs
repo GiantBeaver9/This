@@ -78,7 +78,9 @@ namespace ThisL
             p.HoldSpecialPose(0.7f);                        // reach up, spin the sniper, POSE (can't move)
             int kills = SpecialMeter.SniperKills(tier);
             // Shared 0.45s slow-down wind-up, THEN the shot fires + slow-mo ricochet.
-            SpecialSequences.Windup(p, () => { Sfx.Play("sniper_shot"); SpecialSequences.SniperRicochet(p, kills); });
+            // spin:false — the new pixel-art "special" clip spins the rifle itself (spin→aim→fire),
+            // so the old floating gun-blur overlay would double it up.
+            SpecialSequences.Windup(p, () => { Sfx.Play("sniper_shot"); SpecialSequences.SniperRicochet(p, kills); }, spin: false);
             Debug.Log($"[Special] Sniper tier {tier}: wind-up -> ricochet up to {kills}.");
         }
     }
@@ -93,6 +95,8 @@ namespace ThisL
             float knock = tier <= 1 ? 8f : tier == 2 ? 11f : 14f; // large pushback by fill
             p.Anim?.Play("special", false, restart: true); // gun-spin+fire art
             p.HoldSpecialPose(0.85f);                      // Aaron braces + CAN'T MOVE through the blast (creator)
+            // spin:false — the new pixel-art "special" clip hoists+spins the shotgun itself, so the old
+            // floating gun-blur overlay is redundant now.
             SpecialSequences.Windup(p, () =>               // shared 0.45s slow-down wind-up, then the blast
             {
                 Sfx.Play("giant_shotgun_boom");
@@ -123,7 +127,7 @@ namespace ThisL
                     pel.Life = length / 17f + 0.35f;                         // travel the cone length, then vanish
                 }
                 Debug.Log($"[Special] Giant Shotgun tier {tier}: {hit} coned + {pellets}-pellet bullet-time cone.");
-            });
+            }, spin: false);
         }
     }
 

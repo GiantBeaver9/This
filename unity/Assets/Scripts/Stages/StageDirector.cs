@@ -71,6 +71,8 @@ namespace ThisL
             // other systems read them and the melee/ranged controllers still call NotifyKill().
             EnemySpawner.StageLabel = $"STAGE {data.Id}/{StageDatabase.StageCount}  ·  {data.Area}  ·  {data.DisplayName}";
             EnemySpawner.KillsThisStage = 0;
+            // Coin/merc economy debuts Area 3 (stages 6-8 = causeway/farm/dixon); fresh wallet per stage.
+            Economy.ResetStage(data.Id <= 3 ? 1 : data.Id <= 5 ? 2 : data.Id <= 8 ? 3 : 4);
 
             _originX = PlayerController.Instance != null ? PlayerController.Instance.WorldX : 0f;
             ApplyAudio(data);
@@ -431,11 +433,30 @@ namespace ThisL
             _endlessRampTimer = _endless.RampEverySeconds;
             _endlessRunning = true;
             _state = DirectorState.Idle; // campaign machine is inert during Endless
+
+            // Endless HUD tally + difficulty ramp: start gentle regardless of the chosen difficulty
+            // (which is the ceiling) and climb toward/past it over the first few minutes.
+            EnemySpawner.EndlessMode = true;
+            EnemySpawner.KillsThisStage = 0;
+            Economy.ResetStage(1);   // no coin economy in Endless (Area-1 suburb theme)
+            _endlessElapsed = 0f;
+            DifficultySettings.EndlessPressure = EndlessPressureStart;
         }
+
+        // The Endless ramp: pressure (enemy count + damage) starts at 0.5× and climbs ~+1.0 over
+        // 240s, capping at 1.75× — so even Hard opens at half pressure and escalates endlessly.
+        private const float EndlessPressureStart = 0.5f;
+        private const float EndlessPressureCap = 1.75f;
+        private const float EndlessPressurePer240s = 1.25f; // slope: +1.25 pressure across 240s
+        private float _endlessElapsed;
 
         private void LateUpdate()
         {
             if (!_endlessRunning) return;
+
+            _endlessElapsed += Time.deltaTime;
+            DifficultySettings.EndlessPressure = Mathf.Min(
+                EndlessPressureCap, EndlessPressureStart + _endlessElapsed / 240f * EndlessPressurePer240s);
 
             _endlessRampTimer -= Time.deltaTime;
             if (_endlessRampTimer <= 0f)

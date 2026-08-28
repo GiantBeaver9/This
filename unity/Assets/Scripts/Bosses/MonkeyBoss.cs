@@ -60,10 +60,10 @@ namespace ThisL
 
             foreach (float spot in spots)
             {
-                Vfx.JumpPuff(spot, p.Z);           // landing marker (placeholder)
-                bool caught = p != null && p.Alive && Mathf.Abs(p.WorldX - spot) <= 1.5f;
-                if (!caught && CountEnemyMercs() < 3)
-                    SpawnAdd(EnemyArchetype.Monkey); // missed -> boss fields a T1 pistol merc
+                Vfx.JumpPuff(spot, p.Z);           // landing marker
+                // Real catchable dime (§5.7): catch it → summon a PLAYER merc directly; miss it → the
+                // boss fields his own pistol merc (cap 3). The dime bypasses the coin cost + level cap.
+                DimePickup.Spawn(spot, p.Z, () => { if (CountEnemyMercs() < 3) SpawnAdd(EnemyArchetype.Monkey); });
             }
         }
 
