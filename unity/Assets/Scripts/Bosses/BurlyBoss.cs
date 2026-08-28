@@ -22,10 +22,12 @@ namespace ThisL
 
         public void Init(float x, float z)
         {
-            InitBoss("burly", "Burly Macho Guy", "burly", 300f, x, z,
-                     new Color(0.95f, 0.55f, 0.45f), moveSpeed: 4.5f);
+            // Less tanky + half the size (creator: "too tanky, drop some hp, scale to 50%"): HP 300->180,
+            // sizeScale 2.0 (default) -> 1.0.
+            InitBoss("burly", "Burly Macho Guy", "burly", 180f, x, z,
+                     new Color(0.95f, 0.55f, 0.45f), moveSpeed: 4.5f, sizeScale: 1.0f);
             IsHpDepletion = true;                       // executable at ≤10% (BOSSES.md §1)
-            PhaseThresholds = new[] { 200f / 300f, 100f / 300f }; // ≈66% / ≈33%
+            PhaseThresholds = new[] { 2f / 3f, 1f / 3f }; // ≈66% / ≈33%
         }
 
         protected override void BossUpdate(float dt, PlayerController player)

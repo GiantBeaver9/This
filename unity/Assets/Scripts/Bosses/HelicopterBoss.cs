@@ -25,7 +25,8 @@ namespace ThisL
 
         public void Init(float x, float z)
         {
-            InitBoss("helicopter", "Monkey Chopper", "helicopter", 120f, x, z,
+            // HP = 4 grenades (creator: "needs 4 grenades to die, and only gets hurt from grenades").
+            InitBoss("helicopter", "Monkey Chopper", "helicopter", 4f * GrenadeHit, x, z,
                      new Color(0.6f, 0.75f, 0.6f), moveSpeed: 8.0f, sizeScale: 1.5f);
             // Real HELICOPTER art — a side-view chopper with a spinning rotor + monkey pilot.
             if (SpriteLibrary.HasAtlas("sprites/enemies/boss_helicopter", "boss_helicopter"))
@@ -34,9 +35,9 @@ namespace ThisL
                 if (Sr != null) Sr.color = Color.white;
                 Anim.Play("walk", true, restart: true);
             }
-            // It FLIES (hover, see LateUpdate) and you bring it down by LOBBING grenades up at it — the
-            // grenades come from the troops it drops (creator). Grenade blasts chip its HP directly.
-            IsHpDepletion = true;
+            // OBJECTIVE boss: ONLY grenade lobs hurt it (see TakeDamage). It FLIES (hover, LateUpdate) and
+            // you bring it down by LOBBING grenades up at it — the grenades come from the troops it drops.
+            IsHpDepletion = false;
             PhaseThresholds = new[] { 0.5f };
             _minX = x - 15f;
             _maxX = x + 3f;
@@ -106,18 +107,27 @@ namespace ThisL
             return n;
         }
 
-        /// <summary>Bonus counterplay — batting a thrown head back also damages it (grenade lobs are the
-        /// main tool, and they chip its HP directly through the blast).</summary>
-        public void RegisterHeadReflect(Actor source) => ScoreDamage(20f, source);
+        private const float GrenadeHit = 35f;   // one lobbed grenade = one quarter of its HP
 
-        private void ScoreDamage(float dmg, Actor source)
+        /// <summary>ONLY a lobbed grenade brings it down (creator). A grenade blast lands ~35; bullets/
+        /// melee (much less) just spark off the hull; specials whiff. Exactly 4 grenades down it.</summary>
+        public override bool TakeDamage(float amount, Actor source)
         {
-            if (!Alive) return;
-            Hp = Mathf.Max(0f, Hp - dmg);
-            Vfx.HitSpark(WorldX, Z);
+            if (!Alive) return false;
+            if (amount < GrenadeHit - 5f)          // anything weaker than a grenade blast pings off
+            {
+                Vfx.HitSpark(WorldX, Z);
+                return false;
+            }
+            Hp = Mathf.Max(0f, Hp - GrenadeHit);   // fixed chip so it's always exactly 4 grenades
+            Vfx.DeathBurst(WorldX, Z, 1.4f);
             Sfx.Play("explosion");
             CameraShake.Add(CameraShake.Medium);
-            if (Hp <= 0f) ForceDefeat(source);
+            if (Hp <= 0f) { ForceDefeat(source); return true; }
+            return false;
         }
+
+        /// <summary>Batting a head back is no longer a damage source — grenades only (creator).</summary>
+        public void RegisterHeadReflect(Actor source) { }
     }
 }

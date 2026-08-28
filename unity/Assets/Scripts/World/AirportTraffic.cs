@@ -22,6 +22,7 @@ namespace ThisL
             int stage = CampaignRunner.Instance.CurrentStage;
             if (stage != _lastStage) { _lastStage = stage; _timer = 1.5f; }
             if (!IsAirportStage(stage)) return;
+            if (BossActive()) return;   // pause landings during the helicopter fight (creator)
 
             _timer -= Time.deltaTime;
             if (_timer > 0f) return;
@@ -33,6 +34,13 @@ namespace ThisL
         {
             var data = StageDatabase.Get(stage);
             return data != null && data.BackdropTheme == "area2_airport";
+        }
+
+        private static bool BossActive()
+        {
+            foreach (var b in Object.FindObjectsByType<BossController>(FindObjectsInactive.Exclude))
+                if (b != null && b.Alive) return true;
+            return false;
         }
 
         private static void SpawnLanding()
