@@ -956,7 +956,30 @@ namespace ThisL
         {
             if (IsMallTheme()) return BuildMallFloor(p, h);
             if (IsAirportTheme()) return BuildRunway(p, h);
+            if (IsCausewayTheme()) return BuildDyke(p, h);  // causeway = an earthen dyke you jump gaps across
             return BuildStreet(p, h);                       // suburb + Sacramento keep the street
+        }
+
+        /// <summary>Causeway DYKE: a packed-earth levee top (dirt + gravel speckle, grassy verges at each
+        /// edge, a worn foot-rut) — reads as an embankment path, not a road, so the water GAPS
+        /// (CausewayGaps) break it as jumps rather than sitting oddly over asphalt (creator).</summary>
+        private static Sprite BuildDyke(in Palette p, int h)
+        {
+            const int w = 64;
+            var px = new Color32[w * h];
+            Color32 dirt = new(150, 124, 84, 255), dirtD = new(122, 98, 64, 255),
+                    gravel = new(172, 154, 122, 255), grass = new(96, 138, 90, 255);
+            for (int y = 0; y < h; y++) for (int x = 0; x < w; x++) px[y * w + x] = dirt;
+            for (int x = 0; x < w; x++)                       // grassy verge along both edges (near + far)
+                for (int k = 0; k < 3; k++) { SetPx(px, w, h, x, h - 1 - k, grass); SetPx(px, w, h, x, k, grass); }
+            int rut = Mathf.RoundToInt(h * 0.45f);            // worn foot-path rut down the middle
+            for (int x = 0; x < w; x++) { SetPx(px, w, h, x, rut, dirtD); SetPx(px, w, h, x, rut + 1, dirtD); }
+            for (int i = 0; i < (w * h) / 12; i++)            // gravel + dirt speckle
+            {
+                int x = (i * 37) % w, y = (i * 61) % h;
+                px[y * w + x] = Blend(px[y * w + x], (i & 1) == 0 ? gravel : dirtD, 0.5f);
+            }
+            return MakeSprite(w, h, px);
         }
 
         /// <summary>Indoor mall: a grey polished-tile floor (grid of tiles, no road).</summary>
