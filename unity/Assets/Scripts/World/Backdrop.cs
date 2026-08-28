@@ -1136,6 +1136,8 @@ namespace ThisL
         /// and evenly-spaced expansion joints (so it reads as paving slabs, not a flat slab).</summary>
         private static Sprite BuildSidewalk(in Palette p, int h)
         {
+            // Causeway has NO concrete sidewalks — the whole thing is a dirt/grass levee (creator).
+            if (IsCausewayTheme()) return BuildGrass(p, h);
             const int w = 48;                               // one paving slab every 24 px -> seamless
             var px = new Color32[w * h];
             for (int y = 0; y < h; y++)
