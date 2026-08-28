@@ -1246,11 +1246,13 @@ namespace ThisL
         private ArcProjectile FlingHead(Actor t, float dxWu, float speed, float arcHeight)
         {
             float lx = t.WorldX + dxWu, lz = t.Z;
+            // BLACK stick-figure head (creator: all thrown heads/bombs are black).
             var head = ArcProjectile.Spawn(Team.Player, t.WorldX, t.Z + 0.3f, lx, lz,
-                                           speed, new Color(0.95f, 0.9f, 0.8f), airTime: 0.7f);
+                                           speed, new Color(0.10f, 0.09f, 0.12f), airTime: 0.7f);
             head.ArcHeight = arcHeight;
-            // The head EXPLODES big where it lands (creator: "the head should explode a lot larger").
-            head.OnLand = () => { Vfx.DeathBurst(lx, lz, 2.6f); Sfx.Play("finisher_crunch"); CameraShake.Add(CameraShake.Medium); };
+            head.SplashRadius = 0f;   // a plain TUMBLING head — no bomb (only the WHIP explodes; it overrides
+                                      // OnLand + SplashRadius itself). Sword/Bat heads just land with a dust puff.
+            head.OnLand = () => Vfx.DeathBurst(lx, lz, 0.9f);
             return head;
         }
 

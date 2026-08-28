@@ -386,7 +386,7 @@ namespace ThisL
             var foe = NearestEnemyAhead(p, 14f);
             if (foe != null) { tx = foe.WorldX; tz = foe.Z; }
             var lob = ArcProjectile.Spawn(Team.Player, p.WorldX + p.Facing * 0.4f, p.Z,
-                                          tx, tz, w.Damage, new Color(0.5f, 0.8f, 0.4f), airTime: 0.9f);
+                                          tx, tz, w.Damage, new Color(0.10f, 0.09f, 0.12f), airTime: 0.9f); // BLACK grenade (creator)
             lob.SplashRadius = 2.2f;
             lob.ArcHeight = 4.5f;
             lob.OnLand = () => { Explosion.Blast(Team.Player, lob.TargetX, lob.TargetZ, 2.2f, w.Damage, friendlyFire: false, except: p); Sfx.Play("grenade_explode"); CameraShake.Add(CameraShake.Medium); };

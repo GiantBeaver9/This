@@ -90,7 +90,7 @@ namespace ThisL
             yield return Telegraph(0.5f);          // arced telegraph
             if (!Alive || p == null) yield break;
             var head = ArcProjectile.Spawn(Team.Enemy, WorldX, Z, p.WorldX, p.Z, 15f,
-                                           new Color(0.95f, 0.9f, 0.8f), airTime: 0.9f);
+                                           new Color(0.10f, 0.09f, 0.12f), airTime: 0.9f); // BLACK stick-figure head (creator)
             if (head != null)
             {
                 head.name = "chopper_head";

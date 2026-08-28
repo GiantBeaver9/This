@@ -109,7 +109,7 @@ namespace ThisL
             g.SelfDamage = selfDamage;
             g._sr = go.AddComponent<SpriteRenderer>();
             g._sr.sprite = WeaponProjectileArt.Dot();
-            g._sr.color = new Color(0.5f, 0.8f, 0.4f);
+            g._sr.color = new Color(0.10f, 0.09f, 0.12f);   // BLACK grenade (creator)
             return g;
         }
 
