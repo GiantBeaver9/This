@@ -19,30 +19,25 @@ namespace ThisL
     public sealed class HelicopterBoss : BossController
     {
         private float _fireTimer = 2.5f;
-        private float _gustTimer = 3f;
+        private float _dropTimer = 2f;
         private int _strafeDir = 1;
         private float _minX, _maxX;
 
         public void Init(float x, float z)
         {
-            InitBoss("helicopter", "Monkey Chopper", "helicopter", 160f, x, z,
+            InitBoss("helicopter", "Monkey Chopper", "helicopter", 120f, x, z,
                      new Color(0.6f, 0.75f, 0.6f), moveSpeed: 8.0f, sizeScale: 1.5f);
-            // Real HELICOPTER art (creator: "the airport boss is not a helicopter") — a side-view chopper
-            // with a spinning rotor + monkey pilot, replacing the tinted stick-figure placeholder.
+            // Real HELICOPTER art — a side-view chopper with a spinning rotor + monkey pilot.
             if (SpriteLibrary.HasAtlas("sprites/enemies/boss_helicopter", "boss_helicopter"))
             {
                 Anim.Set = SpriteLibrary.Load("sprites/enemies/boss_helicopter", "boss_helicopter");
-                if (Sr != null) Sr.color = Color.white;   // real art — drop the green tint
+                if (Sr != null) Sr.color = Color.white;
                 Anim.Play("walk", true, restart: true);
             }
-            // SOFTLOCK FIX (stopgap): the pip mechanic (bat-reflect / grenade-lob) isn't implemented, so
-            // make it a normal HP boss — shoot it down. Real pip mechanic is a later pass.
+            // It FLIES (hover, see LateUpdate) and you bring it down by LOBBING grenades up at it — the
+            // grenades come from the troops it drops (creator). Grenade blasts chip its HP directly.
             IsHpDepletion = true;
-            PhaseThresholds = new[] { 0.5f };      // phase 2 at half HP
-            // Keep the strafe INSIDE the locked view. The camera locks at MaxX=arenaX (right edge
-            // ≈ arenaX + ScreenWidthUnits/2) and the boss spawns at x = arenaX + 0.30*ScreenWidthUnits,
-            // so a symmetric ±8 strafe pushed its right end ~3 wu off-screen (unreachable). Bias the
-            // window left so the whole strafe stays framed.
+            PhaseThresholds = new[] { 0.5f };
             _minX = x - 15f;
             _maxX = x + 3f;
             Z = Tuning.ZBandDepth - 0.5f;          // hovers at the back/top band
@@ -51,7 +46,7 @@ namespace ThisL
         protected override void BossUpdate(float dt, PlayerController player)
         {
             _fireTimer -= dt;
-            _gustTimer -= dt;
+            _dropTimer -= dt;
 
             // Strafe left<->right across the top band, bouncing at the arena bounds.
             WorldX += _strafeDir * MoveSpeed * dt;
@@ -61,20 +56,31 @@ namespace ThisL
 
             if (player == null || !player.Alive) return;
 
+            // DROP TROOPS + a grenade: it throws out an enemy and kicks a grenade pickup down to the deck
+            // — grab it and LOB it up at the chopper to damage it (creator).
+            if (_dropTimer <= 0f)
+            {
+                if (CountAdds() < 3) SpawnAdd(EnemyArchetype.Regular);
+                float gx = Mathf.Clamp(player.WorldX + Random.Range(-3f, 3f), _minX - 4f, _maxX + 8f);
+                Pickup.SpawnWeapon(WeaponKind.Grenade, gx, Mathf.Clamp(player.Z, 0f, Tuning.ZBandDepth));
+                Vfx.DeathBurst(WorldX, Z, 1.0f);
+                Sfx.Play("head_throw");
+                _dropTimer = CurrentPhase >= 2 ? 3.5f : 5f;
+            }
+
             if (_fireTimer <= 0f && AirborneHeads() < 2)
             {
                 RunAttack(HeadFire(player));
                 _fireTimer = CurrentPhase >= 2 ? 1.8f : 2.5f;
             }
+        }
 
-            // Phase-2 rotor-gust: 0-dmg positional push toward a Z-edge (BOSSES.md §5.5).
-            if (CurrentPhase >= 2 && _gustTimer <= 0f)
-            {
-                float push = player.Z > Tuning.ZBandDepth * 0.5f ? 3f : -3f;
-                player.Z = Mathf.Clamp(player.Z + push, 0f, Tuning.ZBandDepth);
-                Vfx.Gust(player.WorldX, player.Z, 0);
-                _gustTimer = 3f;
-            }
+        // FLY: lift the chopper well above the tarmac with a gentle hover bob (its logical X/Z stay on
+        // the ground plane, so a lobbed grenade that lands on its column still hits it).
+        protected override void LateUpdate()
+        {
+            base.LateUpdate();
+            transform.position += Vector3.up * (3.6f + Mathf.Sin(Time.time * 2.2f) * 0.35f);
         }
 
         private IEnumerator HeadFire(PlayerController p)
@@ -100,23 +106,18 @@ namespace ThisL
             return n;
         }
 
-        /// <summary>Objective hook — a batted-back head lands 1 pip (BOSSES.md §5.5).</summary>
-        public void RegisterHeadReflect(Actor source) => ScorePips(1f, source);
+        /// <summary>Bonus counterplay — batting a thrown head back also damages it (grenade lobs are the
+        /// main tool, and they chip its HP directly through the blast).</summary>
+        public void RegisterHeadReflect(Actor source) => ScoreDamage(20f, source);
 
-        /// <summary>Objective hook — a lobbed grenade lands 1.5 pips (BOSSES.md §5.5).</summary>
-        public void RegisterGrenadeLob(Actor source) => ScorePips(1.5f, source);
-
-        private void ScorePips(float pips, Actor source)
+        private void ScoreDamage(float dmg, Actor source)
         {
             if (!Alive) return;
-            Hp = Mathf.Max(0f, Hp - pips);
+            Hp = Mathf.Max(0f, Hp - dmg);
             Vfx.HitSpark(WorldX, Z);
             Sfx.Play("explosion");
             CameraShake.Add(CameraShake.Medium);
-            // Phase 2 descends lower (BOSSES.md §5.5).
-            if (CurrentPhase >= 2) Z = Mathf.Min(Z, 3f);
-            Debug.Log($"[Boss:helicopter] +{pips} pips ({Hp:0.0}/6 remaining).");
-            if (Hp <= 0f) ForceDefeat(source); // 6-pip bar filled -> downed
+            if (Hp <= 0f) ForceDefeat(source);
         }
     }
 }
