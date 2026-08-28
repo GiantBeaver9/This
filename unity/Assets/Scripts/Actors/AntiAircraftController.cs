@@ -169,6 +169,9 @@ namespace ThisL
             if (SpriteLibrary.HasAtlas("sprites/enemies/enemy_headless", "enemy_headless"))
             {
                 Anim.Set = SpriteLibrary.Load("sprites/enemies/enemy_headless", "enemy_headless");
+                // enemy_headless art trims ~1.4x smaller than enemy_headthrower, so the body would
+                // SHRINK when the head comes off — bump the scale once to keep it the same size.
+                ScaleMult *= 1.4f;
                 _headlessSprite = true;
             }
         }
