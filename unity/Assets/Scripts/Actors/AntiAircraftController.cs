@@ -100,7 +100,8 @@ namespace ThisL
                         Sfx.Play("finisher_crunch");
                         float lx = _targetX, lz = _targetZ;
                         var head = ArcProjectile.Spawn(Team.Enemy, hx, hz + 1.8f, lx, lz,
-                                                       Def.Damage, new Color(0.95f, 0.9f, 0.8f), airTime: 0.9f);
+                                                       Def.Damage, Color.white, airTime: 0.9f,
+                                                       sprite: HeadSprite(), spinDegPerSec: 400f);
                         head.SplashRadius = 1.8f;                              // it's a BOMB — AoE
                         head.ArcHeight = 3.2f;
                         head.OnLand = () => { Vfx.DeathBurst(lx, lz, 2.2f); Sfx.Play("grenade_explode"); CameraShake.Add(CameraShake.Medium); };

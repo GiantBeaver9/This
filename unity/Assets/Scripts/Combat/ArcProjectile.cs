@@ -111,11 +111,20 @@ namespace ThisL
         private static Sprite Blob()
         {
             if (_blob != null) return _blob;
-            var tex = new Texture2D(6, 6, TextureFormat.RGBA32, false) { filterMode = FilterMode.Point };
-            var px = new Color32[36];
-            for (int i = 0; i < px.Length; i++) px[i] = Color.white;
+            // Head-sized round ball (creator: "grenades and bombs should be the size of the heads") —
+            // was a tiny 6px drop. ~13px = a regular enemy's head, tinted white then recolored per shot.
+            const int d = 13;
+            var tex = new Texture2D(d, d, TextureFormat.RGBA32, false) { filterMode = FilterMode.Point };
+            var px = new Color32[d * d];
+            float r = d / 2f;
+            for (int y = 0; y < d; y++)
+                for (int x = 0; x < d; x++)
+                {
+                    float dx = x - r + 0.5f, dy = y - r + 0.5f;
+                    px[y * d + x] = dx * dx + dy * dy <= r * r ? (Color32)Color.white : new Color32(0, 0, 0, 0);
+                }
             tex.SetPixels32(px); tex.Apply();
-            _blob = Sprite.Create(tex, new Rect(0, 0, 6, 6), new Vector2(0.5f, 0.5f), Tuning.PixelsPerUnit);
+            _blob = Sprite.Create(tex, new Rect(0, 0, d, d), new Vector2(0.5f, 0.5f), Tuning.PixelsPerUnit);
             return _blob;
         }
     }
