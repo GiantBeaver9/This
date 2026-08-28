@@ -25,7 +25,12 @@ assets/backdrops/<propdir>/ are composited as periodic hero elements.
 import json, math, os
 from PIL import Image, ImageDraw
 
-W, H, LANE_H, HORIZON = 512, 360, 96, 144
+# HORIZON (px from top) = the baked sky/ground boundary. The 360px strip maps 1:1 to the
+# 15wu screen (camera ortho 7.5, centred at y=0): world_y = 7.5 - py/24. horizon_y=216 →
+# world -1.5, matching the procedural Backdrop's sky-band bottom, so the walkable ground is
+# the lower ~40% and the sky fills the upper ~60% (matches levels 1-4). AddStrip does NOT
+# read horizon_y from the json (it places strips 1:1), so this is a pure-art change.
+W, H, LANE_H, HORIZON = 512, 360, 96, 216
 ROOT = os.path.join("assets", "backdrops")
 
 
@@ -135,6 +140,114 @@ def near_ground(strip_color, band_h=54, extras=None, top_line=None):
     if extras:
         extras(near, d)
     return near
+
+
+def ground_below(far, horizon, top, bot, rows=None):
+    """Fill the far layer BELOW the horizon with a solid ground plane (so horizon-seated
+    props stand on visible ground instead of floating over sky). `rows`=(c1,c2) draws
+    faint furrow bands for fields."""
+    d = ImageDraw.Draw(far)
+    vgrad(d, 0, horizon, W, H, top, bot)
+    if rows:
+        for i, yy in enumerate(range(horizon + 6, H, 12)):
+            if i % 2 == 0:
+                d.rectangle([0, yy, W, yy + 5], fill=rows[0] + (60,))
+            else:
+                d.rectangle([0, yy, W, yy + 5], fill=rows[1] + (50,))
+
+
+def seat_prop(layer, prop, x, ground_y):
+    """Paste a prop so its BOTTOM edge sits exactly on ground_y (bottom-centre seating),
+    wrap-tiled so it repeats seamlessly across the 512 seam."""
+    if prop is None:
+        return
+    wrap_paste(layer, prop, x, ground_y - prop.height)
+
+
+def hazed(im, f, haze=(150, 172, 150)):
+    """Return a depth-faded copy: blend rgb toward `haze` by (1-f), preserving alpha.
+    f=1 keeps the sprite as-is; lower f pushes it into the misty background."""
+    out = im.copy()
+    px = out.load()
+    for y in range(out.height):
+        for x in range(out.width):
+            r, g, b, a = px[x, y]
+            if a == 0:
+                continue
+            px[x, y] = (int(r * f + haze[0] * (1 - f)),
+                        int(g * f + haze[1] * (1 - f)),
+                        int(b * f + haze[2] * (1 - f)), a)
+    return out
+
+
+def scaled(im, s):
+    return im.resize((max(1, int(im.width * s)), max(1, int(im.height * s))), Image.NEAREST)
+
+
+def dirt_grass_lane(dirt=(150, 120, 84), dirt2=(132, 104, 70), speck=(120, 92, 62),
+                    grass=(96, 152, 74), grass2=(74, 128, 58), top_h=14, bot_h=12):
+    """NON-URBAN walk surface: brown DIRT with GREEN GRASS verges top & bottom, no road
+    markings (creator: 'just brown with some grass around top and bottom'). Seamless:
+    every motif uses a period that divides 512."""
+    lane = Image.new("RGBA", (W, LANE_H), dirt + (255,))
+    d = ImageDraw.Draw(lane)
+    # faint dirt mottle / pebbles for texture (period 8 & 16 divide 512 -> seamless)
+    for i, x in enumerate(range(0, W, 8)):
+        yy = top_h + 4 + ((x * 7) % max(1, LANE_H - top_h - bot_h - 8))
+        c = dirt2 if (i % 2 == 0) else speck
+        d.rectangle([x, yy, x + 3, yy + 2], fill=c + (255,))
+    # top grass verge (dirt meets field) + a few blades poking down into the dirt
+    d.rectangle([0, 0, W, top_h], fill=grass + (255,))
+    for x in range(0, W, 8):
+        hh = 3 + ((x * 5) % 5)
+        d.line([(x, top_h), (x, top_h + hh)], fill=grass2 + (255,), width=2)
+    # bottom grass verge + a few blades poking up
+    d.rectangle([0, LANE_H - bot_h, W, LANE_H], fill=grass + (255,))
+    for x in range(4, W, 8):
+        hh = 3 + ((x * 3) % 5)
+        d.line([(x, LANE_H - bot_h), (x, LANE_H - bot_h - hh)], fill=grass2 + (255,), width=2)
+    return lane
+
+
+def forest_floor_lane(litter=(120, 92, 66), litter2=(98, 74, 52), needle=(86, 64, 44),
+                      fern=(74, 116, 60), fern2=(58, 96, 48)):
+    """Redwood FOREST FLOOR: dark needle-litter dirt with fern/undergrowth speckle. No road."""
+    lane = Image.new("RGBA", (W, LANE_H), litter + (255,))
+    d = ImageDraw.Draw(lane)
+    for i, x in enumerate(range(0, W, 8)):
+        yy = 8 + ((x * 11) % (LANE_H - 16))
+        c = [litter2, needle, litter2][i % 3]
+        d.line([(x, yy), (x + 5, yy - 2)], fill=c + (255,), width=2)   # scattered needles
+    # low ferns along the top edge (undergrowth by the path)
+    for x in range(0, W, 12):
+        hh = 6 + ((x * 7) % 8)
+        col = fern if (x // 12) % 2 == 0 else fern2
+        d.line([(x, 12), (x - 3, 12 - hh)], fill=col + (255,), width=2)
+        d.line([(x, 12), (x + 3, 12 - hh)], fill=col + (255,), width=2)
+        d.line([(x, 12), (x, 12 - hh - 2)], fill=col + (255,), width=2)
+    return lane
+
+
+def fairground_lane(path=(198, 176, 130), path2=(180, 158, 112), seam=(150, 130, 96),
+                    grass=(104, 158, 80), grass2=(80, 132, 62)):
+    """Six-Flags FAIRGROUND path: light sandy paver walk with grass verges + pennant-bunting
+    confetti dots. NOT a car street (no lane dashes)."""
+    lane = Image.new("RGBA", (W, LANE_H), path + (255,))
+    d = ImageDraw.Draw(lane)
+    # paver seams (period 32 divides 512), light so it reads as a plaza not a road
+    for x in range(0, W, 32):
+        d.line([(x, 16), (x, LANE_H)], fill=seam + (255,), width=1)
+    for y in range(28, LANE_H, 20):
+        d.line([(0, y), (W, y)], fill=seam + (255,), width=1)
+    for i, x in enumerate(range(6, W, 24)):        # scattered dropped confetti
+        c = [(210, 80, 70), (70, 130, 190), (230, 200, 80)][i % 3]
+        d.rectangle([x, 22 + (x % 40), x + 3, 25 + (x % 40)], fill=c + (255,))
+    # grass verges top & bottom
+    d.rectangle([0, 0, W, 12], fill=grass + (255,))
+    for x in range(0, W, 8):
+        d.line([(x, 12), (x, 12 + 3 + (x % 4))], fill=grass2 + (255,), width=2)
+    d.rectangle([0, LANE_H - 8, W, LANE_H], fill=grass + (255,))
+    return lane
 
 
 def preview(far, mid, near, lane):
@@ -269,124 +382,181 @@ def build_causeway():
 
 
 def build_farm():
-    far = sky((150, 194, 230), (216, 232, 236), (244, 246, 244), 32, 3)
+    # NON-URBAN farmland: brown dirt path with grass verges, barn/silo seated on green fields.
+    horizon = HORIZON
+    far = sky((150, 196, 236), (206, 230, 242), (248, 250, 252), 30, 3)
+    # GREEN FIELDS fill below the horizon so the barn stands on ground (not floating over sky)
+    ground_below(far, horizon, (156, 190, 100), (120, 162, 78), rows=((150, 176, 88), (110, 150, 70)))
+    GROUND = H - LANE_H  # 264: the field/path boundary — props seat here
     mid = new_layer(); d = ImageDraw.Draw(mid)
-    # distant tree line (period 16 divides 512 → seamless)
+    # distant tree line along the horizon (period 16 divides 512 → seamless)
     for x in range(-16, W + 16, 16):
-        d.ellipse([x, HORIZON - 12, x + 26, HORIZON + 10], fill=(92, 128, 84, 255))
-    # red barn + silo, one per tile (fully inside the tile, no seam cross)
-    bx = 208
-    d.rectangle([bx, HORIZON - 30, bx + 70, HORIZON + 16], fill=(168, 60, 50, 255))
-    d.polygon([(bx - 4, HORIZON - 30), (bx + 74, HORIZON - 30), (bx + 35, HORIZON - 48)], fill=(120, 44, 38, 255))
-    d.rectangle([bx + 78, HORIZON - 40, bx + 98, HORIZON + 16], fill=(200, 196, 186, 255))  # silo
-    d.ellipse([bx + 78, HORIZON - 48, bx + 98, HORIZON - 34], fill=(150, 148, 140, 255))
-    def field(img, dd):
-        for i, yy in enumerate(range(H - 52, H, 8)):
-            c = (150, 140, 90) if i % 2 == 0 else (120, 150, 80)
-            dd.rectangle([0, yy, W, yy + 8], fill=c + (255,))
-    near = near_ground((150, 140, 90), band_h=52, extras=field, top_line=(110, 130, 74))
-    lane = lane_strip(((150, 130, 96), (120, 104, 76)), (134, 116, 84), (100, 86, 62), "planks")  # dirt road
+        d.ellipse([x, horizon - 12, x + 26, horizon + 12], fill=(88, 126, 80, 255))
+    # a rail fence receding across the field
+    fy = 236
+    for x in range(0, W, 30):
+        d.rectangle([x, fy - 16, x + 3, fy], fill=(120, 92, 60, 255))
+    d.rectangle([0, fy - 13, W, fy - 10], fill=(146, 112, 74, 255))
+    d.rectangle([0, fy - 4, W, fy - 1], fill=(146, 112, 74, 255))
+    # RED BARN + silo prop, seated ON the ground (one per tile, fully inside → seamless)
+    barn = load_prop("area3_props", "barn.png", scale_h=104)
+    if barn:
+        mid.alpha_composite(barn, (150, GROUND - barn.height))
+    near = new_layer()  # foreground is the dirt path itself
+    lane = dirt_grass_lane()  # brown dirt + grass verges, NO road markings
     write_theme("area3_farm", far, mid, near, lane)
 
 
 def build_dixon():
-    far = sky((156, 198, 230), (220, 234, 236), (246, 248, 244), 30, 2)
+    # URBAN small town (Dixon): a coherent main-street with buildings + water tower, KEEP the road.
+    horizon = HORIZON
+    far = sky((158, 202, 234), (218, 234, 240), (248, 250, 246), 28, 2)
+    ground_below(far, horizon, (168, 176, 150), (140, 148, 128))  # dusty town lots
+    GROUND = H - LANE_H
     mid = new_layer(); d = ImageDraw.Draw(mid)
-    # low small-town buildings (period 128 divides 512)
-    for x in range(-40, W + 40, 128):
-        d.rectangle([x, HORIZON - 22, x + 70, HORIZON + 16], fill=(206, 198, 180, 255))
-        d.rectangle([x, HORIZON - 22, x + 70, HORIZON - 17], fill=(150, 90, 70, 255))  # roof line
-    # water tower, one per tile
-    wx = 300
-    d.rectangle([wx + 4, HORIZON - 20, wx + 8, HORIZON + 16], fill=(90, 96, 100, 255))
-    d.rectangle([wx + 24, HORIZON - 20, wx + 28, HORIZON + 16], fill=(90, 96, 100, 255))
-    d.ellipse([wx - 4, HORIZON - 42, wx + 36, HORIZON - 16], fill=(120, 128, 132, 255))
-    d.polygon([(wx - 4, HORIZON - 40), (wx + 36, HORIZON - 40), (wx + 16, HORIZON - 52)], fill=(96, 102, 106, 255))
-    def field(img, dd):
-        for i, yy in enumerate(range(H - 48, H, 10)):
-            c = (156, 146, 96) if i % 2 == 0 else (128, 154, 84)
-            dd.rectangle([0, yy, W, yy + 10], fill=c + (255,))
-    near = near_ground((150, 142, 92), band_h=48, extras=field, top_line=(112, 132, 76))
-    lane = lane_strip(((150, 134, 100), (122, 108, 80)), (136, 120, 88), (104, 90, 66), "dashes")
+    # low small-town storefronts, seated on the ground (period 128 divides 512 → seamless)
+    cols = [(208, 198, 178), (182, 150, 120), (156, 172, 182), (200, 172, 150)]
+    for i, x in enumerate(range(0, W, 128)):
+        c = cols[i % len(cols)]
+        bh = 74 + (i * 11) % 26
+        d.rectangle([x + 8, GROUND - bh, x + 8 + 104, GROUND], fill=c + (255,))
+        d.rectangle([x + 8, GROUND - bh, x + 8 + 104, GROUND - bh + 8], fill=(120, 82, 66, 255))  # cornice
+        for wx in range(x + 16, x + 108, 24):        # storefront windows
+            d.rectangle([wx, GROUND - 30, wx + 15, GROUND - 8], fill=(150, 182, 198, 255))
+    # WATER TOWER prop seated on the ground, one per tile
+    wt = load_prop("area3_props", "water_tower.png", scale_h=120)
+    if wt:
+        mid.alpha_composite(wt, (338, GROUND - wt.height))
+    near = new_layer()
+    lane = lane_strip(((150, 150, 156), (110, 110, 116)), (96, 96, 102), (212, 202, 92), "dashes")  # town street
     write_theme("area3_dixon", far, mid, near, lane)
 
 
 # --- Area 4: the Bay — Vallejo, Marin, Golden Gate, SF -----------------------
 def build_vallejo():
-    far = sky((150, 165, 178), (196, 206, 210), (222, 226, 228), 32, 2)
+    # Six Flags (NON-URBAN fairground): roller coaster + vendor stalls, festive bunting, park path.
+    horizon = HORIZON
+    far = sky((104, 168, 222), (236, 210, 196), (250, 250, 252), 24, 2)  # warm festive sky
+    ground_below(far, horizon, (128, 170, 96), (104, 148, 80))           # park lawn
+    GROUND = H - LANE_H
     mid = new_layer(); d = ImageDraw.Draw(mid)
-    # gantry cranes
-    for x in range(-30, W + 30, 128):
-        d.rectangle([x, HORIZON - 60, x + 6, HORIZON + 20], fill=(200, 120, 40, 255))
-        d.rectangle([x + 60, HORIZON - 60, x + 66, HORIZON + 20], fill=(200, 120, 40, 255))
-        d.rectangle([x - 10, HORIZON - 64, x + 80, HORIZON - 58], fill=(200, 120, 40, 255))
-        d.line([(x + 3, HORIZON - 58), (x + 40, HORIZON - 20)], fill=(120, 120, 128, 255), width=2)
-    cols = [(180, 70, 60), (70, 130, 160), (200, 170, 60), (90, 150, 90)]
-    for i, x in enumerate(range(-32, W + 32, 32)):
-        c = cols[i % len(cols)]
-        d.rectangle([x, HORIZON + 4, x + 28, HORIZON + 26], fill=c + (255,))
-    def water(img, dd):
-        for yy in range(H - 30, H, 8):
-            for x in range((yy) % 32, W, 32):
-                dd.line([(x, yy), (x + 14, yy)], fill=(120, 150, 165, 255), width=2)
-    near = near_ground((86, 110, 122), band_h=32, extras=water)
-    lane = lane_strip(((120, 100, 78), (96, 78, 58)), (110, 90, 66), (80, 62, 44), "planks")
+    # ROLLER COASTER on the horizon (one per tile, fully inside → seamless), on a low berm
+    rc = load_prop("area4_props", "roller_coaster.png", scale_h=112)
+    if rc:
+        mid.alpha_composite(rc, (30, (horizon + 8) - rc.height))   # seated on the park lawn at the horizon
+    # festive pennant bunting strung across the top (period 24 divides 512)
+    for i, x in enumerate(range(0, W, 24)):
+        c = [(212, 72, 60), (70, 142, 192), (240, 202, 72), (92, 172, 112)][i % 4]
+        d.polygon([(x, 40), (x + 24, 40), (x + 12, 58)], fill=c + (255,))
+    d.line([(0, 40), (W, 40)], fill=(60, 60, 66, 255), width=1)
+    # VENDOR STALLS seated on the ground (2 per tile → variety, both inside → seamless)
+    stall = load_prop("area4_props", "vendor_stall.png", scale_h=66)
+    if stall:
+        for x in (70, 322):
+            mid.alpha_composite(stall, (x, GROUND - stall.height))
+    near = new_layer()
+    lane = fairground_lane()  # packed-dirt/paver path + grass verges, NOT a street
     write_theme("area4_vallejo", far, mid, near, lane)
 
 
 def build_marin():
-    far = sky((140, 186, 224), (206, 226, 240), (240, 244, 246), 30, 2)
-    mid = new_layer(); d = ImageDraw.Draw(mid)
-    # rolling headland hills (period 256 divides 512 → seamless), golden-green layers
-    for (yc, col) in [(HORIZON + 40, (150, 168, 96)), (HORIZON + 64, (120, 148, 82)), (HORIZON + 92, (96, 128, 70))]:
-        for cx in range(-64, W + 128, 256):
-            d.ellipse([cx, yc - 70, cx + 256, yc + 120], fill=col + (255,))
-    near = near_ground((92, 124, 68), band_h=54, top_line=(120, 150, 88))
-    lane = lane_strip(((150, 140, 110), (120, 112, 88)), (130, 120, 94), (100, 92, 70), "planks")  # trail
+    # TOWERING REDWOODS (NON-URBAN): massive vertical trunks receding through the layers,
+    # dappled light, forest-floor ground. NOT hills.
+    horizon = HORIZON
+    far = new_layer(); d = ImageDraw.Draw(far)
+    vgrad(d, 0, 0, W, H, (196, 214, 190), (122, 150, 118))     # hazy green forest depth
+    # shafts of dappled light angling down from the canopy
+    for x in range(30, W, 118):
+        d.polygon([(x, 0), (x + 34, 0), (x + 14, H), (x - 12, H)], fill=(244, 246, 220, 22))
+    ground_below(far, horizon + 30, (98, 112, 78), (66, 80, 54))   # forest floor depth
+    redwood = load_prop("area4_props", "redwood.png")             # native ~114x340
+    GROUND = H - LANE_H
+    mid = new_layer()
+    if redwood:
+        # FAR trunks: small, hazed into the mist, receding (fully inside tile → seamless)
+        for (x, s, f) in [(64, 0.55, 0.42), (300, 0.5, 0.36), (430, 0.6, 0.46)]:
+            t = hazed(scaled(redwood, s), f)
+            mid.alpha_composite(t, (x, (horizon + 40) - t.height))
+        # MID trunks: medium, a little haze
+        for (x, s, f) in [(150, 0.85, 0.72), (370, 0.78, 0.66)]:
+            t = hazed(scaled(redwood, s), f)
+            mid.alpha_composite(t, (x, (GROUND - 6) - t.height))
+    near = new_layer()
+    if redwood:
+        # FOREGROUND colossus trunks: taller than the frame (top cut) so they read as GIANT,
+        # framing the path. Placed inside the tile so the set repeats seamlessly.
+        for (x, s) in [(6, 1.28), (410, 1.18)]:
+            t = scaled(redwood, s)
+            near.alpha_composite(t, (x, H - t.height + 24))       # base below frame → towering
+    lane = forest_floor_lane()                                    # dirt + needles + ferns, NO road
     write_theme("area4_marin", far, mid, near, lane)
 
 
 def build_goldengate():
-    far = sky((120, 158, 200), (200, 220, 236), (238, 242, 246), 28, 2, haze=(214, 222, 226))
-    gg = load_prop("area4_props", "golden_gate.png", scale_h=170)
-    mid = new_layer(); d = ImageDraw.Draw(mid)
-    def tower(x):
-        d.rectangle([x, HORIZON - 96, x + 12, HORIZON + 24], fill=(190, 66, 46, 255))
-        d.rectangle([x - 4, HORIZON - 70, x + 16, HORIZON - 64], fill=(190, 66, 46, 255))
-        d.rectangle([x - 4, HORIZON - 40, x + 16, HORIZON - 34], fill=(190, 66, 46, 255))
-    t1, t2 = 128, 384
-    tower(t1); tower(t2)
-    for x in range(0, W, 4):
-        seg = (x - t1) % 256
-        sag = 60 * (1 - math.cos(seg / 256 * 2 * math.pi)) / 2
-        y = HORIZON - 90 + int(sag)
-        d.line([(x, y), (x + 4, y)], fill=(170, 60, 42, 255), width=2)
-        d.line([(x, y), (x, HORIZON + 8)], fill=(180, 80, 60, 120), width=1)
-    if gg:
-        wrap_paste(mid, gg, 40, HORIZON + 20 - gg.height)
-    def guard(img, dd):
-        dd.rectangle([0, H - 40, W, H - 36], fill=(180, 70, 50, 255))
-        for x in range(0, W, 16):
-            dd.rectangle([x, H - 40, x + 3, H - 6], fill=(158, 60, 42, 255))
-    near = near_ground((80, 82, 88), band_h=40, extras=guard, top_line=(180, 70, 50))
-    lane = lane_strip(((120, 122, 128), (86, 88, 94)), (74, 76, 82), (220, 216, 70), "dashes")
+    # MAJESTIC Golden Gate (URBAN highlight): tall international-orange towers dominating the
+    # frame, sweeping main cables + suspender ropes, the bay + Marin headlands behind. Drawn
+    # procedurally so it tiles seamlessly (period 256) — you WALK the endless bridge deck.
+    horizon = HORIZON
+    far = sky((88, 148, 202), (196, 220, 240), (240, 246, 250), 22, 2, haze=(214, 228, 236))
+    ground_below(far, horizon, (120, 160, 186), (66, 108, 150))   # bay water
+    d = ImageDraw.Draw(far)
+    for cx in range(-64, W + 256, 256):                           # distant Marin headland
+        d.ellipse([cx, horizon - 26, cx + 256, horizon + 84], fill=(120, 134, 112, 255))
+    ORANGE = (206, 70, 44); ORANGE_D = (156, 48, 30)
+    DECK_Y = horizon + 40
+    P = 256
+    TOP = 22
+    mid = new_layer(); dm = ImageDraw.Draw(mid)
+    # main cables: catenary between towers (period 256, phase 0 at towers → seamless at the seam)
+    for x in range(0, W):
+        seg = (x - 128) % P
+        dip = 96 * (1 - math.cos(seg / P * 2 * math.pi)) / 2       # 0 at towers → 96 mid-span
+        cy = TOP + int(dip)
+        dm.line([(x, cy), (x + 1, cy)], fill=ORANGE + (255,), width=3)
+        if x % 10 == 0:                                            # vertical suspender ropes
+            dm.line([(x, cy), (x, DECK_Y)], fill=(196, 92, 66, 200), width=1)
+    def tower(tx):                                                 # tall tapered tower
+        dm.rectangle([tx - 8, TOP, tx - 1, DECK_Y], fill=ORANGE + (255,))
+        dm.rectangle([tx + 1, TOP, tx + 8, DECK_Y], fill=ORANGE + (255,))
+        for by in range(TOP + 20, DECK_Y, 30):                     # cross-braces
+            dm.rectangle([tx - 8, by, tx + 8, by + 6], fill=ORANGE + (255,))
+        dm.rectangle([tx - 11, TOP - 4, tx + 11, TOP + 6], fill=ORANGE + (255,))  # cap
+    for tx in (128, 384):
+        tower(tx)
+    dm.rectangle([0, DECK_Y, W, DECK_Y + 9], fill=ORANGE_D + (255,))   # roadway deck
+    dm.rectangle([0, DECK_Y + 9, W, DECK_Y + 13], fill=(84, 58, 48, 255))
+    near = new_layer()
+    lane = lane_strip(((150, 150, 156), (110, 110, 116)), (96, 96, 102), (214, 204, 92), "dashes")  # bridge deck road
     write_theme("area4_goldengate", far, mid, near, lane)
 
 
 def build_sf():
-    far = sky((120, 160, 210), (198, 216, 234), (236, 240, 246), 28, 3)
-    skyline_teeth(far, HORIZON + 30, (150, 168, 190), period=64, minh=60, maxh=150, seed=1)
-    tower = load_prop("area4_props", "skyline_tower.png", scale_h=180)
+    # SAN FRANCISCO (URBAN): distant downtown skyline, a row of Victorian "painted ladies" on
+    # the hill, a cable-car trolley on the near street with cable-car rails. KEEP the road.
+    horizon = HORIZON
+    far = sky((120, 162, 212), (200, 218, 236), (238, 242, 248), 26, 3)
+    skyline_teeth(far, horizon + 22, (148, 166, 190), period=64, minh=56, maxh=140, seed=1)  # downtown
+    ground_below(far, horizon + 6, (150, 152, 158), (120, 122, 130))    # city ground haze
+    GROUND = H - LANE_H
     mid = new_layer()
-    if tower:
-        wrap_paste(mid, tower, 300, HORIZON + 30 - tower.height)
-    skyline_teeth(mid, HORIZON + 34, (96, 110, 134), period=64, minh=50, maxh=120, seed=4)
-    def rail(img, dd):
-        dd.rectangle([0, H - 40, W, H - 36], fill=(150, 60, 40, 255))
-        for x in range(0, W, 32):
-            dd.rectangle([x, H - 40, x + 4, H], fill=(120, 48, 32, 255))
-    near = near_ground((70, 72, 80), band_h=42, extras=rail, top_line=(150, 60, 40))
-    lane = lane_strip(((120, 122, 128), (80, 82, 88)), (70, 72, 78), (220, 216, 70), "dashes")
+    skyline_teeth(mid, horizon + 26, (104, 118, 142), period=64, minh=46, maxh=110, seed=4)
+    # ROW of Victorian painted ladies, seated on the ground, near-touching (repeats per tile)
+    h1 = load_prop("area4_props", "painted_house1.png", scale_h=118)
+    h2 = load_prop("area4_props", "painted_house2.png", scale_h=126)
+    houses = [h for h in (h1, h2) if h]
+    if houses:
+        x = 6; i = 0
+        while x < W - 30:
+            hh = houses[i % len(houses)]
+            mid.alpha_composite(hh, (x, GROUND - hh.height))
+            x += hh.width - 2; i += 1
+    near = new_layer()
+    # TROLLEY (cable car) seated at the ground line so it rides IN FRONT of the houses on the
+    # street edge — NOT down in the lane band (the opaque lane strip would hide it there).
+    tr = load_prop("area4_props", "trolley.png", scale_h=60)
+    if tr:
+        near.alpha_composite(tr, (150, GROUND - tr.height))
+    lane = lane_strip(((150, 150, 156), (112, 112, 118)), (96, 96, 102), (150, 62, 44), "rails")  # cable-car rails
     write_theme("area4_sf", far, mid, near, lane)
 
 
