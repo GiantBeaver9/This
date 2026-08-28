@@ -697,12 +697,12 @@ namespace ThisL
                 // Point-blank pistol-whip EXECUTE (§3.1): a gun-bash finishes a near-dead enemy
                 // in melee range with no bullet — the up-close payoff for a spent mag.
                 if (TryPistolWhipExecute(d)) return;
+                // Boomerang (thrown) goes out on the arrow.
+                if (CurrentWeapon.Kind == WeaponKind.Boomerang) { FireWeapon(); return; }
                 // GUNS fire on E ONLY — a horizontal arrow just aims/faces, it never shoots (creator:
                 // "should only shoot on e, not do the shooting on pressing arrow key"). Facing is already
                 // set above, so this press just points the gun.
                 if (CurrentWeapon.IsRanged) return;
-                // Boomerang (thrown) still goes out on the arrow.
-                if (CurrentWeapon.Kind == WeaponKind.Boomerang) { FireWeapon(); return; }
                 StartSide(0);
             }
             else StartStrike(d == AttackDir.Up ? AttackKind.Up : AttackKind.Down);

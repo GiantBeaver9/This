@@ -176,71 +176,85 @@ namespace ThisL
     {
         public Team OwnerTeam;
         public PlayerController Thrower;
-        public float WorldX, Z, StartX, Dir = 1f;
-        public float Range = 8f, Speed = 16f, StunSeconds = 2f;
-        public System.Action OnFirstHit;
+        public float StartX, StartZ, Dir = 1f;
+        public float Range = 12f, LoopWidth = 4f, FlightTime = 1.7f;
+        public float Damage = 15f, StunSeconds = 0.6f;
+        public System.Action OnDone;          // fired when the throw completes (used for the 3-charge discard)
 
-        private bool _returning, _hitAnything;
-        private float _life = 6f, _spin;
+        private float WorldX, Z, _t;
         private SpriteRenderer _sr;
         private readonly HashSet<Actor> _hit = new();
-        private const float HitRadiusX = 0.5f;
+        private const float HitRadiusX = 0.7f;
 
         public static BoomerangProjectile Spawn(Team team, float x, float z, float dirX, PlayerController thrower)
         {
             var go = new GameObject("boomerang");
             var b = go.AddComponent<BoomerangProjectile>();
             b.OwnerTeam = team; b.Thrower = thrower;
-            b.WorldX = x; b.StartX = x; b.Z = z;
+            b.StartX = x; b.StartZ = z; b.WorldX = x; b.Z = z;
             b.Dir = Mathf.Sign(dirX == 0 ? 1 : dirX);
             b._sr = go.AddComponent<SpriteRenderer>();
-            b._sr.sprite = WeaponProjectileArt.Dot();
-            b._sr.color = new Color(0.8f, 1f, 0.4f);
+            b._sr.sprite = Frames()[0];
             return b;
         }
 
         private void Update()
         {
             float dt = Time.deltaTime;
-            _life -= dt;
-            if (_life <= 0f) { Destroy(gameObject); return; }
+            _t += dt;
+            float u = _t / FlightTime;
+            if (u >= 1f) { OnDone?.Invoke(); Destroy(gameObject); return; }
 
-            if (!_returning)
-            {
-                WorldX += Dir * Speed * dt;
-                if (Mathf.Abs(WorldX - StartX) >= Range) _returning = true;
-            }
-            else
-            {
-                // Home back to the thrower's live position; caught when it arrives.
-                float tx = Thrower != null && Thrower.Alive ? Thrower.WorldX : StartX;
-                float tz = Thrower != null && Thrower.Alive ? Thrower.Z : Z;
-                float ex = tx - WorldX, ez = tz - Z;
-                float d = Mathf.Sqrt(ex * ex + ez * ez);
-                if (d < 0.6f) { Destroy(gameObject); return; }   // caught
-                WorldX += ex / d * Speed * dt;
-                Z += ez / d * Speed * dt;
-            }
+            // TEARDROP flight: out-and-back in X (sin → narrow at the thrower, far at the middle) with a
+            // lateral loop in Z (½·sin 2u → bulges one way out, the other coming back).
+            WorldX = StartX + Dir * Range * Mathf.Sin(u * Mathf.PI);
+            Z = Mathf.Clamp(StartZ + LoopWidth * 0.5f * Mathf.Sin(u * 2f * Mathf.PI), 0f, Tuning.ZBandDepth);
 
+            // Mows through the enemies it passes — hits ~2-4 across the arc (creator).
             foreach (var a in Actor.All)
             {
                 if (a == null || !a.Alive || a.Team == OwnerTeam || _hit.Contains(a)) continue;
                 if (Mathf.Abs(a.WorldX - WorldX) > HitRadiusX) continue;
-                if (!Playfield.WithinZ(a.Z, Z, Tuning.HitboxZTolerance)) continue;
+                if (!Playfield.WithinZ(a.Z, Z, 0.9f)) continue;
                 _hit.Add(a);
+                a.TakeDamage(Damage, null);
                 if (a is IStaggerable s) s.ApplyStagger(StunSeconds);
                 Vfx.HitSpark(a.WorldX, a.Z);
-                if (!_hitAnything) { _hitAnything = true; OnFirstHit?.Invoke(); }
             }
         }
 
         private void LateUpdate()
         {
             Playfield.Place(transform, WorldX, Z, _sr);
-            _spin += 720f * Time.deltaTime;
-            transform.rotation = Quaternion.Euler(0, 0, _spin);
             transform.position += Vector3.up * 1.0f;
-            if (_sr != null) _sr.sortingOrder = 900;
+            if (_sr != null)
+            {
+                _sr.sprite = Frames()[(int)(_t * 18f) % 4];   // cycle the 4 spin sprites (creator)
+                _sr.sortingOrder = 900;
+            }
+        }
+
+        // The 4 boomerang spin frames (assets/sprites/props/boomerang_0..3.png); a dot if art is missing.
+        private static Sprite[] _frames;
+        private static Sprite[] Frames()
+        {
+            if (_frames != null) return _frames;
+            var list = new System.Collections.Generic.List<Sprite>();
+            try
+            {
+                for (int i = 0; i < 4; i++)
+                {
+                    string path = System.IO.Path.Combine(SpriteLibrary.AssetsRoot, "sprites", "props", "boomerang_" + i + ".png");
+                    if (!System.IO.File.Exists(path)) continue;
+                    var t = new Texture2D(2, 2, TextureFormat.RGBA32, false) { filterMode = FilterMode.Point };
+                    t.LoadImage(System.IO.File.ReadAllBytes(path)); t.Apply();
+                    list.Add(Sprite.Create(t, new Rect(0, 0, t.width, t.height), new Vector2(0.5f, 0.5f), Tuning.PixelsPerUnit));
+                }
+            }
+            catch { }
+            if (list.Count == 0) list.Add(WeaponProjectileArt.Dot());
+            _frames = list.ToArray();
+            return _frames;
         }
     }
 

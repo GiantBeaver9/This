@@ -175,7 +175,7 @@ namespace ThisL
             var w = new Weapon
             {
                 Kind = WeaponKind.Boomerang, Reach = 0f, Damage = 15,
-                HitsRemaining = int.MaxValue, Warmup = 0.15f, IsRanged = true,
+                HitsRemaining = 3, Warmup = 0.15f, IsRanged = true,   // 3 throws (creator)
             };
             w.FireImpl = p => WeaponFx.ThrowBoomerang(p, w);
             return w;
@@ -265,11 +265,12 @@ namespace ThisL
         public static bool ThrowBoomerang(PlayerController p, Weapon w)
         {
             var b = BoomerangProjectile.Spawn(Team.Player, p.WorldX + p.Facing * 0.6f, p.Z, p.Facing, p);
-            b.StunSeconds = 2f;
-            b.Range = 8f;                                           // 8 wu out then curves home (§6.3)
-            b.OnFirstHit = () => p.CurrentWeapon = Weapon.Fists();  // HIT → it bounces away, you lose it
-            w.FireCooldown = 1.2f;                                  // round-trip lockout; MISS returns to hand
+            b.Damage = w.Damage;
+            w.FireCooldown = 1.9f;                                   // one throw per round-trip
             Sfx.Play("boomerang_throw");
+            // 3 throws, then it's spent — discard to fists once the last boomerang finishes its flight.
+            if (w.Spend())
+                b.OnDone = () => { if (p.CurrentWeapon == w) p.CurrentWeapon = Weapon.Fists(); };
             return true;
         }
 
