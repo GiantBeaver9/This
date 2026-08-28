@@ -66,13 +66,48 @@ namespace ThisL
         {
             if (from == null) return null;
             var go = new GameObject("fx_special_spin");
-            if (from.transform != null) { go.transform.SetParent(from.transform, false); go.transform.localPosition = new Vector3(0.4f, 0.9f, 0f); }
+            if (from.transform != null) { go.transform.SetParent(from.transform, false); go.transform.localPosition = new Vector3(0.35f, 1.0f, 0f); }
             var sr = go.AddComponent<SpriteRenderer>();
-            sr.sprite = BarSprite();
-            sr.color = new Color(0.05f, 0.05f, 0.08f, 0.9f);   // blackish
             sr.sortingOrder = 500;                              // in front of the fighters
-            go.transform.localScale = new Vector3(1.4f, 1.4f, 1f);
+            // Spin the character's actual GUN (creator: "hold the gun while spinning it") — a shotgun for
+            // Aaron, a pistol for Adam — pivoted at the grip so it twirls; falls back to the dark blur bar.
+            string id = (from as PlayerController)?.Character?.Id;
+            var gun = LoadGun(id == "shotgunner" ? "shotgun" : "pistol");
+            if (gun != null)
+            {
+                sr.sprite = gun;
+                sr.color = Color.white;
+                float natH = gun.rect.height / Tuning.PixelsPerUnit;
+                float sc = natH > 0.05f ? 1.3f / natH : 1f;    // ~1.3 wu tall
+                go.transform.localScale = new Vector3(sc, sc, 1f);
+            }
+            else
+            {
+                sr.sprite = BarSprite();
+                sr.color = new Color(0.05f, 0.05f, 0.08f, 0.9f);
+                go.transform.localScale = new Vector3(1.4f, 1.4f, 1f);
+            }
             return go;
+        }
+
+        private static readonly System.Collections.Generic.Dictionary<string, Sprite> _guns = new();
+        private static Sprite LoadGun(string name)
+        {
+            if (_guns.TryGetValue(name, out var s)) return s;
+            s = null;
+            try
+            {
+                string path = System.IO.Path.Combine(SpriteLibrary.AssetsRoot, "sprites", "weapons", name, name + "_pickup.png");
+                if (System.IO.File.Exists(path))
+                {
+                    var t = new Texture2D(2, 2, TextureFormat.RGBA32, false) { filterMode = FilterMode.Point };
+                    t.LoadImage(System.IO.File.ReadAllBytes(path)); t.Apply();
+                    s = Sprite.Create(t, new Rect(0, 0, t.width, t.height), new Vector2(0.35f, 0.5f), Tuning.PixelsPerUnit);
+                }
+            }
+            catch { }
+            _guns[name] = s;
+            return s;
         }
 
         private static Sprite _bar;
@@ -138,7 +173,7 @@ namespace ThisL
                 while (t < _sec)
                 {
                     t += Time.unscaledDeltaTime;
-                    if (blur != null) blur.transform.Rotate(0f, 0f, -1500f * Time.unscaledDeltaTime);
+                    if (blur != null) blur.transform.Rotate(0f, 0f, -820f * Time.unscaledDeltaTime); // gun twirl (readable, not a pure blur)
                     yield return null;
                 }
                 if (blur != null) Destroy(blur);
