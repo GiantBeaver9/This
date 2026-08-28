@@ -1357,7 +1357,7 @@ namespace ThisL
                 CurrentWeapon.FireCooldown <= 0f && CurrentWeapon.FireImpl != null)
             {
                 _aimTimer = CurrentWeapon.AimTime;
-                _fireLock = CurrentWeapon.AimTime + 0.12f;   // rooted through the aim + a short recover
+                _fireLock = CurrentWeapon.AimTime + 0.28f;   // aim + let the full fire/recoil pose play out
                 Anim.Play("attack_side", false, restart: true); // aim pose (placeholder until a bespoke aim clip)
                 Sfx.Play("swing_whoosh");                        // soft aim tell
                 return;
@@ -1366,7 +1366,7 @@ namespace ThisL
             if (CurrentWeapon.TryFire(this))
             {
                 Anim.Play("attack_side", false, restart: true);
-                _fireLock = 0.2f;   // root in place for 0.2s — firing is a deliberate, non-spammable commitment
+                _fireLock = 0.38f;  // root long enough for the full fire pose to play (not snap to idle)
             }
         }
 
@@ -1593,6 +1593,9 @@ namespace ThisL
         {
             RefreshWeaponOverlay();
             if (_phase != Phase.None) return; // attack clip already playing
+            // HOLD the gun's aim/fire pose through the aim wind-up + fire recover, so the shooting
+            // animation actually shows instead of snapping straight back to idle (creator).
+            if (_aimTimer > 0f || _fireLock > 0f) return;
             if (_airDashing) { Anim.Play("dash", false); return; }
             if (_airborne) { Anim.Play("jump", false); return; }
             // Shoving an enemy → a looping shoulder-charge sprint; a clean dash → the slide.
