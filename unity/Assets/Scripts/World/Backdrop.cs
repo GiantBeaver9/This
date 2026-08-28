@@ -996,17 +996,18 @@ namespace ThisL
             return MakeSprite(w, h, px);
         }
 
-        /// <summary>Airport: dark tarmac RUNWAY with white edge lines + a dashed centreline.</summary>
+        /// <summary>Airport: an all-BLACK runway with big THICK white centreline dashes down the middle
+        /// (creator: "look at a real tarmac").</summary>
         private static Sprite BuildRunway(in Palette p, int h)
         {
-            const int w = 64;
+            const int w = 96;                                 // wide tile → long dashes
             var px = new Color32[w * h];
-            Color32 tarmac = new(56, 58, 64, 255), edge = new(92, 94, 102, 255), mark = new(232, 232, 226, 255);
-            for (int y = 0; y < h; y++) for (int x = 0; x < w; x++) px[y * w + x] = tarmac;
-            for (int x = 0; x < w; x++) { SetPx(px, w, h, x, 1, mark); SetPx(px, w, h, x, h - 2, mark); } // runway edge lines
+            Color32 asphalt = new(26, 26, 28, 255), grain = new(34, 34, 37, 255), mark = new(244, 244, 240, 255);
+            for (int y = 0; y < h; y++) for (int x = 0; x < w; x++) px[y * w + x] = asphalt;
+            // THICK white centreline dash (64 long, 32 gap; ~9 px thick) — the big real-runway stripe.
             int cy = Mathf.RoundToInt(h * 0.5f);
-            for (int x = 0; x < 40; x++) for (int y = cy - 1; y <= cy + 1; y++) SetPx(px, w, h, x, y, mark); // long dashes
-            for (int i = 0; i < (w * h) / 24; i++) { int x = (i * 37) % w, y = (i * 61) % h; px[y * w + x] = Blend(px[y * w + x], edge, 0.12f); }
+            for (int x = 0; x < 64; x++) for (int y = cy - 4; y <= cy + 4; y++) SetPx(px, w, h, x, y, mark);
+            for (int i = 0; i < (w * h) / 30; i++) { int x = (i * 37) % w, y = (i * 61) % h; px[y * w + x] = grain; } // faint grain
             return MakeSprite(w, h, px);
         }
 

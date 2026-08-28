@@ -46,7 +46,7 @@ namespace ThisL
             bool toRight = Random.value < 0.5f;
             float dir = toRight ? 1f : -1f;
 
-            float tarmacY = Playfield.FeetY(Tuning.ZBandDepth - 0.3f);   // far tarmac row
+            float tarmacY = Playfield.FeetY(Tuning.ZBandDepth * 0.5f);   // MIDDLE of the play area (creator)
             float half = Tuning.ScreenWidthUnits * 0.5f;
 
             var go = new GameObject(jet ? "landing_jet" : "landing_cessna");
