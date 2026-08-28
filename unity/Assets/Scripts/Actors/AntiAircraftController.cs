@@ -36,8 +36,7 @@ namespace ThisL
             if (Anim == null) Anim = GetComponent<SpriteAnimator>();
             Anim.Set = SpriteLibrary.Load(def.SpriteDir, def.SpriteActor);
             Anim.Play("idle", true);
-            // Rock-lobbers get an earthy tint; head-throwers keep the plain enemy look (they toss a pale head).
-            if (Sr != null && !_isHead) Sr.color = new Color(0.72f, 0.56f, 0.34f); // earthy tint (art gap)
+            // No rock-head tint (creator: "the rock head enemies shouldn't have rock heads") — plain look.
             Shadow.Attach(this, Shadow.MediumTier);
         }
 

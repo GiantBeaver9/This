@@ -16,6 +16,8 @@ namespace ThisL
         private float _timer = SpitInterval;
         private bool _dead;
 
+        protected override bool KeepInView => false;   // pods are world-fixed + leash-despawned, not view-clamped
+
         public void Init(float x, float z)
         {
             Team = Team.Enemy;

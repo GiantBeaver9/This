@@ -238,6 +238,9 @@ namespace ThisL
 
         // ---- Boss render scale (over the depth-scaled base) -------------------
 
+        /// <summary>Bosses position themselves (strafes, perches, teleports) and are never view-clamped.</summary>
+        protected override bool KeepInView => false;
+
         protected override void LateUpdate()
         {
             base.LateUpdate(); // clamps Z, projects, applies depth scale to localScale

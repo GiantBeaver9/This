@@ -47,10 +47,17 @@ namespace ThisL
         /// parked cars (creator: "I should be able to walk lower than the cars parked on the lower side").</summary>
         protected virtual float MinZ => 0f;
 
+        /// <summary>Enemies that must stay framed once they've entered the view (creator: "no enemies
+        /// should be able to leave the camera screen once they're on it" — stops snipers camping off
+        /// the edge). Bosses/pods opt out (they own their positions).</summary>
+        protected virtual bool KeepInView => Team == Team.Enemy;
+        private bool _enteredView;
+
         /// <summary>Clamp Z into the band and push the logical position onto the sprite transform.</summary>
         protected virtual void LateUpdate()
         {
             Z = Mathf.Clamp(Z, MinZ, Tuning.ZBandDepth);
+            if (KeepInView) ClampWithinView();
             Playfield.Place(transform, WorldX, Z, Sr);
             if (ScaleMult != 1f)
             {
@@ -58,6 +65,18 @@ namespace ThisL
                 transform.localScale = new Vector3(ls.x * ScaleMult, ls.y * ScaleMult, 1f);
             }
             if (Anim != null) Anim.SetFacing(Facing);
+        }
+
+        // Once an enemy is inside the view it can never leave it again — it's dragged to the edge
+        // rather than slipping off-screen to harass from safety.
+        private void ClampWithinView()
+        {
+            var cam = Camera.main;
+            if (cam == null) return;
+            float half = Tuning.ScreenWidthUnits * 0.5f - 0.8f;
+            float l = cam.transform.position.x - half, r = cam.transform.position.x + half;
+            if (WorldX > l && WorldX < r) _enteredView = true;
+            if (_enteredView) WorldX = Mathf.Clamp(WorldX, l, r);
         }
 
         public float DistanceTo(Actor other)
