@@ -1339,10 +1339,10 @@ namespace ThisL
             // the locks so the double-tap lands mid-pitch.
             if (CurrentWeapon != null && CurrentWeapon.Kind == WeaponKind.Grenade)
             {
-                if (_grenadePitch > 0f) { WeaponFx.GrenadeFastball(this, CurrentWeapon); _grenadePitch = 0f; _fireLock = 0.2f; return; }
-                if (_airborne || _dashing || _hitstun > 0f || _weaponReady > 0f || _fireLock > 0f) return;
-                _grenadePitch = 0.33f;           // the pitch wind-up
-                _fireLock = 0.33f;
+                if (_grenadePitch > 0f) { WeaponFx.GrenadeFastball(this, CurrentWeapon); _grenadePitch = 0f; _fireLock = 0.22f; return; }
+                if (_airborne || _dashing || _hitstun > 0f || _weaponReady > 0f) return;
+                _grenadePitch = 0.6f;            // a longer, VISIBLE pitch wind-up (and a roomy double-tap window)
+                _fireLock = 0.6f;                // hold the wind-up pose the whole time (UpdateAnimation gate)
                 Anim.Play("attack_up", false, restart: true);   // wind-up (over-the-shoulder pitch)
                 Sfx.Play("swing_whoosh");
                 return;
