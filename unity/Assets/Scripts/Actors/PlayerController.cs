@@ -708,10 +708,9 @@ namespace ThisL
                 if (TryPistolWhipExecute(d)) return;
                 // Boomerang (thrown) goes out on the arrow.
                 if (CurrentWeapon.Kind == WeaponKind.Boomerang) { FireWeapon(); return; }
-                // GUNS fire on E ONLY — a horizontal arrow just aims/faces, it never shoots (creator:
-                // "should only shoot on e, not do the shooting on pressing arrow key"). Facing is already
-                // set above, so this press just points the gun.
-                if (CurrentWeapon.IsRanged) return;
+                // GUNS: the arrows are a regular PUNCH (fists), E fires the gun (creator: "left/right/up/
+                // down do regular punching, E does the shoot animation"). StartSide punches with fist
+                // reach/damage (a gun has Reach 0 → isFist), and the base fist swing plays (not the gun pose).
                 StartSide(0);
             }
             else StartStrike(d == AttackDir.Up ? AttackKind.Up : AttackKind.Down);
@@ -756,6 +755,10 @@ namespace ThisL
             Sfx.Play("dash_whoosh");
         }
 
+        /// <summary>A GUN punches with fists on the arrows — force the base fist attack (the weapon-overlay
+        /// swing / fire pose is reserved for E). Melee weapons keep their overlay swing.</summary>
+        private void BareIfGun() { if (Anim != null && CurrentWeapon != null && CurrentWeapon.IsRanged) Anim.ForceBaseAttack = true; }
+
         private void StartSide(int index)
         {
             _attackKind = AttackKind.Side;
@@ -765,6 +768,7 @@ namespace ThisL
             _phaseTimer = PhaseStartup();
             _hitResolved = false;
             _bufferedAttack = false;
+            BareIfGun();
             Anim.Play("attack_side", false, restart: true);
             Sfx.Play("swing_whoosh");
         }
@@ -781,6 +785,7 @@ namespace ThisL
             _phaseTimer = PhaseStartup();
             _hitResolved = false;
             _bufferedAttack = false;
+            BareIfGun();
             Anim.Play("sweep", false, restart: true);   // #3 = the leg-sweep knockdown (was a plain punch)
             Sfx.Play("swing_whoosh");
         }
@@ -811,6 +816,7 @@ namespace ThisL
             // Up = the uppercut (rising strike). Down = the bespoke "punch_down": the hero crouches
             // and drives a fist down at an enemy in the near lane — so it reads as hitting someone
             // BELOW/in front, not the old roundhouse that swung at the empty floor.
+            BareIfGun();
             Anim.Play(kind == AttackKind.Up ? "attack_up" : "punch_down", false, restart: true);
             Sfx.Play("swing_whoosh");
         }

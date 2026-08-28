@@ -77,14 +77,20 @@ namespace ThisL
             _t = 0f;
             _finished = false;
             _sr.sprite = _frames[0];
+            ForceBaseAttack = false;   // one-shot consumed
         }
 
         /// <summary>Pick the frames for a clip, preferring the weapon <see cref="Overlay"/> (idle→idle,
         /// any attack/sweep→swing) and falling back to the base <see cref="Set"/>.</summary>
+        /// <summary>One-shot: the next attack clip ignores the weapon overlay swing and uses the base
+        /// (fist) attack — a GUN punches with fists on the arrows; the overlay fire pose is for E only.</summary>
+        public bool ForceBaseAttack;
+
         private Sprite[] ResolveFrames(string clip, out bool fromOverlay)
         {
             fromOverlay = false;
-            if (Overlay != null && clip != null)
+            bool bare = ForceBaseAttack && clip != null && (clip.Contains("attack") || clip == "sweep");
+            if (Overlay != null && clip != null && !bare)
             {
                 // idle keeps the weapon in hand; a real attack/sweep uses the weapon swing. Walk uses
                 // the weapon's walk clip IF it exists, else falls through to the base walk (moving
