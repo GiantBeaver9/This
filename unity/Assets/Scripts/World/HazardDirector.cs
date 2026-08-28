@@ -144,9 +144,9 @@ namespace ThisL
                     // enemies) back along its path (creator: "the car should kill them, the guard just
                     // pushes everyone back"). Cars keep their own lethal CarHazard.
                     var guard = CrossHazard.Spawn(gs, x, z, dir * 9f, 0f, new Vector2(sc, sc), 0.8f, 0f);
-                    guard.EnemyDamage = 0f;       // no kill
-                    guard.PushX = 3.0f;           // firm shove for everyone it clips
-                    guard.StaggerSeconds = 1.0f;  // brief stumble, not a long knockdown
+                    guard.EnemyDamage = 0f;       // 0 damage to ANYONE (creator)
+                    guard.Drag = true;            // he just GRABS and drags them along his path
+                    guard.StaggerSeconds = 0.5f;
                     break;
                 }
                 case HazardKind.Plane:   // a jet roars across the far tarmac row — big, fast, deadly

@@ -60,21 +60,22 @@ namespace ThisL
                 _meleeCd = Mathf.Max(0f, _meleeCd - dt);
                 float cx = player.WorldX - WorldX;
                 Facing = cx >= 0f ? 1 : -1;
+                float chaseSpeed = Def.Speed * 1.6f;   // the headless body is RELENTLESS — runs you down
                 bool inReach = Mathf.Abs(cx) <= Def.Reach + 0.3f && Playfield.WithinZ(player.Z, Z, 0.9f);
                 if (!inReach)
                 {
-                    WorldX += Mathf.Sign(cx) * Def.Speed * dt;
-                    Z += Mathf.Clamp(player.Z - Z, -Def.Speed * dt, Def.Speed * dt);
+                    WorldX += Mathf.Sign(cx) * chaseSpeed * dt;
+                    Z += Mathf.Clamp(player.Z - Z, -chaseSpeed * dt, chaseSpeed * dt);
                     Steering.Separate(this);
                     Anim.Play("walk", true);
                 }
                 else if (_meleeCd <= 0f)
                 {
-                    _meleeCd = 1.0f;
+                    _meleeCd = 0.8f;
                     Anim.Play("attack_side", false, restart: true);
-                    if (player.DistanceTo(this) <= Def.Reach + 0.4f) player.TakeDamage(Def.Damage, this);
+                    if (player.DistanceTo(this) <= Def.Reach + 0.5f) player.TakeDamage(Def.Damage, this);
                 }
-                else Anim.Play("idle", true);
+                else Anim.Play("attack_side", false);  // stay swinging, never relax to a standing idle
                 return;
             }
 
@@ -177,17 +178,23 @@ namespace ThisL
         private static Sprite HeadSprite()
         {
             if (_headSprite != null) return _headSprite;
-            const int d = 11;
+            const int d = 13;
             var tex = new Texture2D(d, d, TextureFormat.RGBA32, false) { filterMode = FilterMode.Point };
             var px = new Color32[d * d];
-            var pale = new Color32(242, 230, 205, 255);
+            var skin = new Color32(224, 178, 140, 255);           // a real HEAD, not a pale bomb
+            var hair = new Color32(70, 52, 44, 255);
+            var dark = new Color32(30, 26, 24, 255);
             float r = d / 2f;
             for (int y = 0; y < d; y++)
                 for (int x = 0; x < d; x++)
                 {
                     float dx = x - r + 0.5f, dy = y - r + 0.5f;
-                    px[y * d + x] = dx * dx + dy * dy <= r * r ? pale : new Color32(0, 0, 0, 0);
+                    if (dx * dx + dy * dy > r * r) { px[y * d + x] = new Color32(0, 0, 0, 0); continue; }
+                    px[y * d + x] = y >= d - 4 ? hair : skin;     // hair on top (y grows up)
                 }
+            void Set(int x, int y, Color32 c) { if (x >= 0 && x < d && y >= 0 && y < d) px[y * d + x] = c; }
+            Set(4, 7, dark); Set(8, 7, dark);                     // two eyes
+            Set(5, 4, dark); Set(6, 4, dark); Set(7, 4, dark);    // mouth
             tex.SetPixels32(px); tex.Apply();
             _headSprite = Sprite.Create(tex, new Rect(0, 0, d, d), new Vector2(0.5f, 0.5f), Tuning.PixelsPerUnit);
             return _headSprite;

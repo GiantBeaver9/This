@@ -13,8 +13,8 @@ namespace ThisL
     /// </summary>
     public sealed class CausewayGaps : MonoBehaviour
     {
-        private const float PlatformW = 11f;   // solid road section
-        private const float GapW = 4.0f;        // water gap to clear with a jump
+        private const float PlatformW = 12f;   // solid road section
+        private const float GapW = 2.4f;        // water gap to clear with a jump (narrow enough to clear)
         private const float FallDamage = 5f;
 
         private int _lastStage = -1;

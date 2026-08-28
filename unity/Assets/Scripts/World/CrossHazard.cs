@@ -22,10 +22,12 @@ namespace ThisL
         public float HitZ = 0.7f;           // depth tolerance on its row
         public float YOffset = 0f;          // lift above the row (planes ride high)
         public float Life = 4f;
+        public bool Drag = false;           // true = DRAG whatever it touches along its path (the guard) instead of a one-shot shove
 
         private SpriteRenderer _sr;
         private Vector2 _scale = Vector2.one;
         private readonly HashSet<Actor> _hit = new();
+        private readonly List<Actor> _dragging = new();
 
         public static CrossHazard Spawn(Sprite spr, float fromX, float z, float speed, float dmg,
                                         Vector2 scale, float halfLenX, float yOffset, string sfx = null)
@@ -47,6 +49,7 @@ namespace ThisL
             WorldX += VelX * dt;
             Life -= dt;
 
+            float dir = Mathf.Sign(VelX);
             foreach (var a in Actor.All)
             {
                 if (!a.Alive || _hit.Contains(a)) continue;
@@ -54,7 +57,12 @@ namespace ThisL
                 if (!Playfield.WithinZ(a.Z, Z, HitZ)) continue;
                 _hit.Add(a);
                 Vfx.HitSpark(a.WorldX, a.Z);
-                float dir = Mathf.Sign(VelX);
+                if (Drag)                                       // the guard: grab and HAUL them along (0 dmg)
+                {
+                    if (a is IStaggerable s) s.ApplyStagger(StaggerSeconds);
+                    _dragging.Add(a);
+                    continue;
+                }
                 if (a is PlayerController pl)
                 {
                     if (Damage > 0f) pl.TakeDamage(Damage, null);
@@ -66,6 +74,15 @@ namespace ThisL
                     if (EnemyDamage > 0f) a.TakeDamage(EnemyDamage, null);
                     a.WorldX += dir * Mathf.Max(1.5f, PushX);   // bowl them over in the travel direction
                 }
+            }
+
+            // DRAG: carry everyone it grabbed along at its own speed until it leaves.
+            for (int i = _dragging.Count - 1; i >= 0; i--)
+            {
+                var a = _dragging[i];
+                if (a == null || !a.Alive) { _dragging.RemoveAt(i); continue; }
+                a.WorldX += VelX * dt;
+                if (a is IStaggerable s2) s2.ApplyStagger(0.2f);  // keep them stumbling so they don't fight mid-drag
             }
 
             if (Life <= 0f) Destroy(gameObject);
