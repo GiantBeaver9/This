@@ -15,10 +15,12 @@ namespace ThisL
     /// </summary>
     public sealed class PodDirector : MonoBehaviour
     {
-        /// <summary>World-units of NEW forward progress between pod drops (bigger = more breaks).</summary>
-        public float SpacingWu = 250f;
+        /// <summary>World-units of NEW forward progress between pod drops (bigger = more breaks). Tighter
+        /// now so an accumulating pod is a regular part of the enemy MIX, not a rare one-off (creator);
+        /// the field cap (Pod.FieldCap) keeps its swarmers a slice of the roster, never the majority.</summary>
+        public float SpacingWu = 170f;
         /// <summary>Don't drop the first pod until the player is this far into the run (past the opener).</summary>
-        public float FirstAtWu = 140f;
+        public float FirstAtWu = 100f;
         /// <summary>A pod this far BEHIND the player has been left behind → it despawns (the break).</summary>
         public float LeashBehindWu = 22f;
 

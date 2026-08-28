@@ -10,8 +10,8 @@ namespace ThisL
     /// </summary>
     public sealed class Pod : Actor
     {
-        public const int FieldCap = 6;
-        public const float SpitInterval = 3f;
+        public const int FieldCap = 5;              // total live pod-spawned units — keeps pods a slice of the mix, never 90%
+        public const float SpitInterval = 2.6f;
 
         private float _timer = SpitInterval;
         private bool _dead;
