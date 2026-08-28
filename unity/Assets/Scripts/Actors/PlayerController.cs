@@ -100,6 +100,7 @@ namespace ThisL
         private float _hitstun;
         private float _weaponReady;       // warm-up countdown before a looted weapon can fire
         private float _fireLock;          // brief root-in-place after firing a ranged weapon (anti-spam)
+        private float _grenadePitch;      // >0 = winding up a grenade PITCH; lobs at 0 (single), fastball on a 2nd tap
         private float _specialLock;       // ROOTED + posed during a cinematic special (real-time countdown)
         private float _aimTimer;          // >0 = winding up an aimed shot (pistol); the shot leaves at 0
 
@@ -235,6 +236,14 @@ namespace ThisL
             _weaponReady = Mathf.Max(0f, _weaponReady - dt);
             _fireLock = Mathf.Max(0f, _fireLock - dt);
             _specialLock = Mathf.Max(0f, _specialLock - Time.unscaledDeltaTime); // real time — the special slows dt
+
+            // Grenade PITCH resolve: the wind-up completing with no second tap = a LOB (a 2nd tap fired
+            // a fastball in FireWeapon and already cleared this). A weapon swap mid-pitch cancels it.
+            if (_grenadePitch > 0f)
+            {
+                if (CurrentWeapon == null || CurrentWeapon.Kind != WeaponKind.Grenade) _grenadePitch = 0f;
+                else { _grenadePitch -= dt; if (_grenadePitch <= 0f) WeaponFx.GrenadeLob(this, CurrentWeapon); }
+            }
 
             // Aimed-shot wind-up (pistol §3.1): the trigger starts a brief aim; the shot leaves when
             // the timer runs out (more precise than a snap shot). A hit mid-aim cancels it.
@@ -1319,6 +1328,20 @@ namespace ThisL
         /// <summary>Fire a ranged weapon (E or a fresh horizontal attack arrow). Melee weapons ignore this.</summary>
         private void FireWeapon()
         {
+            // GRENADE pitch (creator): a press starts a pitching wind-up that LOBS (high arc) when it
+            // completes; a SECOND press during the wind-up commits it to a flat FASTBALL. Checked before
+            // the locks so the double-tap lands mid-pitch.
+            if (CurrentWeapon != null && CurrentWeapon.Kind == WeaponKind.Grenade)
+            {
+                if (_grenadePitch > 0f) { WeaponFx.GrenadeFastball(this, CurrentWeapon); _grenadePitch = 0f; _fireLock = 0.2f; return; }
+                if (_airborne || _dashing || _hitstun > 0f || _weaponReady > 0f || _fireLock > 0f) return;
+                _grenadePitch = 0.33f;           // the pitch wind-up
+                _fireLock = 0.33f;
+                Anim.Play("attack_up", false, restart: true);   // wind-up (over-the-shoulder pitch)
+                Sfx.Play("swing_whoosh");
+                return;
+            }
+
             if (_airborne || _dashing || _hitstun > 0f || _weaponReady > 0f || _fireLock > 0f) return;
             if (_aimTimer > 0f) return;   // already winding up an aimed shot
 

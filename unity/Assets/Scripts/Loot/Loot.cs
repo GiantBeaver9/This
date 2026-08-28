@@ -214,7 +214,9 @@ namespace ThisL
                 Kind = WeaponKind.Grenade, Reach = 0f, Damage = 35,
                 HitsRemaining = 1, Warmup = 0.40f, IsRanged = true,
             };
-            w.FireImpl = p => WeaponFx.ThrowGrenade(p, w);
+            // The pitch (single=lob / double-tap=fastball) is driven by PlayerController; this fallback
+            // just lobs if something fires it directly.
+            w.FireImpl = p => { WeaponFx.GrenadeLob(p, w); return true; };
             return w;
         }
 
@@ -375,33 +377,36 @@ namespace ThisL
 
         /// <summary>Grenade: one thrown fastball that plows forward and detonates on contact or
         /// at 8 wu (§3.2). Blast 35 (r 2 wu) to enemies; 40 self-damage if you're too close.</summary>
-        public static bool ThrowGrenade(PlayerController p, Weapon w)
+        /// <summary>SINGLE tap = a high LOB (the "pitch"): arcs UP onto a target ahead (an air enemy /
+        /// the helicopter, else a spot forward) and splashes on landing — reaches what a flat throw flies
+        /// under. This is how you drop grenades onto the chopper (creator).</summary>
+        public static void GrenadeLob(PlayerController p, Weapon w)
         {
-            if (p.HoldingUp)
-            {
-                // Anti-air LOB (§3.2): a high arc that drops onto a target ahead (an air enemy,
-                // else a spot ~6 wu forward) and splashes on landing — reaches what the flat
-                // fastball flies under.
-                float tx = p.WorldX + p.Facing * 6f, tz = p.Z;
-                var foe = NearestEnemyAhead(p, 9f);
-                if (foe != null) { tx = foe.WorldX; tz = foe.Z; }
-                var lob = ArcProjectile.Spawn(Team.Player, p.WorldX + p.Facing * 0.4f, p.Z,
-                                              tx, tz, w.Damage, new Color(0.5f, 0.8f, 0.4f), airTime: 0.85f);
-                lob.SplashRadius = 2f;
-                lob.ArcHeight = 4.0f;
-                lob.OnLand = () => { Sfx.Play("grenade_explode"); CameraShake.Add(CameraShake.Medium); };
-            }
-            else
-            {
-                GrenadeProjectile.Spawn(Team.Player, p.WorldX + p.Facing * 0.6f, p.Z, p.Facing,
-                                        20f, 8f / 20f,             // 20 wu/s, detonate at 8 wu (§6.3)
-                                        2f, w.Damage, 40f,         // r 2 wu, blast 35, self-dmg 40
-                                        owner: p);                 // thrower: excluded from blast, pays self-dmg
-            }
+            float tx = p.WorldX + p.Facing * 7f, tz = Tuning.ZBandDepth - 0.5f;   // default: lob deep/high
+            var foe = NearestEnemyAhead(p, 14f);
+            if (foe != null) { tx = foe.WorldX; tz = foe.Z; }
+            var lob = ArcProjectile.Spawn(Team.Player, p.WorldX + p.Facing * 0.4f, p.Z,
+                                          tx, tz, w.Damage, new Color(0.5f, 0.8f, 0.4f), airTime: 0.9f);
+            lob.SplashRadius = 2.2f;
+            lob.ArcHeight = 4.5f;
+            lob.OnLand = () => { Explosion.Blast(Team.Player, lob.TargetX, lob.TargetZ, 2.2f, w.Damage, friendlyFire: false, except: p); Sfx.Play("grenade_explode"); CameraShake.Add(CameraShake.Medium); };
+            FinishGrenade(p, w);
+        }
+
+        /// <summary>DOUBLE-tap = a flat FASTBALL that plows straight ahead and detonates downrange.</summary>
+        public static void GrenadeFastball(PlayerController p, Weapon w)
+        {
+            GrenadeProjectile.Spawn(Team.Player, p.WorldX + p.Facing * 0.6f, p.Z, p.Facing,
+                                    22f, 8f / 22f,             // fast, detonate at ~8 wu
+                                    2f, w.Damage, 40f, owner: p);
+            FinishGrenade(p, w);
+        }
+
+        private static void FinishGrenade(PlayerController p, Weapon w)
+        {
             Sfx.Play("grenade_throw");
             w.FireCooldown = 0.5f;
             if (w.Spend()) p.CurrentWeapon = Weapon.Fists();   // 1 use -> gone
-            return true;
         }
 
         /// <summary>Nearest live enemy ahead of the player within <paramref name="range"/> wu (any depth).</summary>
