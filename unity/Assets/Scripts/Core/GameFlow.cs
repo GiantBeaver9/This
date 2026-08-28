@@ -38,7 +38,7 @@ namespace ThisL
         private int _setupRow;             // highlighted row on the player-setup screen (keyboard/pad cursor)
         private GameObject _worldRoot;
         private CharacterDef[] _roster;
-        private GUIStyle _title, _label, _btn, _special;
+        private GUIStyle _title, _hdr, _label, _btn, _special;
         private GUIStyle _titleBig, _titleMid, _titleSmall; // stacked, left-justified gag title
         private GUIStyle _menuItem, _menuItemSel, _hint, _keyCap, _keyDesc; // menu + how-to-play
 
@@ -441,22 +441,23 @@ namespace ThisL
         // "press Start on a pad to join" guesswork).
         private void PlayerSetupGUI(float w, float h)
         {
-            GUI.Label(new Rect(0, 30, w, 40), _endlessPending ? "ENDLESS — SETUP" : "SETUP", _title);
+            GUI.Label(new Rect(0, 14, w, 34), _endlessPending ? "ENDLESS — SETUP" : "SETUP", _title);
             float cx = w / 2f;
             int rows = _playerCount == 2 ? 3 : 2;
             _setupRow = Mathf.Clamp(_setupRow, 0, rows - 1);
 
-            if (OptionRow(cx, 110f, "PLAYERS", new[] { "1", "2" }, _playerCount - 1, _setupRow == 0, out int pc)) { _playerCount = pc + 1; _setupRow = 0; }
-            if (OptionRow(cx, 180f, "PLAYER 1", InputNames, (int)_p1Input, _setupRow == 1, out int p1)) { _p1Input = (InputKind)p1; _setupRow = 1; }
-            if (_playerCount == 2 && OptionRow(cx, 250f, "PLAYER 2", InputNames, (int)_p2Input, _setupRow == 2, out int p2)) { _p2Input = (InputKind)p2; _setupRow = 2; }
+            if (OptionRow(cx, 74f, "PLAYERS", new[] { "1", "2" }, _playerCount - 1, _setupRow == 0, out int pc)) { _playerCount = pc + 1; _setupRow = 0; }
+            if (OptionRow(cx, 136f, "PLAYER 1", InputNames, (int)_p1Input, _setupRow == 1, out int p1)) { _p1Input = (InputKind)p1; _setupRow = 1; }
+            if (_playerCount == 2 && OptionRow(cx, 198f, "PLAYER 2", InputNames, (int)_p2Input, _setupRow == 2, out int p2)) { _p2Input = (InputKind)p2; _setupRow = 2; }
 
-            if (Button(new Rect(cx - 130f, 330f, 260f, 40f), "CONTINUE  →"))
+            // CONTINUE sits ABOVE the controls hint (creator) — no overlap.
+            if (Button(new Rect(cx - 120f, 272f, 240f, 36f), "CONTINUE  →"))
             {
                 Sfx.Play("confirm");
                 GoCharacterSelect(_endlessPending);
             }
 
-            GUI.Label(new Rect(0, h - 30, w, 24), "↑↓ pick row · ←→ change · Enter/A continue · Esc/B back · (or click)", _hint);
+            GUI.Label(new Rect(0, 328, w, 20), "↑↓ pick row · ←→ change · Enter/A continue · Esc/B back · (or click)", _hint);
             var ev = Event.current;
             if (ev.type == EventType.KeyDown)
             {
@@ -499,7 +500,7 @@ namespace ThisL
 
         private void MenuGUI(float w, float h)
         {
-            GUI.Label(new Rect(0, 40, w, 40), "THIS.L", _title);
+            GUI.Label(new Rect(0, 40, w, 40), "THIS!", _title);
 
             const float bw = 260f, bh = 40f, gap = 12f;
             float x = (w - bw) / 2f, y0 = 120f;
@@ -594,17 +595,17 @@ namespace ThisL
 
         private void CharacterSelectGUI(float w, float h)
         {
-            string who = _playerCount == 2 ? (_selectingP2 ? "PLAYER 2 — " : "PLAYER 1 — ") : "";
-            GUI.Label(new Rect(0, 20, w, 40), who + (_endlessPending ? "ENDLESS — CHOOSE YOUR FIGHTER" : "CHOOSE YOUR FIGHTER"), _title);
+            string who = _playerCount == 2 ? (_selectingP2 ? "P2 — " : "P1 — ") : "";
+            GUI.Label(new Rect(0, 8, w, 24), who + (_endlessPending ? "ENDLESS — CHOOSE YOUR FIGHTER" : "CHOOSE YOUR FIGHTER"), _hdr);
 
             // Difficulty picker lives here now (feeds both Campaign and Endless). Hard is the
             // baseline; Easy/Medium pare it down.
-            GUI.Label(new Rect(0, 66, w, 16), "DIFFICULTY", _label);
+            GUI.Label(new Rect(0, 36, w, 14), "DIFFICULTY", _hint);
             const float dbw = 92f, dbg = 10f;
             float dtotal = 3 * dbw + 2 * dbg, dbx = (w - dtotal) / 2f;
-            DiffButton(new Rect(dbx, 84, dbw, 24), Difficulty.Easy, "EASY");
-            DiffButton(new Rect(dbx + dbw + dbg, 84, dbw, 24), Difficulty.Medium, "MEDIUM");
-            DiffButton(new Rect(dbx + 2 * (dbw + dbg), 84, dbw, 24), Difficulty.Hard, "HARD");
+            DiffButton(new Rect(dbx, 52, dbw, 24), Difficulty.Easy, "EASY");
+            DiffButton(new Rect(dbx + dbw + dbg, 52, dbw, 24), Difficulty.Medium, "MEDIUM");
+            DiffButton(new Rect(dbx + 2 * (dbw + dbg), 52, dbw, 24), Difficulty.Hard, "HARD");
 
             int n = _roster.Length;
             float cw = 150f, gap = 14f;
@@ -615,7 +616,7 @@ namespace ThisL
                 var c = _roster[i];
                 // Taller card so the special-move name gets its own line clear of the
                 // stat block and the SELECT button (was overlapping the button before).
-                var r = new Rect(x0 + i * (cw + gap), 110, cw, 176);
+                var r = new Rect(x0 + i * (cw + gap), 84, cw, 176);
                 // Hover moves the cursor too, so mouse + keyboard + pad all agree on the highlight.
                 if (Event.current.type == EventType.MouseMove && r.Contains(Event.current.mousePosition)) _charIndex = i;
                 bool cur = i == _charIndex;
@@ -780,7 +781,8 @@ namespace ThisL
         private void EnsureStyles()
         {
             if (_title != null) return;
-            _title = new GUIStyle(GUI.skin.label) { fontSize = 42, fontStyle = FontStyle.Bold, alignment = TextAnchor.MiddleCenter };
+            _title = new GUIStyle(GUI.skin.label) { fontSize = 34, fontStyle = FontStyle.Bold, alignment = TextAnchor.MiddleCenter };
+            _hdr = new GUIStyle(GUI.skin.label) { fontSize = 20, fontStyle = FontStyle.Bold, alignment = TextAnchor.MiddleCenter }; // compact one-line header
             _titleBig = new GUIStyle(GUI.skin.label) { fontSize = 54, fontStyle = FontStyle.Bold, alignment = TextAnchor.MiddleCenter };
             _titleMid = new GUIStyle(GUI.skin.label) { fontSize = 34, fontStyle = FontStyle.Bold, alignment = TextAnchor.MiddleCenter };
             _titleSmall = new GUIStyle(GUI.skin.label) { fontSize = 23, fontStyle = FontStyle.Bold, alignment = TextAnchor.MiddleCenter };
