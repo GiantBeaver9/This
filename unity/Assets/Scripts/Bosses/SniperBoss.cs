@@ -17,9 +17,7 @@ namespace ThisL
     public sealed class SniperBoss : BossController
     {
         private float _scopeTimer = 1.6f;
-        private float _repositionTimer = 6f;
         private float _spotterTimer = 5f;
-        private const float HoldRange = 10f;   // preferred standoff
 
         public void Init(float x, float z)
         {
@@ -38,15 +36,20 @@ namespace ThisL
         protected override void BossUpdate(float dt, PlayerController player)
         {
             _scopeTimer -= dt;
-            _repositionTimer -= dt;
             _spotterTimer -= dt;
 
-            if (player == null || !player.Alive) { Anim.Play("idle", true); return; }
+            // PERCH on the camera's RIGHT EDGE and track it, on a far back row — the sniper is always on
+            // the right and sticks with the camera to the end (creator). It never comes down to brawl.
+            var cam = Camera.main;
+            float rightEdge = (cam != null ? cam.transform.position.x : WorldX) + Tuning.ScreenWidthUnits * 0.5f - 2f;
+            WorldX = Mathf.MoveTowards(WorldX, rightEdge, MoveSpeed * 2f * dt);
+            Z = Mathf.MoveTowards(Z, Tuning.ZBandDepth - 0.8f, MoveSpeed * dt);
 
-            float dist = Mathf.Abs(player.WorldX - WorldX);
+            if (player == null || !player.Alive) { Anim.Play("idle", true); return; }
+            Facing = player.WorldX >= WorldX ? 1 : -1;
 
             // Point-blank: rifle-butt so rushing it down isn't a free ride.
-            if (player.DistanceTo(this) <= 2.2f && _scopeTimer <= 0.5f)
+            if (player.DistanceTo(this) <= 2.4f && _scopeTimer <= 0.5f)
             {
                 RunAttack(RifleButt());
                 _scopeTimer = 1.4f;
@@ -61,30 +64,13 @@ namespace ThisL
                 return;
             }
 
-            // Relocate to a fresh firing spot (a sniper never sits still).
-            if (_repositionTimer <= 0f)
-            {
-                RunAttack(Relocate(player));
-                _repositionTimer = CurrentPhase >= 2 ? 5f : 7f;
-                return;
-            }
-
             // Keep a spotter alive to flush the player out of cover (2-cap).
             if (_spotterTimer <= 0f)
             {
                 if (CountAdds() < 1) SpawnAdd(EnemyArchetype.Regular);
                 _spotterTimer = 6f;
             }
-
-            // Hold the standoff: back away if the player closes, otherwise settle.
-            if (dist < HoldRange)
-            {
-                float away = Mathf.Sign(WorldX - player.WorldX);
-                if (away == 0f) away = 1f;
-                WorldX += away * MoveSpeed * dt;
-                Anim.Play("walk", true);
-            }
-            else Anim.Play("idle", true);
+            Anim.Play("idle", true);
         }
 
         private IEnumerator ScopeAndFire(PlayerController p)
@@ -122,26 +108,6 @@ namespace ThisL
                 target.TakeDamage(CurrentPhase >= 2 ? 40f : 30f, this);
 
             yield return Telegraph(0.3f);
-        }
-
-        private IEnumerator Relocate(PlayerController p)
-        {
-            Sfx.Play("dash_whoosh");
-            Vfx.DashDust(WorldX, Z);
-            // Jump to the opposite side of the player, back at range, on a fresh depth row.
-            float side = p.WorldX >= WorldX ? -1f : 1f;
-            float newX = p.WorldX + side * (HoldRange + 2f);
-            float newZ = Mathf.Clamp(Tuning.ZBandDepth - 0.6f - Random.value * (Tuning.ZBandDepth - 1.2f),
-                                     0f, Tuning.ZBandDepth);
-            Anim.Play("walk", true, restart: true);
-            for (float t = 0f; t < 0.35f && Alive; t += Time.deltaTime)
-            {
-                WorldX = Mathf.Lerp(WorldX, newX, 0.25f);
-                Z = Mathf.Lerp(Z, newZ, 0.25f);
-                yield return null;
-            }
-            WorldX = newX; Z = newZ;
-            Vfx.DashDust(WorldX, Z);
         }
 
         private IEnumerator RifleButt()
