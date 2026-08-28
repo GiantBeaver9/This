@@ -45,6 +45,7 @@ namespace ThisL
             public string Actor;
             public Texture2D Texture;
             public bool ReverseAttacks = true; // placeholder stick attacks read backwards; real (pixellab) art plays forward
+            public bool ReverseSwing = false;  // a WEAPON-overlay atlas authored back-to-front (JSON "reverseSwing":true)
             public readonly Dictionary<string, Sprite[]> Clips = new();
             public Sprite First => FirstOf("idle") ?? FirstOf("walk");
             public Sprite FirstOf(string clip) =>
@@ -79,6 +80,7 @@ namespace ThisL
                     result.Texture = tex;
                     var root = JsonUtility.FromJson<AtlasRoot>(File.ReadAllText(jsonPath));
                     result.ReverseAttacks = root.source != "pixellab"; // pixellab art is already in order
+                    result.ReverseSwing = root.reverseSwing;           // explicit per-atlas swing reversal (e.g. sword)
                     SliceClips(actor, tex, root, result);
                 }
                 else
@@ -159,7 +161,7 @@ namespace ThisL
             Sprite.Create(tex, new Rect(0, 0, tex.width, tex.height), new Vector2(0.5f, 0f), Tuning.PixelsPerUnit);
 
         // ---- JSON model (matches assets/sprites/.../<actor>.json) --------------
-        [Serializable] private class AtlasRoot { public string actor; public Atlas atlas; public string source; }
+        [Serializable] private class AtlasRoot { public string actor; public Atlas atlas; public string source; public bool reverseSwing; }
         [Serializable] private class Atlas { public string file; public Frame[] frames; public int[] size; }
         [Serializable] private class Frame { public string name; public int[] rect; }
     }

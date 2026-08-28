@@ -69,13 +69,10 @@ namespace ThisL
             // Base placeholder attacks are authored reversed; bespoke weapon swing art is not.
             bool reverse = !fromOverlay && ReverseAttackClips && (Set == null || Set.ReverseAttacks);
             _frames = (reverse && clip != null && clip.Contains("attack")) ? Reversed(frames) : frames;
-            // A weapon SWING must END on its strike and HOLD it. Authored swings trail back to a
-            // rest/guard pose (the widest, most-extended frame sits mid-clip), so a once-through play
-            // flashes the hit then settles low — reading as the swing "retracting" / playing in reverse
-            // (creator: the sword "plays in reverse"). Trim the frames AFTER the most-extended one so a
-            // one-shot overlay swing freezes on the strike. Applies to every hero+weapon overlay.
-            if (fromOverlay && !loop && _frames.Length > 2)
-                _frames = TrimToStrike(_frames);
+            // A weapon overlay whose atlas is flagged reverseSwing plays its swing frames back-to-front
+            // (creator: some swing atlases, e.g. the sword, are authored in reverse order).
+            if (fromOverlay && !loop && Overlay != null && Overlay.ReverseSwing && clip != null && clip.Contains("attack"))
+                _frames = Reversed(_frames);
             _loop = loop;
             _t = 0f;
             _finished = false;
@@ -112,24 +109,6 @@ namespace ThisL
         {
             var r = new Sprite[src.Length];
             for (int i = 0; i < src.Length; i++) r[i] = src[src.Length - 1 - i];
-            return r;
-        }
-
-        /// <summary>Keep frames up to and INCLUDING the most-extended (widest) one — the strike — and
-        /// drop the trailing retract-to-rest frames, so a one-shot swing freezes on the hit. If the peak
-        /// is the very first frame (nothing to wind up), keep the clip as-is rather than collapsing to one.</summary>
-        private static Sprite[] TrimToStrike(Sprite[] src)
-        {
-            int peak = 0;
-            float wMax = src[0] != null ? src[0].rect.width : 0f;
-            for (int i = 1; i < src.Length; i++)
-            {
-                float w = src[i] != null ? src[i].rect.width : 0f;
-                if (w > wMax) { wMax = w; peak = i; }
-            }
-            if (peak <= 0 || peak == src.Length - 1) return src; // peak already last (or first) → unchanged
-            var r = new Sprite[peak + 1];
-            System.Array.Copy(src, r, peak + 1);
             return r;
         }
 

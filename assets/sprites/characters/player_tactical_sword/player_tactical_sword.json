@@ -137,5 +137,6 @@
  },
  "ppu": 24,
  "fps": 12,
- "source": "pixellab"
+ "source": "pixellab",
+ "reverseSwing": true
 }

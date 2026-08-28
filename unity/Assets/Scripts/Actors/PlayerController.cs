@@ -697,10 +697,12 @@ namespace ThisL
                 // Point-blank pistol-whip EXECUTE (§3.1): a gun-bash finishes a near-dead enemy
                 // in melee range with no bullet — the up-close payoff for a spent mag.
                 if (TryPistolWhipExecute(d)) return;
-                // A RANGED weapon FIRES on the arrow attack — animation AND bullet together (creator:
-                // "the shooting animation happens when I arrow key but E spawns the bullet — wrong").
-                // Boomerang (thrown) also goes out on the arrow. E stays as an alias.
-                if (CurrentWeapon.Kind == WeaponKind.Boomerang || CurrentWeapon.IsRanged) { FireWeapon(); return; }
+                // GUNS fire on E ONLY — a horizontal arrow just aims/faces, it never shoots (creator:
+                // "should only shoot on e, not do the shooting on pressing arrow key"). Facing is already
+                // set above, so this press just points the gun.
+                if (CurrentWeapon.IsRanged) return;
+                // Boomerang (thrown) still goes out on the arrow.
+                if (CurrentWeapon.Kind == WeaponKind.Boomerang) { FireWeapon(); return; }
                 StartSide(0);
             }
             else StartStrike(d == AttackDir.Up ? AttackKind.Up : AttackKind.Down);
@@ -1281,6 +1283,13 @@ namespace ThisL
         {
             if (SpecialLocked) return;   // tutorial pause owns the trigger this moment
             if (!Meter.CanFire) return;
+
+            // Against a boss the cinematic special slows time on YOU (roots + poses you) but the boss keeps
+            // attacking, so you just die (creator). Skip it during a boss UNLESS the boss is in its ≤10%
+            // execute window; objective bosses (no execute) always skip. Meter is NOT spent, so you keep it.
+            var boss = ActiveBoss();
+            if (boss != null && !boss.CanBeExecuted) { Sfx.Play("cancel"); return; }
+
             int tier = Meter.Fire();
             if (tier == 0) return;
             CameraShake.Add(CameraShake.Heavy);
@@ -1289,6 +1298,14 @@ namespace ThisL
             // JUICE: a big cast freeze. Guarded in HitStop — this is a NO-OP if the cast
             // just started the sniper slow-mo (timeScale already 0.28), so no conflict.
             HitStop.Freeze(HitStop.Special);
+        }
+
+        /// <summary>The live boss on the field, if any (specials skip against one unless it can be executed).</summary>
+        private static BossController ActiveBoss()
+        {
+            foreach (var b in Object.FindObjectsByType<BossController>(FindObjectsInactive.Exclude))
+                if (b != null && b.Alive) return b;
+            return null;
         }
 
         // ---- Weapons ---------------------------------------------------------
